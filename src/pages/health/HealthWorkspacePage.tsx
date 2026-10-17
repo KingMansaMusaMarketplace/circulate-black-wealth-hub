@@ -29,6 +29,8 @@ import PatientCommunication from './workspace/PatientCommunication';
 import BillingPreparation from './workspace/BillingPreparation';
 import EnterpriseReliability from './workspace/EnterpriseReliability';
 import DoctorEvaluation from './workspace/DoctorEvaluation';
+import FacilitySelector from './FacilitySelector';
+import { DEFAULT_FACILITY_CONTEXT, type FacilityContext } from './workspace/facility-context';
 
 const NAV = [
   { k: 'doctor-day', l: 'Connected Doctor Day', i: Calendar },
@@ -65,6 +67,7 @@ const Brand = () => (
 );
 
 export default function HealthWorkspacePage() {
+  const [facilityContext, setFacilityContext] = useState<FacilityContext>(DEFAULT_FACILITY_CONTEXT);
   const { user, loading, authInitialized } = useAuth();
   const [searchParams] = useSearchParams();
   const [clinic, setClinic] = useState<Row | null | undefined>(undefined);
@@ -122,6 +125,7 @@ export default function HealthWorkspacePage() {
   useEffect(() => {
     ++requestVersion.current;
     setClinic(undefined); setRole(''); setPatients([]); setLoadedFor(null); setClinicError('');
+    setFacilityContext(DEFAULT_FACILITY_CONTEXT);
     if (userId) void loadClinic().catch(() => {});
     return () => { ++requestVersion.current; };
   }, [userId, loadClinic]);
@@ -143,6 +147,7 @@ export default function HealthWorkspacePage() {
       <Helmet><title>1325 Clinical Workspace | health.1325.ai</title><meta name="robots" content="noindex" /></Helmet>
       <Banner />
       {shellHeader}
+      {user && clinic && loadedFor === userId && <FacilitySelector value={facilityContext} onChange={setFacilityContext} clinicName={clinic.name} />}
       {loading || !authInitialized ? <p role="status" className="p-8 text-muted-foreground">Checking sign-in…</p> : !user ? <ClinicSignIn /> : clinicError && clinic === undefined ? <section role="alert" className="mx-auto max-w-lg space-y-4 p-8"><h1 className="text-xl font-semibold">Clinic access could not be checked</h1><p className="text-sm text-muted-foreground">{clinicError}</p><Button variant="outline" onClick={() => { void loadClinic().catch(() => {}); }}>Retry clinic access</Button></section> : loadedFor !== userId || clinic === undefined ? <p role="status" className="p-8 text-muted-foreground">Loading your clinic…</p> : !clinic ? <CreateSampleClinic key={user.id} onDone={loadClinic} /> : (
         <div className="flex">
            <aside className="hidden w-60 shrink-0 flex-col border-r bg-card/80 p-3 md:flex">
