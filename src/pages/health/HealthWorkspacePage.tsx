@@ -11,6 +11,7 @@ import { Billing, Dashboard, Patients, PriorAuth, Schedule, Team } from './works
 import RecordReview from './workspace/RecordReview';
 import VisitNotes from './workspace/VisitNotes';
 import ClinicIntake from './workspace/ClinicIntake';
+import ChartPrep from './workspace/ChartPrep';
 import { ClinicSignIn, CreateSampleClinic } from './workspace/ClinicAccountForms';
 
 const NAV = [
@@ -18,6 +19,7 @@ const NAV = [
   { k: 'dashboard', l: 'Dashboard', i: LayoutDashboard },
   { k: 'patients', l: 'Patients', i: Users },
   { k: 'schedule', l: 'Schedule', i: Calendar },
+  { k: 'prep', l: 'Pre-Visit Chart Prep', i: ClipboardCheck },
   { k: 'review', l: 'CME Files & Review', i: BrainCircuit },
   { k: 'notes', l: 'AI Note-Taking', i: NotebookPen },
   { k: 'auth', l: 'Prior Authorization', i: ClipboardCheck },
@@ -41,7 +43,11 @@ export default function HealthWorkspacePage() {
   const [role, setRole] = useState('');
   const [patients, setPatients] = useState<Row[]>([]);
   const [tab, setTab] = useState('review');
-  useEffect(() => { if (searchParams.get('view') === 'cme') setTab('review'); }, [searchParams]);
+  useEffect(() => {
+    const view = searchParams.get('view');
+    if (view === 'cme') setTab('review');
+    else if (view === 'prep') setTab('prep');
+  }, [searchParams]);
 
   const [clinicError, setClinicError] = useState('');
   const [loadedFor, setLoadedFor] = useState<string | null>(null);
@@ -119,6 +125,7 @@ export default function HealthWorkspacePage() {
             {tab === 'intake' && <ClinicIntake clinicId={clinic.id} clinicName={clinic.name} clinicRole={role} signedIn />}
             {tab === 'patients' && <Patients {...props} />}
             {tab === 'schedule' && <Schedule {...props} />}
+            {tab === 'prep' && <ChartPrep key={`${user.id}:${clinic.id}`} />}
             {tab === 'review' && <RecordReview clinicId={clinic.id} clinicRole={role} />}
             {tab === 'notes' && <VisitNotes clinicId={clinic.id} clinicRole={role} />}
             {tab === 'auth' && <PriorAuth {...props} />}

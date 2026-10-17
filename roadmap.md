@@ -1,5 +1,13 @@
 # Roadmap
 
+## Five clinical additions — sequential delivery
+- [x] 1. Pre-Visit Chart Prep: fixed fictional prior-visit excerpts, clickable sources, missing-information flags, no real-record intake.
+- [ ] Verify chart prep inside a signed-in clinic — blocked: external Supabase provides no authenticated test session.
+- [ ] 2. Medical chronology timeline — next sequential feature, awaiting user continuation after feature 1 review.
+- [ ] 3. Plain-language patient care guide — follows chronology review.
+- [ ] 4. Billing completeness check — follows care guide review.
+- [ ] 5. Doctor-reviewed PDF report export — follows billing review.
+
 ## Clinical record review first
 - [x] Connect signed-in clinic creation to saved clinic readback, email-confirmation state and account-safe workspace loading; 14 focused tests passed and build checks succeeded.
 - [ ] Verify new clinic account creation end-to-end — blocked: preview still serves the previous sign-in form after explicit source reads; authenticated testing and hosted sign-in settings checks unavailable for external Supabase.
