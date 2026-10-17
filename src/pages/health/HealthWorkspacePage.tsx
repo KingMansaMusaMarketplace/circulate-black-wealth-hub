@@ -12,8 +12,10 @@ import { useAuth } from '@/contexts/AuthContext';
 import { db, Row } from './workspace/hc';
 import { Billing, Dashboard, Patients, PriorAuth, Schedule, Team } from './workspace/Screens';
 import RecordReview from './workspace/RecordReview';
+import ClinicIntake from './workspace/ClinicIntake';
 
 const NAV = [
+  { k: 'intake', l: 'Clinic Intake', i: Lock },
   { k: 'dashboard', l: 'Dashboard', i: LayoutDashboard },
   { k: 'patients', l: 'Patients', i: Users },
   { k: 'schedule', l: 'Schedule', i: Calendar },
@@ -106,7 +108,7 @@ export default function HealthWorkspacePage() {
   const shellHeader = (
     <header className="flex h-14 items-center justify-between border-b-2 border-mansagold theme-clinical-bar px-4 text-foreground shadow-lg">
       <Brand />
-      <Button variant="ghost" size="sm" asChild><Link to="/health/baa">Clinic BAA</Link></Button>
+      <div className="flex gap-1"><Button variant="ghost" size="sm" asChild><Link to="/health/intake">Clinic intake</Link></Button><Button variant="ghost" size="sm" asChild><Link to="/health/baa">Clinic BAA</Link></Button></div>
       {user && <div className="flex items-center gap-3 text-sm"><span className="hidden text-foreground/80 md:inline">{clinic?.name}</span>
         <Button size="sm" variant="ghost" className="text-foreground hover:bg-foreground/10" onClick={() => supabase.auth.signOut()}><LogOut className="h-4 w-4" /></Button></div>}
     </header>
@@ -136,6 +138,7 @@ export default function HealthWorkspacePage() {
             <p className="text-xs text-muted-foreground">health.1325.ai · {clinic.name}</p>
             <h1 className="mb-6 text-2xl font-semibold">{current.l}</h1>
             {tab === 'dashboard' && <Dashboard {...props} go={setTab} />}
+            {tab === 'intake' && <ClinicIntake clinicId={clinic.id} clinicName={clinic.name} clinicRole={role} signedIn />}
             {tab === 'patients' && <Patients {...props} />}
             {tab === 'schedule' && <Schedule {...props} />}
             {tab === 'review' && <RecordReview clinicId={clinic.id} clinicRole={role} />}
