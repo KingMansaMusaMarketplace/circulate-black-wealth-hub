@@ -75,9 +75,13 @@ serve(async (req) => {
     // Store/update subscription in database
     const { data: existingSubscription } = await supabaseClient
       .from('apple_subscriptions')
-      .select('id')
+      .select('id, user_id')
       .eq('transaction_id', latestReceipt.transaction_id)
-      .single();
+      .maybeSingle();
+
+    if (existingSubscription && existingSubscription.user_id !== user.id) {
+      return new Response(JSON.stringify({ error: 'This purchase belongs to a different account' }), { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    }
 
     if (existingSubscription) {
       // Update existing subscription
@@ -90,7 +94,8 @@ serve(async (req) => {
           auto_renew_status: verificationResponse.auto_renew_status === 1,
           updated_at: new Date().toISOString()
         })
-        .eq('transaction_id', latestReceipt.transaction_id);
+        .eq('transaction_id', latestReceipt.transaction_id)
+        .eq('user_id', user.id);
 
       if (updateError) throw updateError;
       logStep("Subscription updated", { transactionId: latestReceipt.transaction_id });
