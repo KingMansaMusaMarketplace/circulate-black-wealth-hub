@@ -19,6 +19,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
+import { EndPrivateSessionButton } from './PrivateSession';
 
 /* ------------------------------------------------------------------ */
 /* ALL DATA BELOW IS FICTIONAL SAMPLE DATA FOR INVESTOR DEMONSTRATION. */
@@ -889,6 +890,7 @@ export default function HealthDemoPage() {
             <p className="flex items-center gap-2 text-xs font-semibold"><BrainCircuit className="h-4 w-4 text-mansagold" />Kayla Clinical AI</p>
             <p className="mt-1 text-xs text-muted-foreground">Organizes records. Doctors make every medical decision.</p>
           </div>
+          <EndPrivateSessionButton className="hidden w-full justify-start border-t border-border pt-3 md:flex" />
         </nav>
         <main className="flex-1 p-6 md:p-8">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-2 border-b border-border pb-4">

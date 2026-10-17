@@ -6,6 +6,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import logo1325 from '@/assets/1325-ai-logo.png';
+import { closePrivateSession, EndPrivateSessionButton, PRIVATE_SESSION_ENDED, PrivateSessionContext } from './PrivateSession';
 
 const KEY = 'hc_preview_access';
 const DEVICE_KEY = 'hc_preview_device';
@@ -36,11 +37,19 @@ const MESSAGES: Record<Exclude<Reason, 'none'>, string> = {
 };
 
 export default function HealthAccessGate({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<'checking' | 'locked' | 'open' | 'timeout'>('checking');
+  const [state, setState] = useState<'checking' | 'locked' | 'open' | 'timeout' | 'ended'>('checking');
   const [reason, setReason] = useState<Reason>('none');
   const [endsAt, setEndsAt] = useState(0);
   const [now, setNow] = useState(Date.now());
   const [isAdmin, setIsAdmin] = useState(false);
+
+  const endSession = () => {
+    closePrivateSession(localStorage);
+    setIsAdmin(false);
+    setState('ended');
+    // A full navigation stops detached demo audio and in-flight screen work.
+    void supabase.auth.signOut({ scope: 'local' }).finally(() => window.location.reload());
+  };
 
   const verify = (startNew: boolean) => {
     const token = localStorage.getItem(KEY);
@@ -49,6 +58,7 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
     supabase.functions.invoke('health-access', { body: { action: 'verify', token, device: deviceId(), path: window.location.pathname } })
       .then(({ data }) => {
         if (data?.ok) {
+          localStorage.removeItem(PRIVATE_SESSION_ENDED);
           const saved = Number(localStorage.getItem(SESSION_KEY) || 0);
           const end = !startNew && saved > Date.now() ? saved : Date.now() + SESSION_MS;
           localStorage.setItem(SESSION_KEY, String(end));
@@ -69,6 +79,7 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
       url.searchParams.delete('access');
       window.history.replaceState({}, '', url.toString());
     }
+    if (localStorage.getItem(PRIVATE_SESSION_ENDED)) { setState('ended'); return; }
     (async () => {
       const { data: s } = await supabase.auth.getSession();
       if (s.session) {
@@ -82,6 +93,14 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
   }, []);
 
   useEffect(() => {
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === PRIVATE_SESSION_ENDED && event.newValue) window.location.reload();
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
+
+  useEffect(() => {
     if (state !== 'open' || isAdmin) return;
     const i = setInterval(() => {
       const t = Date.now(); setNow(t);
@@ -90,22 +109,32 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
     return () => clearInterval(i);
   }, [state, endsAt, isAdmin]);
 
-  if (state === 'open' && isAdmin) return <>{children}<div className="fixed top-3 right-3 z-[9999] rounded-full px-3 py-1.5 text-xs font-semibold shadow-lg border" style={{ background: '#001a33', color: '#FFB300', borderColor: '#FFB300' }}><ShieldCheck className="inline h-3 w-3 mr-1" />Admin access</div></>;
+  if (state === 'open' && isAdmin) return <PrivateSessionContext.Provider value={endSession}>{children}<div className="theme-clinical dark fixed bottom-3 left-3 z-[9999] rounded-md border bg-card p-1 shadow-lg md:hidden"><EndPrivateSessionButton /></div><div className="fixed top-3 right-3 z-[9999] rounded-full px-3 py-1.5 text-xs font-semibold shadow-lg border" style={{ background: '#001a33', color: '#FFB300', borderColor: '#FFB300' }}><ShieldCheck className="inline h-3 w-3 mr-1" />Admin access</div></PrivateSessionContext.Provider>;
   if (state === 'open') {
     const left = Math.max(0, endsAt - now);
     const m = Math.floor(left / 60000), s = Math.floor((left % 60000) / 1000);
     return (
-      <>
+      <PrivateSessionContext.Provider value={endSession}>
         {children}
+        <div className="theme-clinical dark fixed bottom-3 left-3 z-[9999] rounded-md border bg-card p-1 shadow-lg md:hidden"><EndPrivateSessionButton /></div>
         <div className="fixed top-3 right-3 z-[9999] rounded-full px-3 py-1.5 text-xs font-semibold shadow-lg border"
           style={{ background: '#001a33', color: left < 5 * 60000 ? '#ff8a80' : '#FFB300', borderColor: '#FFB300' }}
           aria-live="polite">
           <Lock className="inline h-3 w-3 mr-1" />Private session · {m}:{String(s).padStart(2, '0')}
         </div>
-      </>
+      </PrivateSessionContext.Provider>
     );
   }
   if (state === 'timeout') return <SessionEnded onResume={() => verify(true)} />;
+  if (state === 'ended') return <div className="theme-clinical dark min-h-screen grid place-items-center bg-background px-6 text-foreground">
+    <section className="max-w-md text-center space-y-5">
+      <img src={logo1325} alt="1325.AI" className="mx-auto h-16 w-16 object-contain" />
+      <Lock className="mx-auto h-8 w-8 text-mansagold" />
+      <h1 className="text-2xl font-semibold">Your private session has ended</h1>
+      <p className="text-muted-foreground">The private screens are now locked. Your approved access remains available until your seven-day link expires.</p>
+      {localStorage.getItem(KEY) ? <Button onClick={() => verify(true)}>Start a new private session</Button> : <Button onClick={() => { localStorage.removeItem(PRIVATE_SESSION_ENDED); setState('locked'); }}>Return to welcome page</Button>}
+    </section>
+  </div>;
   if (state === 'checking') return <div className="min-h-screen bg-[hsl(var(--background))]" />;
   return <Teaser notice={reason !== 'none' ? MESSAGES[reason] : ''} />;
 }

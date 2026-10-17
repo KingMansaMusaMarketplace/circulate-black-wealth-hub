@@ -1,5 +1,9 @@
 # Roadmap
 
+## Clinical private-session exit
+- [x] Add shared left-panel exit, small-screen equivalent, persistent screen lock, and preserved approval/device binding.
+- [ ] Verify approved visitor exit in the live preview.
+
 ## Clinical invitation delivery
 - [x] Add plain-text invitation, simpler wording, consistent reply-to, and Spam/Junk guidance after access requests.
 - [ ] Confirm inbox placement with recipient mailboxes — cannot guarantee placement or access recipient mailbox settings.

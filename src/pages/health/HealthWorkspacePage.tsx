@@ -16,6 +16,7 @@ import MedicalChronology from './workspace/MedicalChronology';
 import CareGuide from './workspace/CareGuide';
 import DocumentationCheck from './workspace/DocumentationCheck';
 import { ClinicSignIn, CreateSampleClinic } from './workspace/ClinicAccountForms';
+import { EndPrivateSessionButton } from './PrivateSession';
 
 const NAV = [
   { k: 'intake', l: 'Clinic Intake', i: Lock },
@@ -116,13 +117,14 @@ export default function HealthWorkspacePage() {
       {shellHeader}
       {loading || !authInitialized ? <p role="status" className="p-8 text-muted-foreground">Checking sign-in…</p> : !user ? <ClinicSignIn /> : clinicError && clinic === undefined ? <section role="alert" className="mx-auto max-w-lg space-y-4 p-8"><h1 className="text-xl font-semibold">Clinic access could not be checked</h1><p className="text-sm text-muted-foreground">{clinicError}</p><Button variant="outline" onClick={() => { void loadClinic().catch(() => {}); }}>Retry clinic access</Button></section> : loadedFor !== userId || clinic === undefined ? <p role="status" className="p-8 text-muted-foreground">Loading your clinic…</p> : !clinic ? <CreateSampleClinic key={user.id} onDone={loadClinic} /> : (
         <div className="flex">
-          <aside className="hidden w-60 shrink-0 border-r bg-card/80 p-3 md:block">
+           <aside className="hidden w-60 shrink-0 flex-col border-r bg-card/80 p-3 md:flex">
             {NAV.map((n) => (
               <Button variant="ghost" key={n.k} onClick={() => setTab(n.k)} className={`mb-1 flex h-auto w-full justify-start gap-3 whitespace-normal rounded-md border-l-2 px-3 py-2 text-left text-sm transition ${tab === n.k ? 'border-mansagold bg-mansagold/10 font-medium text-mansagold' : 'border-transparent text-muted-foreground hover:bg-muted'}`}>
                 <n.i className="h-4 w-4" /> {n.l}
               </Button>
             ))}
             <div className="mt-6 rounded-lg border border-mansagold/40 bg-mansagold/5 p-3 text-xs text-muted-foreground"><b className="text-foreground">Kayla Clinical AI</b><br />Organizes records. Doctors make every medical decision.</div>
+             <EndPrivateSessionButton className="mt-auto w-full justify-start border-t border-border pt-3" />
           </aside>
           <main className="min-w-0 flex-1 p-4 md:p-8">
             <div className="mb-4 flex gap-2 overflow-x-auto md:hidden">
