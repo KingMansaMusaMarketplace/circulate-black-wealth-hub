@@ -10436,6 +10436,48 @@ export type Database = {
           },
         ]
       }
+      hc_note_signoffs: {
+        Row: {
+          clinic_id: string
+          created_at: string
+          decision: string
+          id: string
+          note_id: string
+          signer_id: string
+        }
+        Insert: {
+          clinic_id: string
+          created_at?: string
+          decision: string
+          id?: string
+          note_id: string
+          signer_id: string
+        }
+        Update: {
+          clinic_id?: string
+          created_at?: string
+          decision?: string
+          id?: string
+          note_id?: string
+          signer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_note_signoffs_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_note_signoffs_note_id_fkey"
+            columns: ["note_id"]
+            isOneToOne: false
+            referencedRelation: "hc_visit_notes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       hc_patients: {
         Row: {
           allergies: string[]
@@ -10688,6 +10730,44 @@ export type Database = {
             columns: ["document_id"]
             isOneToOne: false
             referencedRelation: "hc_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_visit_notes: {
+        Row: {
+          clinic_id: string
+          created_at: string
+          created_by: string
+          id: string
+          model: string
+          note: Json
+          sample_visit_id: string
+        }
+        Insert: {
+          clinic_id: string
+          created_at?: string
+          created_by: string
+          id?: string
+          model: string
+          note: Json
+          sample_visit_id: string
+        }
+        Update: {
+          clinic_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          model?: string
+          note?: Json
+          sample_visit_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_visit_notes_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
             referencedColumns: ["id"]
           },
         ]
