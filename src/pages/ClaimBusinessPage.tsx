@@ -222,43 +222,25 @@ const ClaimBusinessPage: React.FC = () => {
                   </div>
                 </div>
 
-                {!user && (
-                  <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">
-                    <p className="text-sm text-amber-300 text-center">
-                      You'll need to sign in or create an account to claim this business
-                    </p>
-                  </div>
-                )}
-
-                <Button
-                  onClick={handleClaim}
-                  disabled={claiming}
-                  className="w-full h-12 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold"
-                >
-                  {claiming ? (
-                    <>
-                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                      Claiming...
-                    </>
-                  ) : user ? (
-                    <>
-                      <CheckCircle2 className="h-4 w-4 mr-2" />
-                      Claim This Business
-                    </>
-                  ) : (
-                    <>
-                      Sign In & Claim
-                      <ArrowRight className="h-4 w-4 ml-2" />
-                    </>
-                  )}
-                </Button>
-                {!user && (
+                {!user ? (
+                  <ClaimAccountForm returnUrl={returnUrl} />
+                ) : (
                   <Button
-                    variant="outline"
-                    onClick={() => goToAuth('/signup')}
-                    className="w-full h-12 border-mansagold/50 text-mansagold hover:bg-mansagold/10"
+                    onClick={handleClaim}
+                    disabled={claiming}
+                    className="w-full h-12 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold"
                   >
-                    New here? Create a Free Account & Claim
+                    {claiming ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Claiming...
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle2 className="h-4 w-4 mr-2" />
+                        Claim This Business
+                      </>
+                    )}
                   </Button>
                 )}
               </>
