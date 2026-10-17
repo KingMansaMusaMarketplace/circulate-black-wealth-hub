@@ -21,7 +21,7 @@
 - [x] Backup, recovery and clinic-migration preparation — shared read-only requirements, unknown operational evidence and locked execution; 17 targeted/regression checks pass, build OK and public access gate verified.
 - [ ] Verify operations preparation in approved visitor and signed-in clinic — blocked: external Supabase has no managed authenticated test session; no bypass added.
 - [ ] Live enterprise operations, recovery and migration — blocked: approved healthcare infrastructure, provider agreements and independently witnessed backup, restore and migration validation.
-- [ ] Fictional doctor evaluation preparation — shared criteria, original transcripts and unsaved structured observations; checks in progress.
+- [x] Fictional doctor evaluation preparation — shared criteria, original transcripts and unsaved structured observations; 16 targeted/regression checks pass, build OK and public access gate verified.
 - [ ] Verify doctor evaluation in approved visitor and signed-in clinic — blocked: external Supabase has no managed authenticated test session; no bypass added.
 - [ ] Live doctor pilot evaluation — blocked by approved healthcare environment, agreements, study protocol, qualified review and participating clinics.
 - [ ] Healthcare clearance — blocked by attorney-approved agreements, written vendor coverage and independently verified safeguards.
