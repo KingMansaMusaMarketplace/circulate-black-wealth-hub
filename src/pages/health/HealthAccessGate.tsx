@@ -40,6 +40,7 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
   const [reason, setReason] = useState<Reason>('none');
   const [endsAt, setEndsAt] = useState(0);
   const [now, setNow] = useState(Date.now());
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const verify = (startNew: boolean) => {
     const token = localStorage.getItem(KEY);
@@ -68,20 +69,28 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
       url.searchParams.delete('access');
       window.history.replaceState({}, '', url.toString());
     }
-    const saved = Number(localStorage.getItem(SESSION_KEY) || 0);
-    if (localStorage.getItem(KEY) && saved && saved <= Date.now()) { setState('timeout'); return; }
-    verify(false);
+    (async () => {
+      const { data: s } = await supabase.auth.getSession();
+      if (s.session) {
+        const { data } = await supabase.functions.invoke('health-access', { body: { action: 'admin' } });
+        if (data?.ok) { setIsAdmin(true); setState('open'); return; }
+      }
+      const saved = Number(localStorage.getItem(SESSION_KEY) || 0);
+      if (localStorage.getItem(KEY) && saved && saved <= Date.now()) { setState('timeout'); return; }
+      verify(false);
+    })();
   }, []);
 
   useEffect(() => {
-    if (state !== 'open') return;
+    if (state !== 'open' || isAdmin) return;
     const i = setInterval(() => {
       const t = Date.now(); setNow(t);
       if (t >= endsAt) setState('timeout');
     }, 1000);
     return () => clearInterval(i);
-  }, [state, endsAt]);
+  }, [state, endsAt, isAdmin]);
 
+  if (state === 'open' && isAdmin) return <>{children}<div className="fixed top-3 right-3 z-[9999] rounded-full px-3 py-1.5 text-xs font-semibold shadow-lg border" style={{ background: '#001a33', color: '#FFB300', borderColor: '#FFB300' }}><ShieldCheck className="inline h-3 w-3 mr-1" />Admin access</div></>;
   if (state === 'open') {
     const left = Math.max(0, endsAt - now);
     const m = Math.floor(left / 60000), s = Math.floor((left % 60000) / 1000);
@@ -164,7 +173,8 @@ function Teaser({ notice = "" }: { notice?: string }) {
               </div>
             ))}
           </div>
-          <p className="mt-10 text-xs opacity-60">U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending. Preview uses fictional sample data only.</p>
+          <a href={`/auth?redirect=${encodeURIComponent(window.location.pathname)}`} className="mt-8 inline-block text-xs underline opacity-70">Admin sign in</a>
+          <p className="mt-6 text-xs opacity-60">U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending. Preview uses fictional sample data only.</p>
         </div>
 
         <div className="rounded-2xl p-8 border" style={{ background: 'rgba(0,0,0,0.35)', borderColor: 'rgba(255,179,0,0.4)' }}>
