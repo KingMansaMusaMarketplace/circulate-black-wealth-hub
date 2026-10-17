@@ -1,19 +1,17 @@
 import React, { useMemo, useState } from 'react';
 import { format, isToday, parseISO } from 'date-fns';
 import { toast } from 'sonner';
-import { AlertTriangle, BrainCircuit, FileUp, Loader2, Plus, UserPlus } from 'lucide-react';
+import { BrainCircuit, Plus, UserPlus } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Progress } from '@/components/ui/progress';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { supabase } from '@/integrations/supabase/client';
-import { db, extractText, fullName, money, Row, useRows } from './hc';
+import { db, fullName, money, Row, useRows } from './hc';
 
 type P = { clinicId: string; patients: Row[]; reloadPatients?: () => void; isOwner?: boolean };
 
@@ -261,95 +259,6 @@ export function Schedule({ clinicId, patients }: P) {
             if (await save('hc_appointments', { clinic_id: clinicId, patient_id: f.patient_id, starts_at: new Date(f.when).toISOString(), duration_min: Number(f.duration_min), reason: f.reason }, 'Visit booked')) appts.reload();
           }}>Book</Button>
         </CardContent></Card>
-    </div>
-  );
-}
-
-/* ---------- Kayla record review ---------- */
-export function RecordReview({ clinicId, patients }: P) {
-  const docs = useRows('hc_documents', clinicId);
-  const reviews = useRows('hc_reviews', clinicId);
-  const [patientId, setPatientId] = useState('');
-  const [busy, setBusy] = useState<{ step: string; pct: number } | null>(null);
-  const [openDoc, setOpenDoc] = useState<string | null>(null);
-  const byId = Object.fromEntries(patients.map((p) => [p.id, p]));
-
-  const run = async (file: File) => {
-    if (!/\.(pdf|txt)$/i.test(file.name)) return toast.error('Upload a PDF or text file');
-    try {
-      setBusy({ step: 'Reading pages…', pct: 2 });
-      const { text, pages } = await extractText(file, (d, t) => setBusy({ step: `Reading page ${d} of ${t}…`, pct: Math.round((d / t) * 60) }));
-      setBusy({ step: 'Saving sample file…', pct: 65 });
-      const path = `${clinicId}/${crypto.randomUUID()}-${file.name.replace(/[^\w.-]/g, '_')}`;
-      const up = await supabase.storage.from('hc-sample-docs').upload(path, file);
-      if (up.error) throw up.error;
-      const { data: doc, error } = await db.from('hc_documents').insert({ clinic_id: clinicId, patient_id: patientId || null, file_name: file.name, storage_path: path, pages, status: 'reviewing' }).select().single();
-      if (error) throw error;
-      docs.reload();
-      setBusy({ step: `Kayla is reviewing ${pages.toLocaleString()} page(s)…`, pct: 75 });
-      const { data, error: fe } = await supabase.functions.invoke('health-kayla-review', { body: { document_id: doc.id, text } });
-      if (fe || data?.error) throw new Error(data?.error || fe?.message);
-      toast.success('Kayla finished the review');
-      await Promise.all([docs.reload(), reviews.reload()]);
-      setOpenDoc(doc.id);
-    } catch (e) {
-      toast.error((e as Error).message || 'Review failed'); docs.reload();
-    } finally { setBusy(null); }
-  };
-
-  const review = reviews.rows.find((r) => r.document_id === openDoc)?.result;
-  return (
-    <div className="space-y-6">
-      <Card className="border-mansagold/40">
-        <CardHeader><CardTitle className="flex items-center gap-2 text-base"><BrainCircuit className="h-4 w-4 text-mansagold" /> Have Kayla review a record file</CardTitle></CardHeader>
-        <CardContent className="space-y-4">
-          <p className="flex items-start gap-2 rounded-md bg-mansagold/10 p-3 text-sm text-mansagold-dark"><AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" /> Sample or made-up records only. Do not upload real patient files.</p>
-          <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
-            <PatientPicker patients={patients} value={patientId} onChange={setPatientId} />
-            <label className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-md bg-mansagold px-4 py-2 text-sm font-medium text-mansablue ${busy ? 'pointer-events-none opacity-60' : ''}`}>
-              <FileUp className="h-4 w-4" /> Upload PDF or text
-              <input type="file" accept=".pdf,.txt" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ''; if (f) run(f); }} />
-            </label>
-          </div>
-          {busy && <div className="space-y-2"><div className="flex items-center gap-2 text-sm"><Loader2 className="h-4 w-4 animate-spin" />{busy.step}</div><Progress value={busy.pct} /></div>}
-        </CardContent>
-      </Card>
-      <div className="grid gap-6 lg:grid-cols-[300px_1fr]">
-        <Card><CardHeader><CardTitle className="text-base">Files</CardTitle></CardHeader>
-          <CardContent className="space-y-2">
-            {docs.rows.length === 0 && <p className="text-sm text-muted-foreground">No files yet.</p>}
-            {docs.rows.map((d) => (
-              <button key={d.id} onClick={() => setOpenDoc(d.id)} className={`w-full rounded-lg border p-3 text-left text-sm transition ${openDoc === d.id ? 'border-mansagold' : 'hover:border-mansagold/50'}`}>
-                <div className="truncate font-medium">{d.file_name}</div>
-                <div className="mt-1 flex items-center justify-between text-xs text-muted-foreground"><span>{d.pages ?? '?'} pages · {fullName(byId[d.patient_id])}</span><StatusBadge s={d.status} /></div>
-              </button>
-            ))}
-          </CardContent></Card>
-        {review ? <ReviewView r={review} /> : <Card><CardContent className="p-10 text-center text-sm text-muted-foreground">Pick a reviewed file to see Kayla's findings.</CardContent></Card>}
-      </div>
-    </div>
-  );
-}
-
-function ReviewView({ r }: { r: Row }) {
-  return (
-    <div className="space-y-4">
-      <Card><CardHeader><CardTitle className="text-base">Summary {r.incident_date && r.incident_date !== 'Not stated' && <span className="ml-2 text-sm font-normal text-muted-foreground">Incident: {r.incident_date}</span>}</CardTitle></CardHeader>
-        <CardContent className="text-sm leading-relaxed">{r.summary}<p className="mt-3 text-xs text-muted-foreground">Kayla organizes the records. The examining doctor makes every medical and legal judgment.</p></CardContent></Card>
-      <Card><CardHeader><CardTitle className="text-base">Treatment timeline</CardTitle></CardHeader>
-        <CardContent className="overflow-x-auto"><Table>
-          <TableHeader><TableRow><TableHead>Date</TableHead><TableHead>Provider</TableHead><TableHead>Complaint</TableHead><TableHead>Findings & imaging</TableHead><TableHead>Treatment</TableHead><TableHead>Page</TableHead></TableRow></TableHeader>
-          <TableBody>{(r.timeline || []).map((t: Row, i: number) => <TableRow key={i}><TableCell className="whitespace-nowrap">{t.date}</TableCell><TableCell>{t.provider}</TableCell><TableCell>{t.complaint}</TableCell><TableCell>{t.findings}</TableCell><TableCell>{t.treatment}</TableCell><TableCell>{t.page}</TableCell></TableRow>)}</TableBody>
-        </Table></CardContent></Card>
-      <div className="grid gap-4 lg:grid-cols-2">
-        <Card><CardHeader><CardTitle className="text-base">Before the incident</CardTitle></CardHeader>
-          <CardContent className="space-y-3 text-sm">{(r.pre_existing || []).length === 0 ? <p className="text-muted-foreground">None found.</p> : r.pre_existing.map((p: Row, i: number) => <div key={i} className="border-l-2 border-mansagold pl-3"><div className="text-xs text-muted-foreground">{p.date} · {p.provider} · p. {p.page}</div>“{p.quote}”</div>)}</CardContent></Card>
-        <Card><CardHeader><CardTitle className="text-base">Conflicts for the doctor</CardTitle></CardHeader>
-          <CardContent className="space-y-3 text-sm">{(r.discrepancies || []).length === 0 ? <p className="text-muted-foreground">None found.</p> : r.discrepancies.map((d: Row, i: number) => <div key={i} className="rounded-lg border p-3"><div className="mb-1 flex justify-between"><StatusBadge s={d.severity} /><span className="text-xs text-muted-foreground">p. {d.pages}</span></div><div><b>Patient says:</b> {d.subjective}</div><div><b>Records show:</b> {d.objective}</div></div>)}</CardContent></Card>
-        <Card><CardHeader><CardTitle className="text-base">Gaps in care</CardTitle></CardHeader><CardContent><ul className="list-disc space-y-1 pl-5 text-sm">{(r.gaps_in_care || []).map((g: string, i: number) => <li key={i}>{g}</li>)}</ul></CardContent></Card>
-        <Card><CardHeader><CardTitle className="text-base">Questions for the exam</CardTitle></CardHeader><CardContent><ul className="list-disc space-y-1 pl-5 text-sm">{(r.questions_for_exam || []).map((g: string, i: number) => <li key={i}>{g}</li>)}</ul></CardContent></Card>
-      </div>
-      <Card><CardHeader><CardTitle className="text-base">Draft report outline</CardTitle></CardHeader><CardContent><ol className="list-decimal space-y-1 pl-5 text-sm">{(r.report_outline || []).map((g: string, i: number) => <li key={i}>{g}</li>)}</ol></CardContent></Card>
     </div>
   );
 }
