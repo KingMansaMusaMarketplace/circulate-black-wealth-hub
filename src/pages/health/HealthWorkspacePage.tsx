@@ -17,6 +17,7 @@ import CareGuide from './workspace/CareGuide';
 import DocumentationCheck from './workspace/DocumentationCheck';
 import { ClinicSignIn, CreateSampleClinic } from './workspace/ClinicAccountForms';
 import { EndPrivateSessionButton } from './PrivateSession';
+import ExecutiveWalkthrough from './ExecutiveWalkthrough';
 
 const NAV = [
   { k: 'intake', l: 'Clinic Intake', i: Lock },
@@ -50,6 +51,13 @@ export default function HealthWorkspacePage() {
   const [role, setRole] = useState('');
   const [patients, setPatients] = useState<Row[]>([]);
   const [tab, setTab] = useState('review');
+  const tourReturnTab = useRef<string | null>(null);
+  const [tourRevision, setTourRevision] = useState(0);
+  const navigateTab = (next: string) => {
+    tourReturnTab.current = null;
+    setTourRevision((revision) => revision + 1);
+    setTab(next);
+  };
   useEffect(() => {
     const view = searchParams.get('view');
     if (view === 'cme') setTab('review');
@@ -119,7 +127,7 @@ export default function HealthWorkspacePage() {
         <div className="flex">
            <aside className="hidden w-60 shrink-0 flex-col border-r bg-card/80 p-3 md:flex">
             {NAV.map((n) => (
-              <Button variant="ghost" key={n.k} onClick={() => setTab(n.k)} className={`mb-1 flex h-auto w-full justify-start gap-3 whitespace-normal rounded-md border-l-2 px-3 py-2 text-left text-sm transition ${tab === n.k ? 'border-mansagold bg-mansagold/10 font-medium text-mansagold' : 'border-transparent text-muted-foreground hover:bg-muted'}`}>
+              <Button variant="ghost" key={n.k} onClick={() => navigateTab(n.k)} className={`mb-1 flex h-auto w-full justify-start gap-3 whitespace-normal rounded-md border-l-2 px-3 py-2 text-left text-sm transition ${tab === n.k ? 'border-mansagold bg-mansagold/10 font-medium text-mansagold' : 'border-transparent text-muted-foreground hover:bg-muted'}`}>
                 <n.i className="h-4 w-4" /> {n.l}
               </Button>
             ))}
@@ -128,11 +136,12 @@ export default function HealthWorkspacePage() {
           </aside>
           <main className="min-w-0 flex-1 p-4 md:p-8">
             <div className="mb-4 flex gap-2 overflow-x-auto md:hidden">
-              {NAV.map((n) => <Button key={n.k} size="sm" variant={tab === n.k ? 'default' : 'outline'} onClick={() => setTab(n.k)}>{n.l}</Button>)}
+              {NAV.map((n) => <Button key={n.k} size="sm" variant={tab === n.k ? 'default' : 'outline'} onClick={() => navigateTab(n.k)}>{n.l}</Button>)}
             </div>
             <p className="text-xs text-muted-foreground">health.1325.ai · {clinic.name}</p>
             <h1 className="mb-6 text-2xl font-semibold">{current.l}</h1>
-            {tab === 'dashboard' && <Dashboard {...props} go={setTab} />}
+            <ExecutiveWalkthrough key={`${user.id}:${clinic.id}:${tourRevision}`} onStep={(next) => { if (tourReturnTab.current === null) tourReturnTab.current = tab; setTab(next); }} onEnd={() => { if (tourReturnTab.current !== null) setTab(tourReturnTab.current); tourReturnTab.current = null; }} />
+            {tab === 'dashboard' && <Dashboard {...props} go={navigateTab} />}
             {tab === 'intake' && <ClinicIntake clinicId={clinic.id} clinicName={clinic.name} clinicRole={role} signedIn />}
             {tab === 'patients' && <Patients {...props} />}
             {tab === 'schedule' && <Schedule {...props} />}

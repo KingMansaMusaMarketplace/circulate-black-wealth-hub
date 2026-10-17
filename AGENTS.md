@@ -1,4 +1,5 @@
 # AGENTS
+- Clinical executive walkthrough shares navigation across demo and clinic workspace; demo notes are read-only fixture excerpts, and tour controls never generate, sign, export, or send records, so investor navigation cannot bypass physician review.
 - Clinical private-session exit is shared through PrivateSessionContext and persists a browser lock across routes/tabs; it preserves approval/device binding and signs out locally before reloading to stop detached media.
 - Clinical access confirmations and owner request emails render in health-access/confirmation.ts with escaped visitor fields and matching plain-text email content; email status requires the provider message ID, not merely a completed send call, to avoid false delivery claims.
 - Public directory lookup functions (search_directory_businesses, get_directory_*) must stay executable by anon + authenticated; security revokes broke the directory Sep 26 2026.

@@ -1,5 +1,13 @@
 # Roadmap
 
+## Clinical executive additions — one at a time
+- [x] 1. Guided executive walkthrough: four manual stops in demo and clinic workspace; 12 targeted tests pass and unapproved visitors remain locked out.
+- [ ] Verify walkthrough in an approved visitor and signed-in clinic session — blocked: external Supabase provides no authenticated test session; no access bypass added.
+- [ ] 2. Fictional prior-authorization packet draft — next after walkthrough delivery; doctor review, no insurer submission.
+- [ ] 3. Practice impact calculator — visitor inputs only, no unverified savings claims.
+- [ ] 4. Specialty-specific fictional examples — Primary Care, Orthopedics, Cardiology.
+- [ ] 5. Enterprise readiness drawer — verified statuses only; real records remain locked.
+
 ## Clinical private-session exit
 - [x] Add shared left-panel exit, small-screen equivalent, persistent screen lock, and preserved approval/device binding.
 - [x] Verify persistent lock screen in the live preview and approval/device preservation in two passing tests.
