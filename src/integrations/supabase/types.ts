@@ -10113,6 +10113,86 @@ export type Database = {
           },
         ]
       }
+      hc_access_requests: {
+        Row: {
+          access_token: string | null
+          created_at: string
+          decided_at: string | null
+          decision_token: string
+          full_name: string
+          id: string
+          nda_accepted_at: string
+          organization: string
+          phone: string | null
+          role: string
+          status: string
+          user_agent: string | null
+          work_email: string
+        }
+        Insert: {
+          access_token?: string | null
+          created_at?: string
+          decided_at?: string | null
+          decision_token?: string
+          full_name: string
+          id?: string
+          nda_accepted_at?: string
+          organization: string
+          phone?: string | null
+          role: string
+          status?: string
+          user_agent?: string | null
+          work_email: string
+        }
+        Update: {
+          access_token?: string | null
+          created_at?: string
+          decided_at?: string | null
+          decision_token?: string
+          full_name?: string
+          id?: string
+          nda_accepted_at?: string
+          organization?: string
+          phone?: string | null
+          role?: string
+          status?: string
+          user_agent?: string | null
+          work_email?: string
+        }
+        Relationships: []
+      }
+      hc_access_views: {
+        Row: {
+          created_at: string
+          id: string
+          path: string | null
+          request_id: string
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          path?: string | null
+          request_id: string
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          path?: string | null
+          request_id?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_access_views_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "hc_access_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       hc_appointments: {
         Row: {
           clinic_id: string
