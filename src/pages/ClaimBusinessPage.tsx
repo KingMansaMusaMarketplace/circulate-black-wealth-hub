@@ -109,16 +109,8 @@ const ClaimBusinessPage: React.FC = () => {
     if (status === 'success' || status === 'error' || status === 'expired' || (status === 'ready' && user)) clearPendingClaim();
   }, [status, user]);
 
-  const goToAuth = (path: '/login' | '/signup') => {
-    savePendingClaim(returnUrl);
-    navigate(`${path}?redirect=${encodeURIComponent(returnUrl)}`);
-  };
-
   const handleClaim = async () => {
-    if (!user) {
-      goToAuth('/login');
-      return;
-    }
+    if (!user) return;
 
     setClaiming(true);
 
@@ -180,7 +172,7 @@ const ClaimBusinessPage: React.FC = () => {
             
             <CardTitle className="text-2xl text-white">
               {status === 'success' 
-                ? 'Claim Request Sent' 
+                ? (claimedNow ? 'Listing Claimed!' : 'Claim Request Sent') 
                 : status === 'error' || status === 'expired'
                   ? 'Claim Failed'
                   : status === 'start' ? 'Claim Your Free Listing' : 'Claim Your Business'}
@@ -253,12 +245,14 @@ const ClaimBusinessPage: React.FC = () => {
               <div className="text-center space-y-4">
                 <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4">
                   <p className="text-emerald-300">
-                    Request received for <strong>{businessName}</strong>.
+                    {claimedNow ? <>You now own <strong>{businessName}</strong> on 1325.AI.</> : <>Request received for <strong>{businessName}</strong>.</>}
                   </p>
                 </div>
-                
+
                 <p className="text-slate-400 text-sm">
-                  Our team will confirm you own this business within 1–2 business days.
+                  {claimedNow
+                    ? 'Head to your dashboard to update your hours, photos and contact details.'
+                    : 'You signed in with a different email than the invitation, so our team will confirm you own this business within 1–2 business days.'}
                 </p>
 
                 <Button
