@@ -40,6 +40,13 @@ serve(async (req) => {
       throw new Error("Provide an apply_url or apply_email");
     }
 
+    if (business_id) {
+      const { data: biz } = await supabase.from("businesses").select("id").eq("id", business_id).eq("owner_id", user.id).maybeSingle();
+      if (!biz) {
+        return new Response(JSON.stringify({ error: "You can only post jobs for a business you own" }), { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
+    }
+
     // Insert pending posting (apply_email is stored in the private companion table only)
     const { data: posting, error: insErr } = await supabase
       .from("job_postings")
