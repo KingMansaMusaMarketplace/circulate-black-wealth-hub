@@ -2,13 +2,14 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import logo1325 from '@/assets/1325-ai-logo.png';
 import { Helmet } from 'react-helmet-async';
 import { Link, useSearchParams } from 'react-router-dom';
-import { BrainCircuit, Calendar, ClipboardCheck, LayoutDashboard, Lock, LogOut, Receipt, Users, UserCog } from 'lucide-react';
+import { BrainCircuit, Calendar, ClipboardCheck, LayoutDashboard, Lock, LogOut, NotebookPen, Receipt, Users, UserCog } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { db, Row } from './workspace/hc';
 import { Billing, Dashboard, Patients, PriorAuth, Schedule, Team } from './workspace/Screens';
 import RecordReview from './workspace/RecordReview';
+import VisitNotes from './workspace/VisitNotes';
 import ClinicIntake from './workspace/ClinicIntake';
 import { ClinicSignIn, CreateSampleClinic } from './workspace/ClinicAccountForms';
 
@@ -18,6 +19,7 @@ const NAV = [
   { k: 'patients', l: 'Patients', i: Users },
   { k: 'schedule', l: 'Schedule', i: Calendar },
   { k: 'review', l: 'CME Files & Review', i: BrainCircuit },
+  { k: 'notes', l: 'AI Note-Taking', i: NotebookPen },
   { k: 'auth', l: 'Prior Authorization', i: ClipboardCheck },
   { k: 'billing', l: 'Billing & Claims', i: Receipt },
   { k: 'team', l: 'Team', i: UserCog },
@@ -118,6 +120,7 @@ export default function HealthWorkspacePage() {
             {tab === 'patients' && <Patients {...props} />}
             {tab === 'schedule' && <Schedule {...props} />}
             {tab === 'review' && <RecordReview clinicId={clinic.id} clinicRole={role} />}
+            {tab === 'notes' && <VisitNotes clinicId={clinic.id} clinicRole={role} />}
             {tab === 'auth' && <PriorAuth {...props} />}
             {tab === 'billing' && <Billing {...props} />}
             {tab === 'team' && <Team {...props} />}

@@ -74,3 +74,5 @@
 - [ ] Dr. Atwater clinical dossier PDF
 - [x] health.1325.ai tour at /health + working sample-only workspace at /health/app (sign-in, charts, schedule, Kayla record review, prior auth, billing, team)
 - [ ] Test the workspace signed in (Thomas) with the built-in fictional CME case — external Supabase test session unavailable; arbitrary uploads intentionally blocked.
+
+- [x] Clinical AI note-taking on fictional sample visits (doctor sign-off; live recording locked)
