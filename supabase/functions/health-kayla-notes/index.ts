@@ -10,7 +10,7 @@ const json = (body: unknown, status = 200) => new Response(JSON.stringify(body),
 const visitIds = SAMPLE_VISITS.map((v) => v.id) as [string, ...string[]];
 const RequestSchema = z.discriminatedUnion('action', [
   z.object({ action: z.literal('generate'), clinic_id: z.string().uuid(), sample_visit_id: z.enum(visitIds) }).strict(),
-  z.object({ action: z.literal('decision'), note_id: z.string().uuid(), decision: z.enum(['signed', 'rejected']) }).strict(),
+  z.object({ action: z.literal('decision'), note_id: z.string().uuid(), decision: z.enum(['signed', 'rejected']), signer_name: z.string().trim().min(2).max(100) }).strict(),
 ]);
 const Item = z.object({ text: z.string().min(1), lines: z.array(z.number().int()) });
 const NoteSchema = z.object({ subjective: z.array(Item), objective: z.array(Item), assessment: z.array(Item), plan: z.array(Item), flags: z.array(Item) });
@@ -71,7 +71,8 @@ Deno.serve(async (req) => {
 
     if (body.action === 'decision') {
       if (!canSign(member.role)) return json({ error: 'Only a clinic doctor or owner can sign a note' }, 403);
-      const { data, error } = await service.from('hc_note_signoffs').insert({ clinic_id: clinicId, note_id: noteId, signer_id: userData.user.id, decision: body.decision }).select().single();
+      const { data, error } = await service.from('hc_note_signoffs').insert({ clinic_id: clinicId, note_id: noteId, signer_id: userData.user.id, decision: body.decision, signer_name: body.signer_name }).select().single();
+      if (!error) await service.from('hc_members').update({ display_name: body.signer_name }).eq('clinic_id', clinicId).eq('user_id', userData.user.id);
       if (error) return json({ error: 'This note already has a decision or could not be signed.' }, 409);
       return json({ signoff: data });
     }

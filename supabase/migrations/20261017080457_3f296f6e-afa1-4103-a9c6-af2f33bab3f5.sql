@@ -1,0 +1,1 @@
+DROP FUNCTION public.hc_set_my_display_name(uuid, text);

@@ -2,7 +2,7 @@ import { jsPDF } from 'jspdf';
 
 type Item = { text: string; lines: number[] };
 type Note = Partial<Record<'subjective' | 'objective' | 'assessment' | 'plan' | 'flags', Item[]>>;
-export type ReportInput = { visitTitle: string; transcript: readonly string[]; note: Note; decision?: string; signedAt?: string; clinicName?: string };
+export type ReportInput = { visitTitle: string; transcript: readonly string[]; note: Note; decision?: string; signedAt?: string; signerName?: string; clinicName?: string };
 
 const SECTIONS = [['subjective', 'Patient story'], ['objective', 'Exam findings'], ['assessment', 'Assessment'], ['plan', 'Plan']] as const;
 
@@ -38,7 +38,7 @@ export function buildReviewedReport(input: ReportInput, logo?: HTMLImageElement)
   y += 50;
   doc.setTextColor(0); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
   const when = new Date(input.signedAt!).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
-  doc.text(`Reviewed and signed by a clinic doctor on ${when} via 1325 Clinical${input.clinicName ? ` (${input.clinicName})` : ''}`, M, y);
+  { const sig = doc.splitTextToSize(`Reviewed and signed by ${input.signerName ?? "a clinic doctor"} on ${when} via 1325 Clinical${input.clinicName ? ` (${input.clinicName})` : ''}`, W - 2 * M); doc.text(sig, M, y); y += (sig.length - 1) * 13; }
   y += 14; doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(90);
   doc.text('Fictional sample visit. Drafted by Kayla (AI assistant); reviewed by a clinician. Not for patient care, billing, or legal use.', M, y);
   y += 24;
