@@ -1,10 +1,11 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import BillingPreparation from '@/pages/health/workspace/BillingPreparation';
 import { billingPreparation } from '@/pages/health/workspace/billing-preparation';
 import { SAMPLE_VISITS } from '@/pages/health/workspace/sample-visits';
 
 afterEach(cleanup);
+beforeEach(() => { HTMLElement.prototype.scrollIntoView = vi.fn(); });
 describe('fictional billing safeguards', () => {
   it('keeps insurance, claims, collection, export and approval locked', () => {
     for (const visit of SAMPLE_VISITS) {
