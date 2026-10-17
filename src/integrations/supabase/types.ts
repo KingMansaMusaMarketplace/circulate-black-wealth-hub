@@ -28967,10 +28967,6 @@ export type Database = {
       }
       hc_is_member: { Args: { _clinic: string }; Returns: boolean }
       hc_is_owner: { Args: { _clinic: string }; Returns: boolean }
-      hc_set_my_display_name: {
-        Args: { _clinic_id: string; _name: string }
-        Returns: undefined
-      }
       increment_community_wealth: {
         Args: {
           p_amount: number
