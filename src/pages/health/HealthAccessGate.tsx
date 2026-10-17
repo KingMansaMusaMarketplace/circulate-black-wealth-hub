@@ -8,6 +8,9 @@ import { Input } from '@/components/ui/input';
 import logo1325 from '@/assets/1325-ai-logo.png';
 
 const KEY = 'hc_preview_access';
+const DEVICE_KEY = 'hc_preview_device';
+const SESSION_KEY = 'hc_preview_session_end';
+const SESSION_MS = 45 * 60 * 1000;
 const schema = z.object({
   full_name: z.string().trim().min(2, 'Enter your full name').max(120),
   organization: z.string().trim().min(2, 'Enter your clinic or organization').max(160),
@@ -16,8 +19,46 @@ const schema = z.object({
   phone: z.string().trim().max(40),
 });
 
+function deviceId() {
+  let d = localStorage.getItem(DEVICE_KEY);
+  if (!d || !/^[a-f0-9]{32}$/.test(d)) {
+    d = Array.from(crypto.getRandomValues(new Uint8Array(16)), (b) => b.toString(16).padStart(2, '0')).join('');
+    localStorage.setItem(DEVICE_KEY, d);
+  }
+  return d;
+}
+
+type Reason = 'none' | 'expired' | 'device' | 'invalid';
+const MESSAGES: Record<Exclude<Reason, 'none'>, string> = {
+  expired: 'Your 7-day access window has ended. Please request access again.',
+  device: 'This private link is already in use on another device. Links cannot be shared — please request your own access.',
+  invalid: 'This access link is no longer active. Please request access again.',
+};
+
 export default function HealthAccessGate({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<'checking' | 'locked' | 'open'>('checking');
+  const [state, setState] = useState<'checking' | 'locked' | 'open' | 'timeout'>('checking');
+  const [reason, setReason] = useState<Reason>('none');
+  const [endsAt, setEndsAt] = useState(0);
+  const [now, setNow] = useState(Date.now());
+
+  const verify = (startNew: boolean) => {
+    const token = localStorage.getItem(KEY);
+    if (!token) { setState('locked'); return; }
+    setState('checking');
+    supabase.functions.invoke('health-access', { body: { action: 'verify', token, device: deviceId(), path: window.location.pathname } })
+      .then(({ data }) => {
+        if (data?.ok) {
+          const saved = Number(localStorage.getItem(SESSION_KEY) || 0);
+          const end = !startNew && saved > Date.now() ? saved : Date.now() + SESSION_MS;
+          localStorage.setItem(SESSION_KEY, String(end));
+          setEndsAt(end); setNow(Date.now()); setState('open');
+        } else {
+          localStorage.removeItem(KEY); localStorage.removeItem(SESSION_KEY);
+          setReason((data?.reason as Reason) ?? 'invalid'); setState('locked');
+        }
+      })
+      .catch(() => setState('locked'));
+  };
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -27,22 +68,53 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
       url.searchParams.delete('access');
       window.history.replaceState({}, '', url.toString());
     }
-    const token = localStorage.getItem(KEY);
-    if (!token) { setState('locked'); return; }
-    supabase.functions.invoke('health-access', { body: { action: 'verify', token, path: window.location.pathname } })
-      .then(({ data }) => {
-        if (data?.ok) setState('open');
-        else { localStorage.removeItem(KEY); setState('locked'); }
-      })
-      .catch(() => setState('locked'));
+    const saved = Number(localStorage.getItem(SESSION_KEY) || 0);
+    if (localStorage.getItem(KEY) && saved && saved <= Date.now()) { setState('timeout'); return; }
+    verify(false);
   }, []);
 
-  if (state === 'open') return <>{children}</>;
+  useEffect(() => {
+    if (state !== 'open') return;
+    const i = setInterval(() => {
+      const t = Date.now(); setNow(t);
+      if (t >= endsAt) setState('timeout');
+    }, 1000);
+    return () => clearInterval(i);
+  }, [state, endsAt]);
+
+  if (state === 'open') {
+    const left = Math.max(0, endsAt - now);
+    const m = Math.floor(left / 60000), s = Math.floor((left % 60000) / 1000);
+    return (
+      <>
+        {children}
+        <div className="fixed top-3 right-3 z-[9999] rounded-full px-3 py-1.5 text-xs font-semibold shadow-lg border"
+          style={{ background: '#001a33', color: left < 5 * 60000 ? '#ff8a80' : '#FFB300', borderColor: '#FFB300' }}
+          aria-live="polite">
+          <Lock className="inline h-3 w-3 mr-1" />Private session · {m}:{String(s).padStart(2, '0')}
+        </div>
+      </>
+    );
+  }
+  if (state === 'timeout') return <SessionEnded onResume={() => verify(true)} />;
   if (state === 'checking') return <div className="min-h-screen bg-[hsl(var(--background))]" />;
-  return <Teaser />;
+  return <Teaser notice={reason !== 'none' ? MESSAGES[reason] : ''} />;
 }
 
-function Teaser() {
+function SessionEnded({ onResume }: { onResume: () => void }) {
+  return (
+    <div className="min-h-screen grid place-items-center px-6" style={{ background: 'linear-gradient(160deg,#001a33,#003366 60%,#001a33)', color: '#fff' }}>
+      <div className="max-w-md text-center rounded-2xl p-8 border" style={{ borderColor: 'rgba(255,179,0,0.4)', background: 'rgba(0,0,0,0.35)' }}>
+        <Lock className="h-10 w-10 mx-auto mb-4" style={{ color: '#FFB300' }} />
+        <h1 className="text-2xl font-semibold mb-2">Your 45-minute session has ended</h1>
+        <p className="opacity-80 mb-6">For confidentiality, screens lock after 45 minutes. If your access is still active, you can start a new session on this device.</p>
+        <Button onClick={onResume} className="font-semibold" style={{ background: '#FFB300', color: '#001a33' }}>Start a new 45-minute session</Button>
+      </div>
+    </div>
+  );
+}
+
+function Teaser({ notice = "" }: { notice?: string }) {
   const [form, setForm] = useState({ full_name: '', organization: '', role: '', work_email: '', phone: '' });
   const [nda, setNda] = useState(false);
   const [error, setError] = useState('');
@@ -106,6 +178,7 @@ function Teaser() {
             <form onSubmit={submit} className="space-y-4">
               <h2 className="text-2xl font-semibold">Request access</h2>
               <p className="text-sm opacity-75">Each request is reviewed personally.</p>
+              {notice && <p className="text-sm rounded-md p-3" style={{ background: "rgba(255,179,0,0.15)", color: "#FFB300" }}>{notice}</p>}
               <Input placeholder="Full name" value={form.full_name} onChange={set('full_name')} maxLength={120} className="bg-white text-black" />
               <Input placeholder="Clinic / hospital / organization" value={form.organization} onChange={set('organization')} maxLength={160} className="bg-white text-black" />
               <select value={form.role} onChange={set('role')} className="w-full h-10 rounded-md px-3 bg-white text-black text-sm">

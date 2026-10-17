@@ -10119,11 +10119,14 @@ export type Database = {
           created_at: string
           decided_at: string | null
           decision_token: string
+          device_id: string | null
+          expires_at: string | null
           full_name: string
           id: string
           nda_accepted_at: string
           organization: string
           phone: string | null
+          revoked_at: string | null
           role: string
           status: string
           user_agent: string | null
@@ -10134,11 +10137,14 @@ export type Database = {
           created_at?: string
           decided_at?: string | null
           decision_token?: string
+          device_id?: string | null
+          expires_at?: string | null
           full_name: string
           id?: string
           nda_accepted_at?: string
           organization: string
           phone?: string | null
+          revoked_at?: string | null
           role: string
           status?: string
           user_agent?: string | null
@@ -10149,11 +10155,14 @@ export type Database = {
           created_at?: string
           decided_at?: string | null
           decision_token?: string
+          device_id?: string | null
+          expires_at?: string | null
           full_name?: string
           id?: string
           nda_accepted_at?: string
           organization?: string
           phone?: string | null
+          revoked_at?: string | null
           role?: string
           status?: string
           user_agent?: string | null
