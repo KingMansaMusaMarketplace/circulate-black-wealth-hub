@@ -858,6 +858,7 @@ const VIEWS: Record<ModuleKey, React.FC> = { dashboard: Dashboard, inbox: InboxV
 export default function HealthDemoPage() {
   const [mod, setMod] = useState<ModuleKey>('dashboard');
   const [tourStep, setTourStep] = useState<number | null>(null);
+  const [tourRevision, setTourRevision] = useState(0);
   const View = VIEWS[mod];
   const current = MODULES.find((m) => m.key === mod) ?? MODULES[0];
   return (
@@ -888,9 +889,9 @@ export default function HealthDemoPage() {
         <nav className="flex gap-1 overflow-x-auto border-b border-border bg-card/80 p-3 backdrop-blur md:w-64 md:flex-col md:border-b-0 md:border-r md:p-4">
           <p className="hidden px-3 pb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground md:block">Workspace</p>
           {MODULES.map(({ key, label, icon: Icon }) => (
-            <button key={key} onClick={() => setMod(key)}
-              className={`flex shrink-0 items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors ${mod === key ? 'border-l-2 border-mansagold bg-mansagold/10 text-foreground' : 'border-l-2 border-transparent text-muted-foreground hover:bg-muted hover:text-foreground'}`}>
-              <Icon className={`h-4 w-4 ${mod === key ? 'text-mansagold' : ''}`} />{label}</button>))}
+            <Button variant="ghost" key={key} onClick={() => { setMod(key); setTourStep(null); setTourRevision((revision) => revision + 1); }}
+              className={`flex h-auto shrink-0 justify-start gap-3 whitespace-normal rounded-md px-3 py-2.5 text-left text-sm font-medium transition-colors ${mod === key && tourStep === null ? 'border-l-2 border-mansagold bg-mansagold/10 text-foreground' : 'border-l-2 border-transparent text-muted-foreground hover:bg-muted hover:text-foreground'}`}>
+              <Icon className={`h-4 w-4 ${mod === key && tourStep === null ? 'text-mansagold' : ''}`} />{label}</Button>))}
           <div className="mt-auto hidden rounded-lg border border-mansagold/40 bg-mansagold/5 p-3 md:block">
             <p className="flex items-center gap-2 text-xs font-semibold"><BrainCircuit className="h-4 w-4 text-mansagold" />Kayla Clinical AI</p>
             <p className="mt-1 text-xs text-muted-foreground">Organizes records. Doctors make every medical decision.</p>
@@ -901,11 +902,11 @@ export default function HealthDemoPage() {
           <div className="mb-6 flex flex-wrap items-end justify-between gap-2 border-b border-border pb-4">
             <div>
               <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">health.1325.ai</p>
-              <h1 className="mt-1 text-2xl font-semibold tracking-tight">{current.label}</h1>
+              <h1 className="mt-1 text-2xl font-semibold">{tourStep === null ? current.label : 'Executive walkthrough'}</h1>
             </div>
             <p className="text-sm text-muted-foreground">Thursday · Sample clinic</p>
           </div>
-          <ExecutiveWalkthrough onStep={(_, step) => setTourStep(step)} onEnd={() => setTourStep(null)} />
+          <ExecutiveWalkthrough key={tourRevision} onStep={(_, step) => setTourStep(step)} onEnd={() => setTourStep(null)} />
           {tourStep === 0 ? <ChartPrep /> : tourStep === 1 || tourStep === 2 ? <ExecutiveNotePreview review={tourStep === 2} /> : tourStep === 3 ? <CareGuide /> : <View />}
         </main>
       </div>
