@@ -10498,6 +10498,56 @@ export type Database = {
           },
         ]
       }
+      hc_pilot_requests: {
+        Row: {
+          attorney_review_reported: boolean
+          clinic_baa_reported: boolean
+          clinic_id: string
+          created_at: string
+          doctor_assigned_reported: boolean
+          id: string
+          requested_by: string
+          safeguards_reported: boolean
+          status: string
+          updated_at: string
+          vendor_baas_reported: boolean
+        }
+        Insert: {
+          attorney_review_reported?: boolean
+          clinic_baa_reported?: boolean
+          clinic_id: string
+          created_at?: string
+          doctor_assigned_reported?: boolean
+          id?: string
+          requested_by: string
+          safeguards_reported?: boolean
+          status?: string
+          updated_at?: string
+          vendor_baas_reported?: boolean
+        }
+        Update: {
+          attorney_review_reported?: boolean
+          clinic_baa_reported?: boolean
+          clinic_id?: string
+          created_at?: string
+          doctor_assigned_reported?: boolean
+          id?: string
+          requested_by?: string
+          safeguards_reported?: boolean
+          status?: string
+          updated_at?: string
+          vendor_baas_reported?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_pilot_requests_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: true
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       hc_prior_auths: {
         Row: {
           clinic_id: string
