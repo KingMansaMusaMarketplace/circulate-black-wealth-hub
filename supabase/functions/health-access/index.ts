@@ -1,6 +1,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 import { z } from "https://esm.sh/zod@3.23.8";
+import { approvedContent, confirmationPage, emailWasAccepted } from './confirmation.ts';
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
@@ -18,7 +19,7 @@ const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
 const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { ...cors, "Content-Type": "application/json" } });
 const page = (title: string, msg: string) => new Response(
-  `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>${title}</title><body style="font-family:system-ui;background:#001a33;color:#fff;display:grid;place-items:center;min-height:100vh;margin:0"><div style="max-width:480px;padding:32px;border:1px solid #FFB300;border-radius:16px"><h1 style="color:#FFB300">${title}</h1><p>${msg}</p></div></body>`,
+  confirmationPage(title, msg),
   { headers: { "Content-Type": "text/html; charset=utf-8" } },
 );
 
@@ -58,13 +59,20 @@ Deno.serve(async (req) => {
     const bytes = crypto.getRandomValues(new Uint8Array(24));
     const access = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
     const expires = new Date(Date.now() + WINDOW_DAYS * 86400000);
-    await db.from("hc_access_requests").update({ status: "approved", access_token: access, decided_at: new Date().toISOString(), expires_at: expires.toISOString(), device_id: null }).eq("id", id);
-    await resend.emails.send({
+    const { error: approvalError } = await db.from("hc_access_requests").update({ status: "approved", access_token: access, decided_at: new Date().toISOString(), expires_at: expires.toISOString(), device_id: null }).eq("id", id);
+    if (approvalError) return page('Approval not saved', '<p>Your approval could not be saved. Please try again from your request email.</p>');
+    let accepted = false;
+    try {
+    const emailResult = await resend.emails.send({
       from: FROM, to: [r.work_email], subject: "Your private access to 1325 Clinical",
       html: `<p>Hello ${esc(r.full_name)},</p><p>Your request to view the 1325 Clinical private physician preview has been approved.</p><p><a href="${SITE}/?access=${access}">Open your private preview</a></p><p>Each visit lasts 45 minutes. Your link works for ${WINDOW_DAYS} days (until ${expires.toUTCString()}) and only on the first device that opens it, so please don't forward it.</p><p>All materials are proprietary and confidential to 1325.AI (U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending).</p><p>Thomas<br>1325.AI</p>`,
     });
+    accepted = emailWasAccepted(emailResult);
+    } catch {
+      accepted = false;
+    }
     const revoke = `${FN_URL}?id=${id}&t=${t}&d=revoke`;
-    return page("Approved", `${esc(r.full_name)} (${esc(r.work_email)}) has been sent a private link valid for ${WINDOW_DAYS} days.<br><br><a href="${revoke}" style="color:#ff8a80">Revoke access</a> — you can also use the Revoke button in the original request email at any time.`);
+    return page("Access Approved", approvedContent(r.full_name, r.work_email, expires, revoke, accepted));
   }
 
   let body: unknown;
