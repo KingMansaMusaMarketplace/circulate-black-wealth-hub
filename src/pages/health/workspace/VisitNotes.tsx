@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Check, Loader2, Lock, Mic, NotebookPen, X } from 'lucide-react';
+import { Check, Download, Loader2, Lock, Mic, NotebookPen, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
