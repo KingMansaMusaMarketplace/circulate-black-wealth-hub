@@ -1,0 +1,1 @@
+ALTER TABLE public.hc_access_requests ADD COLUMN IF NOT EXISTS expires_at timestamptz, ADD COLUMN IF NOT EXISTS device_id text, ADD COLUMN IF NOT EXISTS revoked_at timestamptz;
