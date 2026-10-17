@@ -1,5 +1,5 @@
 # AGENTS
-- Medication, communication and billing use source-only rehearsals; safety rules live in health/AGENTS.md.
+- Clinical rehearsals and operations preparation share safety rules in health/AGENTS.md.
 - Expanded sample charts derive exclusively from existing numbered fictional transcripts; missing demographics, allergies, medicine reconciliation and results stay unknown, and source history contains only an undated fixture baseline rather than fabricated staff actions or a live clinical audit.
 - Connected clinical doctor-day shares one validated fictional case across rehearsal slots, historical chart/transcript, existing clinic-scoped note decisions and unapproved follow-up guides; case changes reset navigation, illustrative slots never mark encounters complete, and note signatures never unlock booking or delivery.
 - Clinical enterprise readiness is a shared informational drawer using the existing intake lock policy; fixed unverified legal/vendor/pilot statuses cannot approve, certify or activate services, so presentation never becomes a healthcare clearance mechanism.
