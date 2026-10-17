@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { db, Row } from './workspace/hc';
-import { Billing, Dashboard, Patients, PriorAuth, Schedule, Team } from './workspace/Screens';
+import { Dashboard, Patients, PriorAuth, Schedule, Team } from './workspace/Screens';
 import RecordReview from './workspace/RecordReview';
 import VisitNotes from './workspace/VisitNotes';
 import ClinicIntake from './workspace/ClinicIntake';
@@ -26,6 +26,7 @@ import SamplePatientChart from './workspace/SamplePatientChart';
 import MedicationReview from './workspace/MedicationReview';
 import ConnectionPreparation from './workspace/ConnectionPreparation';
 import PatientCommunication from './workspace/PatientCommunication';
+import BillingPreparation from './workspace/BillingPreparation';
 
 const NAV = [
   { k: 'doctor-day', l: 'Connected Doctor Day', i: Calendar },
@@ -46,7 +47,7 @@ const NAV = [
   { k: 'auth', l: 'Prior Authorization', i: ClipboardCheck },
   { k: 'impact', l: 'Practice Impact', i: ClipboardCheck },
   { k: 'specialties', l: 'Specialty Examples', i: ClipboardCheck },
-  { k: 'billing', l: 'Billing & Claims', i: Receipt },
+  { k: 'billing', l: 'Billing Preparation', i: Receipt },
   { k: 'team', l: 'Team', i: UserCog },
 ];
 
@@ -174,7 +175,7 @@ export default function HealthWorkspacePage() {
             {tab === 'auth' && <PriorAuth {...props} />}
             {tab === 'impact' && <PracticeImpact key={`${user.id}:${clinic.id}`} />}
             {tab === 'specialties' && <SpecialtyExamples key={`${user.id}:${clinic.id}`} />}
-            {tab === 'billing' && <Billing {...props} />}
+            {tab === 'billing' && <BillingPreparation key={`${user.id}:${clinic.id}`} />}
             {tab === 'team' && <Team {...props} />}
           </main>
         </div>

@@ -33,6 +33,7 @@ import SamplePatientChart from './workspace/SamplePatientChart';
 import MedicationReview from './workspace/MedicationReview';
 import ConnectionPreparation from './workspace/ConnectionPreparation';
 import PatientCommunication from './workspace/PatientCommunication';
+import BillingPreparation from './workspace/BillingPreparation';
 
 /* ------------------------------------------------------------------ */
 /* ALL DATA BELOW IS FICTIONAL SAMPLE DATA FOR INVESTOR DEMONSTRATION. */
@@ -127,7 +128,7 @@ const MODULES = [
   { key: 'voice', label: 'Kayla Voice Outreach', icon: MessageSquare },
   { key: 'referrals', label: 'Referrals', icon: Send },
   { key: 'auth', label: 'Prior Authorization', icon: ClipboardCheck },
-  { key: 'billing', label: 'Billing & Claims', icon: Receipt },
+  { key: 'billing', label: 'Billing Preparation', icon: Receipt },
   { key: 'revenue', label: 'Practice Revenue', icon: TrendingUp },
   { key: 'impact', label: 'Practice Impact', icon: TrendingUp },
   { key: 'specialties', label: 'Specialty Examples', icon: Stethoscope },
@@ -269,15 +270,7 @@ const RPM = () => (
 
 const PriorAuth = PriorAuthorization;
 
-const Billing = () => (
-  <Card><CardHeader><CardTitle className="text-base">Claims</CardTitle></CardHeader>
-    <CardContent><table className="w-full text-sm"><thead className="text-left text-muted-foreground">
-      <tr><th className="py-1">Claim</th><th>Patient</th><th>Amount</th><th>Status</th><th>Kayla's note</th></tr></thead>
-      <tbody>{CLAIMS.map((c) => (<tr key={c.id} className="border-t border-border">
-        <td className="py-2">{c.id}</td><td>{c.patient}</td><td>${c.amount.toLocaleString()}</td>
-        <td><Badge variant={c.status === 'Denied' ? 'destructive' : 'outline'}>{c.status}</Badge></td>
-        <td className="text-muted-foreground">{c.reason ? `Fix: ${c.reason}` : '—'}</td></tr>))}</tbody></table></CardContent></Card>
-);
+const Billing = BillingPreparation;
 
 const Compliance = () => (
   <div className="grid gap-6 md:grid-cols-2">
