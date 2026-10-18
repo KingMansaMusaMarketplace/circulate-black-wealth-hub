@@ -3,11 +3,12 @@ import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 import { z } from "https://esm.sh/zod@3.23.8";
 import { accessRequestEmail, approvedContent, confirmationPage, emailWasAccepted } from './confirmation.ts';
+import { validDecisionSubmission } from './decision-confirmation.ts';
 
 const cors = {
   ...corsHeaders,
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token, x-hc-preview-token, x-hc-preview-device",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 };
 const OWNER = "Thomas@1325.ai";
@@ -41,21 +42,29 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   const ua = (req.headers.get("user-agent") ?? "").slice(0, 300);
 
-  // Approve / deny / revoke link clicked from Thomas's email
-  if (req.method === "GET") {
+  // GET is read-only: email security scanners must not approve, deny or revoke.
+  if (req.method === 'GET' || (req.method === 'POST' && (req.headers.get('content-type') ?? '').includes('application/x-www-form-urlencoded'))) {
     const u = new URL(req.url);
     const id = u.searchParams.get("id") ?? "", t = u.searchParams.get("t") ?? "", d = u.searchParams.get("d");
     if (!/^[0-9a-f-]{36}$/.test(id) || !/^[a-f0-9]{48}$/.test(t) || (d !== "approve" && d !== "deny" && d !== "revoke")) return page("Invalid link", "This link is not valid.");
     const { data: r } = await db.from("hc_access_requests").select("*").eq("id", id).eq("decision_token", t).maybeSingle();
     if (!r) return page("Invalid link", "This request was not found.");
+    if (req.method === 'GET') {
+      const nonce = Array.from(crypto.getRandomValues(new Uint8Array(24)), b => b.toString(16).padStart(2, '0')).join('');
+      return new Response(confirmationPage('Confirm access decision', `<p>Confirm <strong>${esc(d)}</strong> for ${esc(r.full_name)} (${esc(r.work_email)}). Opening this link has not changed access.</p><form method="post" action="${esc(req.url)}"><input type="hidden" name="nonce" value="${nonce}"><button type="submit">Confirm ${esc(d)}</button></form>`), { headers: { ...cors, 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer', 'Set-Cookie': `hc_decision_nonce=${nonce}; HttpOnly; Secure; SameSite=Strict; Max-Age=600; Path=/functions/v1/health-access` } });
+    }
+    const form = await req.formData();
+    if (!validDecisionSubmission(req, String(form.get('nonce') ?? ''))) return page('Confirmation required', 'Reopen your email decision link and confirm the action there. No access change was made.');
     if (d === "revoke") {
       if (r.status === "revoked") return page("Already revoked", `${esc(r.full_name)} is already locked out.`);
-      await db.from("hc_access_requests").update({ status: "revoked", access_token: null, revoked_at: new Date().toISOString() }).eq("id", id);
-      return page("Access revoked", `${esc(r.full_name)} (${esc(r.work_email)}) is locked out immediately.`);
+      const { data: saved, error } = await db.from("hc_access_requests").update({ status: "revoked", access_token: null, revoked_at: new Date().toISOString() }).eq("id", id).eq('decision_token', t).eq('status', r.status).select('id,status,access_token').maybeSingle();
+      if (error || !saved || saved.status !== 'revoked' || saved.access_token !== null) return page('Revocation not saved', 'No successful revocation could be confirmed. Reopen the email link and try again.');
+      return page("Access revoked", `${esc(r.full_name)} (${esc(r.work_email)}) cannot make further clinical requests. An open preview locks at its next access check, normally within 15 seconds.`);
     }
     if (r.status !== "pending") return page("Already decided", `This request was already ${esc(r.status)}.`);
     if (d === "deny") {
-      await db.from("hc_access_requests").update({ status: "denied", decided_at: new Date().toISOString() }).eq("id", id).eq("status", "pending");
+      const { data: saved, error } = await db.from("hc_access_requests").update({ status: "denied", decided_at: new Date().toISOString() }).eq("id", id).eq("status", "pending").select('id,status').maybeSingle();
+      if (error || saved?.status !== 'denied') return page('Denial not saved', 'No successful denial could be confirmed. Please try again.');
       return page("Request denied", `${esc(r.full_name)} will not receive access.`);
     }
     const bytes = crypto.getRandomValues(new Uint8Array(24));
@@ -79,6 +88,7 @@ Deno.serve(async (req) => {
     return page("Access Approved", approvedContent(r.full_name, r.work_email, expires, revoke, accepted));
   }
 
+  if (req.method !== 'POST') return json({ error: 'Use POST' }, 405);
   let body: unknown;
   try { body = await req.json(); } catch { return json({ error: "Invalid request" }, 400); }
 

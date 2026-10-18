@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
 /** 1325 Clinical data helpers. SAMPLE DATA ONLY — no real patient records. */
@@ -10,19 +10,30 @@ export type Row = Record<string, any>; // eslint-disable-line @typescript-eslint
 export function useRows(table: string, clinicId: string | null, opts: { order?: string; asc?: boolean; select?: string; eq?: [string, string] } = {}) {
   const [rows, setRows] = useState<Row[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const revision = useRef(0);
   const { order = 'created_at', asc = false, select = '*', eq } = opts;
   const key = eq ? eq.join('=') : '';
   const reload = useCallback(async () => {
-    if (!clinicId) return;
+    const request = ++revision.current;
+    if (!clinicId) { setRows([]); setLoading(false); setError(''); return; }
     setLoading(true);
-    let q = db.from(table).select(select).eq('clinic_id', clinicId).order(order, { ascending: asc });
-    if (eq) q = q.eq(eq[0], eq[1]);
-    const { data } = await q;
-    setRows(data ?? []);
-    setLoading(false);
+    setError('');
+    try {
+      let q = db.from(table).select(select).eq('clinic_id', clinicId).order(order, { ascending: asc });
+      if (eq) q = q.eq(eq[0], eq[1]);
+      const { data, error: queryError } = await q;
+      if (request !== revision.current) return;
+      if (queryError) throw new Error('Records could not be loaded. Check your approved viewing and try again.');
+      setRows(data ?? []);
+    } catch (failure) {
+      if (request !== revision.current) return;
+      setRows([]);
+      setError(failure instanceof Error ? failure.message : 'Records could not be loaded. Try again.');
+    } finally { if (request === revision.current) setLoading(false); }
   }, [table, clinicId, order, asc, select, key]); // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => { reload(); }, [reload]);
-  return { rows, loading, reload };
+  useEffect(() => { setRows([]); void reload(); return () => { ++revision.current; }; }, [reload]);
+  return { rows, loading, error, reload };
 }
 
 export const fullName = (p?: Row | null) => (p ? `${p.first_name} ${p.last_name}` : '—');

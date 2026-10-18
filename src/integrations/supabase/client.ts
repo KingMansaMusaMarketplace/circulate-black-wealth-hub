@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { getCsrfToken, CSRF_HEADER_NAME } from '@/lib/security/csrf';
+import { clinicalRequestHeaders } from '@/pages/health/clinical-request';
 
 // Use environment variables for Supabase configuration
 // This allows key rotation without code changes
@@ -144,6 +145,8 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
         headers: {
           ...existingHeaders,
           ...csrfHeaders,
+          // Only send private viewing proof to our own clinical service/data endpoints.
+          ...(url.toString().startsWith(supabaseUrl) && /\/(?:rest\/v1\/|functions\/v1\/health-)/.test(url.toString()) ? clinicalRequestHeaders() : {}),
         },
         signal: controller.signal,
       })

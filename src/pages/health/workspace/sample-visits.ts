@@ -45,11 +45,13 @@ export type VisitNote = { subjective: NoteItem[]; objective: NoteItem[]; assessm
 export const findVisit = (id: string) => SAMPLE_VISITS.find((v) => v.id === id) ?? null;
 
 /** Every item must cite at least one real transcript line. Throws on any invented or missing citation. */
-export function validateNoteLines(note: VisitNote, lineCount: number) {
+export function validateNoteLines(note: VisitNote, source: number | readonly string[]) {
+  const lineCount = typeof source === 'number' ? source : source.length;
   for (const key of ['subjective', 'objective', 'assessment', 'plan', 'flags'] as const) {
     for (const item of note[key]) {
-      if (key !== 'flags' && item.lines.length === 0) throw new Error(`Uncited ${key} item`);
+      if (item.lines.length === 0) throw new Error(`Uncited ${key} item`);
       for (const n of item.lines) if (!Number.isInteger(n) || n < 1 || n > lineCount) throw new Error(`Line ${n} does not exist`);
+      if (typeof source !== 'number' && item.text !== item.lines.map(n => source[n - 1]).join(' ')) throw new Error('Unsupported assertion: only verbatim cited transcript excerpts may be saved');
     }
   }
   if (!note.subjective.length || !note.plan.length) throw new Error('Note is missing required sections');

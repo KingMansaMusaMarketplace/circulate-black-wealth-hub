@@ -764,6 +764,8 @@ export default function HealthDemoPage() {
   const [mod, setMod] = useState<ModuleKey>('dashboard');
   const [tourStep, setTourStep] = useState<number | null>(null);
   const [tourRevision, setTourRevision] = useState(0);
+  const [navigationSearch, setNavigationSearch] = useState('');
+  const searchMatches = navigationSearch.trim() ? MODULES.filter(module => module.label.toLowerCase().includes(navigationSearch.trim().toLowerCase())) : [];
   const View = VIEWS[mod];
   const current = MODULES.find((m) => m.key === mod) ?? MODULES[0];
   return (
@@ -783,7 +785,10 @@ export default function HealthDemoPage() {
         </div>
         <div className="relative hidden max-w-md flex-1 md:block">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input className="h-9 border-mansagold/30 bg-background/40 pl-9" placeholder="Search patients, cases, claims…" />
+          <Input className="h-9 border-mansagold/30 bg-background/40 pl-9" aria-label="Search sample sections" placeholder="Search sample sections…" value={navigationSearch} onChange={event => setNavigationSearch(event.target.value)} />
+          {navigationSearch.trim() && <div className="absolute left-0 right-0 top-11 z-50 border bg-card p-2 shadow-lg">
+            {searchMatches.length ? searchMatches.map(module => <Button key={module.key} variant="ghost" className="h-auto w-full justify-start whitespace-normal text-left" onClick={() => { setMod(module.key); setTourStep(null); setTourRevision(revision => revision + 1); setNavigationSearch(''); }}>{module.label}</Button>) : <p className="p-2 text-sm text-muted-foreground">No matching sample sections</p>}
+          </div>}
         </div>
         <div className="flex items-center gap-3">
           <Badge variant="outline" className="hidden gap-1 border-mansagold/60 text-mansagold sm:flex"><ShieldCheck className="h-3 w-3" />Sample workspace</Badge>

@@ -4,7 +4,15 @@
 - [x] Run all existing clinical suites: 38 files, 189 tests passed; verify four public route gates and published notice; anonymous invalid-grant/admin/note/review requests denied.
 - [x] Review deployed clinical permissions, private storage, five-minute RPC and note-signoff indexes; document safety/access/loading defects in the audit report. No application or database changes made.
 - [ ] Verify signed-in clinic creation, generation, decision/readback/export and admin access end-to-end — blocked: external unmanaged Supabase supplies no authenticated testing session.
-- [ ] Remediate clinical patient-write boundaries, backend preview authorization, exposed clinical chat, note validation and decision concurrency — blocked: owner approval for coordinated permission/workflow changes.
+- [x] Close unrestricted clinical patient-text writes and clinical free-text chat/voice; preserve existing records. Nine tables have no authenticated write privileges; four public gates checked without exposed chat.
+- [x] Deploy owner-approved email/device/deadline authorization on note/review/pilot services and relevant database/storage policies; retain server-verified admin access. Live signed-in execution remains unverified below.
+- [x] Correct clinical Kayla credential wording and distinguish typed sample signer attestations from verified physician identity in screens and reports.
+- [x] Require exact saved source excerpts, evidence on flags and revalidation before signing older drafts; unique note/review decision indexes deployed without removing records. Email GET is read-only and POST requires deliberate same-origin nonce confirmation.
+- [x] Repair failed/stale loading, synchronous duplicate submission guards, searchable demo section navigation, claims-list destination and year-safe schedule grouping.
+- [x] Add clinical service integration tests and source/loading/permission regression checks; 196 frontend tests and 13 service tests passed, including five deployed anonymous/invalid-session/chat-denial requests. Build OK; four public gates checked with zero runtime errors. Database linter remains at 197 preexisting findings, no new findings introduced.
+- [ ] Execute full authenticated clinic/admin/workflow matrix and concurrent decisions with disposable fictional cases — blocked: external unmanaged Supabase has no authorized testing session; no credentials requested or approval bypass added.
+- [ ] Run Kayla scoreboard after clinical prompt correction — blocked: requires an authenticated administrator session unavailable for this external Supabase project.
+- [x] Re-audit available checks and report passes, failures and remaining unknowns separately; no 100% reliability or healthcare-clearance claim.
 
 ## Approved visitor privacy update
 - [x] Enforce a single server-timed five-minute viewing from first entry; atomic device/deadline grant deployed, exact 300-second deadline read back, refresh retains remaining time, and ended-grant replay requires fresh approval. Admin bypass unchanged; existing approvals get the new limit on next entry, unused links still have seven days to begin.

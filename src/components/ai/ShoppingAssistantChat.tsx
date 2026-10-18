@@ -49,7 +49,8 @@ const saveStoredMessages = (messages: Message[]) => {
 
 const ShoppingAssistantChat: React.FC = () => {
   // iOS enabled: microphone permission text is declared in Info.plist.
-  if (isClinicalContext() && localStorage.getItem('hc_preview_session_closed')) return null;
+  // Clinical review uses fixed source packets; unrestricted chat/voice cannot accept patient text.
+  if (isClinicalContext()) return null;
   return <ShoppingAssistantChatInner />;
 };
 
@@ -61,9 +62,9 @@ const ShoppingAssistantChatInner: React.FC = () => {
   const clinical = isClinicalContext();
   const copy = clinical
     ? {
-        title: 'Kayla, Ph.D. — Clinical AI Co-Pilot',
+        title: 'Kayla — Clinical AI Assistant',
         subtitle: 'EMR & Clinical Informatics Expert',
-        hello: "Hello, I'm Dr. Kayla — your EMR systems expert.",
+        hello: "Hello, I'm Kayla, an AI assistant — not a physician or doctorate holder.",
         intro: 'Ask me about chart review, CME record timelines, or prior-authorization appeals. Sample data only — never enter real patient information.',
         prompts: [
           'Build a 5-column CME treatment timeline',

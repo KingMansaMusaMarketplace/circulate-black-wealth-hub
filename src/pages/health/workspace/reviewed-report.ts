@@ -8,7 +8,7 @@ const SECTIONS = [['subjective', 'Patient story'], ['objective', 'Exam findings'
 
 /** Only doctor-signed notes can be exported; rejected or unsigned drafts never become reports. */
 export function assertExportable(input: ReportInput) {
-  if (input.decision !== 'signed' || !input.signedAt) throw new Error('Only doctor-signed notes can be exported');
+  if (input.decision !== 'signed' || !input.signedAt || !Number.isFinite(Date.parse(input.signedAt))) throw new Error('Only sample-signed notes with a valid saved date can be exported');
   for (const [k] of SECTIONS) for (const it of input.note[k] ?? []) for (const n of it.lines) {
     if (!Number.isInteger(n) || n < 1 || n > input.transcript.length) throw new Error('Note cites a missing transcript line');
   }
@@ -37,7 +37,7 @@ export function buildReviewedReport(input: ReportInput, logo?: HTMLImageElement)
   doc.text('PRIVATE & CONFIDENTIAL — DO NOT COPY, FORWARD, OR DISTRIBUTE', W / 2, y + 21, { align: 'center' });
   y += 50;
   doc.setTextColor(0); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
-  const when = new Date(input.signedAt!).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+  const when = new Date(input.signedAt ?? '').toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
   { const sig = doc.splitTextToSize(`Reviewed and signed by ${input.signerName ?? "a clinic doctor"} on ${when} via 1325 Clinical${input.clinicName ? ` (${input.clinicName})` : ''}`, W - 2 * M); doc.text(sig, M, y); y += (sig.length - 1) * 13; }
   y += 14; doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(90);
   doc.text('Fictional sample visit. Drafted by Kayla (AI assistant); reviewed by a clinician. Not for patient care, billing, or legal use.', M, y);
@@ -46,6 +46,7 @@ export function buildReviewedReport(input: ReportInput, logo?: HTMLImageElement)
     doc.setFontSize(size); const lines = doc.splitTextToSize(t, W - 2 * M - indent);
     ensure(lines.length * (size + 3)); doc.text(lines, M + indent, y); y += lines.length * (size + 3);
   };
+  para('Sample-role attestation only. Entered signer names and clinic roles do not independently verify physician identity, qualifications or licensure.', 9);
   for (const [k, label] of SECTIONS) {
     ensure(30); doc.setFont('helvetica', 'bold'); doc.setTextColor(0, 51, 102); para(label, 12);
     doc.setFont('helvetica', 'normal'); doc.setTextColor(0);

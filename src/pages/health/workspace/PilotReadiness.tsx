@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ClipboardCheck, Loader2, Lock } from 'lucide-react';
 import { toast } from 'sonner';
@@ -7,6 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { useRows } from './hc';
+import DataLoadErrors from './DataLoadErrors';
 import { PILOT_FIELDS, type PilotChecklist } from '../../../../supabase/functions/health-kayla-review/pilot-policy';
 
 const requirements: Record<typeof PILOT_FIELDS[number], { title: string; detail: string }> = {
@@ -24,8 +25,11 @@ export default function PilotReadiness({ clinicId, clinicRole }: { clinicId: str
   const [checklist, setChecklist] = useState<PilotChecklist | null>(null);
   const values = checklist ?? (saved ? Object.fromEntries(PILOT_FIELDS.map(key => [key, saved[key] === true])) as PilotChecklist : emptyChecklist());
   const [saving, setSaving] = useState(false);
+  const pending = useRef(false);
   const canSubmit = clinicRole === 'doctor' || clinicRole === 'owner';
   const save = async () => {
+    if (pending.current || requests.error) return;
+    pending.current = true;
     setSaving(true);
     try {
       const { data, error } = await supabase.functions.invoke('health-kayla-review', { body: { action: 'pilot_request', clinic_id: clinicId, checklist: values } });
@@ -33,9 +37,10 @@ export default function PilotReadiness({ clinicId, clinicRole }: { clinicId: str
       await requests.reload();
       toast.success('Readiness request saved. Patient data remains blocked.');
     } catch (error) { toast.error(error instanceof Error ? error.message : 'Request could not be saved'); }
-    finally { setSaving(false); }
+    finally { pending.current = false; setSaving(false); }
   };
   return <section aria-label="Real-record pilot readiness" className="space-y-5 border-t pt-6">
+    <DataLoadErrors sources={[requests]} />
     <div className="flex flex-wrap items-start justify-between gap-3">
       <div><h3 className="flex items-center gap-2 text-lg font-semibold"><ClipboardCheck className="h-5 w-5 text-mansagold" />Real-record pilot readiness</h3>
         <p className="mt-1 text-sm text-muted-foreground">Clinic readiness reports · Independent verification required</p></div>

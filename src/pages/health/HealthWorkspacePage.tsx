@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { db, Row } from './workspace/hc';
-import { Dashboard, Patients, PriorAuth, Schedule, Team } from './workspace/Screens';
+import { Billing, Dashboard, Patients, PriorAuth, Schedule, Team } from './workspace/Screens';
 import RecordReview from './workspace/RecordReview';
 import VisitNotes from './workspace/VisitNotes';
 import ClinicIntake from './workspace/ClinicIntake';
@@ -102,6 +102,7 @@ export default function HealthWorkspacePage() {
   const currentUser = useRef(userId);
   currentUser.current = userId;
   const requestVersion = useRef(0);
+  const patientVersion = useRef(0);
 
   const loadClinic = useCallback(async (preferredClinicId?: string) => {
     if (!userId) return;
@@ -122,11 +123,18 @@ export default function HealthWorkspacePage() {
     }
   }, [userId]);
   const loadPatients = useCallback(async () => {
+    const version = ++patientVersion.current;
     if (!clinic || loadedFor !== userId) return;
     const clinicId = clinic.id;
-    const { data, error } = await db.from('hc_patients').select('*').eq('clinic_id', clinicId).order('last_name');
-    if (currentUser.current !== userId) return;
-    if (!error) setPatients(data ?? []);
+    try {
+      const { data, error } = await db.from('hc_patients').select('*').eq('clinic_id', clinicId).order('last_name');
+      if (currentUser.current !== userId || version !== patientVersion.current) return;
+      if (error) throw error;
+      setClinicError(''); setPatients(data ?? []);
+    } catch {
+      if (currentUser.current !== userId || version !== patientVersion.current) return;
+      setPatients([]); setClinicError('Sample patients could not be loaded. Retry loading; an empty list is not a confirmed empty clinic.');
+    }
   }, [clinic, loadedFor, userId]);
   useEffect(() => {
     ++requestVersion.current;
@@ -135,7 +143,7 @@ export default function HealthWorkspacePage() {
     if (userId) void loadClinic().catch(() => {});
     return () => { ++requestVersion.current; };
   }, [userId, loadClinic]);
-  useEffect(() => { void loadPatients(); }, [loadPatients]);
+  useEffect(() => { setPatients([]); void loadPatients(); return () => { ++patientVersion.current; }; }, [loadPatients]);
 
   const shellHeader = (
     <header className="flex min-h-14 flex-wrap items-center justify-between gap-2 py-2 border-b-2 border-mansagold theme-clinical-bar px-4 text-foreground shadow-lg">
@@ -166,6 +174,7 @@ export default function HealthWorkspacePage() {
              <EndPrivateSessionButton className="mt-auto w-full justify-start border-t border-border pt-3" />
           </aside>
           <main className="min-w-0 flex-1 p-4 md:p-8">
+            {clinicError && <section role="alert" className="mb-4 space-y-2 text-sm text-destructive"><p>{clinicError}</p><Button variant="outline" onClick={() => { void loadPatients(); }}>Retry loading</Button></section>}
             <div className="mb-4 flex gap-2 overflow-x-auto md:hidden">
               {NAV.map((n) => <Button key={n.k} size="sm" variant={tab === n.k ? 'default' : 'outline'} onClick={() => navigateTab(n.k)}>{n.l}</Button>)}
             </div>
@@ -192,6 +201,7 @@ export default function HealthWorkspacePage() {
             {tab === 'impact' && <PracticeImpact key={`${user.id}:${clinic.id}`} />}
             {tab === 'specialties' && <SpecialtyExamples key={`${user.id}:${clinic.id}`} />}
             {tab === 'billing' && <BillingPreparation key={`${user.id}:${clinic.id}`} />}
+            {tab === 'claims' && <Billing {...props} />}
             {tab === 'reliability' && <EnterpriseReliability key={`${user.id}:${clinic.id}`} />}
             {tab === 'evaluation' && <DoctorEvaluation key={`${user.id}:${clinic.id}`} />}
             {tab === 'quality' && <ExecutiveQuality key={`${user.id}:${clinic.id}:${facilityContext.facilityId}:${facilityContext.department}`} facilityContext={facilityContext} onNavigate={navigateTab} />}

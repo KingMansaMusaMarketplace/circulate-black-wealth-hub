@@ -108,6 +108,10 @@ serve(async (req) => {
 
   try {
     const { messages, sessionId, mode } = await req.json();
+    // No clinical free text, voice, persistence or model calls in this fictional-only environment.
+    if (mode === 'clinical' || (req.headers.get('origin') ?? '').includes('health.1325.ai')) {
+      return new Response(JSON.stringify({ error: 'Clinical chat is unavailable. Use the built-in fictional source review inside the approved preview.' }), { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    }
     const clinicalBlock = mode === "clinical" ? buildClinicalPersonaBlock() : "";
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return new Response(JSON.stringify({ error: "messages array is required" }), {
