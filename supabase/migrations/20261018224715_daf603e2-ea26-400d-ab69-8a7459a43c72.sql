@@ -1,0 +1,1 @@
+DO $$ BEGIN IF EXISTS(SELECT review_id FROM public.hc_review_decisions GROUP BY review_id HAVING count(*)>1) THEN RAISE EXCEPTION 'Conflicting review decisions need separate owner review'; END IF; END $$; CREATE UNIQUE INDEX IF NOT EXISTS hc_review_decisions_one_decision ON public.hc_review_decisions(review_id);
