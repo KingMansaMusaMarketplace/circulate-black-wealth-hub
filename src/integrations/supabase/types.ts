@@ -29060,6 +29060,7 @@ export type Database = {
         Args: { _name: string; _specialty?: string }
         Returns: string
       }
+      hc_has_preview_access: { Args: never; Returns: boolean }
       hc_is_member: { Args: { _clinic: string }; Returns: boolean }
       hc_is_owner: { Args: { _clinic: string }; Returns: boolean }
       hc_verify_preview_access: {
