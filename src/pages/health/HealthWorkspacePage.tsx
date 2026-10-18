@@ -25,6 +25,7 @@ import ClinicalSafetyPanel from './ClinicalSafetyPanel';
 import DoctorDay from './workspace/DoctorDay';
 import SamplePatientChart from './workspace/SamplePatientChart';
 import MedicationReview from './workspace/MedicationReview';
+import ClinicalDataExplorer from './workspace/ClinicalDataExplorer';
 import ConnectionPreparation from './workspace/ConnectionPreparation';
 import PatientCommunication from './workspace/PatientCommunication';
 import BillingPreparation from './workspace/BillingPreparation';
@@ -38,6 +39,7 @@ const NAV = [
   { k: 'doctor-day', l: 'Connected Doctor Day', i: Calendar },
   { k: 'sample-chart', l: 'Expanded Sample Chart', i: ClipboardCheck },
   { k: 'medication-review', l: 'Medication Review Assistance', i: ClipboardCheck },
+  { k: 'data-explorer', l: 'Clinical Data Explorer', i: ClipboardCheck },
   { k: 'connections', l: 'Clinical Connections', i: ClipboardCheck },
   { k: 'portal', l: 'Patient Communication', i: Users },
   { k: 'intake', l: 'Clinic Intake', i: Lock },
@@ -173,6 +175,7 @@ export default function HealthWorkspacePage() {
             {tab === 'doctor-day' && <DoctorDay key={`${user.id}:${clinic.id}`} clinicId={clinic.id} clinicRole={role} />}
             {tab === 'sample-chart' && <SamplePatientChart key={`${user.id}:${clinic.id}`} />}
             {tab === 'medication-review' && <MedicationReview key={`${user.id}:${clinic.id}`} />}
+            {tab === 'data-explorer' && <ClinicalDataExplorer key={`${user.id}:${clinic.id}`} />}
             {tab === 'connections' && <ConnectionPreparation key={`${user.id}:${clinic.id}`} />}
             {tab === 'portal' && <PatientCommunication key={`${user.id}:${clinic.id}`} />}
             {tab === 'intake' && <ClinicIntake clinicId={clinic.id} clinicName={clinic.name} clinicRole={role} signedIn />}
