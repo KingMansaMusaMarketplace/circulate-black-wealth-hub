@@ -32,6 +32,7 @@ import ClinicalSafetyPanel from './ClinicalSafetyPanel';
 import DoctorDay from './workspace/DoctorDay';
 import SamplePatientChart from './workspace/SamplePatientChart';
 import MedicationReview from './workspace/MedicationReview';
+import ClinicalDataExplorer from './workspace/ClinicalDataExplorer';
 import ConnectionPreparation from './workspace/ConnectionPreparation';
 import PatientCommunication from './workspace/PatientCommunication';
 import BillingPreparation from './workspace/BillingPreparation';
@@ -121,6 +122,7 @@ const MODULES = [
   { key: 'doctor-day', label: 'Connected Doctor Day', icon: Calendar },
   { key: 'sample-chart', label: 'Expanded Sample Chart', icon: FileText },
   { key: 'medication-review', label: 'Medication Review Assistance', icon: Pill },
+  { key: 'data-explorer', label: 'Clinical Data Explorer', icon: Search },
   { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { key: 'inbox', label: 'Inbox & Tasks', icon: Inbox },
   { key: 'patients', label: 'Patient Charts', icon: Users },
@@ -753,7 +755,7 @@ const VoiceOutreach = () => {
   );
 };
 
-const VIEWS: Record<ModuleKey, React.FC> = { evaluation: DoctorEvaluation, reliability: EnterpriseReliability, 'medication-review': MedicationReview, 'sample-chart': SamplePatientChart, 'doctor-day': DoctorDay, specialties: SpecialtyExamples, dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, impact: PracticeImpact, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: ExecutiveQuality, voice: VoiceOutreach };
+const VIEWS: Record<ModuleKey, React.FC> = { 'data-explorer': ClinicalDataExplorer, evaluation: DoctorEvaluation, reliability: EnterpriseReliability, 'medication-review': MedicationReview, 'sample-chart': SamplePatientChart, 'doctor-day': DoctorDay, specialties: SpecialtyExamples, dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, impact: PracticeImpact, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: ExecutiveQuality, voice: VoiceOutreach };
 
 export default function HealthDemoPage() {
   const [facilityContext, setFacilityContext] = useState<FacilityContext>(DEFAULT_FACILITY_CONTEXT);
