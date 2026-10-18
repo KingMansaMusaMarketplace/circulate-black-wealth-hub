@@ -5,8 +5,9 @@ import { z } from 'npm:zod@3';
 import { buildClinicalRecordReviewPrompt, fetchAIWithRetry, loadApprovedImprovements } from '../_shared/kayla-brain.ts';
 import { canReview, SAMPLE_CASE_ID, SAMPLE_PAGES, validateSources } from './sample-case.ts';
 import { PILOT_LOCK, pilotInsert } from './pilot-policy.ts';
+import { authorizeClinicalPreview } from '../_shared/clinical-preview-auth.ts';
 
-const corsHeaders = { ...sdkCorsHeaders, 'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token' };
+const corsHeaders = { ...sdkCorsHeaders, 'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token, x-hc-preview-token, x-hc-preview-device' };
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
 const RequestSchema = z.discriminatedUnion('action', [
   z.object({ action: z.literal('generate'), clinic_id: z.string().uuid(), sample_case_id: z.literal(SAMPLE_CASE_ID) }).strict(),
@@ -57,13 +58,14 @@ Deno.serve(async (req) => {
     const anon = Deno.env.get('SUPABASE_ANON_KEY');
     const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
     if (!url || !anon || !serviceKey) return json({ error: 'Review service unavailable' }, 503);
-    const caller = createClient(url, anon, { global: { headers: { Authorization: auth } } });
+    const caller = createClient(url, anon, { global: { headers: { Authorization: auth, 'x-hc-preview-token': req.headers.get('x-hc-preview-token') ?? '', 'x-hc-preview-device': req.headers.get('x-hc-preview-device') ?? '' } } });
     const { data: userData, error: authError } = await caller.auth.getUser();
     if (authError || !userData.user) return json({ error: 'Sign in required' }, 401);
     const parsed = RequestSchema.safeParse(await req.json().catch(() => null));
     if (!parsed.success) return json({ error: 'Only the built-in fictional case and review decisions are allowed. Uploaded text and patient records are blocked.' }, 400);
     const body = parsed.data;
     const service = createClient(url, serviceKey, { auth: { persistSession: false } });
+    if (!await authorizeClinicalPreview(service, req, userData.user)) return json({ error: 'Current owner-approved viewing on your approved device is required. Sign in with your approved email.' }, 403);
     let clinicId: string;
     let review: { id: string; clinic_id: string } | null = null;
     if (body.action === 'decision') {
@@ -82,7 +84,7 @@ Deno.serve(async (req) => {
     if (body.action === 'decision') {
       if (!canReview(member.role) || !review) return json({ error: 'A clinic doctor or owner must record the sample review decision' }, 403);
       const { data, error } = await service.from('hc_review_decisions').insert({ clinic_id: clinicId, review_id: review.id, reviewer_id: userData.user.id, decision: body.decision }).select().single();
-      if (error) throw error;
+      if (error) return json({ error: 'This draft already has a decision or could not be saved.' }, 409);
       return json({ decision: data });
     }
     const key = Deno.env.get('LOVABLE_API_KEY');
@@ -100,9 +102,17 @@ Deno.serve(async (req) => {
     if (!ai.ok) return json({ error: ai.status === 429 ? 'Kayla is busy. Try again shortly.' : 'Kayla could not generate the draft. Try again.' }, ai.status === 429 ? 429 : 502);
     const result = ResultSchema.parse(JSON.parse(await readStream(ai)));
     validateSources(result);
+    for (const finding of result.findings) {
+      finding.finding = finding.sources.map(source => source.quote).join(' ');
+      finding.date = [...new Set(finding.sources.map(source => SAMPLE_PAGES.find(page => page.page === source.page)?.date ?? 'Not stated'))].join(' / ');
+    }
+    result.questions_for_exam = ['Review the cited pages and reconcile documentation differences; no clinical or legal conclusion is supplied.'];
+    result.report_outline = ['Source excerpts', 'Independent physician review'];
+    validateSources(result, true);
+    if (!await authorizeClinicalPreview(service, req, userData.user)) return json({ error: 'Your private viewing ended before the review was saved.' }, 403);
     const { data: doc, error: docError } = await service.from('hc_documents').insert({ clinic_id: clinicId, file_name: 'Fictional CME case — six-page bundle', pages: SAMPLE_PAGES.length, status: 'draft_ready', created_by: userData.user.id }).select().single();
     if (docError || !doc) throw docError ?? new Error('Document save failed');
-    const { data: saved, error: saveError } = await service.from('hc_reviews').insert({ clinic_id: clinicId, document_id: doc.id, model, result: { ...result, sample_case_id: SAMPLE_CASE_ID, source_pages: SAMPLE_PAGES, citation_check: 'Exact quotations and page bounds checked; clinical interpretation requires physician review.' } }).select().single();
+    const { data: saved, error: saveError } = await service.from('hc_reviews').insert({ clinic_id: clinicId, document_id: doc.id, model, result: { ...result, sample_case_id: SAMPLE_CASE_ID, source_pages: SAMPLE_PAGES, citation_check: 'Saved findings contain only exact cited excerpts; grouping is AI-selected and requires independent review. This is not a clinical-correctness guarantee.' } }).select().single();
     if (saveError) {
       await service.from('hc_documents').delete().eq('id', doc.id);
       throw saveError;
