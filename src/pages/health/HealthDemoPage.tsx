@@ -10,6 +10,7 @@ import patientCall1 from '@/assets/health-call/patient-1.mp3';
 import patientCall2 from '@/assets/health-call/patient-2.mp3';
 import patientCall3 from '@/assets/health-call/patient-3.mp3';
 import { Helmet } from 'react-helmet-async';
+import ProprietaryNotice from './ProprietaryNotice';
 import {
   Activity, AlertTriangle, BrainCircuit, Calendar, ClipboardCheck, FileSearch, FileText,
   HeartPulse, FlaskConical, History, Send, Award, Video, Smartphone, Mic, MicOff, PhoneOff, MessageSquare, Network, Inbox, LayoutDashboard, TrendingUp, Target, Lock, Pill, Receipt, Search, ShieldCheck, Stethoscope, Users,
@@ -817,8 +818,9 @@ export default function HealthDemoPage() {
           <div key={`${facilityContext.facilityId}:${facilityContext.department}`}>{tourStep === 0 ? <ChartPrep /> : tourStep === 1 || tourStep === 2 ? <ExecutiveNotePreview review={tourStep === 2} /> : tourStep === 3 ? <CareGuide /> : mod === 'quality' ? <ExecutiveQuality facilityContext={facilityContext} onNavigate={(next) => { setMod(next); setTourStep(null); setTourRevision((revision) => revision + 1); }} /> : <View />}</div>
         </main>
       </div>
-      <footer className="border-t border-border bg-card px-6 py-4 text-[11px] leading-relaxed text-muted-foreground">
-        1325 Clinical is a product in development by 1325.AI (Mansa Musa Marketplace, Inc.). This preview shows planned features with fictional data. It is not a medical device and is not yet certified for protected health information. U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.
+      <footer className="space-y-2 border-t border-border bg-card px-6 py-4 text-[11px] leading-relaxed text-muted-foreground">
+        <ProprietaryNotice />
+        <p>This preview shows planned features with fictional data. It is not a medical device and is not yet approved for protected health information.</p>
       </footer>
     </div>
   );
