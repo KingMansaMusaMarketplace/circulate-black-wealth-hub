@@ -4,7 +4,13 @@
 - [x] Run all existing clinical suites: 38 files, 189 tests passed; verify four public route gates and published notice; anonymous invalid-grant/admin/note/review requests denied.
 - [x] Review deployed clinical permissions, private storage, five-minute RPC and note-signoff indexes; document safety/access/loading defects in the audit report. No application or database changes made.
 - [ ] Verify signed-in clinic creation, generation, decision/readback/export and admin access end-to-end — blocked: external unmanaged Supabase supplies no authenticated testing session.
-- [ ] Remediate clinical patient-write boundaries, backend preview authorization, exposed clinical chat, note validation and decision concurrency — blocked: owner approval for coordinated permission/workflow changes.
+- [ ] Close unrestricted clinical patient-text writes and unapproved clinical chat; preserve existing records.
+- [ ] Enforce owner-approved device/deadline access on clinical services and relevant data operations, retaining server-verified admin access.
+- [ ] Correct Kayla credential wording and distinguish sample signer attestations from verified physician identity.
+- [ ] Strengthen source evidence validation, atomic note decisions and deliberate owner email confirmations.
+- [ ] Repair failed/stale loading, duplicate submissions, navigation and year-safe date grouping.
+- [ ] Add clinical service integration tests; verify authenticated authorization/workflow scenarios with disposable fictional cases where safe access is available.
+- [ ] Re-audit and report passes, failures and remaining unknowns separately; authenticated verification requires a valid app session.
 
 ## Approved visitor privacy update
 - [x] Enforce a single server-timed five-minute viewing from first entry; atomic device/deadline grant deployed, exact 300-second deadline read back, refresh retains remaining time, and ended-grant replay requires fresh approval. Admin bypass unchanged; existing approvals get the new limit on next entry, unused links still have seven days to begin.
