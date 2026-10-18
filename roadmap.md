@@ -1,5 +1,11 @@
 # Roadmap
 
+## 1325 Clinical audit — October 18, 2026
+- [x] Run all existing clinical suites: 38 files, 189 tests passed; verify four public route gates and published notice; anonymous invalid-grant/admin/note/review requests denied.
+- [x] Review deployed clinical permissions, private storage, five-minute RPC and note-signoff indexes; document safety/access/loading defects in the audit report. No application or database changes made.
+- [ ] Verify signed-in clinic creation, generation, decision/readback/export and admin access end-to-end — blocked: external unmanaged Supabase supplies no authenticated testing session.
+- [ ] Remediate clinical patient-write boundaries, backend preview authorization, exposed clinical chat, note validation and decision concurrency — blocked: owner approval for coordinated permission/workflow changes.
+
 ## Approved visitor privacy update
 - [x] Enforce a single server-timed five-minute viewing from first entry; atomic device/deadline grant deployed, exact 300-second deadline read back, refresh retains remaining time, and ended-grant replay requires fresh approval. Admin bypass unchanged; existing approvals get the new limit on next entry, unused links still have seven days to begin.
 - [x] Add repeated current-viewer name/email/UTC-date watermark in the shared gate; verified on demo and workspace sign-in screen with fictional approved visitor, no tokens/other visitors shown.
