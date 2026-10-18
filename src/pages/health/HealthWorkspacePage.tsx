@@ -34,6 +34,7 @@ import DoctorEvaluation from './workspace/DoctorEvaluation';
 import ExecutiveQuality from './workspace/ExecutiveQuality';
 import FacilitySelector from './FacilitySelector';
 import { DEFAULT_FACILITY_CONTEXT, type FacilityContext } from './workspace/facility-context';
+import ProprietaryNotice from './ProprietaryNotice';
 
 const NAV = [
   { k: 'doctor-day', l: 'Connected Doctor Day', i: Calendar },
@@ -198,6 +199,7 @@ export default function HealthWorkspacePage() {
           </main>
         </div>
       )}
+      <footer className="border-t border-border bg-card px-6 py-4 text-muted-foreground"><ProprietaryNotice /></footer>
     </div>
   );
 }

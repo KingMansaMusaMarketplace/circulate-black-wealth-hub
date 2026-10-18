@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import logo1325 from '@/assets/1325-ai-logo.png';
 import { closePrivateSession, EndPrivateSessionButton, PRIVATE_SESSION_ENDED, PrivateSessionContext } from './PrivateSession';
+import ProprietaryNotice from './ProprietaryNotice';
 
 const KEY = 'hc_preview_access';
 const DEVICE_KEY = 'hc_preview_device';
@@ -203,7 +204,7 @@ function Teaser({ notice = "" }: { notice?: string }) {
             ))}
           </div>
           <a href={`/auth?redirect=${encodeURIComponent(window.location.pathname)}`} className="mt-8 inline-block text-xs underline opacity-70">Admin sign in</a>
-          <p className="mt-6 text-xs opacity-60">U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending. Preview uses fictional sample data only.</p>
+          <ProprietaryNotice className="mt-6 opacity-70" />
         </div>
 
         <div className="rounded-2xl p-8 border" style={{ background: 'rgba(0,0,0,0.35)', borderColor: 'rgba(255,179,0,0.4)' }}>
@@ -229,7 +230,7 @@ function Teaser({ notice = "" }: { notice?: string }) {
               <Input type="tel" required placeholder="Phone *" value={form.phone} onChange={set('phone')} maxLength={40} className="bg-white text-black" />
               <label className="flex gap-3 text-xs opacity-85 items-start">
                 <input type="checkbox" checked={nda} onChange={(e) => setNda(e.target.checked)} className="mt-0.5" />
-                <span>I agree that all materials, screens and workflows shown in 1325 Clinical are proprietary and confidential to 1325.AI, and I will not copy, share, or reproduce them.</span>
+                <span>I agree to the Proprietary &amp; Confidential notice: 1325 Clinical is licensed to me for evaluation only. I will not copy, share, record, screenshot, reverse-engineer, or use it to build a similar product, and any commercial or clinical use requires a separate written license from 1325.AI.</span>
               </label>
               {error && <p className="text-sm" style={{ color: '#ff8a80' }}>{error}</p>}
               <Button type="submit" disabled={busy} className="w-full font-semibold" style={{ background: '#FFB300', color: '#001a33' }}>
