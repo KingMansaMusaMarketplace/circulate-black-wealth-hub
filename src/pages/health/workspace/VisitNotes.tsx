@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/contexts/AuthContext';
 import { Check, Download, Loader2, Lock, Mic, NotebookPen, X } from 'lucide-react';
@@ -10,6 +10,7 @@ import { Row, useRows } from './hc';
 import { canSign, SAMPLE_VISITS } from './sample-visits';
 import { buildReviewedReport } from './reviewed-report';
 import logo1325 from '@/assets/1325-ai-logo.png';
+import DataLoadErrors from './DataLoadErrors';
 
 const logoImg = typeof Image !== 'undefined' ? Object.assign(new Image(), { src: logo1325 }) : undefined;
 const SECTIONS = [
@@ -26,6 +27,7 @@ export default function VisitNotes({ clinicId, clinicRole, selectedVisitId }: { 
   const visitId = selectedVisitId ?? localVisitId;
   const [busy, setBusy] = useState(false);
   const [saving, setSaving] = useState(false);
+  const pending = useRef(false);
   const [hl, setHl] = useState<number[]>([]);
   const visit = SAMPLE_VISITS.find((v) => v.id === visitId);
   const note: Row | undefined = notes.rows.find((n) => n.sample_visit_id === visitId);
@@ -38,6 +40,8 @@ export default function VisitNotes({ clinicId, clinicRole, selectedVisitId }: { 
   useEffect(() => { if (myName) setSignerName((cur) => cur || myName); }, [myName]);
 
   const draft = async () => {
+    if (pending.current) return;
+    pending.current = true;
     setBusy(true);
     try {
       const { data, error } = await supabase.functions.invoke('health-kayla-notes', { body: { action: 'generate', clinic_id: clinicId, sample_visit_id: visitId } });
@@ -45,29 +49,31 @@ export default function VisitNotes({ clinicId, clinicRole, selectedVisitId }: { 
       await notes.reload(); setHl([]);
       toast.success('Draft note ready for doctor review');
     } catch (e) { toast.error(e instanceof Error ? e.message : 'Draft failed'); }
-    finally { setBusy(false); }
+    finally { pending.current = false; setBusy(false); }
   };
   const decide = async (decision: 'signed' | 'rejected') => {
-    if (!note) return;
+    if (!note || pending.current || notes.error || signoffs.error || signoffs.loading) return;
+    pending.current = true;
     setSaving(true);
     try {
       const { data, error } = await supabase.functions.invoke('health-kayla-notes', { body: { action: 'decision', note_id: note.id, decision, signer_name: signerName.trim() } });
       if (error || data?.error) throw new Error(data?.error ?? error?.message ?? 'Could not save');
       await signoffs.reload(); toast.success(decision === 'signed' ? 'Note signed' : 'Note sent back');
     } catch (e) { toast.error(e instanceof Error ? e.message : 'Could not save'); }
-    finally { setSaving(false); }
+    finally { pending.current = false; setSaving(false); }
   };
 
-  const status = !note ? null : signoff ? (signoff.decision === 'signed' ? 'Signed by doctor' : 'Rejected by doctor') : 'Draft — AI generated · awaiting doctor';
+  const status = !note ? null : signoffs.loading || signoffs.error ? 'Decision not verified' : signoff ? (signoff.decision === 'signed' ? 'Sample signing recorded' : 'Sample rejection recorded') : 'Draft — AI selected · awaiting review';
 
   if (!visit) return <p role="alert">Only built-in fictional visits are available.</p>;
 
   return <div className="space-y-6">
+    <DataLoadErrors sources={[notes, signoffs, members]} />
     <div className="flex flex-wrap items-start justify-between gap-4 border-b pb-6">
       <div>
         <Badge variant="outline" className="mb-2 border-mansagold/40 text-mansagold">Fictional sample visits only</Badge>
         <h2 className="text-xl font-semibold">AI note-taking</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Kayla drafts a visit note from the transcript. A doctor signs every note.</p>
+        <p className="mt-1 text-sm text-muted-foreground">Kayla organizes exact fictional transcript excerpts. A clinic doctor or owner reviews the sample.</p>
       </div>
       <div className="flex flex-col items-end gap-1">
         <Button variant="outline" disabled aria-disabled><Lock className="mr-2 h-4 w-4" /><Mic className="mr-2 h-4 w-4" />Record live visit</Button>
@@ -116,10 +122,11 @@ export default function VisitNotes({ clinicId, clinicRole, selectedVisitId }: { 
             </div>}
             {!signoff && (doctor ? <div className="space-y-2 border-t pt-3">
               <label className="block text-xs font-medium" htmlFor="signer-name">Your name as it should appear on the signed report</label>
-              <Input id="signer-name" value={signerName} maxLength={100} placeholder="e.g. Dr. Jane Smith, MD" onChange={(e) => setSignerName(e.target.value)} />
+              <Input id="signer-name" value={signerName} maxLength={100} placeholder="Your sample reviewer display name" onChange={(e) => setSignerName(e.target.value)} />
+              <p className="text-xs text-muted-foreground">This records your account’s sample-role attestation. Entered names and team roles do not verify physician identity, qualifications or licensure.</p>
               <div className="flex gap-2">
-              <Button size="sm" disabled={saving || signerName.trim().length < 2} onClick={() => decide('signed')}><Check className="mr-1 h-4 w-4" />Sign note</Button>
-              <Button size="sm" variant="outline" disabled={saving || signerName.trim().length < 2} onClick={() => decide('rejected')}><X className="mr-1 h-4 w-4" />Reject</Button>
+              <Button size="sm" disabled={saving || busy || signoffs.loading || Boolean(signoffs.error) || signerName.trim().length < 2} onClick={() => decide('signed')}><Check className="mr-1 h-4 w-4" />Sign sample note</Button>
+              <Button size="sm" variant="outline" disabled={saving || busy || signoffs.loading || Boolean(signoffs.error) || signerName.trim().length < 2} onClick={() => decide('rejected')}><X className="mr-1 h-4 w-4" />Reject</Button>
               </div>
             </div> : <p className="border-t pt-3 text-xs text-muted-foreground">Only a clinic doctor or owner can sign this note.</p>)}
             {signoff?.signer_name && <p className="text-xs text-muted-foreground">Decision by {signoff.signer_name}</p>}

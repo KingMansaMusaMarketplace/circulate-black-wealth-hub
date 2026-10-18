@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { db, Row } from './workspace/hc';
-import { Dashboard, Patients, PriorAuth, Schedule, Team } from './workspace/Screens';
+import { Billing, Dashboard, Patients, PriorAuth, Schedule, Team } from './workspace/Screens';
 import RecordReview from './workspace/RecordReview';
 import VisitNotes from './workspace/VisitNotes';
 import ClinicIntake from './workspace/ClinicIntake';
@@ -126,7 +126,8 @@ export default function HealthWorkspacePage() {
     const clinicId = clinic.id;
     const { data, error } = await db.from('hc_patients').select('*').eq('clinic_id', clinicId).order('last_name');
     if (currentUser.current !== userId) return;
-    if (!error) setPatients(data ?? []);
+    if (error) { setPatients([]); setClinicError('Sample patients could not be loaded. Retry loading; an empty list is not a confirmed empty clinic.'); return; }
+    setClinicError(''); setPatients(data ?? []);
   }, [clinic, loadedFor, userId]);
   useEffect(() => {
     ++requestVersion.current;
@@ -166,6 +167,7 @@ export default function HealthWorkspacePage() {
              <EndPrivateSessionButton className="mt-auto w-full justify-start border-t border-border pt-3" />
           </aside>
           <main className="min-w-0 flex-1 p-4 md:p-8">
+            {clinicError && <section role="alert" className="mb-4 space-y-2 text-sm text-destructive"><p>{clinicError}</p><Button variant="outline" onClick={() => { void loadPatients(); }}>Retry loading</Button></section>}
             <div className="mb-4 flex gap-2 overflow-x-auto md:hidden">
               {NAV.map((n) => <Button key={n.k} size="sm" variant={tab === n.k ? 'default' : 'outline'} onClick={() => navigateTab(n.k)}>{n.l}</Button>)}
             </div>
@@ -192,6 +194,7 @@ export default function HealthWorkspacePage() {
             {tab === 'impact' && <PracticeImpact key={`${user.id}:${clinic.id}`} />}
             {tab === 'specialties' && <SpecialtyExamples key={`${user.id}:${clinic.id}`} />}
             {tab === 'billing' && <BillingPreparation key={`${user.id}:${clinic.id}`} />}
+            {tab === 'claims' && <Billing {...props} />}
             {tab === 'reliability' && <EnterpriseReliability key={`${user.id}:${clinic.id}`} />}
             {tab === 'evaluation' && <DoctorEvaluation key={`${user.id}:${clinic.id}`} />}
             {tab === 'quality' && <ExecutiveQuality key={`${user.id}:${clinic.id}:${facilityContext.facilityId}:${facilityContext.department}`} facilityContext={facilityContext} onNavigate={navigateTab} />}

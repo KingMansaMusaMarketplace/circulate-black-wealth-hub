@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { BrainCircuit, Check, FileText, FolderLock, Loader2, Lock, RotateCcw } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -8,6 +8,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Row, useRows } from './hc';
 import PilotReadiness from './PilotReadiness';
 import { cmeCaseStatus, cmePortalAccess } from './cme-portal-policy';
+import DataLoadErrors from './DataLoadErrors';
 
 const statusLabels = {
   awaiting_review: 'Awaiting doctor review',
@@ -29,6 +30,7 @@ function ClinicRecordReview({ clinicId, clinicRole }: { clinicId: string; clinic
   const [sourcePage, setSourcePage] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
   const [saving, setSaving] = useState(false);
+  const pending = useRef(false);
   const active = reviews.rows.find(r => r.document_id === selected && r.result?.sample_case_id === 'fictional-cme-v1');
   const result = active?.result;
   const decision = decisions.rows.filter(d => d.review_id === active?.id).sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at))[0];
@@ -38,6 +40,8 @@ function ClinicRecordReview({ clinicId, clinicRole }: { clinicId: string; clinic
   const canDecide = access.canReview;
 
   const generate = async () => {
+    if (pending.current) return;
+    pending.current = true;
     setBusy(true);
     try {
       const { data, error } = await supabase.functions.invoke('health-kayla-review', { body: { action: 'generate', clinic_id: clinicId, sample_case_id: 'fictional-cme-v1' } });
@@ -46,20 +50,22 @@ function ClinicRecordReview({ clinicId, clinicRole }: { clinicId: string; clinic
       setSelected(data.review.document_id); setSourcePage(null);
       toast.success('Source-linked draft saved for physician review');
     } catch (error) { toast.error(error instanceof Error ? error.message : 'Review failed'); }
-    finally { setBusy(false); }
+    finally { pending.current = false; setBusy(false); }
   };
   const recordDecision = async (value: 'accepted' | 'revision_requested') => {
-    if (!active) return;
+    if (!active || decision || pending.current || decisions.loading || decisions.error) return;
+    pending.current = true;
     setSaving(true);
     try {
       const { data, error } = await supabase.functions.invoke('health-kayla-review', { body: { action: 'decision', review_id: active.id, decision: value } });
       if (error || data?.error) throw new Error(data?.error ?? error?.message ?? 'Could not save decision');
       await decisions.reload(); toast.success('Sample review decision saved');
     } catch (error) { toast.error(error instanceof Error ? error.message : 'Could not save decision'); }
-    finally { setSaving(false); }
+    finally { pending.current = false; setSaving(false); }
   };
 
   return <div className="space-y-6">
+    <DataLoadErrors sources={[docs, reviews, decisions]} />
     <div className="flex flex-wrap items-center justify-between gap-4 border-b pb-6">
       <div><Badge variant="outline" className="mb-2 border-mansagold/40 text-mansagold">Phase 1 · Fictional records</Badge>
         <h2 className="text-xl font-semibold">CME files & doctor review</h2>
@@ -126,7 +132,7 @@ function ClinicRecordReview({ clinicId, clinicRole }: { clinicId: string; clinic
           <section className="space-y-3 border-t pt-4"><h4 className="font-semibold">Physician review · Sample only</h4>
             <p className="text-sm text-muted-foreground">Acceptance records a sample workflow decision, not clinical validation or a signed medical report. Medical and legal conclusions remain with the physician.</p>
             {decision && <p className="text-xs text-muted-foreground">Decision recorded {new Date(decision.created_at).toLocaleString()}</p>}
-            {canDecide ? <div className="flex flex-wrap gap-2"><Button variant="outline" disabled={saving} onClick={() => recordDecision('revision_requested')}><RotateCcw className="mr-2 h-4 w-4" />Request revision</Button><Button disabled={saving} onClick={() => recordDecision('accepted')}><Check className="mr-2 h-4 w-4" />Accept sample draft</Button></div> : <p className="text-sm text-muted-foreground">A clinic doctor or owner must record the review decision.</p>}
+            {canDecide ? <div className="flex flex-wrap gap-2"><Button variant="outline" disabled={saving || busy || decisions.loading || Boolean(decisions.error) || Boolean(decision)} onClick={() => recordDecision('revision_requested')}><RotateCcw className="mr-2 h-4 w-4" />Request revision</Button><Button disabled={saving || busy || decisions.loading || Boolean(decisions.error) || Boolean(decision)} onClick={() => recordDecision('accepted')}><Check className="mr-2 h-4 w-4" />Accept sample draft</Button></div> : <p className="text-sm text-muted-foreground">A clinic doctor or owner must record the review decision.</p>}
           </section>
         </div>}
       </section>
