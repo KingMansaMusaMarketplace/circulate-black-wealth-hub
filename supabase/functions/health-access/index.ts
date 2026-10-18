@@ -8,7 +8,7 @@ import { validDecisionSubmission } from './decision-confirmation.ts';
 const cors = {
   ...corsHeaders,
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token, x-hc-preview-token, x-hc-preview-device",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 };
 const OWNER = "Thomas@1325.ai";
