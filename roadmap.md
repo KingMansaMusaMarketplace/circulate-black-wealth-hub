@@ -1,9 +1,10 @@
 # Roadmap
 
 ## Approved visitor privacy update
-- [ ] Enforce a single server-timed five-minute viewing from first entry, including refresh/tab replay protection and fresh approval after expiry; preserve admin access and existing device binding.
-- [ ] Add a repeated current-viewer name/email/date watermark to private demo/workspace screens, without exposing access tokens or other visitors.
-- [ ] Update invitation wording, run access regression tests, and verify the available visitor flow.
+- [x] Enforce a single server-timed five-minute viewing from first entry; atomic device/deadline grant deployed, exact 300-second deadline read back, refresh retains remaining time, and ended-grant replay requires fresh approval. Admin bypass unchanged; existing approvals get the new limit on next entry, unused links still have seven days to begin.
+- [x] Add repeated current-viewer name/email/UTC-date watermark in the shared gate; verified on demo and workspace sign-in screen with fictional approved visitor, no tokens/other visitors shown.
+- [x] Update invitation wording; seven regression tests pass, build OK, approved visitor demo exit/replay checked end-to-end with no runtime errors.
+- [ ] Verify authenticated clinic content and admin bypass end-to-end — blocked: external Supabase has no managed account session; approved visitor demo and workspace sign-in verified without bypass.
 
 ## Clinical Data Explorer — approved fictional scope
 - [x] Add shared local medication/creatinine search with confirmed criteria, evidence, matched/excluded/unknown cases and unchanged access/service locks; uses four independent synthetic search cases, never merged into patient charts.
