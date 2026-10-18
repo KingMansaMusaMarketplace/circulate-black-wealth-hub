@@ -1,5 +1,12 @@
 # Roadmap
 
+## 1325 Clinical post-correction audit — October 18, 2026
+- [x] Repeat 196 clinical tests and 13 service tests; all passed. Recheck four local gates and published homepage; no page exceptions observed.
+- [x] Inspect deployed write permissions, private bucket and unique decision indexes; confirm previous restrictions remain deployed.
+- [x] Review remaining defects: owner self-demotion, older review acceptance without evidence recheck, nonliteral review quotes, multi-tab email confirmation conflict and unsupported registration fixtures. Record the outdated published chat control separately from its deployed service denial.
+- [ ] Correct newly identified defects — awaits owner approval of a coordinated correction pass; this request is an audit, not authorization for new permission/public changes.
+- [ ] Complete signed-in clinic/admin and approved visitor workflow matrix — blocked: external unmanaged Supabase provides no authorized test session.
+
 ## 1325 Clinical audit — October 18, 2026
 - [x] Run all existing clinical suites: 38 files, 189 tests passed; verify four public route gates and published notice; anonymous invalid-grant/admin/note/review requests denied.
 - [x] Review deployed clinical permissions, private storage, five-minute RPC and note-signoff indexes; document safety/access/loading defects in the audit report. No application or database changes made.
