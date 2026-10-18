@@ -1,5 +1,10 @@
 # Roadmap
 
+## Approved visitor privacy update
+- [ ] Enforce a single server-timed five-minute viewing from first entry, including refresh/tab replay protection and fresh approval after expiry; preserve admin access and existing device binding.
+- [ ] Add a repeated current-viewer name/email/date watermark to private demo/workspace screens, without exposing access tokens or other visitors.
+- [ ] Update invitation wording, run access regression tests, and verify the available visitor flow.
+
 ## Clinical Data Explorer — approved fictional scope
 - [x] Add shared local medication/creatinine search with confirmed criteria, evidence, matched/excluded/unknown cases and unchanged access/service locks; uses four independent synthetic search cases, never merged into patient charts.
 - [x] Run focused search and clinical regression tests: 43 checks pass, build OK; both clinical routes keep private search controls hidden from unapproved visitors, with no browser runtime errors.

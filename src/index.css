@@ -1356,3 +1356,29 @@
 .theme-clinical-bar {
   background-image: linear-gradient(90deg, hsl(var(--mansablue-dark)), hsl(var(--mansablue)) 60%, hsl(var(--mansablue-dark)));
 }
+
+:root { --clinical-watermark-ink: 45 100% 50%; --clinical-watermark-opacity: 0.18; }
+.clinical-visitor-watermark {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-auto-rows: 200px;
+  color: hsl(var(--clinical-watermark-ink) / var(--clinical-watermark-opacity));
+}
+.clinical-watermark-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  transform: rotate(-18deg);
+  font-size: 11px;
+  line-height: 1.6;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+}
+@media print { .clinical-visitor-watermark { position: fixed; } }

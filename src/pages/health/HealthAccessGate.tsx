@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Lock, ShieldCheck, FileSearch, Mic, Stethoscope } from 'lucide-react';
 import { z } from 'zod';
@@ -8,11 +8,12 @@ import { Input } from '@/components/ui/input';
 import logo1325 from '@/assets/1325-ai-logo.png';
 import { closePrivateSession, EndPrivateSessionButton, PRIVATE_SESSION_ENDED, PrivateSessionContext } from './PrivateSession';
 import ProprietaryNotice from './ProprietaryNotice';
+import VisitorWatermark from './VisitorWatermark';
+import { readPreviewGrant, type PreviewViewer } from './preview-access';
 
 const KEY = 'hc_preview_access';
 const DEVICE_KEY = 'hc_preview_device';
 const SESSION_KEY = 'hc_preview_session_end';
-const SESSION_MS = 45 * 60 * 1000;
 const schema = z.object({
   full_name: z.string().trim().min(2, 'Enter your full name').max(120),
   organization: z.string().trim().min(2, 'Enter your clinic or organization').max(160),
@@ -32,7 +33,7 @@ function deviceId() {
 
 type Reason = 'none' | 'expired' | 'device' | 'invalid';
 const MESSAGES: Record<Exclude<Reason, 'none'>, string> = {
-  expired: 'Your 7-day access window has ended. Please request access again.',
+  expired: 'Your private viewing has ended or the unused link has expired. Please request fresh approval.',
   device: 'This private link is already in use on another device. Links cannot be shared — please request your own access.',
   invalid: 'This access link is no longer active. Please request access again.',
 };
@@ -40,62 +41,85 @@ const MESSAGES: Record<Exclude<Reason, 'none'>, string> = {
 export default function HealthAccessGate({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<'checking' | 'locked' | 'open' | 'timeout' | 'ended'>('checking');
   const [reason, setReason] = useState<Reason>('none');
-  const [endsAt, setEndsAt] = useState(0);
-  const [now, setNow] = useState(Date.now());
+  const [remaining, setRemaining] = useState(0);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [viewer, setViewer] = useState<PreviewViewer | null>(null);
+  const deadline = useRef(0);
+  const terminating = useRef(false);
+  const busy = useRef(false);
 
-  const endSession = () => {
+  const endSession = useCallback(() => {
+    if (terminating.current) return;
+    terminating.current = true;
     closePrivateSession(localStorage);
-    setIsAdmin(false);
     setState('ended');
-    // A full navigation stops detached demo audio and in-flight screen work.
-    void supabase.auth.signOut({ scope: 'local' }).finally(() => window.location.reload());
-  };
+    const token = localStorage.getItem(KEY);
+    // Lock immediately; consume this grant server-side before stopping detached media.
+    const consume = !isAdmin && token ? supabase.functions.invoke('health-access', {
+      body: { action: 'end', token, device: deviceId() },
+    }) : Promise.resolve();
+    void Promise.race([consume, new Promise((resolve) => setTimeout(resolve, 2500))])
+      .finally(() => supabase.auth.signOut({ scope: 'local' }).finally(() => window.location.reload()));
+  }, [isAdmin]);
 
-  const verify = (startNew: boolean) => {
+  const verify = useCallback(async (logVisit = false) => {
+    if (busy.current || terminating.current) return;
     const token = localStorage.getItem(KEY);
     if (!token) { setState('locked'); return; }
-    setState('checking');
-    supabase.functions.invoke('health-access', { body: { action: 'verify', token, device: deviceId(), path: window.location.pathname } })
-      .then(({ data }) => {
-        if (data?.ok) {
-          localStorage.removeItem(PRIVATE_SESSION_ENDED);
-          const saved = Number(localStorage.getItem(SESSION_KEY) || 0);
-          const end = !startNew && saved > Date.now() ? saved : Date.now() + SESSION_MS;
-          localStorage.setItem(SESSION_KEY, String(end));
-          setEndsAt(end); setNow(Date.now()); setState('open');
-        } else {
-          localStorage.removeItem(KEY); localStorage.removeItem(SESSION_KEY);
-          setReason((data?.reason as Reason) ?? 'invalid'); setState('locked');
-        }
-      })
-      .catch(() => setState('locked'));
-  };
+    busy.current = true;
+    const started = performance.now();
+    try {
+      const { data, error } = await supabase.functions.invoke('health-access', { body: {
+        action: 'verify', token, device: deviceId(), ...(logVisit ? { path: window.location.pathname } : {}),
+      } });
+      if (terminating.current || localStorage.getItem(KEY) !== token) return;
+      const grant = error ? null : readPreviewGrant(data);
+      if (grant) {
+        const candidate = performance.now() + grant.remaining - (performance.now() - started);
+        // Heartbeats may shorten, but never lengthen, an already-open window.
+        deadline.current = deadline.current ? Math.min(deadline.current, candidate) : candidate;
+        setRemaining(Math.max(0, deadline.current - performance.now()));
+        setViewer(grant.viewer);
+        setState('open');
+      } else {
+        setViewer(null);
+        setReason(data?.reason === 'device' ? 'device' : data?.reason === 'expired' ? 'expired' : 'invalid');
+        localStorage.removeItem(KEY);
+        localStorage.removeItem(SESSION_KEY);
+        setState('locked');
+      }
+    } catch { setViewer(null); setState('locked'); }
+    finally { busy.current = false; }
+  }, []);
 
   useEffect(() => {
     const url = new URL(window.location.href);
     const fromUrl = url.searchParams.get('access');
     if (fromUrl) {
+      if (fromUrl !== localStorage.getItem(KEY)) {
+        localStorage.removeItem(PRIVATE_SESSION_ENDED);
+        localStorage.removeItem(SESSION_KEY);
+      }
       localStorage.setItem(KEY, fromUrl);
       url.searchParams.delete('access');
       window.history.replaceState({}, '', url.toString());
     }
     if (localStorage.getItem(PRIVATE_SESSION_ENDED)) { setState('ended'); return; }
-    (async () => {
+    void (async () => {
       const { data: s } = await supabase.auth.getSession();
       if (s.session) {
         const { data } = await supabase.functions.invoke('health-access', { body: { action: 'admin' } });
-        if (data?.ok) { setIsAdmin(true); setState('open'); return; }
+        if (data?.ok && typeof data.email === 'string' && typeof data.name === 'string') {
+          setIsAdmin(true); setViewer({ name: data.name, email: data.email }); setState('open'); return;
+        }
       }
-      const saved = Number(localStorage.getItem(SESSION_KEY) || 0);
-      if (localStorage.getItem(KEY) && saved && saved <= Date.now()) { setState('timeout'); return; }
-      verify(false);
+      await verify(true);
     })();
-  }, []);
+  }, [verify]);
 
   useEffect(() => {
     const onStorage = (event: StorageEvent) => {
-      if (event.key === PRIVATE_SESSION_ENDED && event.newValue) window.location.reload();
+      if (event.key === PRIVATE_SESSION_ENDED || event.key === KEY) window.location.reload();
     };
     window.addEventListener('storage', onStorage);
     return () => window.removeEventListener('storage', onStorage);
@@ -103,54 +127,46 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
 
   useEffect(() => {
     if (state !== 'open' || isAdmin) return;
-    const i = setInterval(() => {
-      const t = Date.now(); setNow(t);
-      if (t >= endsAt) setState('timeout');
-    }, 1000);
-    return () => clearInterval(i);
-  }, [state, endsAt, isAdmin]);
+    const tick = () => {
+      const left = Math.max(0, deadline.current - performance.now());
+      setRemaining(left);
+      if (!left) endSession();
+    };
+    const refresh = () => { tick(); if (!terminating.current) void verify(); };
+    const visibility = () => { if (document.visibilityState === 'visible') refresh(); };
+    const timer = setInterval(tick, 250);
+    const heartbeat = setInterval(refresh, 15000);
+    window.addEventListener('focus', refresh);
+    document.addEventListener('visibilitychange', visibility);
+    return () => {
+      clearInterval(timer); clearInterval(heartbeat);
+      window.removeEventListener('focus', refresh);
+      document.removeEventListener('visibilitychange', visibility);
+    };
+  }, [state, isAdmin, verify, endSession]);
 
-  if (state === 'open' && isAdmin) return <PrivateSessionContext.Provider value={endSession}>{children}<div className="theme-clinical dark fixed bottom-3 left-3 z-[9999] rounded-md border bg-card p-1 shadow-lg md:hidden"><EndPrivateSessionButton /></div><div className="fixed top-3 right-3 z-[9999] rounded-full px-3 py-1.5 text-xs font-semibold shadow-lg border" style={{ background: '#001a33', color: '#FFB300', borderColor: '#FFB300' }}><ShieldCheck className="inline h-3 w-3 mr-1" />Admin access</div></PrivateSessionContext.Provider>;
-  if (state === 'open') {
-    const left = Math.max(0, endsAt - now);
-    const m = Math.floor(left / 60000), s = Math.floor((left % 60000) / 1000);
-    return (
-      <PrivateSessionContext.Provider value={endSession}>
-        {children}
-        <div className="theme-clinical dark fixed bottom-3 left-3 z-[9999] rounded-md border bg-card p-1 shadow-lg md:hidden"><EndPrivateSessionButton /></div>
-        <div className="fixed top-3 right-3 z-[9999] rounded-full px-3 py-1.5 text-xs font-semibold shadow-lg border"
-          style={{ background: '#001a33', color: left < 5 * 60000 ? '#ff8a80' : '#FFB300', borderColor: '#FFB300' }}
-          aria-live="polite">
-          <Lock className="inline h-3 w-3 mr-1" />Private session · {m}:{String(s).padStart(2, '0')}
-        </div>
-      </PrivateSessionContext.Provider>
-    );
+  if (state === 'open' && viewer) {
+    const seconds = Math.ceil(remaining / 1000);
+    return <PrivateSessionContext.Provider value={endSession}>
+      {children}
+      <VisitorWatermark viewer={viewer} />
+      <div className="theme-clinical dark fixed bottom-3 left-3 z-[9999] rounded-md border bg-card p-1 shadow-lg md:hidden"><EndPrivateSessionButton /></div>
+      <div className="theme-clinical dark fixed top-3 right-3 z-[9999] rounded-md px-3 py-1.5 text-xs font-semibold shadow-lg border text-primary bg-card" aria-live="off">
+        {isAdmin ? <><ShieldCheck className="inline h-3 w-3 mr-1" />Admin access</> : <><Lock className="inline h-3 w-3 mr-1" />Private viewing · {Math.floor(seconds / 60)}:{String(seconds % 60).padStart(2, '0')}</>}
+      </div>
+    </PrivateSessionContext.Provider>;
   }
-  if (state === 'timeout') return <SessionEnded onResume={() => verify(true)} />;
-  if (state === 'ended') return <div className="theme-clinical dark min-h-screen grid place-items-center bg-background px-6 text-foreground">
+  if (state === 'ended' || state === 'timeout') return <div className="theme-clinical dark min-h-screen grid place-items-center bg-background px-6 text-foreground">
     <section className="max-w-md text-center space-y-5">
       <img src={logo1325} alt="1325.AI" className="mx-auto h-16 w-16 object-contain" />
-      <Lock className="mx-auto h-8 w-8 text-mansagold" />
-      <h1 className="text-2xl font-semibold">Your private session has ended</h1>
-      <p className="text-muted-foreground">The private screens are now locked. Your approved access remains available until your seven-day link expires.</p>
-      {localStorage.getItem(KEY) ? <Button onClick={() => verify(true)}>Start a new private session</Button> : <Button onClick={() => { localStorage.removeItem(PRIVATE_SESSION_ENDED); setState('locked'); }}>Return to welcome page</Button>}
+      <Lock className="mx-auto h-8 w-8 text-primary" />
+      <h1 className="text-2xl font-semibold">Your private viewing has ended</h1>
+      <p className="text-muted-foreground">Private screens are locked. Each approval allows one five-minute viewing from first entry. Please request Thomas’s approval again to return.</p>
+      <Button onClick={() => { localStorage.removeItem(PRIVATE_SESSION_ENDED); localStorage.removeItem(KEY); setState('locked'); }}>Request fresh approval</Button>
     </section>
   </div>;
-  if (state === 'checking') return <div className="min-h-screen bg-[hsl(var(--background))]" />;
+  if (state === 'checking') return <div className="theme-clinical min-h-screen bg-background" />;
   return <Teaser notice={reason !== 'none' ? MESSAGES[reason] : ''} />;
-}
-
-function SessionEnded({ onResume }: { onResume: () => void }) {
-  return (
-    <div className="min-h-screen grid place-items-center px-6" style={{ background: 'linear-gradient(160deg,#001a33,#003366 60%,#001a33)', color: '#fff' }}>
-      <div className="max-w-md text-center rounded-2xl p-8 border" style={{ borderColor: 'rgba(255,179,0,0.4)', background: 'rgba(0,0,0,0.35)' }}>
-        <Lock className="h-10 w-10 mx-auto mb-4" style={{ color: '#FFB300' }} />
-        <h1 className="text-2xl font-semibold mb-2">Your 45-minute session has ended</h1>
-        <p className="opacity-80 mb-6">For confidentiality, screens lock after 45 minutes. If your access is still active, you can start a new session on this device.</p>
-        <Button onClick={onResume} className="font-semibold" style={{ background: '#FFB300', color: '#001a33' }}>Start a new 45-minute session</Button>
-      </div>
-    </div>
-  );
 }
 
 function Teaser({ notice = "" }: { notice?: string }) {
@@ -218,7 +234,7 @@ function Teaser({ notice = "" }: { notice?: string }) {
           ) : (
             <form onSubmit={submit} className="space-y-4">
               <h2 className="text-2xl font-semibold">Request access</h2>
-              <p className="text-sm opacity-75">All fields are required. Each request is reviewed personally.</p>
+              <p className="text-sm opacity-75">All fields are required. Approval allows one five-minute viewing from first entry. Your name, email and date will appear on private screens as a confidentiality watermark.</p>
               {notice && <p className="text-sm rounded-md p-3" style={{ background: "rgba(255,179,0,0.15)", color: "#FFB300" }}>{notice}</p>}
               <Input required placeholder="Full name *" value={form.full_name} onChange={set('full_name')} maxLength={120} className="bg-white text-black" />
               <Input required placeholder="Clinic / hospital / organization *" value={form.organization} onChange={set('organization')} maxLength={160} className="bg-white text-black" />
