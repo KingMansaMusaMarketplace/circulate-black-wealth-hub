@@ -13,10 +13,11 @@ export type Source = { page: number; quote: string };
 export type Finding = { category: 'timeline' | 'pre_existing' | 'conflict' | 'gap'; date: string; finding: string; sources: Source[] };
 export type ReviewDraft = { findings: Finding[]; questions_for_exam: string[]; report_outline: string[] };
 
-export function validateSources(draft: ReviewDraft): void {
+export function validateSources(draft: ReviewDraft, exactAssertions = false): void {
   if (!draft.findings.length) throw new Error('No source-linked findings returned');
   for (const finding of draft.findings) {
     if (!finding.sources.length) throw new Error('Finding has no source');
+    if (exactAssertions && finding.finding !== finding.sources.map(s => s.quote).join(' ')) throw new Error('Unsupported narrative assertion');
     for (const source of finding.sources) {
       const page = SAMPLE_PAGES.find((p) => p.page === source.page);
       const normalize = (s: string) => s.replace(/\s+/g, ' ').trim();
