@@ -4,7 +4,9 @@
 - [x] Repeat 196 clinical tests and 13 service tests; all passed. Recheck four local gates and published homepage; no page exceptions observed.
 - [x] Inspect deployed write permissions, private bucket and unique decision indexes; confirm previous restrictions remain deployed.
 - [x] Review remaining defects: owner self-demotion, older review acceptance without evidence recheck, nonliteral review quotes, multi-tab email confirmation conflict and unsupported registration fixtures. Record the outdated published chat control separately from its deployed service denial.
-- [ ] Correct newly identified defects — awaits owner approval of a coordinated correction pass; this request is an audit, not authorization for new permission/public changes.
+- [x] Correct approved findings A–E: owner/creator guard and conflict protection deployed; saved review acceptance rechecks packet/assertions/dates; quotes are literal; email cookies independent per request/action and cleared after saved decisions; new clinics seed only three transcript identities with unknown facts. All 17 existing patient samples retained; legacy unsupported details no longer presented as verified charts.
+- [x] Publish corrected frontend and verify F: health.1325.ai returned HTTP 200; after 20 seconds legacy clinical chat count was zero, approval form and five-minute wording present, no page exceptions. Four local gates also passed. 198 clinical frontend tests and 16 service tests passed; build OK; 197 preexisting scanner findings unchanged.
+- [ ] Authorized generation → review → decision → saved readback → permitted PDF export with disposable fictional cases — blocked: external_unmanaged Supabase has no authorized browser test session. No credentials requested, no account impersonation, no preview/healthcare bypass. Source-linked registration identity checks and signed PDF unit tests passed, but these do not establish live signed-in success or owner-demotion execution.
 - [ ] Complete signed-in clinic/admin and approved visitor workflow matrix — blocked: external unmanaged Supabase provides no authorized test session.
 
 ## 1325 Clinical audit — October 18, 2026

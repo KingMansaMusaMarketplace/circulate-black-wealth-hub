@@ -3,7 +3,7 @@ import { createClient } from 'npm:@supabase/supabase-js@2';
 import { corsHeaders as sdkCorsHeaders } from 'npm:@supabase/supabase-js@2/cors';
 import { z } from 'npm:zod@3';
 import { buildClinicalRecordReviewPrompt, fetchAIWithRetry, loadApprovedImprovements } from '../_shared/kayla-brain.ts';
-import { canReview, SAMPLE_CASE_ID, SAMPLE_PAGES, validateSources } from './sample-case.ts';
+import { canReview, SAMPLE_CASE_ID, SAMPLE_PAGES, validateSources, validateSavedReview } from './sample-case.ts';
 import { PILOT_LOCK, pilotInsert } from './pilot-policy.ts';
 import { authorizeClinicalPreview } from '../_shared/clinical-preview-auth.ts';
 
@@ -67,9 +67,9 @@ Deno.serve(async (req) => {
     const service = createClient(url, serviceKey, { auth: { persistSession: false } });
     if (!await authorizeClinicalPreview(service, req, userData.user)) return json({ error: 'Current owner-approved viewing on your approved device is required. Sign in with your approved email.' }, 403);
     let clinicId: string;
-    let review: { id: string; clinic_id: string } | null = null;
+    let review: { id: string; clinic_id: string; result: unknown } | null = null;
     if (body.action === 'decision') {
-      const { data, error } = await caller.from('hc_reviews').select('id, clinic_id').eq('id', body.review_id).maybeSingle();
+      const { data, error } = await caller.from('hc_reviews').select('id, clinic_id, result').eq('id', body.review_id).maybeSingle();
       if (error || !data) return json({ error: 'Review not found' }, 404);
       review = data; clinicId = data.clinic_id;
     } else clinicId = body.clinic_id;
@@ -83,6 +83,10 @@ Deno.serve(async (req) => {
     }
     if (body.action === 'decision') {
       if (!canReview(member.role) || !review) return json({ error: 'A clinic doctor or owner must record the sample review decision' }, 403);
+      if (body.decision === 'accepted') {
+        try { ResultSchema.parse(review.result); validateSavedReview(review.result); }
+        catch { return json({ error: 'This older draft cannot be accepted because its saved evidence could not be verified. Request a revision and generate a new fictional draft.' }, 422); }
+      }
       const { data, error } = await service.from('hc_review_decisions').insert({ clinic_id: clinicId, review_id: review.id, reviewer_id: userData.user.id, decision: body.decision }).select().single();
       if (error) return json({ error: 'This draft already has a decision or could not be saved.' }, 409);
       return json({ decision: data });
