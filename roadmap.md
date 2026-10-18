@@ -9,7 +9,7 @@
 - [x] Correct clinical Kayla credential wording and distinguish typed sample signer attestations from verified physician identity in screens and reports.
 - [x] Require exact saved source excerpts, evidence on flags and revalidation before signing older drafts; unique note/review decision indexes deployed without removing records. Email GET is read-only and POST requires deliberate same-origin nonce confirmation.
 - [x] Repair failed/stale loading, synchronous duplicate submission guards, searchable demo section navigation, claims-list destination and year-safe schedule grouping.
-- [x] Add clinical service integration tests and source/loading/permission regression checks; 196 frontend tests passed. Record final service results in the follow-up audit.
+- [x] Add clinical service integration tests and source/loading/permission regression checks; 196 frontend tests and 13 service tests passed, including five deployed anonymous/invalid-session/chat-denial requests. Build OK; four public gates checked with zero runtime errors. Database linter remains at 197 preexisting findings, no new findings introduced.
 - [ ] Execute full authenticated clinic/admin/workflow matrix and concurrent decisions with disposable fictional cases — blocked: external unmanaged Supabase has no authorized testing session; no credentials requested or approval bypass added.
 - [ ] Run Kayla scoreboard after clinical prompt correction — blocked: requires an authenticated administrator session unavailable for this external Supabase project.
 - [x] Re-audit available checks and report passes, failures and remaining unknowns separately; no 100% reliability or healthcare-clearance claim.
