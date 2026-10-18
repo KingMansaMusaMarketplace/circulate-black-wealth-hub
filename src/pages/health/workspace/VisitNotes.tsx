@@ -37,7 +37,8 @@ export default function VisitNotes({ clinicId, clinicRole, selectedVisitId }: { 
   const members = useRows('hc_members', clinicId);
   const myName = members.rows.find((m) => m.user_id === user?.id)?.display_name ?? '';
   const [signerName, setSignerName] = useState('');
-  useEffect(() => { if (myName) setSignerName((cur) => cur || myName); }, [myName]);
+  useEffect(() => { setSignerName(myName); }, [myName, user?.id, clinicId]);
+  useEffect(() => { setHl([]); }, [visitId, clinicId]);
 
   const draft = async () => {
     if (pending.current) return;
@@ -133,6 +134,7 @@ export default function VisitNotes({ clinicId, clinicRole, selectedVisitId }: { 
             {signoff?.decision === 'rejected' && <Button size="sm" variant="outline" disabled={busy} onClick={draft}>Draft a new version</Button>}
             {signoff?.decision === 'signed' && <Button size="sm" variant="outline" onClick={() => {
               try {
+                if (signoffs.loading || signoffs.error || notes.error) throw new Error('Saved signing status must be verified before export. Retry loading.');
                 const doc = buildReviewedReport({ visitTitle: visit.title, transcript: visit.lines, note: note.note, decision: signoff.decision, signedAt: signoff.created_at, signerName: signoff.signer_name ?? undefined }, logoImg?.complete ? logoImg : undefined);
                 doc.save(`1325-clinical-reviewed-note-${visit.id}.pdf`);
               } catch (e) { toast.error((e as Error).message); }

@@ -64,8 +64,14 @@ Deno.serve(async (req) => {
     let clinicId: string;
     let noteId = '';
     if (body.action === 'decision') {
-      const { data } = await caller.from('hc_visit_notes').select('id, clinic_id').eq('id', body.note_id).maybeSingle();
+      const { data } = await caller.from('hc_visit_notes').select('id, clinic_id, sample_visit_id, note').eq('id', body.note_id).maybeSingle();
       if (!data) return json({ error: 'Note not found' }, 404);
+      if (body.decision === 'signed') {
+        const source = findVisit(data.sample_visit_id);
+        if (!source) return json({ error: 'Only built-in fictional notes can be signed.' }, 400);
+        try { validateNoteLines(NoteSchema.parse(data.note), source.lines); }
+        catch { return json({ error: 'This older draft does not meet the exact source check. Reject it and create a new version.' }, 409); }
+      }
       clinicId = data.clinic_id; noteId = data.id;
     } else clinicId = body.clinic_id;
     const { data: member } = await caller.from('hc_members').select('role').eq('clinic_id', clinicId).eq('user_id', userData.user.id).maybeSingle();

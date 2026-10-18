@@ -102,6 +102,7 @@ export default function HealthWorkspacePage() {
   const currentUser = useRef(userId);
   currentUser.current = userId;
   const requestVersion = useRef(0);
+  const patientVersion = useRef(0);
 
   const loadClinic = useCallback(async (preferredClinicId?: string) => {
     if (!userId) return;
@@ -122,12 +123,18 @@ export default function HealthWorkspacePage() {
     }
   }, [userId]);
   const loadPatients = useCallback(async () => {
+    const version = ++patientVersion.current;
     if (!clinic || loadedFor !== userId) return;
     const clinicId = clinic.id;
-    const { data, error } = await db.from('hc_patients').select('*').eq('clinic_id', clinicId).order('last_name');
-    if (currentUser.current !== userId) return;
-    if (error) { setPatients([]); setClinicError('Sample patients could not be loaded. Retry loading; an empty list is not a confirmed empty clinic.'); return; }
-    setClinicError(''); setPatients(data ?? []);
+    try {
+      const { data, error } = await db.from('hc_patients').select('*').eq('clinic_id', clinicId).order('last_name');
+      if (currentUser.current !== userId || version !== patientVersion.current) return;
+      if (error) throw error;
+      setClinicError(''); setPatients(data ?? []);
+    } catch {
+      if (currentUser.current !== userId || version !== patientVersion.current) return;
+      setPatients([]); setClinicError('Sample patients could not be loaded. Retry loading; an empty list is not a confirmed empty clinic.');
+    }
   }, [clinic, loadedFor, userId]);
   useEffect(() => {
     ++requestVersion.current;
@@ -136,7 +143,7 @@ export default function HealthWorkspacePage() {
     if (userId) void loadClinic().catch(() => {});
     return () => { ++requestVersion.current; };
   }, [userId, loadClinic]);
-  useEffect(() => { void loadPatients(); }, [loadPatients]);
+  useEffect(() => { setPatients([]); void loadPatients(); return () => { ++patientVersion.current; }; }, [loadPatients]);
 
   const shellHeader = (
     <header className="flex min-h-14 flex-wrap items-center justify-between gap-2 py-2 border-b-2 border-mansagold theme-clinical-bar px-4 text-foreground shadow-lg">
