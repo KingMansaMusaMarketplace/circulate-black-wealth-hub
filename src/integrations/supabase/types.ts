@@ -10121,6 +10121,7 @@ export type Database = {
           decision_token: string
           device_id: string | null
           expires_at: string | null
+          first_entered_at: string | null
           full_name: string
           id: string
           nda_accepted_at: string
@@ -10130,6 +10131,7 @@ export type Database = {
           role: string
           status: string
           user_agent: string | null
+          viewing_expires_at: string | null
           work_email: string
         }
         Insert: {
@@ -10139,6 +10141,7 @@ export type Database = {
           decision_token?: string
           device_id?: string | null
           expires_at?: string | null
+          first_entered_at?: string | null
           full_name: string
           id?: string
           nda_accepted_at?: string
@@ -10148,6 +10151,7 @@ export type Database = {
           role: string
           status?: string
           user_agent?: string | null
+          viewing_expires_at?: string | null
           work_email: string
         }
         Update: {
@@ -10157,6 +10161,7 @@ export type Database = {
           decision_token?: string
           device_id?: string | null
           expires_at?: string | null
+          first_entered_at?: string | null
           full_name?: string
           id?: string
           nda_accepted_at?: string
@@ -10166,6 +10171,7 @@ export type Database = {
           role?: string
           status?: string
           user_agent?: string | null
+          viewing_expires_at?: string | null
           work_email?: string
         }
         Relationships: []
@@ -29056,6 +29062,10 @@ export type Database = {
       }
       hc_is_member: { Args: { _clinic: string }; Returns: boolean }
       hc_is_owner: { Args: { _clinic: string }; Returns: boolean }
+      hc_verify_preview_access: {
+        Args: { p_device: string; p_end?: boolean; p_token: string }
+        Returns: Json
+      }
       increment_community_wealth: {
         Args: {
           p_amount: number
