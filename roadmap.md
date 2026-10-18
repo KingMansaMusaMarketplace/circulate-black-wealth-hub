@@ -1,8 +1,8 @@
 # Roadmap
 
 ## Clinical Data Explorer — approved fictional scope
-- [ ] Add shared local medication/creatinine search with confirmed criteria, evidence, matched/excluded/unknown cases and unchanged access/service locks.
-- [ ] Run focused search and clinical regression tests; verify available browser flow.
+- [x] Add shared local medication/creatinine search with confirmed criteria, evidence, matched/excluded/unknown cases and unchanged access/service locks; uses four independent synthetic search cases, never merged into patient charts.
+- [x] Run focused search and clinical regression tests: 43 checks pass, build OK; both clinical routes keep private search controls hidden from unapproved visitors, with no browser runtime errors.
 - [ ] Verify approved visitor and signed-in clinic navigation — blocked: external Supabase has no managed authenticated test session.
 
 ## Clinical safety panel — approved presentation scope
