@@ -1,5 +1,5 @@
 # AGENTS
-- Clinical previews, safety panels and cohort search follow health/AGENTS.md.
+- Clinical authorization, read-only records, evidence checking and workflow rules follow health/AGENTS.md.
 - Expanded sample charts derive exclusively from existing numbered fictional transcripts; missing demographics, allergies, medicine reconciliation and results stay unknown, and source history contains only an undated fixture baseline rather than fabricated staff actions or a live clinical audit.
 - Connected clinical doctor-day shares one validated fictional case across rehearsal slots, historical chart/transcript, existing clinic-scoped note decisions and unapproved follow-up guides; case changes reset navigation, illustrative slots never mark encounters complete, and note signatures never unlock booking or delivery.
 - Clinical enterprise readiness is a shared informational drawer using the existing intake lock policy; fixed unverified legal/vendor/pilot statuses cannot approve, certify or activate services, so presentation never becomes a healthcare clearance mechanism.
@@ -18,5 +18,5 @@
 - Non-Black-owned "Ally" listings use `businesses.listing_type='ally'` and, once approved, `listing_status='ally_live'` (forced by a trigger, with is_verified false); every main-directory query filters `live`, so allies can never leak in. Allies are read only through `get_ally_businesses` (public, anon + authenticated).
 - Listing approval reviewers coordinate through `listing_review_claims` (one claim per business, 10-minute expiry) and approve/reject updates filter on the current status; prevents two admins reviewing or approving the same listing.
 - The MCP edge function is deployed manually with the Supabase CLI using the project secret SB_DEPLOY_TOKEN (edge-functions-only, expires ~Jan 2027); GitHub Actions workflow deploy-mcp.yml is a backup needing repo secret SUPABASE_ACCESS_TOKEN. Lovable cannot deploy it to this user-managed Supabase project.
-- 1325 Clinical (health.1325.ai) uses `hc_*` tables scoped by `hc_is_member(clinic_id)`, private bucket `hc-sample-docs`, and edge function `health-kayla-review`; a trigger forces `hc_patients.is_sample=true` because only fictional data is allowed until a dedicated HIPAA environment exists.
+- Clinical `hc_*` data uses approved clinic membership, private `hc-sample-docs` storage and fixed fictional sources; client clinical writes stay blocked until healthcare clearance.
 - Subdirectories have their own AGENTS.md (clinical rules: src/pages/health/AGENTS.md); read them before changing files there.

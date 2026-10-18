@@ -126,7 +126,17 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
   }, []);
 
   useEffect(() => {
-    if (state !== 'open' || isAdmin) return;
+    if (state !== 'open') return;
+    if (isAdmin) {
+      const checkAdmin = async () => {
+        const { data, error } = await supabase.functions.invoke('health-access', { body: { action: 'admin' } });
+        if (error || !data?.ok) { setIsAdmin(false); setViewer(null); setState('locked'); }
+      };
+      const timer = setInterval(() => { void checkAdmin(); }, 15000);
+      const focus = () => { void checkAdmin(); };
+      window.addEventListener('focus', focus);
+      return () => { clearInterval(timer); window.removeEventListener('focus', focus); };
+    }
     const tick = () => {
       const left = Math.max(0, deadline.current - performance.now());
       setRemaining(left);
@@ -179,15 +189,18 @@ function Teaser({ notice = "" }: { notice?: string }) {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (busy) return;
     setError('');
     const p = schema.safeParse(form);
     if (!p.success) { setError(p.error.issues[0].message); return; }
     if (!nda) { setError('Please accept the confidentiality terms.'); return; }
     setBusy(true);
-    const { data, error: err } = await supabase.functions.invoke('health-access', { body: { action: 'request', ...p.data, nda: true } });
-    setBusy(false);
-    if (err || !data?.ok) { setError(data?.error ?? 'Something went wrong. Please try again.'); return; }
-    setSent(true);
+    try {
+      const { data, error: err } = await supabase.functions.invoke('health-access', { body: { action: 'request', ...p.data, nda: true } });
+      if (err || !data?.ok) { setError(data?.error ?? 'Something went wrong. Please try again.'); return; }
+      setSent(true);
+    } catch { setError('Your request could not be confirmed. Please try again.'); }
+    finally { setBusy(false); }
   };
 
   const features = [
