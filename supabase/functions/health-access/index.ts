@@ -1,9 +1,11 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { createClient } from "npm:@supabase/supabase-js@2";
+import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 import { z } from "https://esm.sh/zod@3.23.8";
 import { accessRequestEmail, approvedContent, confirmationPage, emailWasAccepted } from './confirmation.ts';
 
 const cors = {
+  ...corsHeaders,
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -16,11 +18,11 @@ const FN_URL = `${Deno.env.get("SUPABASE_URL")}/functions/v1/health-access`;
 const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
-const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
+const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c] ?? c));
 const json = (b: unknown, status = 200) => new Response(JSON.stringify(b), { status, headers: { ...cors, "Content-Type": "application/json" } });
 const page = (title: string, msg: string) => new Response(
   confirmationPage(title, msg),
-  { headers: { "Content-Type": "text/html; charset=utf-8" } },
+  { headers: { ...cors, "Content-Type": "text/html; charset=utf-8" } },
 );
 
 const Request = z.object({
@@ -32,7 +34,7 @@ const Request = z.object({
   phone: z.string().trim().min(7).max(40),
   nda: z.literal(true),
 });
-const Verify = z.object({ action: z.literal("verify"), token: z.string().regex(/^[a-f0-9]{48}$/), device: z.string().regex(/^[a-f0-9]{32}$/), path: z.string().max(200).optional() });
+const Verify = z.object({ action: z.enum(["verify", "end"]), token: z.string().regex(/^[a-f0-9]{48}$/), device: z.string().regex(/^[a-f0-9]{32}$/), path: z.string().max(200).optional() });
 const WINDOW_DAYS = 7;
 
 Deno.serve(async (req) => {
@@ -53,21 +55,21 @@ Deno.serve(async (req) => {
     }
     if (r.status !== "pending") return page("Already decided", `This request was already ${esc(r.status)}.`);
     if (d === "deny") {
-      await db.from("hc_access_requests").update({ status: "denied", decided_at: new Date().toISOString() }).eq("id", id);
+      await db.from("hc_access_requests").update({ status: "denied", decided_at: new Date().toISOString() }).eq("id", id).eq("status", "pending");
       return page("Request denied", `${esc(r.full_name)} will not receive access.`);
     }
     const bytes = crypto.getRandomValues(new Uint8Array(24));
     const access = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
     const expires = new Date(Date.now() + WINDOW_DAYS * 86400000);
-    const { error: approvalError } = await db.from("hc_access_requests").update({ status: "approved", access_token: access, decided_at: new Date().toISOString(), expires_at: expires.toISOString(), device_id: null }).eq("id", id);
-    if (approvalError) return page('Approval not saved', '<p>Your approval could not be saved. Please try again from your request email.</p>');
+    const { data: approved, error: approvalError } = await db.from("hc_access_requests").update({ status: "approved", access_token: access, decided_at: new Date().toISOString(), expires_at: expires.toISOString(), device_id: null, first_entered_at: null, viewing_expires_at: null }).eq("id", id).eq("status", "pending").select("id").maybeSingle();
+    if (approvalError || !approved) return page('Approval not saved', '<p>Your approval could not be saved. Please try again from your request email.</p>');
     let accepted = false;
     try {
     const emailResult = await resend.emails.send({
       from: FROM, to: [r.work_email], subject: "Your private access to 1325 Clinical",
       reply_to: 'Partner@1325.AI',
-      text: `Hello ${r.full_name},\n\nThomas approved your request to view 1325 Clinical.\n\nOpen your preview: ${SITE}/?access=${access}\n\nYour link expires ${expires.toUTCString()}. Each visit lasts 45 minutes. Use the same device for every visit and do not forward your link.\n\nIf this message reached Spam/Junk, mark it Not Junk and add Partner@1325.AI to your contacts.\n\nThomas\n1325.AI\nPartner@1325.AI\n\nPrivate and confidential. Do not copy, share or reproduce preview materials. U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.`,
-      html: `<p>Hello ${esc(r.full_name)},</p><p>Thomas approved your request to view 1325 Clinical.</p><p><a href="${SITE}/?access=${access}">Open your preview</a></p><p>Your link expires ${expires.toUTCString()}. Each visit lasts 45 minutes. Use the same device for every visit and do not forward your link.</p><p>If this message reached Spam/Junk, mark it Not Junk and add Partner@1325.AI to your contacts.</p><p>Thomas<br>1325.AI<br>Partner@1325.AI</p><p>Private and confidential. Do not copy, share or reproduce preview materials. U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.</p>`,
+      text: `Hello ${r.full_name},\n\nThomas approved your request to view 1325 Clinical.\n\nOpen your preview: ${SITE}/?access=${access}\n\nYour link expires ${expires.toUTCString()}. You receive one five-minute viewing, starting when you first enter. Refreshing or returning does not restart the timer. After expiry or ending the session, request Thomas’s approval again. Your name, email and date appear in a confidential screen watermark. Use your approved device and do not forward your link.\n\nIf this message reached Spam/Junk, mark it Not Junk and add Partner@1325.AI to your contacts.\n\nThomas\n1325.AI\nPartner@1325.AI\n\nPrivate and confidential. Do not copy, share or reproduce preview materials. U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.`,
+      html: `<p>Hello ${esc(r.full_name)},</p><p>Thomas approved your request to view 1325 Clinical.</p><p><a href="${SITE}/?access=${access}">Open your preview</a></p><p>Your link expires ${expires.toUTCString()}. You receive one five-minute viewing, starting when you first enter. Refreshing or returning does not restart the timer. After expiry or ending the session, request Thomas’s approval again. Your name, email and date appear in a confidential screen watermark. Use your approved device and do not forward your link.</p><p>If this message reached Spam/Junk, mark it Not Junk and add Partner@1325.AI to your contacts.</p><p>Thomas<br>1325.AI<br>Partner@1325.AI</p><p>Private and confidential. Do not copy, share or reproduce preview materials. U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.</p>`,
     });
     accepted = emailWasAccepted(emailResult);
     } catch {
@@ -88,27 +90,22 @@ Deno.serve(async (req) => {
     if (!u?.user) return json({ ok: false });
     const { data: isAdmin } = await db.rpc("has_role", { _user_id: u.user.id, _role: "admin" });
     if (!isAdmin) return json({ ok: false });
-    return json({ ok: true, admin: true });
+    return json({ ok: true, admin: true, name: typeof u.user.user_metadata?.full_name === "string" ? u.user.user_metadata.full_name : "Administrator", email: u.user.email ?? "" });
   }
 
   const v = Verify.safeParse(body);
   if (v.success) {
-    const { data: r } = await db.from("hc_access_requests").select("id, full_name, expires_at, device_id").eq("access_token", v.data.token).eq("status", "approved").maybeSingle();
-    if (!r) return json({ ok: false, reason: "invalid" });
-    if (!r.expires_at || new Date(r.expires_at).getTime() < Date.now()) {
-      await db.from("hc_access_requests").update({ status: "expired", access_token: null }).eq("id", r.id);
-      return json({ ok: false, reason: "expired" });
+    const { data: grant, error } = await db.rpc("hc_verify_preview_access", {
+      p_token: v.data.token, p_device: v.data.device, p_end: v.data.action === "end",
+    });
+    if (error || !grant) return json({ ok: false, reason: "invalid" }, 503);
+    if (grant.ok && grant.request_id) {
+      // Heartbeats validate access without producing a new visit-log entry.
+      if (v.data.path) await db.from("hc_access_views").insert({ request_id: grant.request_id, path: v.data.path, user_agent: ua });
+      const { request_id, ...visible } = grant;
+      return json(visible);
     }
-    if (!r.device_id) {
-      await db.from("hc_access_requests").update({ device_id: v.data.device }).eq("id", r.id).is("device_id", null);
-      const { data: again } = await db.from("hc_access_requests").select("device_id").eq("id", r.id).single();
-      if (again?.device_id !== v.data.device) return json({ ok: false, reason: "device" });
-    } else if (r.device_id !== v.data.device) {
-      await db.from("hc_access_views").insert({ request_id: r.id, path: "BLOCKED: other device", user_agent: ua });
-      return json({ ok: false, reason: "device" });
-    }
-    await db.from("hc_access_views").insert({ request_id: r.id, path: v.data.path ?? null, user_agent: ua });
-    return json({ ok: true, name: r.full_name, expires_at: r.expires_at });
+    return json(grant);
   }
 
   const p = Request.safeParse(body);
