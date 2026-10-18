@@ -101,7 +101,7 @@ Deno.serve(async (req) => {
     }, { label: 'clinical-record-review' });
     if (!ai.ok) return json({ error: ai.status === 429 ? 'Kayla is busy. Try again shortly.' : 'Kayla could not generate the draft. Try again.' }, ai.status === 429 ? 429 : 502);
     const result = ResultSchema.parse(JSON.parse(await readStream(ai)));
-    validateSources(result);
+    validateSources(result, true);
     for (const finding of result.findings) {
       finding.finding = finding.sources.map(source => source.quote).join(' ');
       finding.date = [...new Set(finding.sources.map(source => SAMPLE_PAGES.find(page => page.page === source.page)?.date ?? 'Not stated'))].join(' / ');

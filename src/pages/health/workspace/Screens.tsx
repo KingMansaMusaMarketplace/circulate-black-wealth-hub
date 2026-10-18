@@ -1,14 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { format, isToday, parseISO } from 'date-fns';
 import { toast } from 'sonner';
-import { BrainCircuit, Plus, UserPlus } from 'lucide-react';
+import { BrainCircuit, UserPlus } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { db, fullName, money, Row, useRows } from './hc';
@@ -19,9 +16,6 @@ import { scheduleDay } from './schedule-date';
 type P = { clinicId: string; patients: Row[]; reloadPatients?: () => void; isOwner?: boolean };
 
 /* ---------- small helpers ---------- */
-const Field: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => (
-  <div className="space-y-1.5"><Label className="text-xs text-muted-foreground">{label}</Label>{children}</div>
-);
 const statusTone = (s: string) =>
   /approved|paid|completed|reviewed|checked/i.test(s) ? 'bg-emerald-500/15 text-emerald-600 border-emerald-500/30'
   : /denied|failed|cancel|no.show/i.test(s) ? 'bg-destructive/10 text-destructive border-destructive/30'
@@ -29,14 +23,6 @@ const statusTone = (s: string) =>
   : 'bg-muted text-muted-foreground';
 export const StatusBadge = ({ s }: { s: string }) => <Badge variant="outline" className={statusTone(s)}>{s}</Badge>;
 
-function PatientPicker({ patients, value, onChange }: { patients: Row[]; value: string; onChange: (v: string) => void }) {
-  return (
-    <Select value={value} onValueChange={onChange}>
-      <SelectTrigger><SelectValue placeholder="Choose sample patient" /></SelectTrigger>
-      <SelectContent>{patients.map((p) => <SelectItem key={p.id} value={p.id}>{fullName(p)} · {p.mrn}</SelectItem>)}</SelectContent>
-    </Select>
-  );
-}
 function StatusPicker({ value, options, onChange }: { value: string; options: string[]; onChange: (v: string) => void }) {
   return (
     <Select value={value} onValueChange={onChange}>
@@ -99,7 +85,7 @@ export function Dashboard({ clinicId, patients, go }: P & { go: (k: string) => v
 }
 
 /* ---------- Patients ---------- */
-export function Patients({ clinicId, patients, reloadPatients }: P) {
+export function Patients({ clinicId, patients }: P) {
   const [q, setQ] = useState('');
   const [open, setOpen] = useState<string | null>(null);
   const list = patients.filter((p) => `${fullName(p)} ${p.mrn}`.toLowerCase().includes(q.toLowerCase()));
@@ -139,7 +125,7 @@ function Chart({ clinicId, patient, back }: { clinicId: string; patient: Row; ba
       <DataLoadErrors sources={[vit, meds, enc]} />
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <button onClick={back} className="text-sm text-muted-foreground hover:text-foreground">← All patients</button>
+          <Button variant="link" onClick={back} className="px-0 text-sm text-muted-foreground hover:text-foreground">← All patients</Button>
           <h2 className="text-2xl font-semibold">{fullName(patient)}</h2>
           <p className="text-sm text-muted-foreground">{patient.mrn} · {patient.sex} · {patient.dob ? `Born ${patient.dob}` : ''} · {patient.payer}</p>
         </div>

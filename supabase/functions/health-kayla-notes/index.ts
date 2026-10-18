@@ -98,11 +98,7 @@ Deno.serve(async (req) => {
       return json({ error: s === 429 ? 'Kayla is busy. Try again shortly.' : s === 402 ? 'AI credits are used up. Add credits in workspace settings.' : 'Kayla could not draft the note. Try again.' }, s === 429 || s === 402 ? s : 502);
     }
     const note = NoteSchema.parse(JSON.parse(await readStream(ai)));
-    validateNoteLines(note, visit.lines.length);
-    // AI selects source lines, never supplies saved clinical assertions. Preserve uncertainty verbatim.
-    for (const section of ['subjective', 'objective', 'assessment', 'plan', 'flags'] as const) {
-      note[section] = note[section].map(item => ({ text: item.lines.map(n => visit.lines[n - 1]).join(' '), lines: item.lines }));
-    }
+    // Reject paraphrases and unsupported assertions instead of silently accepting/correcting them.
     validateNoteLines(note, visit.lines);
     if (!await authorizeClinicalPreview(service, req, userData.user)) return json({ error: 'Your private viewing ended before the draft was saved.' }, 403);
     const { data: saved, error } = await service.from('hc_visit_notes').insert({ clinic_id: clinicId, sample_visit_id: visit.id, model, note, created_by: userData.user.id }).select().single();
