@@ -519,6 +519,7 @@ export const PromptInput = ({
   syncHiddenInput,
   maxFiles,
   maxFileSize,
+  attachmentsDisabled = false,
   onError,
   onSubmit,
   children,
@@ -905,7 +906,7 @@ export const PromptInput = ({
   // Render with or without local provider
   const inner = (
     <>
-      <input
+      {!attachmentsDisabled && <input
         accept={accept}
         aria-label="Upload files"
         className="hidden"
@@ -914,7 +915,7 @@ export const PromptInput = ({
         ref={inputRef}
         title="Upload files"
         type="file"
-      />
+      />}
       <form
         className={cn("w-full", className)}
         onSubmit={handleSubmit}
