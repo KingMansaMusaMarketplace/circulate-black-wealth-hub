@@ -14,11 +14,11 @@ const reviewItems = [
 
 export default function HealthBaaPage() {
   return <div className="theme-clinical dark min-h-screen bg-background text-foreground">
-    <Helmet><title>Clinic BAA Preparation | 1325 Clinical</title><meta name="description" content="1325 Clinical clinic Business Associate Agreement preparation. Signing and patient-data intake remain unavailable pending attorney approval and independently verified healthcare safeguards." /><meta name="robots" content="noindex" /></Helmet>
+    <Helmet><title>Clinic BAA Preparation | 1325 Clinical EMR / EHR</title><meta name="description" content="1325 Clinical EMR / EHR clinic Business Associate Agreement preparation. Signing and patient-data intake remain unavailable pending attorney approval and independently verified healthcare safeguards." /><meta name="robots" content="noindex" /></Helmet>
     <div className="flex items-center justify-center gap-2 bg-mansagold px-4 py-2 text-center text-xs font-semibold text-mansablue"><Lock className="h-3.5 w-3.5 shrink-0" />PATIENT DATA BLOCKED · Agreement preparation only</div>
     <header className="theme-clinical-bar border-b-2 border-mansagold px-4 py-4 sm:px-8">
       <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3">
-        <Link to="/health" className="flex items-center gap-3 font-semibold"><img src={logo1325} alt="1325.AI" className="h-9 w-9 object-contain" />1325 Clinical</Link>
+        <Link to="/health" className="flex items-center gap-3 font-semibold"><img src={logo1325} alt="1325.AI" className="h-9 w-9 object-contain" />1325 Clinical EMR / EHR</Link>
         <Button variant="ghost" size="sm" asChild><Link to="/health/app"><ArrowLeft className="mr-2 h-4 w-4" />Clinic workspace</Link></Button>
       </div>
     </header>
@@ -43,7 +43,7 @@ export default function HealthBaaPage() {
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Do not send patient records, identifying case details or patient information through this page, clinic forms, Kayla, email or support. Kayla is an AI assistant—not a doctorate holder or licensed clinician.</p>
         <Button variant="outline" asChild className="mt-5"><Link to="/health/app">Open pilot readiness checklist<ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
       </section>
-      <footer className="border-t pt-6 text-xs text-muted-foreground">1325.AI · 1325 Clinical · Fictional records only until healthcare clearance</footer>
+      <footer className="border-t pt-6 text-xs text-muted-foreground">1325.AI · 1325 Clinical EMR / EHR · Fictional records only until healthcare clearance</footer>
     </main>
   </div>;
 }

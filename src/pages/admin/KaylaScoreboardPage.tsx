@@ -139,7 +139,7 @@ const KaylaScoreboardPage: React.FC = () => {
           </div>
           <div className="flex flex-wrap items-center gap-3">
           <Button variant="outline" asChild>
-            <a href="https://health.1325.ai/" target="_blank" rel="noopener noreferrer">1325 Clinical</a>
+            <a href="https://health.1325.ai/" target="_blank" rel="noopener noreferrer">1325 Clinical EMR / EHR</a>
           </Button>
           <Button onClick={runScoreboard} disabled={running} className="bg-[#FFB300] text-black hover:bg-[#e6a100]">
             {running ? <RefreshCw className="h-4 w-4 mr-2 animate-spin" /> : <Play className="h-4 w-4 mr-2" />}

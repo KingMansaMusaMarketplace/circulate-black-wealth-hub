@@ -29,7 +29,7 @@ export function ClinicSignIn() {
     finally { setBusy(false); }
   };
   return <div className="flex min-h-[70vh] items-center justify-center p-6"><Card className="w-full max-w-sm">
-    <CardHeader><CardTitle>{confirmation ? 'Confirm your email' : mode === 'in' ? 'Sign in to 1325 Clinical' : 'Create your clinic account'}</CardTitle></CardHeader>
+    <CardHeader><CardTitle>{confirmation ? 'Confirm your email' : mode === 'in' ? 'Sign in to 1325 Clinical EMR / EHR' : 'Create your clinic account'}</CardTitle></CardHeader>
     <CardContent className="space-y-4">
       {confirmation ? <div role="status" className="space-y-4"><Mail className="h-6 w-6 text-mansagold" /><p className="text-sm text-muted-foreground">Check your email for a confirmation link. After confirming, sign in to register your sample clinic. No clinic has been created yet.</p><Button variant="outline" className="w-full" onClick={() => { setConfirmation(false); setMode('in'); }}>Return to sign in</Button></div> : <form onSubmit={submit} className="space-y-4">
         <div className="space-y-2"><Label htmlFor="clinical-email">Email</Label><Input id="clinical-email" type="email" autoComplete="email" required value={email} onChange={e => setEmail(e.target.value)} disabled={busy} /></div>

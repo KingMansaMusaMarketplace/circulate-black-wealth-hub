@@ -77,7 +77,7 @@ function ClinicRecordReview({ clinicId, clinicRole }: { clinicId: string; clinic
     </div>
     <section aria-label="CME upload status" className="border-y py-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
-        <div className="flex min-w-0 gap-3"><FolderLock className="mt-1 h-6 w-6 shrink-0 text-mansagold" /><div className="min-w-0"><h3 className="font-semibold">Patient file intake · Locked</h3><p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">No files can be selected, dropped, previewed or uploaded here. The fictional case below is supplied by 1325 Clinical, not uploaded by your clinic.</p></div></div>
+        <div className="flex min-w-0 gap-3"><FolderLock className="mt-1 h-6 w-6 shrink-0 text-mansagold" /><div className="min-w-0"><h3 className="font-semibold">Patient file intake · Locked</h3><p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">No files can be selected, dropped, previewed or uploaded here. The fictional case below is supplied by 1325 Clinical EMR / EHR, not uploaded by your clinic.</p></div></div>
         <Button disabled={!access.uploadsAllowed}><Lock className="mr-2 h-4 w-4" />Upload CME files · Locked</Button>
       </div>
       <dl className="mt-6 grid gap-4 text-sm sm:grid-cols-3">

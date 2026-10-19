@@ -73,7 +73,7 @@ const Banner = () => (
   </div>
 );
 const Brand = () => (
-  <div className="flex items-center gap-2 font-semibold text-mansagold"><img src={logo1325} alt="1325.AI logo" className="h-8 w-8 rounded-md object-contain" /> 1325 Clinical <span className="hidden text-xs font-normal text-foreground/70 sm:inline">Enterprise Edition</span></div>
+  <div className="flex items-center gap-2 font-semibold text-mansagold"><img src={logo1325} alt="1325.AI logo" className="h-8 w-8 rounded-md object-contain" /> 1325 Clinical EMR / EHR <span className="hidden text-xs font-normal text-foreground/70 sm:inline">Enterprise Edition</span></div>
 );
 
 export default function HealthWorkspacePage() {
@@ -162,7 +162,7 @@ export default function HealthWorkspacePage() {
   const current = NAV.find((n) => n.k === tab) ?? NAV[0];
   return (
     <div className="theme-clinical dark min-h-screen">
-      <Helmet><title>1325 Clinical Workspace | health.1325.ai</title><meta name="robots" content="noindex" /></Helmet>
+      <Helmet><title>1325 Clinical EMR / EHR Workspace | health.1325.ai</title><meta name="robots" content="noindex" /></Helmet>
       <Banner />
       {shellHeader}
       {user && clinic && loadedFor === userId && <FacilitySelector value={facilityContext} onChange={setFacilityContext} clinicName={clinic.name} />}
