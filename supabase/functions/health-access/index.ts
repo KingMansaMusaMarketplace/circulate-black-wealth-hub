@@ -4,6 +4,7 @@ import { Resend } from "https://esm.sh/resend@2.0.0";
 import { z } from "https://esm.sh/zod@3.23.8";
 import { accessRequestEmail, approvedContent, confirmationPage, emailWasAccepted } from './confirmation.ts';
 import { decisionCookieName, validDecisionSubmission } from './decision-confirmation.ts';
+import { CLINICAL_OWNER_EMAIL, clinicalEmailRouting } from './email-routing.ts';
 
 const cors = {
   ...corsHeaders,
@@ -11,8 +12,6 @@ const cors = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token, x-hc-preview-token, x-hc-preview-device",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 };
-const OWNER = "Thomas@1325.ai";
-const FROM = '"Thomas at 1325.AI" <Partner@1325.AI>';
 const SITE = "https://health.1325.ai";
 const FN_URL = `${Deno.env.get("SUPABASE_URL")}/functions/v1/health-access`;
 
@@ -82,10 +81,9 @@ Deno.serve(async (req) => {
     let accepted = false;
     try {
     const emailResult = await resend.emails.send({
-      from: FROM, to: [r.work_email], subject: "Your private access to 1325 Clinical",
-      reply_to: 'Partner@1325.AI',
-      text: `Hello ${r.full_name},\n\nThomas approved your request to view 1325 Clinical.\n\nOpen your preview: ${SITE}/?access=${access}\n\nYour link expires ${expires.toUTCString()}. You receive one five-minute viewing, starting when you first enter. Refreshing or returning does not restart the timer. After expiry or ending the session, request Thomas’s approval again. Your name, email and date appear in a confidential screen watermark. Use your approved device and do not forward your link.\n\nIf this message reached Spam/Junk, mark it Not Junk and add Partner@1325.AI to your contacts.\n\nThomas\n1325.AI\nPartner@1325.AI\n\nPrivate and confidential. Do not copy, share or reproduce preview materials. U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.`,
-      html: `<p>Hello ${esc(r.full_name)},</p><p>Thomas approved your request to view 1325 Clinical.</p><p><a href="${SITE}/?access=${access}">Open your preview</a></p><p>Your link expires ${expires.toUTCString()}. You receive one five-minute viewing, starting when you first enter. Refreshing or returning does not restart the timer. After expiry or ending the session, request Thomas’s approval again. Your name, email and date appear in a confidential screen watermark. Use your approved device and do not forward your link.</p><p>If this message reached Spam/Junk, mark it Not Junk and add Partner@1325.AI to your contacts.</p><p>Thomas<br>1325.AI<br>Partner@1325.AI</p><p>Private and confidential. Do not copy, share or reproduce preview materials. U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.</p>`,
+      ...clinicalEmailRouting(r.work_email), subject: "Your private access to 1325 Clinical",
+      text: `Hello ${r.full_name},\n\nThomas approved your request to view 1325 Clinical.\n\nOpen your preview: ${SITE}/?access=${access}\n\nYour link expires ${expires.toUTCString()}. You receive one five-minute viewing, starting when you first enter. Refreshing or returning does not restart the timer. After expiry or ending the session, request Thomas’s approval again. Your name, email and date appear in a confidential screen watermark. Use your approved device and do not forward your link.\n\nIf this message reached Spam/Junk, mark it Not Junk and add ${CLINICAL_OWNER_EMAIL} to your contacts.\n\nThomas\n1325.AI\n${CLINICAL_OWNER_EMAIL}\n\nPrivate and confidential. Do not copy, share or reproduce preview materials. U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.`,
+      html: `<p>Hello ${esc(r.full_name)},</p><p>Thomas approved your request to view 1325 Clinical.</p><p><a href="${SITE}/?access=${access}">Open your preview</a></p><p>Your link expires ${expires.toUTCString()}. You receive one five-minute viewing, starting when you first enter. Refreshing or returning does not restart the timer. After expiry or ending the session, request Thomas’s approval again. Your name, email and date appear in a confidential screen watermark. Use your approved device and do not forward your link.</p><p>If this message reached Spam/Junk, mark it Not Junk and add ${CLINICAL_OWNER_EMAIL} to your contacts.</p><p>Thomas<br>1325.AI<br>${CLINICAL_OWNER_EMAIL}</p><p>Private and confidential. Do not copy, share or reproduce preview materials. U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.</p>`,
     });
     accepted = emailWasAccepted(emailResult);
     } catch {
@@ -143,7 +141,7 @@ Deno.serve(async (req) => {
     approve: link('approve'), deny: link('deny'), revoke: link('revoke'),
   });
   await resend.emails.send({
-    from: FROM, to: [OWNER], reply_to: email,
+    ...clinicalEmailRouting(),
     subject: `New 1325 Clinical access request: ${p.data.full_name} — ${p.data.organization}`,
     ...requestEmail,
   });
