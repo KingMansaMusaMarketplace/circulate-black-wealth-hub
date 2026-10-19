@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { RefreshCw, Activity } from 'lucide-react';
+import { RefreshCw, Activity, Check, X, ShieldOff } from 'lucide-react';
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter } from '@/components/ui/alert-dialog';
+import { allowedDecision, type Decision } from '../../../supabase/functions/health-access/admin-decision';
 
 type Req = {
   id: string; full_name: string; organization: string; role: string; work_email: string; phone: string | null;
@@ -46,24 +48,68 @@ const ClinicalAccessMonitor: React.FC = () => {
   const [q, setQ] = useState('');
   const [open, setOpen] = useState<string | null>(null);
   const [now, setNow] = useState(Date.now());
+  const [decision, setDecision] = useState<{ request: Req; action: Decision } | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [notice, setNotice] = useState<{ text: string; warning: boolean } | null>(null);
+  const pending = useRef(false);
+  const fetching = useRef(false);
 
   const load = useCallback(async () => {
-    setLoading(true); setErr(null);
+    if (fetching.current) return;
+    fetching.current = true;
+    setLoading(true);
+    try {
     const [a, b] = await Promise.all([
       supabase.from('hc_access_requests').select('id,full_name,organization,role,work_email,phone,status,created_at,decided_at,nda_accepted_at,expires_at,first_entered_at,viewing_expires_at,revoked_at,device_id,user_agent').order('created_at', { ascending: false }).limit(500),
       supabase.from('hc_access_views').select('id,request_id,path,user_agent,created_at').order('created_at', { ascending: true }).limit(1000),
     ]);
-    if (a.error || b.error) { setErr((a.error || b.error)!.message); setReqs([]); setViews([]); }
-    else { setReqs(a.data as Req[]); setViews(b.data as View[]); }
-    setLoading(false);
+    const error = a.error || b.error;
+    if (error) setErr(error.message);
+    else { setErr(null); setReqs(a.data as Req[]); setViews(b.data as View[]); }
+    } catch { setErr('Please retry. Visitor information could not be refreshed.'); }
+    finally { fetching.current = false; setLoading(false); }
   }, []);
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    void load();
+    const timer = setInterval(() => { if (!document.hidden) void load(); }, 15000);
+    const focus = () => { void load(); };
+    window.addEventListener('focus', focus);
+    return () => { clearInterval(timer); window.removeEventListener('focus', focus); };
+  }, [load]);
   useEffect(() => { const t = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(t); }, []);
 
   const byReq = useMemo(() => { const m: Record<string, View[]> = {}; views.forEach(v => (m[v.request_id] ||= []).push(v)); return m; }, [views]);
   const list = reqs.filter(r => !q || `${r.full_name} ${r.work_email} ${r.organization}`.toLowerCase().includes(q.toLowerCase()));
   const count = (s: string) => reqs.filter(r => visitState(r, now) === s).length;
   const totalMs = reqs.reduce((t, r) => t + (timeOnSite(r, now) ?? 0), 0);
+
+  const confirmDecision = async () => {
+    if (!decision || pending.current) return;
+    pending.current = true; setSaving(true); setNotice(null);
+    try {
+      const { data, error } = await supabase.functions.invoke('health-access', { body: {
+        action: 'admin_decision', request_id: decision.request.id, decision: decision.action,
+        expected_status: decision.request.status, confirmed: true,
+      } });
+      if (error) {
+        let message = 'Decision not confirmed. Refresh and check the status before retrying.';
+        if (error.context instanceof Response) {
+          const payload = await error.context.json().catch(() => null);
+          if (typeof payload?.error === 'string') message = payload.error;
+        }
+        throw new Error(message);
+      }
+      if (!data?.ok) throw new Error('Decision not confirmed. Refresh before retrying.');
+      const failedEmail = decision.action === 'approve' && data.email_accepted !== true;
+      setNotice({ warning: failedEmail, text: failedEmail
+        ? `Approval saved for ${decision.request.full_name}, but the invitation email was not confirmed sent. Do not approve again; check email sending before retrying delivery.`
+        : decision.action === 'approve' ? `Approval saved for ${decision.request.full_name}. The email provider accepted the invitation to ${decision.request.work_email}; inbox delivery is not yet confirmed.`
+        : decision.action === 'deny' ? `Request denied for ${decision.request.full_name}.`
+        : `Access revoked for ${decision.request.full_name}. An open preview locks at its next check, normally within 15 seconds.` });
+      setDecision(null);
+    } catch (error) { setNotice({ warning: true, text: error instanceof Error ? error.message : 'Decision not confirmed.' }); }
+    finally { pending.current = false; setSaving(false); void load(); }
+  };
 
   return (
     <div className="space-y-4">
@@ -77,7 +123,8 @@ const ClinicalAccessMonitor: React.FC = () => {
         ))}
       </div>
       <Input placeholder="Search name, email or organization" value={q} onChange={e => setQ(e.target.value)} />
-      {err && <p className="text-red-400">Could not load visitors: {err}</p>}
+      {notice && <p role="status" className={notice.warning ? 'text-destructive' : 'text-foreground'}>{notice.text}</p>}
+      {err && <p role="alert" className="text-destructive">Could not refresh visitors: {err}. Displayed information may be out of date.</p>}
       {loading && !err && <p className="text-slate-400">Loading…</p>}
       {!loading && !err && list.length === 0 && <p className="text-slate-400">No requests yet.</p>}
       {list.map(r => {
@@ -96,6 +143,11 @@ const ClinicalAccessMonitor: React.FC = () => {
               <div>Requested: {fmt(r.created_at)}<br />Agreement accepted: {fmt(r.nda_accepted_at)}<br />Decided: {fmt(r.decided_at)}</div>
               <div>First entered: {fmt(r.first_entered_at)}<br />Time on site: {t == null ? 'Never entered' : mins(t)}<br />Device: {device(r.user_agent)}{r.device_id ? ' (locked to one device)' : ''}</div>
               <div className="md:col-span-3">
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {allowedDecision(r.status, 'approve') && <Button size="sm" disabled={saving || !!err} onClick={() => { setNotice(null); setDecision({ request: r, action: 'approve' }); }}><Check className="h-4 w-4 mr-1" />Approve</Button>}
+                  {allowedDecision(r.status, 'deny') && <Button size="sm" variant="outline" disabled={saving || !!err} onClick={() => { setNotice(null); setDecision({ request: r, action: 'deny' }); }}><X className="h-4 w-4 mr-1" />Deny</Button>}
+                  {allowedDecision(r.status, 'revoke') && !r.revoked_at && <Button size="sm" variant="destructive" disabled={saving || !!err} onClick={() => { setNotice(null); setDecision({ request: r, action: 'revoke' }); }}><ShieldOff className="h-4 w-4 mr-1" />Revoke</Button>}
+                </div>
                 <Button size="sm" variant="ghost" onClick={() => setOpen(open === r.id ? null : r.id)}>{open === r.id ? 'Hide' : 'Show'} screens viewed ({pv.length})</Button>
                 {open === r.id && (pv.length ? <ul className="mt-2 space-y-1">{pv.map(v => <li key={v.id}>{fmt(v.created_at)} — {v.path || 'unknown screen'} <span className="text-slate-500">({device(v.user_agent)})</span></li>)}</ul> : <p className="mt-2 text-slate-500">No screens recorded.</p>)}
               </div>
@@ -103,7 +155,22 @@ const ClinicalAccessMonitor: React.FC = () => {
           </Card>
         );
       })}
-      <p className="text-xs text-slate-500">Approve, deny and revoke still happen from the request emails sent to Thomas@1325.ai.</p>
+      <AlertDialog open={!!decision} onOpenChange={open => { if (!open && !pending.current) setDecision(null); }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm {decision?.action}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {decision?.request.full_name} · {decision?.request.work_email}<br />
+              {decision?.action === 'approve' ? 'Send an invitation from Thomas@1325.ai for one twenty-minute viewing on one device. The timer begins on first entry.' : decision?.action === 'deny' ? 'Deny this request without sending an access link.' : 'Disable this approval and its access link. An open preview locks at its next access check.'}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          {notice?.warning && <p role="alert" className="text-destructive text-sm">{notice.text}</p>}
+          <AlertDialogFooter>
+            <Button variant="outline" disabled={saving} onClick={() => setDecision(null)}>Cancel</Button>
+            <Button variant={decision?.action === 'approve' ? 'default' : 'destructive'} disabled={saving} onClick={confirmDecision}>{saving ? 'Saving…' : `Confirm ${decision?.action ?? 'decision'}`}</Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
