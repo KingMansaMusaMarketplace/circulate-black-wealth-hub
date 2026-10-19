@@ -14,20 +14,20 @@ describe('Clinical Access confirmation controls', () => {
   it('does not approve until confirmation, then reads the updated status', async () => {
     mock.invoke.mockImplementation(async () => { mock.status = 'approved'; return { data: { ok: true, email_accepted: true }, error: null }; });
     render(<ClinicalAccessMonitor />);
-    fireEvent.click(await screen.findByRole('button', { name: 'Approve', exact: true }));
+    fireEvent.click(await screen.findByRole('button', { name: /^Approve$/ }));
     expect(mock.invoke).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole('button', { name: 'Confirm approve' }));
     await waitFor(() => expect(mock.invoke).toHaveBeenCalledWith('health-access', { body: { action: 'admin_decision', request_id: 'fictional', decision: 'approve', expected_status: 'pending', confirmed: true } }));
-    await screen.findByRole('button', { name: 'Revoke', exact: true });
+    await screen.findByRole('button', { name: /^Revoke$/ });
     expect(screen.getByRole('status').textContent).toContain('inbox delivery is not yet confirmed');
   });
   it('canceling a denial makes no request', async () => {
-    render(<ClinicalAccessMonitor />); fireEvent.click(await screen.findByRole('button', { name: 'Deny', exact: true }));
+    render(<ClinicalAccessMonitor />); fireEvent.click(await screen.findByRole('button', { name: /^Deny$/ }));
     fireEvent.click(screen.getByRole('button', { name: 'Cancel' })); expect(mock.invoke).not.toHaveBeenCalled();
   });
   it('displays saved approval with failed invitation instead of claiming email delivery', async () => {
     mock.invoke.mockResolvedValue({ data: { ok: true, email_accepted: false }, error: null });
-    render(<ClinicalAccessMonitor />); fireEvent.click(await screen.findByRole('button', { name: 'Approve', exact: true }));
+    render(<ClinicalAccessMonitor />); fireEvent.click(await screen.findByRole('button', { name: /^Approve$/ }));
     fireEvent.click(screen.getByRole('button', { name: 'Confirm approve' }));
     await waitFor(() => expect(screen.getByRole('status').textContent).toContain('invitation email was not confirmed sent'));
   });
