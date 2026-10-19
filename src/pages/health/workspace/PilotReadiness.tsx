@@ -65,7 +65,7 @@ export default function PilotReadiness({ clinicId, clinicRole }: { clinicId: str
         <li><b className="block text-foreground">2 · Organize sources</b>Page-indexed records and treatment timeline.</li>
         <li><b className="block text-foreground">3 · Draft & flag gaps</b>Exact source links, missing records and conflicting entries.</li>
         <li><b className="block text-foreground">4 · Doctor review</b>Doctor verifies sources and requests changes before final conclusions.</li>
-      </ol><p className="mt-4 text-xs text-muted-foreground">Planned real-record sequence; currently available only with the fictional case. Kayla is an AI assistant, not a doctorate holder or licensed clinician.</p>
+      </ol><p className="mt-4 text-xs text-muted-foreground">Planned real-record sequence; currently available only with the fictional case. Kayla is an Agentic AI assistant, not a doctorate holder or licensed clinician.</p>
     </div>
   </section>;
 }

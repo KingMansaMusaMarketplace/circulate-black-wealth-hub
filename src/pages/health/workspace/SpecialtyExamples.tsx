@@ -34,7 +34,7 @@ export default function SpecialtyExamples() {
               <ol className="space-y-2">{example.transcript.map((text, index) => <li key={index} id={`${example.id}-line-${index + 1}`} aria-current={source === index + 1 ? 'true' : undefined} className={`scroll-mt-6 rounded-md border px-3 py-2 text-sm leading-relaxed ${source === index + 1 ? 'border-mansagold bg-mansagold/10' : 'border-transparent'}`}><span className="mr-2 text-xs text-muted-foreground">L{index + 1}</span>{text}</li>)}</ol>
             </section>
           </div>
-          <footer className="space-y-3 border-t pt-4"><p className="text-sm text-muted-foreground">Kayla is an AI assistant, not a licensed clinician. These fixed excerpts are not generated or signed notes; doctors make every medical decision.</p><div className="flex flex-wrap gap-2"><Button variant="outline" disabled><Lock className="h-4 w-4" />Signature unavailable</Button><Button variant="outline" disabled><Lock className="h-4 w-4" />Export unavailable</Button><Button variant="outline" disabled><Lock className="h-4 w-4" />Sending locked</Button></div></footer>
+          <footer className="space-y-3 border-t pt-4"><p className="text-sm text-muted-foreground">Kayla is an Agentic AI assistant, not a licensed clinician. These fixed excerpts are not generated or signed notes; doctors make every medical decision.</p><div className="flex flex-wrap gap-2"><Button variant="outline" disabled><Lock className="h-4 w-4" />Signature unavailable</Button><Button variant="outline" disabled><Lock className="h-4 w-4" />Export unavailable</Button><Button variant="outline" disabled><Lock className="h-4 w-4" />Sending locked</Button></div></footer>
         </TabsContent>;
       })}
     </Tabs>

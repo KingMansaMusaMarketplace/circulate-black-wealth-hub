@@ -46,6 +46,6 @@ export default function DelegationDesk() {
     </section>
 
     <div className="flex flex-wrap gap-2 border-t border-border pt-4">{LOCKED_ACTIONS.map((a) => <Button key={a} variant="outline" disabled><Lock className="mr-2 h-4 w-4" />{a}</Button>)}</div>
-    <p className="text-xs text-muted-foreground">Kayla is an AI assistant, not a licensed clinician. Standing rules shown are illustrative and must be set by the practice and its advisers. No interaction screening, ordering, prescribing or patient messaging is connected.</p>
+    <p className="text-xs text-muted-foreground">Kayla is an Agentic AI assistant, not a licensed clinician. Standing rules shown are illustrative and must be set by the practice and its advisers. No interaction screening, ordering, prescribing or patient messaging is connected.</p>
   </div>;
 }

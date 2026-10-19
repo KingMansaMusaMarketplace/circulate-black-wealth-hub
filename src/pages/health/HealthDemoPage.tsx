@@ -513,7 +513,7 @@ const Prescriptions = () => {
 
 const AUDIT = [
   { time: '8:14 AM', user: 'Dr. Sample (Physician)', action: 'Viewed chart', patient: 'Jordan Sample', detail: 'Opened CME record summary', flag: '' },
-  { time: '8:21 AM', user: 'Kayla (AI Co-Pilot)', action: 'Generated summary', patient: 'Jordan Sample', detail: 'Built treatment timeline from 412 sample pages', flag: '' },
+  { time: '8:21 AM', user: 'Kayla (Agentic AI Co-Pilot)', action: 'Generated summary', patient: 'Jordan Sample', detail: 'Built treatment timeline from 412 sample pages', flag: '' },
   { time: '8:40 AM', user: 'R. Example (Nurse)', action: 'Edited vitals', patient: 'Avery Example', detail: 'Weight 182 lb → 185 lb', flag: '' },
   { time: '9:02 AM', user: 'Dr. Sample (Physician)', action: 'Signed note', patient: 'Morgan Placeholder', detail: 'Shoulder follow-up note signed', flag: '' },
   { time: '9:15 AM', user: 'T. Placeholder (Billing)', action: 'Exported claim', patient: 'Avery Example', detail: 'Claim CLM-5004 appeal packet (PDF)', flag: '' },
