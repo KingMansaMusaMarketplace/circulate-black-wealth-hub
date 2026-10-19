@@ -46,6 +46,10 @@ export function createResponsesCall(
     // AI SDK 6 lacks `instructions`: rename this key to `system` there.
     ...(instructions ? { system: instructions } : {}),
     maxRetries: 0,
+    onError: ({ error }) => {
+      failure ??= { status: request.signal.aborted ? 499 : 503, message: error instanceof Error ? error.message : 'Kayla could not start the answer.', paused: false };
+      settleHeaders();
+    },
     messages,
     abortSignal: request.signal,
     providerOptions: {

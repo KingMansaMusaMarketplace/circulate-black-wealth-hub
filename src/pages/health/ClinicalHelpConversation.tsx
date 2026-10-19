@@ -11,6 +11,9 @@ function useConversation() {
   const turns = useRef<HelpTurn[]>([]);
   const pending = useRef(false);
   const alive = useRef(true);
+  const account = useRef<string | undefined>();
+  const resetting = useRef(false);
+  const [resetBusy, setResetBusy] = useState(false);
   const surface = useRef<'demo' | 'workspace'>('demo');
   const [problem, setProblem] = useState('');
   const transport = useMemo(() => new DefaultChatTransport<HelpMessage>({
@@ -32,8 +35,9 @@ function useConversation() {
   }), []);
   const chat = useChat<HelpMessage>({
     transport,
-    onError: e => { pending.current = false; if (alive.current) setProblem(e.message); },
+    onError: e => { if (resetting.current) return; pending.current = false; if (alive.current) setProblem(e.message); },
     onFinish: ({ message, isAbort, isError }) => {
+      if (resetting.current) return;
       pending.current = false;
       if (!alive.current || isAbort || isError) return;
       const receipt = message.parts.find(p => p.type === 'data-receipt');
@@ -44,14 +48,25 @@ function useConversation() {
   });
   const stopRef = useRef(chat.stop);
   stopRef.current = chat.stop;
+  const clear = async () => {
+    if (resetting.current) return;
+    resetting.current = true; setResetBusy(true); pending.current = true;
+    window.speechSynthesis?.cancel();
+    try {
+      await stopRef.current(); turns.current = []; chat.setMessages([]); chat.clearError(); setProblem('');
+    } finally { pending.current = false; resetting.current = false; if (alive.current) setResetBusy(false); }
+  };
+  const clearRef = useRef(clear); clearRef.current = clear;
   useEffect(() => {
     alive.current = true;
-    const { data } = supabase.auth.onAuthStateChange((event) => {
-      if (event === 'SIGNED_OUT' || event === 'SIGNED_IN') {
-        void stopRef.current(); turns.current = []; chat.setMessages([]); setProblem('');
+    resetting.current = false;
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT' || (account.current && session?.user.id !== account.current)) {
+        void clearRef.current();
       }
+      account.current = session?.user.id;
     });
-    return () => { alive.current = false; void stopRef.current(); turns.current = []; data.subscription.unsubscribe(); window.speechSynthesis?.cancel(); };
+    return () => { alive.current = false; resetting.current = true; void stopRef.current(); turns.current = []; data.subscription.unsubscribe(); window.speechSynthesis?.cancel(); };
   }, [chat.setMessages]);
   const ask = (selection: HelpSelection, view: 'demo' | 'workspace') => {
     if (pending.current) return;
@@ -60,8 +75,7 @@ function useConversation() {
     turns.current.push({ selection });
     void chat.sendMessage({ text: canonicalQuestion(selection) }).catch(e => { pending.current = false; setProblem(e instanceof Error ? e.message : 'Request failed'); });
   };
-  const clear = () => { void chat.stop(); pending.current = false; turns.current = []; chat.setMessages([]); chat.clearError(); setProblem(''); window.speechSynthesis?.cancel(); };
-  return { ...chat, ask, clear, problem, previousTopics: () => turns.current[turns.current.length - 1]?.selection.topics ?? [] };
+  return { ...chat, status: resetBusy ? 'submitted' as const : chat.status, ask, clear, problem, previousTopics: () => turns.current[turns.current.length - 1]?.selection.topics ?? [] };
 }
 const Context = createContext<ReturnType<typeof useConversation> | null>(null);
 export function ClinicalHelpConversationProvider({ children }: { children: ReactNode }) {

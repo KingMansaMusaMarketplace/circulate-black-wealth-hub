@@ -1,9 +1,10 @@
 # Roadmap
 
 ## Approved conversational clinical Kayla — October 19, 2026
-- [ ] Replace recording-first guide with one unsaved product conversation, locally validated typed questions and server-owned topic requests; preserve patient intake and private-access restrictions.
-- [ ] Add authenticated streaming product answers using the shared Kayla brain and full verified in-memory history, navigation and optional answer reading.
-- [ ] Run focused safety/conversation tests, deployed service checks and available browser verification; signed-in testing remains blocked by external unmanaged authentication.
+- [x] Replace recording-first guide with one unsaved product conversation, locally validated typed questions and server-owned topic requests; preserve patient intake and private-access restrictions.
+- [x] Deploy authenticated streaming product answers using the shared Kayla brain and full verified in-memory history, navigation and optional answer reading; reject anonymous/invalid authentication, bind receipts to viewer/device and persist terminal AI availability pauses separately from chat.
+- [x] Clinical regression suite passed (250 checks before final lifecycle additions); final conversation/voice/intake checks passed (29 browser-unit and three service checks), Deno check and harness build OK, lint has no errors. Authenticated model listing and actual product answer plus follow-up succeeded with run-ID headers; public gates show no chat or page exceptions.
+- [ ] Verify approved signed-in pink-button → typed question → streamed answer → follow-up → spoken answer → session exit, and run the authenticated Kayla scoreboard — blocked: external unmanaged authentication has no authorized test session; both deployed calls returned 401. Frontend changes await publishing.
 
 ## Clinical Kayla button correction — October 19, 2026
 - [x] Bring product answers into view without competing walkthrough controls; add one-click opt-in prerecorded narration, pause/resume and mute. Repeated header clicks reopen/focus the guide.

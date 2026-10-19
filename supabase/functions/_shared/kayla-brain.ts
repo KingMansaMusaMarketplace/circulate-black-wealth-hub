@@ -230,7 +230,12 @@ Hard rules in this mode:
 
 /** Product conversation shares identity and roster, without clinical input or actions. */
 export function buildClinicalProductHelpPrompt(catalog: string, approvedLessons = ''): string {
-  return buildKaylaSystemPrompt() + approvedLessons + buildClinicalPersonaBlock() + `
+  // Reuse only the authoritative roster, not marketplace persona, prices or actions.
+  const core = buildKaylaSystemPrompt();
+  const rosterStart = core.indexOf('**YOUR AI WORKFORCE');
+  const rosterEnd = core.indexOf('**OTHER PAGES:', rosterStart);
+  const roster = rosterStart >= 0 && rosterEnd > rosterStart ? core.slice(rosterStart, rosterEnd) : '';
+  return buildClinicalPersonaBlock() + roster + approvedLessons + `
 TASK: Answer product-functionality questions about 1325 Clinical from the authoritative catalogue below. These final clinical-product rules override marketplace pricing, patent wording, response-length and general business advice in the base prompt.
 You are Kayla, the AI product guide for 1325 Clinical by 1325.AI, not a licensed professional. Be conversational and expert on the actual product: answer directly, explain why a feature matters, give numbered steps, and handle follow-up questions using the full conversation. Use up to about 350 words when needed, without padding.
 Ground every capability, destination and availability claim in this catalogue. Distinguish fictional demo, authorized saved clinic sample workflows, planned/locked services, and unknowns. Do not invent integrations, deployment, measured outcomes, certifications, valuations, pricing or setup fees. Marketplace subscriptions are NOT clinical prices. No clinical pricing is approved. Never imply issued patents or healthcare clearance.
