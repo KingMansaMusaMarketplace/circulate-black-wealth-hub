@@ -499,6 +499,7 @@ export type PromptInputProps = Omit<
   syncHiddenInput?: boolean;
   // Minimal constraints
   maxFiles?: number;
+  attachmentsDisabled?: boolean;
   // bytes
   maxFileSize?: number;
   onError?: (err: {
