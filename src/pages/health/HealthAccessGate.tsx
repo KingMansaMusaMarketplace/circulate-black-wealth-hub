@@ -264,7 +264,6 @@ function Teaser({ notice = "" }: { notice?: string }) {
               </div>
             ))}
           </div>
-          <a href={`/auth?redirect=${encodeURIComponent(window.location.pathname)}`} className="mt-8 inline-block text-xs underline opacity-70">Admin sign in</a>
           <ProprietaryNotice className="mt-6 opacity-70" />
         </div>
 
@@ -278,8 +277,11 @@ function Teaser({ notice = "" }: { notice?: string }) {
             </div>
           ) : (
             <form onSubmit={submit} className="space-y-4">
+              <a href={`/auth?redirect=${encodeURIComponent(window.location.pathname)}`} className="flex items-center justify-center gap-2 w-full rounded-md border px-4 py-3 text-sm font-semibold" style={{ borderColor: '#FFB300', color: '#FFB300' }}>
+                <ShieldCheck className="h-4 w-4" /> Owner or administrator? Sign in here — no timer, no request needed
+              </a>
               <h2 className="text-2xl font-semibold">Request access</h2>
-              <p className="text-sm opacity-75">All fields are required. Approval allows one twenty-minute viewing from first entry. Your name, email and date will appear on private screens as a confidentiality watermark.</p>
+              <p className="text-sm opacity-75">For visitors. All fields are required. Approval allows one twenty-minute viewing from first entry. Your name, email and date will appear on private screens as a confidentiality watermark.</p>
               {notice && <p className="text-sm rounded-md p-3" style={{ background: "rgba(255,179,0,0.15)", color: "#FFB300" }}>{notice}</p>}
               <Input required placeholder="Full name *" value={form.full_name} onChange={set('full_name')} maxLength={120} className="bg-white text-black" />
               <Input required placeholder="Clinic / hospital / organization *" value={form.organization} onChange={set('organization')} maxLength={160} className="bg-white text-black" />
