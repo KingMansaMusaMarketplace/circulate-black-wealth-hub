@@ -26,7 +26,10 @@ export function createResponsesCall(
     fetch: async (input, init) => {
       try {
         // Shared resilience with one attempt: never retry network timeouts or terminal denials.
-        const response = await fetchAIWithRetry(String(input), init ?? {}, { attempts: 1, label: 'clinical-product-help' });
+        const headers = new Headers(init?.headers);
+        const runId = runIdFetch.getRunId();
+        if (runId) headers.set('X-Lovable-AIG-Run-ID', runId);
+        const response = await fetchAIWithRetry(String(input), { ...init, headers }, { attempts: 1, label: 'clinical-product-help' });
         if (!response.ok) {
           failure = helpGatewayFailure(response.status, await response.clone().json().catch(() => ({})));
           if (failure.paused) await config.onBlocked?.(failure);
