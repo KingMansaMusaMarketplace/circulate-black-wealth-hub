@@ -100,9 +100,10 @@ const ClinicalAccessMonitor: React.FC = () => {
         throw new Error(message);
       }
       if (!data?.ok) throw new Error('Decision not confirmed. Refresh before retrying.');
-      const failedEmail = decision.action === 'approve' && data.email_accepted !== true;
+      const failedEmail = (decision.action === 'approve' || decision.action === 'reopen') && data.email_accepted !== true;
       setNotice({ warning: failedEmail, text: failedEmail
         ? `Approval saved for ${decision.request.full_name}, but the invitation email was not confirmed sent. Do not approve again; check email sending before retrying delivery.`
+        : decision.action === 'reopen' ? `20 more minutes approved for ${decision.request.full_name}. A new link was sent to ${decision.request.work_email}; the time starts when they open it.`
         : decision.action === 'approve' ? `Approval saved for ${decision.request.full_name}. The email provider accepted the invitation to ${decision.request.work_email}; inbox delivery is not yet confirmed.`
         : decision.action === 'deny' ? `Request denied for ${decision.request.full_name}.`
         : `Access revoked for ${decision.request.full_name}. An open preview locks at its next check, normally within 15 seconds.` });
@@ -147,6 +148,7 @@ const ClinicalAccessMonitor: React.FC = () => {
                   {allowedDecision(r.status, 'approve') && <Button size="sm" disabled={saving || !!err} onClick={() => { setNotice(null); setDecision({ request: r, action: 'approve' }); }}><Check className="h-4 w-4 mr-1" />Approve</Button>}
                   {allowedDecision(r.status, 'deny') && <Button size="sm" variant="outline" disabled={saving || !!err} onClick={() => { setNotice(null); setDecision({ request: r, action: 'deny' }); }}><X className="h-4 w-4 mr-1" />Deny</Button>}
                   {allowedDecision(r.status, 'revoke') && !r.revoked_at && <Button size="sm" variant="destructive" disabled={saving || !!err} onClick={() => { setNotice(null); setDecision({ request: r, action: 'revoke' }); }}><ShieldOff className="h-4 w-4 mr-1" />Revoke</Button>}
+                  {allowedDecision(r.status, 'reopen') && !r.revoked_at && <Button size="sm" disabled={saving || !!err} onClick={() => { setNotice(null); setDecision({ request: r, action: 'reopen' }); }}><RefreshCw className="h-4 w-4 mr-1" />Give 20 more minutes</Button>}
                 </div>
                 <Button size="sm" variant="ghost" onClick={() => setOpen(open === r.id ? null : r.id)}>{open === r.id ? 'Hide' : 'Show'} screens viewed ({pv.length})</Button>
                 {open === r.id && (pv.length ? <ul className="mt-2 space-y-1">{pv.map(v => <li key={v.id}>{fmt(v.created_at)} — {v.path || 'unknown screen'} <span className="text-slate-500">({device(v.user_agent)})</span></li>)}</ul> : <p className="mt-2 text-slate-500">No screens recorded.</p>)}
@@ -158,16 +160,16 @@ const ClinicalAccessMonitor: React.FC = () => {
       <AlertDialog open={!!decision} onOpenChange={open => { if (!open && !pending.current) setDecision(null); }}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Confirm {decision?.action}</AlertDialogTitle>
+            <AlertDialogTitle>{decision?.action === 'reopen' ? 'Give 20 more minutes?' : `Confirm ${decision?.action}`}</AlertDialogTitle>
             <AlertDialogDescription>
               {decision?.request.full_name} · {decision?.request.work_email}<br />
-              {decision?.action === 'approve' ? 'Send an invitation from Thomas@1325.ai for one twenty-minute viewing on one device. The timer begins on first entry.' : decision?.action === 'deny' ? 'Deny this request without sending an access link.' : 'Disable this approval and its access link. An open preview locks at its next access check.'}
+              {decision?.action === 'reopen' ? 'Send a new link from Thomas@1325.ai for another twenty-minute viewing on one device. The timer begins when they open the new link.' : decision?.action === 'approve' ? 'Send an invitation from Thomas@1325.ai for one twenty-minute viewing on one device. The timer begins on first entry.' : decision?.action === 'deny' ? 'Deny this request without sending an access link.' : 'Disable this approval and its access link. An open preview locks at its next access check.'}
             </AlertDialogDescription>
           </AlertDialogHeader>
           {notice?.warning && <p role="alert" className="text-destructive text-sm">{notice.text}</p>}
           <AlertDialogFooter>
             <Button variant="outline" disabled={saving} onClick={() => setDecision(null)}>Cancel</Button>
-            <Button variant={decision?.action === 'approve' ? 'default' : 'destructive'} disabled={saving} onClick={confirmDecision}>{saving ? 'Saving…' : `Confirm ${decision?.action ?? 'decision'}`}</Button>
+            <Button variant={decision?.action === 'approve' || decision?.action === 'reopen' ? 'default' : 'destructive'} disabled={saving} onClick={confirmDecision}>{saving ? 'Saving…' : decision?.action === 'reopen' ? 'Confirm 20 more minutes' : `Confirm ${decision?.action ?? 'decision'}`}</Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
