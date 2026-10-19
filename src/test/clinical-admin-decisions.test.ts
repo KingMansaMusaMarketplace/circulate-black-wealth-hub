@@ -42,3 +42,12 @@ describe('Clinical administrator decisions', () => {
     expect(allowedDecision('approved', 'revoke')).toBe(true); expect(allowedDecision('revoked', 'approve')).toBe(false); expect(allowedDecision('denied', 'revoke')).toBe(false);
   });
 });
+import { allowedDecision as allowedReopen } from '../../supabase/functions/health-access/admin-decision';
+describe('20 more minutes', () => {
+  it('only re-opens finished (expired) visits', () => {
+    expect(allowedReopen('expired', 'reopen')).toBe(true);
+    expect(allowedReopen('approved', 'reopen')).toBe(false);
+    expect(allowedReopen('denied', 'reopen')).toBe(false);
+    expect(allowedReopen('revoked', 'reopen')).toBe(false);
+  });
+});
