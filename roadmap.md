@@ -2,7 +2,7 @@
 
 ## Clinical Access dashboard verification — October 19, 2026
 - [x] Confirm Clarence's saved first entry at 04:03:05 UTC and exact twenty-minute server deadline at 04:23:05 UTC; no live visitor decisions changed.
-- [ ] Run expanded dashboard checks for elapsed-time cap, expiry status, focus refresh and confirmed revocation, alongside existing access/email checks.
+- [x] Expanded dashboard/access/email checks passed: 29 frontend tests and six service tests; elapsed-time cap, expiry status, focus refresh and confirmed revocation verified with fictional test data. Build OK.
 - [ ] Verify live signed-in administrator controls end-to-end — blocked: external_unmanaged Supabase has no authorized browser test session; never revoke or interrupt Clarence for testing.
 
 ## Clinical Access controls and Clarence invitation — October 19, 2026
