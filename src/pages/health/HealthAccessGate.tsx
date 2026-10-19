@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Lock, ShieldCheck, FileSearch, Mic, Stethoscope } from 'lucide-react';
 import { z } from 'zod';
+import { FunctionsHttpError } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -213,7 +214,17 @@ function Teaser({ notice = "" }: { notice?: string }) {
     setBusy(true);
     try {
       const { data, error: err } = await supabase.functions.invoke('health-access', { body: { action: 'request', ...p.data, nda: true } });
-      if (err || !data?.ok) { setError(data?.error ?? 'Something went wrong. Please try again.'); return; }
+      if (err || !data?.ok) {
+        // The SDK puts non-2xx JSON in the error response, not in data.
+        const failure = err instanceof FunctionsHttpError
+          ? await err.context.json().catch(() => null)
+          : data;
+        const message = failure?.error;
+        setError(typeof message === 'string' && message.trim()
+          ? message
+          : 'Your request could not be confirmed. Please try again.');
+        return;
+      }
       setSent(true);
     } catch { setError('Your request could not be confirmed. Please try again.'); }
     finally { setBusy(false); }
