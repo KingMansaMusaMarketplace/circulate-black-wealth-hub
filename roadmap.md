@@ -1,8 +1,13 @@
 # Roadmap
 
+## Clinical Access dashboard verification — October 19, 2026
+- [x] Confirm Clarence's saved first entry at 04:03:05 UTC and exact twenty-minute server deadline at 04:23:05 UTC; no live visitor decisions changed.
+- [x] Expanded dashboard/access/email checks passed: 29 frontend tests and six service tests; elapsed-time cap, expiry status, focus refresh and confirmed revocation verified with fictional test data. Build OK.
+- [ ] Verify live signed-in administrator controls end-to-end — blocked: external_unmanaged Supabase has no authorized browser test session; never revoke or interrupt Clarence for testing.
+
 ## Clinical Access controls and Clarence invitation — October 19, 2026
 - [x] Add confirmed administrator-only decisions, 15-second status refresh and explicit saved/email-provider outcomes; preserve visitor/clinical locks.
-- [x] Clarence's latest request at 03:39 UTC remains pending, with no approval or entry recorded; no request changed during diagnosis.
+- [x] Clarence's latest request was approved at 03:55:22 UTC and first entered at 04:03:05 UTC; read-only diagnosis did not change the request.
 - [x] 17 frontend/decision checks and six service checks passed; health-access deployed; deployed invalid authentication and missing custom-header requests both denied with 403. Build OK; no actual visitor decision changed during testing.
 - [ ] Signed-in decisions/email/readback — blocked: external unmanaged Supabase has no authorized test session.
 
