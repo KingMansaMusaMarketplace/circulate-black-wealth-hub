@@ -51,3 +51,20 @@ describe('20 more minutes', () => {
     expect(allowedReopen('revoked', 'reopen')).toBe(false);
   });
 });
+
+describe('add 20 minutes during a visit', () => {
+  it('only applies to approved visitors who are viewing now, resetting to twenty minutes', async () => {
+    const { administerDecision, allowedDecision } = await import('../../supabase/functions/health-access/admin-decision');
+    expect(allowedDecision('approved', 'extend')).toBe(true);
+    expect(allowedDecision('expired', 'extend')).toBe(false);
+    let saved: Record<string, unknown> = {};
+    const base = { id: 'r', status: 'approved', revoked_at: null, full_name: 'A', work_email: 'a@x.com', first_entered_at: new Date().toISOString() };
+    const deps = (row: object) => ({ authorize: async () => true, read: async () => row as never, save: async (_i: string, _e: string, c: Record<string, unknown>) => { saved = c; return true; }, sendApproval: async () => true });
+    const input = { request_id: 'r', decision: 'extend' as const, expected_status: 'approved', confirmed: true as const };
+    const ok = await administerDecision(input, deps({ ...base, viewing_expires_at: new Date(Date.now() + 60000).toISOString() }));
+    expect(ok.status).toBe(200);
+    const left = Date.parse(saved.viewing_expires_at as string) - Date.now();
+    expect(left).toBeGreaterThan(19.9 * 60000); expect(left).toBeLessThanOrEqual(20 * 60000);
+    expect((await administerDecision(input, deps({ ...base, viewing_expires_at: new Date(Date.now() - 1000).toISOString() }))).status).toBe(409);
+  });
+});
