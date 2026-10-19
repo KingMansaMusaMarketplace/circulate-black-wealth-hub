@@ -171,7 +171,7 @@ Deno.serve(async (req) => {
   });
   await resend.emails.send({
     ...clinicalEmailRouting(),
-    subject: `New 1325 Clinical access request: ${p.data.full_name} — ${p.data.organization}`,
+    subject: `New 1325 Clinical EMR / EHR access request: ${p.data.full_name} — ${p.data.organization}`,
     ...requestEmail,
   });
   return json({ ok: true });

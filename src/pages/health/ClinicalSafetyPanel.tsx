@@ -35,7 +35,7 @@ export default function ClinicalSafetyPanel() {
   return <Sheet open={open} onOpenChange={setOpen}>
     <SheetTrigger asChild><Button variant="outline" size="sm" className="gap-2 border-mansagold/40"><ShieldCheck className="h-4 w-4 text-mansagold" />Clinical safety</Button></SheetTrigger>
     <SheetContent side="right" className="theme-clinical dark w-full overflow-y-auto border-mansagold/30 bg-background text-foreground sm:max-w-xl motion-reduce:animate-none">
-      <SheetHeader className="pr-6 text-left"><div className="mb-3 flex items-center gap-3"><img src={logo1325} alt="1325.AI logo" className="h-10 w-10 object-contain" /><span className="text-sm font-semibold text-mansagold">1325 Clinical · Enterprise Edition</span></div><SheetTitle className="text-xl">Clinical safety & physician review</SheetTitle><SheetDescription>Fictional documentation context · No clinical safety clearance</SheetDescription></SheetHeader>
+      <SheetHeader className="pr-6 text-left"><div className="mb-3 flex items-center gap-3"><img src={logo1325} alt="1325.AI logo" className="h-10 w-10 object-contain" /><span className="text-sm font-semibold text-mansagold">1325 Clinical EMR / EHR · Enterprise Edition</span></div><SheetTitle className="text-xl">Clinical safety & physician review</SheetTitle><SheetDescription>Fictional documentation context · No clinical safety clearance</SheetDescription></SheetHeader>
       {open && <SafetyContent />}
     </SheetContent>
   </Sheet>;

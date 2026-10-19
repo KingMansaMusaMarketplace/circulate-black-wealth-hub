@@ -21,7 +21,7 @@ export function buildReviewedReport(input: ReportInput, logo?: HTMLImageElement)
   let y = 0;
   const footer = () => {
     doc.setFontSize(8); doc.setTextColor(110);
-    doc.text('1325.AI · 1325 Clinical · FICTIONAL SAMPLE — NOT A REAL PATIENT RECORD', M, H - 24);
+    doc.text('1325.AI · 1325 Clinical EMR / EHR · FICTIONAL SAMPLE — NOT A REAL PATIENT RECORD', M, H - 24);
     doc.text(`Page ${doc.getNumberOfPages()}`, W - M, H - 24, { align: 'right' });
   };
   const ensure = (h: number) => { if (y + h > H - 50) { footer(); doc.addPage(); y = M; } };
@@ -38,7 +38,7 @@ export function buildReviewedReport(input: ReportInput, logo?: HTMLImageElement)
   y += 50;
   doc.setTextColor(0); doc.setFont('helvetica', 'bold'); doc.setFontSize(10);
   const when = new Date(input.signedAt ?? '').toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
-  { const sig = doc.splitTextToSize(`Reviewed and signed by ${input.signerName ?? "a clinic doctor"} on ${when} via 1325 Clinical${input.clinicName ? ` (${input.clinicName})` : ''}`, W - 2 * M); doc.text(sig, M, y); y += (sig.length - 1) * 13; }
+  { const sig = doc.splitTextToSize(`Reviewed and signed by ${input.signerName ?? "a clinic doctor"} on ${when} via 1325 Clinical EMR / EHR${input.clinicName ? ` (${input.clinicName})` : ''}`, W - 2 * M); doc.text(sig, M, y); y += (sig.length - 1) * 13; }
   y += 14; doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(90);
   doc.text('Fictional sample visit. Drafted by Kayla (AI assistant); reviewed by a clinician. Not for patient care, billing, or legal use.', M, y);
   y += 24;

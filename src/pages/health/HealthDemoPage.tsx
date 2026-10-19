@@ -774,8 +774,8 @@ export default function HealthDemoPage() {
   const current = MODULES.find((m) => m.key === mod) ?? MODULES[0];
   return (
     <div className="theme-clinical dark flex min-h-screen flex-col">
-      <Helmet><title>1325 Clinical — Investor Demo | 1325.AI</title>
-        <meta name="description" content="Investor preview of 1325 Clinical, a planned AI-powered health record system by 1325.AI. Sample data only." /></Helmet>
+      <Helmet><title>1325 Clinical EMR / EHR — Investor Demo | 1325.AI</title>
+        <meta name="description" content="Investor preview of 1325 Clinical EMR / EHR, a planned AI-powered health record system by 1325.AI. Sample data only." /></Helmet>
       <div className="flex items-center justify-center gap-2 border-b border-mansagold/30 bg-mansagold/10 px-4 py-1.5 text-center text-xs font-medium tracking-wide text-mansagold">
         <Lock className="h-3.5 w-3.5" /> INVESTOR DEMO · Fictional sample data · Not yet approved for real patient records
       </div>
@@ -783,7 +783,7 @@ export default function HealthDemoPage() {
         <div className="flex items-center gap-3">
           <img src={logo1325} alt="1325.AI logo" className="h-10 w-10 rounded-lg object-contain" />
           <div className="leading-tight">
-            <p className="text-base font-semibold tracking-tight text-mansagold">1325 Clinical</p>
+            <p className="text-base font-semibold tracking-tight text-mansagold">1325 Clinical EMR / EHR</p><p className="text-xs text-muted-foreground">Private preview · sample data only</p>
             <p className="text-[11px] uppercase tracking-[0.2em] text-mansagold/70">Enterprise Edition · by 1325.AI</p>
           </div>
         </div>

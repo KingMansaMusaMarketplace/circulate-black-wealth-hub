@@ -11,7 +11,7 @@ export default function EnterpriseReadiness() {
     <SheetTrigger asChild><Button variant="outline" size="sm" className="gap-2 border-mansagold/40"><ShieldCheck className="h-4 w-4 text-mansagold" />Readiness</Button></SheetTrigger>
     <SheetContent className="theme-clinical dark w-full overflow-y-auto border-mansagold/30 bg-background text-foreground sm:max-w-xl motion-reduce:animate-none" side="right">
       <SheetHeader className="pr-6 text-left">
-        <div className="mb-3 flex items-center gap-3"><img src={logo1325} alt="1325.AI logo" className="h-10 w-10 object-contain" /><span className="text-sm font-semibold text-mansagold">1325 Clinical · Enterprise Edition</span></div>
+        <div className="mb-3 flex items-center gap-3"><img src={logo1325} alt="1325.AI logo" className="h-10 w-10 object-contain" /><span className="text-sm font-semibold text-mansagold">1325 Clinical EMR / EHR · Enterprise Edition</span></div>
         <SheetTitle className="text-xl">Enterprise readiness</SheetTitle>
         <SheetDescription>Healthcare privacy & readiness roadmap · fictional evaluation only</SheetDescription>
       </SheetHeader>

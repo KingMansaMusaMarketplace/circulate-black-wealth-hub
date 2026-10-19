@@ -232,7 +232,7 @@ const AdminDashboardPage: React.FC = () => {
                     >
                       <a href="https://health.1325.ai/" target="_blank" rel="noopener noreferrer">
                         <Activity className="h-4 w-4 shrink-0" />
-                        <span className="text-left">1325 Clinical — health.1325.ai</span>
+                        <span className="text-left">1325 Clinical EMR / EHR — health.1325.ai</span>
                         <ExternalLink className="h-4 w-4 shrink-0" />
                       </a>
                     </Button>

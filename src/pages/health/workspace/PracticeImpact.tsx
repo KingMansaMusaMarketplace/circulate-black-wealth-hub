@@ -40,7 +40,7 @@ export default function PracticeImpact() {
         {fields.map((field) => <div key={field.key} className="space-y-2"><Label htmlFor={`impact-${field.key}`}>{field.label}</Label>
           <Input id={`impact-${field.key}`} type="number" inputMode="decimal" required min={field.min} max={field.max} step={field.step} value={values[field.key]} onChange={(event) => { setValues((prev) => ({ ...prev, [field.key]: event.target.value })); setResult(null); setError(''); }} />
         </div>)}
-        <p className="text-xs text-muted-foreground">Use your own expected time reduction and total monthly costs, including implementation or review costs you choose to include. This is not a 1325 Clinical price quote.</p>
+        <p className="text-xs text-muted-foreground">Use your own expected time reduction and total monthly costs, including implementation or review costs you choose to include. This is not a 1325 Clinical EMR / EHR price quote.</p>
         <Button type="submit"><Calculator className="mr-2 h-4 w-4" />Calculate scenario</Button>
         {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
       </form>

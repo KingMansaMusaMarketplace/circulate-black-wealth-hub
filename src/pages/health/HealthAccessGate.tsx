@@ -244,8 +244,8 @@ function Teaser({ notice = "" }: { notice?: string }) {
   return (
     <div className="min-h-screen" style={{ background: 'linear-gradient(160deg,#001a33,#003366 60%,#001a33)', color: '#fff' }}>
       <Helmet>
-        <title>1325 Clinical — Private Physician Preview</title>
-        <meta name="description" content="1325 Clinical is an invitation-only AI clinical co-pilot for record review and note-taking." />
+        <title>1325 Clinical EMR / EHR — Private Physician Preview</title>
+        <meta name="description" content="1325 Clinical EMR / EHR is an invitation-only AI clinical co-pilot for record review and note-taking." />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       <div className="mx-auto max-w-6xl px-6 py-12 grid gap-12 lg:grid-cols-2 items-start">
@@ -254,7 +254,8 @@ function Teaser({ notice = "" }: { notice?: string }) {
           <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs mb-6" style={{ borderColor: '#FFB300', color: '#FFB300' }}>
             <Lock className="h-3 w-3" /> Private Physician Preview · By invitation only
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">1325 Clinical</h1>
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">1325 Clinical EMR / EHR</h1>
+          <p className="-mt-2 mb-4 text-sm font-medium" style={{ color: "#FFB300" }}>Private preview · sample data only</p>
           <p className="text-lg opacity-85 mb-8">An AI-powered clinical co-pilot that helps physicians review records and document visits faster — with every finding linked to its source.</p>
           <div className="space-y-5">
             {features.map(({ icon: I, t, d }) => (
@@ -293,7 +294,7 @@ function Teaser({ notice = "" }: { notice?: string }) {
               <Input type="tel" required placeholder="Phone *" value={form.phone} onChange={set('phone')} maxLength={40} className="bg-white text-black" />
               <label className="flex gap-3 text-xs opacity-85 items-start">
                 <input type="checkbox" checked={nda} onChange={(e) => setNda(e.target.checked)} className="mt-0.5" />
-                <span>I agree to the Proprietary &amp; Confidential notice: 1325 Clinical is licensed to me for evaluation only. I will not copy, share, record, screenshot, reverse-engineer, or use it to build a similar product, and any commercial or clinical use requires a separate written license from 1325.AI.</span>
+                <span>I agree to the Proprietary &amp; Confidential notice: 1325 Clinical EMR / EHR is licensed to me for evaluation only. I will not copy, share, record, screenshot, reverse-engineer, or use it to build a similar product, and any commercial or clinical use requires a separate written license from 1325.AI.</span>
               </label>
               {error && <p className="text-sm" style={{ color: '#ff8a80' }}>{error}</p>}
               <Button type="submit" disabled={busy} className="w-full font-semibold" style={{ background: '#FFB300', color: '#001a33' }}>

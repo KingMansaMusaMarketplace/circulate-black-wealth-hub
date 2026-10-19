@@ -21,7 +21,7 @@ export default function ExecutiveQuality({ facilityContext = DEFAULT_FACILITY_CO
   ];
   return <div className="space-y-8">
     <section className="space-y-3 border-b border-border pb-6">
-      <div className="flex flex-wrap items-center justify-between gap-3"><p className="text-sm font-medium text-mansagold">1325 Clinical · Executive quality overview</p><Badge variant="outline" className="border-mansagold/40 text-mansagold">Fictional evaluation only</Badge></div>
+      <div className="flex flex-wrap items-center justify-between gap-3"><p className="text-sm font-medium text-mansagold">1325 Clinical EMR / EHR · Executive quality overview</p><Badge variant="outline" className="border-mansagold/40 text-mansagold">Fictional evaluation only</Badge></div>
       <h2 className="text-xl font-semibold">Evidence before outcomes</h2>
       <p className="text-sm text-muted-foreground">{facility.name} · {facilityContext.department} · Illustrative location, not a connected facility.</p>
       <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground">Sample evidence is available for review. Clinical quality, savings and production reliability have not been independently verified. No overall quality score is assigned.</p>
