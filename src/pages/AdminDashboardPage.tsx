@@ -55,6 +55,7 @@ import WebhookManager from '@/components/admin/WebhookManager';
 import APITokenManager from '@/components/admin/APITokenManager';
 import SystemHealthDashboard from '@/components/admin/SystemHealthDashboard';
 import PartnerOnboardingFunnel from '@/components/admin/PartnerOnboardingFunnel';
+import ClinicalAccessMonitor from '@/components/admin/ClinicalAccessMonitor';
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { PlayCircle, Home, Activity, ExternalLink } from 'lucide-react';
@@ -80,6 +81,8 @@ const AdminDashboardPage: React.FC = () => {
     switch (activeTab) {
       case 'hub':
         return <AdminHub onNavigate={setActiveTab} />;
+      case 'clinical-access':
+        return <ClinicalAccessMonitor />;
       case 'overview':
         return <AdminAnalyticsDashboard />;
       case 'users':
