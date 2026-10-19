@@ -57,5 +57,5 @@ Deno.serve(async req => {
     },
     onError: error => error instanceof Error ? error.message : 'Kayla could not complete this request.',
   });
-  return withLovableAiGatewayRunIdHeader(createUIMessageStreamResponse({ stream, headers: cors }), call.gateway, cors);
+  return withLovableAiGatewayRunIdHeader(createUIMessageStreamResponse({ stream }), call.gateway, cors);
 });
