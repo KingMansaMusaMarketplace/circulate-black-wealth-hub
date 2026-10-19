@@ -1,7 +1,8 @@
 # Roadmap
 
 ## Approved clinical publishing — October 19, 2026
-- [ ] Publish conversational Kayla and confirm the live private gate; recover the verification build's default-heap exhaustion before publishing.
+- [x] Recover verification build heap exhaustion; harness build OK at 07:18:18 UTC. Publishing requested for conversational Kayla.
+- [ ] Confirm completed deployment and approved signed-in question/voice flow — awaiting deployment and an authorized test session.
 
 ## Approved conversational clinical Kayla — October 19, 2026
 - [x] Replace recording-first guide with one unsaved product conversation, locally validated typed questions and server-owned topic requests; preserve patient intake and private-access restrictions.
