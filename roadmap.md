@@ -1,5 +1,10 @@
 # Roadmap
 
+## Approved conversational clinical Kayla — October 19, 2026
+- [ ] Replace recording-first guide with one unsaved product conversation, locally validated typed questions and server-owned topic requests; preserve patient intake and private-access restrictions.
+- [ ] Add authenticated streaming product answers using the shared Kayla brain and full verified in-memory history, navigation and optional answer reading.
+- [ ] Run focused safety/conversation tests, deployed service checks and available browser verification; signed-in testing remains blocked by external unmanaged authentication.
+
 ## Clinical Kayla button correction — October 19, 2026
 - [x] Bring product answers into view without competing walkthrough controls; add one-click opt-in prerecorded narration, pause/resume and mute. Repeated header clicks reopen/focus the guide.
 - [x] Guidance/playback/navigation/access regression checks passed; build OK. Public browser gate retains private controls with no page errors.
