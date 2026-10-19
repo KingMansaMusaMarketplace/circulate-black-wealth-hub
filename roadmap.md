@@ -2,7 +2,8 @@
 
 ## Unlimited owner clinical access — October 19, 2026
 - [x] Check server-verified administrator sign-in before old visitor exit markers; retain visitor deadlines, role verification and explicit session exit.
-- [ ] Verify unlimited administrator viewing, denied access and lost administrator privileges with regression tests; live owner sign-in remains unavailable to automated testing on external Supabase.
+- [x] Nineteen access regression checks passed, including administrator viewing beyond twenty minutes, prior visitor exit recovery, denied roles and lost privileges; harness build OK.
+- [ ] Verify live owner sign-in — blocked: external Supabase has no authorized automated test session. This correction requires publishing.
 
 ## Clinical request error correction — October 19, 2026
 - [x] Confirm the requesting email has three requests within the existing 24-hour limit; preserve the limit and approval rules.
