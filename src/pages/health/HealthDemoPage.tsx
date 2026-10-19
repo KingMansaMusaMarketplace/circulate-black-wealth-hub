@@ -305,7 +305,7 @@ const Compliance = () => (
 );
 
 const INBOX = [
-  { kind: 'Lab result', pri: 'Urgent', patient: 'Avery Example', text: 'Potassium 5.6 mmol/L (high). Kayla: on lisinopril + spironolactone — consider repeat BMP and dose review.', due: 'Today' },
+  { kind: 'Lab result', pri: 'Urgent', patient: 'Avery Example', text: 'Potassium 5.6 mmol/L (high). Kayla: flagged for the doctor; current medications listed in the chart. Doctor decides next steps.', due: 'Today' },
   { kind: 'Refill request', pri: 'Normal', patient: 'Jordan Sample', text: 'Gabapentin 300 mg — flagged: 3rd early refill in 90 days. Review before signing.', due: 'Today' },
   { kind: 'Note to sign', pri: 'Normal', patient: 'Morgan Placeholder', text: 'Shoulder follow-up note drafted by Kayla from the visit. Ready for signature.', due: 'Today' },
   { kind: 'Patient message', pri: 'Normal', patient: 'Avery Example', text: '"My ankles are a little swollen this week." Kayla matched it to a 3 lb weight gain from home scale.', due: 'Today' },
@@ -414,7 +414,7 @@ const Revenue = () => (
 
 type LabRow = { test: string; value: string; range: string; flag: 'H' | 'L' | '' };
 const LAB_PANELS: { patient: string; panel: string; date: string; status: string; rows: LabRow[]; kayla: string }[] = [
-  { patient: 'Avery Example', panel: 'Basic Metabolic Panel (BMP)', date: 'Oct 14', status: 'Resulted', kayla: 'Potassium is high and kidney function dipped slightly. Likely related to lisinopril + spironolactone. Consider repeat BMP in 3–5 days and dose review.',
+  { patient: 'Avery Example', panel: 'Basic Metabolic Panel (BMP)', date: 'Oct 14', status: 'Resulted', kayla: 'Potassium is above the reference range and kidney function is lower than the prior result. Flagged for the doctor’s review, with current medications shown from the chart.',
     rows: [{ test: 'Potassium', value: '5.6 mmol/L', range: '3.5–5.1', flag: 'H' }, { test: 'Sodium', value: '138 mmol/L', range: '135–145', flag: '' }, { test: 'Creatinine', value: '1.4 mg/dL', range: '0.6–1.2', flag: 'H' }, { test: 'Glucose', value: '128 mg/dL', range: '70–99', flag: 'H' }] },
   { patient: 'Jordan Sample', panel: 'Hemoglobin A1c', date: 'Oct 10', status: 'Resulted', kayla: 'A1c improved from 7.4% to 6.9% over 3 months. At goal — continue current plan.',
     rows: [{ test: 'Hemoglobin A1c', value: '6.9 %', range: '< 7.0 goal', flag: '' }] },
@@ -586,7 +586,7 @@ const VideoVisits = () => {
               <p><b>Subjective:</b> Patient reports mild ankle swelling for 5 days.</p>
               <p><b>Objective:</b> Home scale +3 lb in 7 days; BP 132/84 (home cuff).</p>
               <p><b>Assessment:</b> Possible fluid retention, heart failure.</p>
-              <p><b>Plan:</b> Doctor to decide — Kayla suggests repeat BMP and diuretic review.</p>
+              <p><b>Plan:</b> Doctor to decide — Kayla has gathered the lab trend and medication list for review.</p>
               <p className="text-xs text-muted-foreground">Draft only. The doctor reviews and signs.</p>
             </CardContent></Card>
         </div>
