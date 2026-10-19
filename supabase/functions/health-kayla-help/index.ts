@@ -1,4 +1,5 @@
 import { createClient } from 'npm:@supabase/supabase-js@2';
+import { corsHeaders } from 'npm:@supabase/supabase-js@2/cors';
 import { createUIMessageStream, createUIMessageStreamResponse } from 'npm:ai@6.0.309';
 import { authorizeClinicalPreview } from '../_shared/clinical-preview-auth.ts';
 import { PRODUCT_HELP } from '../_shared/clinical-product-catalog.ts';
@@ -7,7 +8,7 @@ import { readHelpHistory, sealReply } from '../_shared/clinical-help-history.ts'
 import { createResponsesCall } from '../_shared/clinical-help-responses.ts';
 import { withLovableAiGatewayRunIdHeader } from '../_shared/clinical-help-run-id.ts';
 
-const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'authorization, apikey, content-type, x-client-info, x-csrf-token, x-hc-preview-token, x-hc-preview-device' };
+const cors = { ...corsHeaders, 'Access-Control-Allow-Headers': `${corsHeaders['Access-Control-Allow-Headers']}, x-csrf-token, x-hc-preview-token, x-hc-preview-device` };
 const json = (error: string, status: number) => new Response(JSON.stringify({ error }), { status, headers: { ...cors, 'Content-Type': 'application/json' } });
 Deno.serve(async req => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
@@ -27,7 +28,7 @@ Deno.serve(async req => {
   let body;
   try { body = JSON.parse(raw); } catch { return json('Invalid product request.', 400); }
   if (!body || Object.keys(body).sort().join(',') !== 'surface,turns' || !['demo','workspace'].includes(body.surface)) return json('Only product topic selections are accepted. Patient text is blocked.', 400);
-  const key = `${serviceKey}:${data.user.id}`;
+  const key = `${serviceKey}:${data.user.id}:${req.headers.get('x-hc-preview-token') ?? 'admin'}:${req.headers.get('x-hc-preview-device') ?? ''}`;
   let history;
   try { history = await readHelpHistory(body.turns, key); } catch (e) { return json(e instanceof Error ? e.message : 'Invalid product history', 400); }
   const apiKey = Deno.env.get('LOVABLE_API_KEY');

@@ -6,6 +6,7 @@ import { HELP_POLICY, PRODUCT_HELP, resolveHelpTarget } from '@/pages/health/pro
 import { narrationCatalog } from '@/pages/health/clinical-narration';
 import { compileHelpQuestion, canonicalQuestion, validSelection } from '../../supabase/functions/_shared/clinical-help-intake';
 import { readHelpHistory, sealReply } from '../../supabase/functions/_shared/clinical-help-history';
+import { helpGatewayFailure } from '../../supabase/functions/_shared/clinical-help-errors';
 
 const ask = vi.fn();
 vi.mock('@/pages/health/ClinicalHelpConversation', () => ({ useClinicalHelpConversation: () => ({ messages: [], status: 'ready', problem: '', ask, clear: vi.fn(), previousTopics: () => [] }) }));
@@ -53,6 +54,11 @@ describe('clinical product guidance boundaries', () => {
 });
 
 describe('product-only conversation intake', () => {
+  it('preserves credit and denial statuses and messages without retries', () => {
+    expect(helpGatewayFailure(403, { message: 'Provider access denied' })).toEqual({ status: 403, message: 'Provider access denied', paused: true });
+    expect(helpGatewayFailure(402, { message: 'Top up credits' })).toEqual({ status: 402, message: 'Top up credits', paused: true });
+    expect(helpGatewayFailure(400, { message: 'Invalid request' }).paused).toBe(false);
+  });
   it('answers the requested whole-platform question using IDs only', () => {
     const selection = compileHelpQuestion('Please tell me about 1325 Clinical and about the features');
     expect(selection).toEqual({ topics: ['overview'], intent: 'explain' });

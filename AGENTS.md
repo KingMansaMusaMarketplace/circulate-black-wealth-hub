@@ -1,7 +1,7 @@
 # AGENTS
 - Clinical safety follows src/pages/health/AGENTS.md; admin decisions use verified identity and conditional writes in health-access/admin-decision.ts, sharing approval-email.ts to prevent mail drift.
 - Clinical presentation screens (charts, doctor-day, readiness, specialties, impact, authorization) use fixed fictional evidence, unknown missing facts and unsaved local rehearsals without approval, export or delivery; prevents demos becoming clinical clearance.
-- Clinical product help shares a server catalog and closed local question compiler; only topic/intent IDs and signed answer receipts cross the network, with no stored chat, preventing patient text and forged history. See health/AGENTS.md.
+- Clinical product help shares a server catalog and closed local question compiler; only topic/intent IDs and viewer/device-bound signed receipts cross the network, with no stored chat. Server-verified access guards streamed chunks; terminal AI pauses use private system_settings so denial survives restarts. See health/AGENTS.md.
 - AI Elements supplies conversation primitives; disabled attachments and shared icon sizing block hidden uploads.
 - Clinical private access uses atomic server deadlines/device binding; expiry or exit consumes approval, and sign-out/reload stops media. The shared gate watermarks only the current verified viewer; details follow health/AGENTS.md.
 - Clinical mail uses health-access/email-routing.ts for routing and confirmation.ts for shared inline brand tokens; approval-email.ts serves all invitations to prevent drift. Escape visitor fields, retain plain text and require a provider message ID before claiming sending acceptance.
