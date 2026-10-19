@@ -2,9 +2,13 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { Resend } from "https://esm.sh/resend@2.0.0";
 import { z } from "https://esm.sh/zod@3.23.8";
-import { accessRequestEmail, approvedContent, confirmationPage, emailWasAccepted } from './confirmation.ts';
+import { accessRequestEmail, approvedContent, confirmationPage } from './confirmation.ts';
 import { decisionCookieName, validDecisionSubmission } from './decision-confirmation.ts';
-import { CLINICAL_OWNER_EMAIL, clinicalEmailRouting } from './email-routing.ts';
+import { clinicalEmailRouting } from './email-routing.ts';
+
+import { administerDecision } from './admin-decision.ts';
+import { sendClinicalApproval } from './approval-email.ts';
+import { validateCsrf } from '../_shared/csrf-guard.ts';
 
 const cors = {
   ...corsHeaders,
@@ -12,7 +16,7 @@ const cors = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token, x-hc-preview-token, x-hc-preview-device",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 };
-const SITE = "https://health.1325.ai";
+
 const FN_URL = `${Deno.env.get("SUPABASE_URL")}/functions/v1/health-access`;
 
 const db = createClient(Deno.env.get("SUPABASE_URL") ?? '', Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? '');
@@ -36,6 +40,7 @@ const Request = z.object({
 });
 const Verify = z.object({ action: z.enum(["verify", "end"]), token: z.string().regex(/^[a-f0-9]{48}$/), device: z.string().regex(/^[a-f0-9]{32}$/), path: z.string().max(200).optional() });
 const WINDOW_DAYS = 7;
+const AdminDecision = z.object({ action: z.literal('admin_decision'), request_id: z.string().uuid(), decision: z.enum(['approve', 'deny', 'revoke']), expected_status: z.enum(['pending', 'approved']), confirmed: z.literal(true) }).strict();
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
@@ -80,12 +85,7 @@ Deno.serve(async (req) => {
     if (approvalError || !approved) return page('Approval not saved', '<p>Your approval could not be saved. Please try again from your request email.</p>');
     let accepted = false;
     try {
-    const emailResult = await resend.emails.send({
-      ...clinicalEmailRouting(r.work_email), subject: "Your private access to 1325 Clinical",
-      text: `Hello ${r.full_name},\n\nThomas approved your request to view 1325 Clinical.\n\nOpen your preview: ${SITE}/?access=${access}\n\nYour link expires ${expires.toUTCString()}. You receive one twenty-minute viewing, starting when you first enter. Refreshing or returning does not restart the timer. After expiry or ending the session, request Thomas’s approval again. Your name, email and date appear in a confidential screen watermark. Use your approved device and do not forward your link.\n\nIf this message reached Spam/Junk, mark it Not Junk and add ${CLINICAL_OWNER_EMAIL} to your contacts.\n\nThomas\n1325.AI\n${CLINICAL_OWNER_EMAIL}\n\nPrivate and confidential. Do not copy, share or reproduce preview materials. U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.`,
-      html: `<p>Hello ${esc(r.full_name)},</p><p>Thomas approved your request to view 1325 Clinical.</p><p><a href="${SITE}/?access=${access}">Open your preview</a></p><p>Your link expires ${expires.toUTCString()}. You receive one twenty-minute viewing, starting when you first enter. Refreshing or returning does not restart the timer. After expiry or ending the session, request Thomas’s approval again. Your name, email and date appear in a confidential screen watermark. Use your approved device and do not forward your link.</p><p>If this message reached Spam/Junk, mark it Not Junk and add ${CLINICAL_OWNER_EMAIL} to your contacts.</p><p>Thomas<br>1325.AI<br>${CLINICAL_OWNER_EMAIL}</p><p>Private and confidential. Do not copy, share or reproduce preview materials. U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.</p>`,
-    });
-    accepted = emailWasAccepted(emailResult);
+    accepted = await sendClinicalApproval(message => resend.emails.send(message), r, access, expires);
     } catch {
       accepted = false;
     }
@@ -96,6 +96,35 @@ Deno.serve(async (req) => {
   if (req.method !== 'POST') return json({ error: 'Use POST' }, 405);
   let body: unknown;
   try { body = await req.json(); } catch { return json({ error: "Invalid request" }, 400); }
+
+  if ((body as { action?: string } | null)?.action === 'admin_decision') {
+    if (!validateCsrf(req).valid) return json({ error: 'Reload this page before confirming your decision.' }, 403);
+    const parsed = AdminDecision.safeParse(body);
+    if (!parsed.success) return json({ error: 'A valid request and confirmed decision are required.' }, 400);
+    try {
+      const result = await administerDecision(parsed.data, {
+        authorize: async () => {
+          const jwt = (req.headers.get('authorization') ?? '').replace(/^Bearer\s+/i, '');
+          if (!jwt) return false;
+          const { data, error } = await db.auth.getUser(jwt);
+          if (error || !data.user) return false;
+          const role = await db.rpc('has_role', { _user_id: data.user.id, _role: 'admin' });
+          return !role.error && role.data === true;
+        },
+        read: async id => {
+          const { data, error } = await db.from('hc_access_requests').select('id,status,revoked_at,full_name,work_email').eq('id', id).maybeSingle();
+          if (error) throw error;
+          return data;
+        },
+        save: async (id, expected, changes) => {
+          const { data, error } = await db.from('hc_access_requests').update(changes).eq('id', id).eq('status', expected).is('revoked_at', null).select('id,status').maybeSingle();
+          return !error && data?.status === changes.status;
+        },
+        sendApproval: (r, access, expires) => sendClinicalApproval(message => resend.emails.send(message), r, access, expires),
+      });
+      return json(result.body, result.status);
+    } catch { return json({ error: 'Could not confirm the decision. Refresh to check its status before retrying.' }, 500); }
+  }
 
   // Admins (verified server-side via user_roles) always have access
   if ((body as { action?: string })?.action === "admin") {
