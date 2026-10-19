@@ -37,7 +37,9 @@ Deno.serve(async req => {
   if (pause?.setting_value?.paused) return json(pause.setting_value.message ?? 'Kayla AI is paused pending administrator action.', pause.setting_value.status === 402 ? 402 : 403);
   const lessons = await loadApprovedImprovements(service);
   const catalogue = PRODUCT_HELP.map(t => ({ feature: t.feature, answer: t.answer, steps: t.steps, boundary: t.boundary, status: t.status, destination: t[body.surface as 'demo' | 'workspace'] ?? 'Not a separate screen in this view' }));
-  const call = createResponsesCall(req, { baseURL: 'https://ai.gateway.lovable.dev/v1', apiKey, model: 'openai/gpt-6-astra', onBlocked: async failure => {
+  const accessAbort = new AbortController();
+  const modelRequest = new Request(req.url, { headers: req.headers, signal: AbortSignal.any([req.signal, accessAbort.signal]) });
+  const call = createResponsesCall(modelRequest, { baseURL: 'https://ai.gateway.lovable.dev/v1', apiKey, model: 'openai/gpt-6-astra', onBlocked: async failure => {
     const { error } = await service.from('system_settings').upsert({ setting_key: 'clinical_help_ai_pause', setting_value: { ...failure, paused: true }, setting_type: 'json', category: 'clinical', is_public: false, description: 'Terminal AI access pause; administrator must restore access and explicitly clear pause.' }, { onConflict: 'setting_key' });
     if (error) throw new Error('Could not record the terminal AI pause. Contact Thomas@1325.ai.');
   } }, history, buildClinicalProductHelpPrompt(JSON.stringify(catalogue), lessons));
@@ -51,6 +53,7 @@ Deno.serve(async req => {
       const guarded = result.toUIMessageStream({ sendReasoning: false }).pipeThrough(new TransformStream({
         async transform(chunk, controller) {
           if (!await authorizeClinicalPreview(service, req, data.user)) {
+            accessAbort.abort();
             controller.error(new Error('Private viewing has ended. Request fresh approval.'));
             return;
           }

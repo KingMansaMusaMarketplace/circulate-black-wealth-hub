@@ -59,6 +59,7 @@ function useConversation() {
   const clearRef = useRef(clear); clearRef.current = clear;
   useEffect(() => {
     alive.current = true;
+    resetting.current = false;
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT' || (account.current && session?.user.id !== account.current)) {
         void clearRef.current();
