@@ -1,4 +1,5 @@
 # AGENTS
+- Development verification builds reserve an 8 GiB Node heap because the large module graph exceeds the default heap during chunk rendering.
 - Clinical safety follows src/pages/health/AGENTS.md; admin decisions use verified identity and conditional writes in health-access/admin-decision.ts, sharing approval-email.ts to prevent mail drift.
 - Clinical presentation screens (charts, doctor-day, readiness, specialties, impact, authorization) use fixed fictional evidence, unknown missing facts and unsaved local rehearsals without approval, export or delivery; prevents demos becoming clinical clearance.
 - Clinical product help shares a server catalog and closed local question compiler; only topic/intent IDs and viewer/device-bound signed receipts cross the network, with no stored chat. Server-verified access guards streamed chunks; terminal AI pauses use private system_settings so denial survives restarts. See health/AGENTS.md.

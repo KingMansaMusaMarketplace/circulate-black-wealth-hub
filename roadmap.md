@@ -1,5 +1,8 @@
 # Roadmap
 
+## Approved clinical publishing — October 19, 2026
+- [ ] Publish conversational Kayla and confirm the live private gate; recover the verification build's default-heap exhaustion before publishing.
+
 ## Approved conversational clinical Kayla — October 19, 2026
 - [x] Replace recording-first guide with one unsaved product conversation, locally validated typed questions and server-owned topic requests; preserve patient intake and private-access restrictions.
 - [x] Deploy authenticated streaming product answers using the shared Kayla brain and full verified in-memory history, navigation and optional answer reading; reject anonymous/invalid authentication, bind receipts to viewer/device and persist terminal AI availability pauses separately from chat.
