@@ -1,5 +1,10 @@
 # Roadmap
 
+## Approved clinical voice experience — October 19, 2026
+- [x] Add fixed spoken walkthrough, fictional source reading, illustrative assistant handoffs, visitor announcements and shared sound-off playback controls; twelve prerecorded clips generated with no runtime patient-text endpoint.
+- [x] Fourteen narration/playback/access checks passed; hosted audio returns audio/mpeg, build OK, public /health gate hides private voice controls with no page errors. Local asset URLs return HTML, so hosted asset delivery was checked instead.
+- [ ] Live approved/signed-in playback and visual walkthrough checks — blocked: external Supabase has no authorized browser session; no access bypass or impersonation used.
+
 ## Clinical Access dashboard verification — October 19, 2026
 - [x] Confirm Clarence's saved first entry at 04:03:05 UTC and exact twenty-minute server deadline at 04:23:05 UTC; no live visitor decisions changed.
 - [x] Expanded dashboard/access/email checks passed: 29 frontend tests and six service tests; elapsed-time cap, expiry status, focus refresh and confirmed revocation verified with fictional test data. Build OK.

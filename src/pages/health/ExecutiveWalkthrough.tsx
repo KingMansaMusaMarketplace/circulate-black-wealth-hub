@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, Check, Compass, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EXECUTIVE_TOUR_STEPS, ExecutiveTourTab } from './executive-tour';
+import ClinicalVoiceGuide from './ClinicalVoice';
 
 type Props = { onStep: (tab: ExecutiveTourTab, step: number) => void; onEnd: () => void };
 
@@ -31,5 +32,6 @@ export default function ExecutiveWalkthrough({ onStep, onEnd }: Props) {
         <div className="flex shrink-0 gap-2"><Button variant="outline" size="icon" disabled={index === 0} title="Previous step" aria-label="Previous step" onClick={() => go(index - 1)}><ArrowLeft /></Button><Button onClick={() => index === EXECUTIVE_TOUR_STEPS.length - 1 ? end() : go(index + 1)}>{index === EXECUTIVE_TOUR_STEPS.length - 1 ? <><Check />Finish walkthrough</> : <>Next step<ArrowRight /></>}</Button></div>
       </div>
     </div>}
+    <ClinicalVoiceGuide tourId={step?.id} />
   </section>;
 }

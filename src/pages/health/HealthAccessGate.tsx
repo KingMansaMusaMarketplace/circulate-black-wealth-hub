@@ -10,6 +10,7 @@ import { closePrivateSession, EndPrivateSessionButton, PRIVATE_SESSION_ENDED, Pr
 import ProprietaryNotice from './ProprietaryNotice';
 import VisitorWatermark from './VisitorWatermark';
 import { readPreviewGrant, type PreviewViewer } from './preview-access';
+import { ClinicalVoiceProvider } from './ClinicalVoice';
 
 const KEY = 'hc_preview_access';
 const DEVICE_KEY = 'hc_preview_device';
@@ -160,6 +161,7 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
   if (state === 'open' && viewer) {
     const seconds = Math.ceil(remaining / 1000);
     return <PrivateSessionContext.Provider value={endSession}>
+      <ClinicalVoiceProvider remaining={remaining} extended={extended} isAdmin={isAdmin}>
       {children}
       <VisitorWatermark viewer={viewer} />
       {extended && !isAdmin && <div role="alertdialog" aria-label="Extra time granted" className="theme-clinical dark fixed inset-0 z-[10000] grid place-items-center bg-background/70 px-6">
@@ -174,6 +176,7 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
       <div className="theme-clinical dark fixed top-3 right-3 z-[9999] rounded-md px-3 py-1.5 text-xs font-semibold shadow-lg border text-primary bg-card" aria-live="off">
         {isAdmin ? <><ShieldCheck className="inline h-3 w-3 mr-1" />Admin access</> : <><Lock className="inline h-3 w-3 mr-1" />Private viewing · {Math.floor(seconds / 60)}:{String(seconds % 60).padStart(2, '0')}</>}
       </div>
+      </ClinicalVoiceProvider>
     </PrivateSessionContext.Provider>;
   }
   if (state === 'ended' || state === 'timeout') return <div className="theme-clinical dark min-h-screen grid place-items-center bg-background px-6 text-foreground">
