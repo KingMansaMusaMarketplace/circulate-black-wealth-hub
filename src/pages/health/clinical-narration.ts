@@ -3,7 +3,7 @@ import { SAMPLE_VISITS } from './workspace/sample-visits';
 
 // Fixed scripts, not a second Kayla prompt or a clinical conversation engine.
 export const TOUR_NARRATION = [
-  'Welcome to thirteen twenty-five dot A I Clinical. I am Kayla, an AI assistant. In this fictional preview, chart preparation links findings to their sources and shows missing information. Current clinical status remains unverified.',
+  'Welcome to thirteen twenty-five dot A I Clinical. I am Kayla, an Agentic A I assistant. In this fictional preview, chart preparation links findings to their sources and shows missing information. Current clinical status remains unverified.',
   'This note-taking example uses a fictional visit transcript. Draft assertions must match cited source excerpts. Live recording and real patient records remain locked. A generated draft is not a physician decision.',
   'The doctor reviews the draft and makes a separate decision. A report is available only after the required sign-off. A typed sample signer name does not verify medical licensure.',
   'Care-guide examples include English and Spanish drafts for review. Patient delivery, booking and live communication remain locked. This concludes the fictional walkthrough.',

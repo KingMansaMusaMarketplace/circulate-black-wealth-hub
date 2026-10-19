@@ -40,7 +40,7 @@ export default function HealthBaaPage() {
       </section>
       <section className="border-t py-8"><div className="flex items-center gap-3"><ShieldCheck className="h-6 w-6 text-mansagold" /><h2 className="text-xl font-semibold">A signature does not activate patient data</h2></div>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Clinic signatures and reported coverage cannot approve this environment. Real records require independently verified attorney clearance, signed clinic and vendor agreements, dedicated approved healthcare services and verified safeguards. Patient calls require separate consent and safety approval.</p>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Do not send patient records, identifying case details or patient information through this page, clinic forms, Kayla, email or support. Kayla is an AI assistant—not a doctorate holder or licensed clinician.</p>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Do not send patient records, identifying case details or patient information through this page, clinic forms, Kayla, email or support. Kayla is an Agentic AI assistant—not a doctorate holder or licensed clinician.</p>
         <Button variant="outline" asChild className="mt-5"><Link to="/health/app">Open pilot readiness checklist<ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
       </section>
       <footer className="border-t pt-6 text-xs text-muted-foreground">1325.AI · 1325 Clinical EMR / EHR · Fictional records only until healthcare clearance</footer>

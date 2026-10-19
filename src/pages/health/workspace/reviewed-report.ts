@@ -40,7 +40,7 @@ export function buildReviewedReport(input: ReportInput, logo?: HTMLImageElement)
   const when = new Date(input.signedAt ?? '').toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
   { const sig = doc.splitTextToSize(`Reviewed and signed by ${input.signerName ?? "a clinic doctor"} on ${when} via 1325 Clinical EMR / EHR${input.clinicName ? ` (${input.clinicName})` : ''}`, W - 2 * M); doc.text(sig, M, y); y += (sig.length - 1) * 13; }
   y += 14; doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(90);
-  doc.text('Fictional sample visit. Drafted by Kayla (AI assistant); reviewed by a clinician. Not for patient care, billing, or legal use.', M, y);
+  doc.text('Fictional sample visit. Drafted by Kayla (Agentic AI assistant); reviewed by a clinician. Not for patient care, billing, or legal use.', M, y);
   y += 24;
   const para = (t: string, size = 10, indent = 0) => {
     doc.setFontSize(size); const lines = doc.splitTextToSize(t, W - 2 * M - indent);

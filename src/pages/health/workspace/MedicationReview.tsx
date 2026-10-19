@@ -26,7 +26,7 @@ function Review({ visitId }: { visitId: string }) {
     </section>}
     {sourceLine !== null && <section aria-label="Medication source transcript" className="space-y-3 border-t border-border pt-4"><div className="flex flex-wrap items-center justify-between gap-2"><h4 className="font-medium">Original fictional transcript</h4><Button variant="ghost" size="sm" onClick={() => setSourceLine(null)}>Close source</Button></div><ol className="space-y-2 text-sm">{review.transcript.map((text, index) => <li key={index} className={`rounded p-2 ${index + 1 === sourceLine ? 'bg-mansagold/15' : ''}`}><span className="mr-2 text-mansagold">L{index + 1}</span>{text}</li>)}</ol></section>}
     <div className="flex flex-wrap gap-2 border-t border-border pt-4">{['Prescribe medicine', 'Change dose', 'Sign review', 'Export review', 'Send to patient'].map((label) => <Button key={label} variant="outline" disabled><Lock className="mr-2 h-4 w-4" />{label}</Button>)}</div>
-    <p className="text-xs text-muted-foreground">Kayla is an AI assistant, not a licensed clinician. Qualified clinical validation and healthcare clearance are required before real-patient use. No approval is saved by this rehearsal.</p>
+    <p className="text-xs text-muted-foreground">Kayla is an Agentic AI assistant, not a licensed clinician. Qualified clinical validation and healthcare clearance are required before real-patient use. No approval is saved by this rehearsal.</p>
   </div>;
 }
 

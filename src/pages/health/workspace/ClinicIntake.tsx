@@ -44,7 +44,7 @@ export default function ClinicIntake({ clinicId, clinicName, clinicRole, signedI
     {clinicId && clinicRole && <PilotReadiness clinicId={clinicId} clinicRole={clinicRole} />}
     <section className="border-t pt-6"><h3 className="flex items-center gap-2 font-semibold"><ShieldCheck className="h-5 w-5 text-mansagold" />After independent clearance</h3>
       <ol className="mt-4 grid gap-4 text-sm text-muted-foreground sm:grid-cols-3"><li><b className="block text-foreground">Authorized intake</b>Clinic access and permitted record use verified.</li><li><b className="block text-foreground">Source-linked draft</b>Kayla organizes timelines and flags missing or conflicting records.</li><li><b className="block text-foreground">Doctor review</b>A licensed doctor checks sources and makes the final conclusions.</li></ol>
-      <p className="mt-4 text-xs text-muted-foreground">Planned real-record workflow, not currently available. Kayla is an AI assistant—not a doctorate holder or licensed clinician.</p>
+      <p className="mt-4 text-xs text-muted-foreground">Planned real-record workflow, not currently available. Kayla is an Agentic AI assistant—not a doctorate holder or licensed clinician.</p>
     </section>
   </div>;
 }
