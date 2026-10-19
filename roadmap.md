@@ -1,5 +1,10 @@
 # Roadmap
 
+## Approved Ask Kayla clinical product guide — October 19, 2026
+- [x] Add shared Ask Kayla navigation in demo/workspace with 44 maintained questions spanning the full screen inventory, surface-specific links, honest sample/locked/future boundaries and related existing spoken overviews; colors and access protections unchanged. No free-text chat, patient input, new prompt or live service added.
+- [x] Twenty-four product-guide, narration, walkthrough, intake and access checks passed; build OK. Both local clinical routes keep Ask Kayla hidden behind the private approval gate with zero page exceptions.
+- [ ] Verify approved visitor and signed-in clinic use — blocked: external Supabase has no authorized browser session; no access bypass permitted.
+
 ## Approved clinical invitation branding — October 19, 2026
 - [x] Style the shared invitation with the existing logo and email palette, prominent preview link and Thomas signature; preserve access rules and plain text.
 - [x] Nineteen mail/decision checks passed; fictional desktop/mobile rendering verified, logo loads and no mobile overflow. Deployed health-access; build OK. No actual visitor emailed for testing; inbox appearance/delivery remains unverified.
