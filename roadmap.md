@@ -2,7 +2,7 @@
 
 ## Clinical request error correction — October 19, 2026
 - [x] Confirm the requesting email has three requests within the existing 24-hour limit; preserve the limit and approval rules.
-- [ ] Show server rejection reasons instead of the generic failure; verify rejected and successful submissions without sending real invitations.
+- [x] Show server rejection reasons instead of the generic failure; 13 request/session tests passed, build OK, browser form displays mocked HTTP 429 with no page errors. No live request inserted or invitation sent; live resubmission remains subject to the existing daily limit. Frontend correction requires publishing.
 
 ## Approved clinical publishing — October 19, 2026
 - [x] Recover verification build heap exhaustion; harness build OK at 07:18:18 UTC. Publishing requested for conversational Kayla.
