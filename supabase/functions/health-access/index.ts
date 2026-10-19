@@ -142,7 +142,7 @@ Deno.serve(async (req) => {
     const { data: grant, error } = await db.rpc("hc_verify_preview_access", {
       p_token: v.data.token, p_device: v.data.device, p_end: v.data.action === "end",
     });
-    if (error || !grant) return json({ ok: false, reason: "invalid" }, 503);
+    if (error || !grant) return json({ ok: false, reason: "unavailable" }, 503);
     if (grant.ok && grant.request_id) {
       // Heartbeats validate access without producing a new visit-log entry.
       if (v.data.path) await db.from("hc_access_views").insert({ request_id: grant.request_id, path: v.data.path, user_agent: ua });

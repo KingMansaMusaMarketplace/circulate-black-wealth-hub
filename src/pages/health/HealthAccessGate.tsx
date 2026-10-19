@@ -77,7 +77,10 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
         action: 'verify', token, device: deviceId(), ...(logVisit ? { path: window.location.pathname } : {}),
       } });
       if (terminating.current || localStorage.getItem(KEY) !== token) return;
-      const grant = error ? null : readPreviewGrant(data);
+      // Transport/server failures are not rejections: keep the token and, if already viewing,
+      // let the local server-derived deadline keep enforcing time until a later check succeeds.
+      if (error) { setState((s) => (s === 'open' ? s : 'locked')); return; }
+      const grant = readPreviewGrant(data);
       if (grant) {
         const candidate = performance.now() + grant.remaining - (performance.now() - started);
         // Heartbeats shorten freely; only a server deadline at least a minute later (admin extension) lengthens it.
@@ -93,7 +96,7 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
         localStorage.removeItem(SESSION_KEY);
         setState('locked');
       }
-    } catch { setViewer(null); setState('locked'); }
+    } catch { setState((s) => (s === 'open' ? s : 'locked')); }
     finally { busy.current = false; }
   }, []);
 
