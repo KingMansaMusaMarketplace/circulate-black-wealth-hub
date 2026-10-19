@@ -1,5 +1,9 @@
 # Roadmap
 
+## Clinical email address update — October 19, 2026
+- [ ] Use the requested clinical-only sender and reply address, retain visitor invitation destinations, update sender guidance and test routing.
+- [ ] Deploy the clinical access email service and verify available checks; leave shared marketplace/authentication email settings unchanged.
+
 ## 1325 Clinical post-correction audit — October 18, 2026
 - [x] Repeat 196 clinical tests and 13 service tests; all passed. Recheck four local gates and published homepage; no page exceptions observed.
 - [x] Inspect deployed write permissions, private bucket and unique decision indexes; confirm previous restrictions remain deployed.
