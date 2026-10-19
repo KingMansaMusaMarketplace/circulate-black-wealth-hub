@@ -1,62 +1,76 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpen, Pause, Play, Square, Volume2, VolumeX } from 'lucide-react';
+import { ArrowRight, RotateCcw, Volume2, Square } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Conversation, ConversationContent, ConversationScrollButton } from '@/components/ai-elements/conversation';
+import { Message, MessageContent, MessageResponse } from '@/components/ai-elements/message';
+import { PromptInput, PromptInputTextarea, PromptInputFooter, PromptInputSubmit } from '@/components/ai-elements/prompt-input';
+import { Shimmer } from '@/components/ai-elements/shimmer';
 import logo from '@/assets/1325-ai-logo.png';
 import { useClinicalVoice } from './ClinicalVoice';
-import { narrationCatalog } from './clinical-narration';
-import { HELP_CATEGORIES, PRODUCT_HELP, resolveHelpTarget, type HelpSurface } from './product-help';
+import { PRODUCT_HELP, resolveHelpTarget, type HelpSurface } from './product-help';
+import { compileHelpQuestion, type HelpIntent } from '../../../supabase/functions/_shared/clinical-help-intake';
+import { useClinicalHelpConversation } from './ClinicalHelpConversation';
 
-/** Product documentation choices only: no patient input, agent execution or clinical mutation. */
 export default function AskKayla({ surface, onNavigate }: { surface: HelpSurface; onNavigate: (tab: string) => void }) {
-  const [category, setCategory] = useState(HELP_CATEGORIES[0]);
+  const chat = useClinicalHelpConversation();
+  const [input, setInput] = useState('');
+  const [localError, setLocalError] = useState('');
   const [selectedId, setSelectedId] = useState('overview');
+  const [speaking, setSpeaking] = useState<string | null>(null);
   const heading = useRef<HTMLHeadingElement>(null);
+  const form = useRef<HTMLDivElement>(null);
   const voice = useClinicalVoice();
-  const stopRef = useRef(voice?.stop);
-  stopRef.current = voice?.stop;
-  useEffect(() => () => stopRef.current?.(), []);
+  const stopVoice = useRef(voice?.stop); stopVoice.current = voice?.stop;
+  const busy = chat?.status === 'submitted' || chat?.status === 'streaming';
   useEffect(() => {
-    heading.current?.focus({ preventScroll: true });
     heading.current?.scrollIntoView?.({ block: 'start', behavior: 'instant' });
+    form.current?.querySelector('textarea')?.focus({ preventScroll: true });
+    stopVoice.current?.();
+    return () => { window.speechSynthesis?.cancel(); stopVoice.current?.(); };
   }, []);
-  const selected = PRODUCT_HELP.find(topic => topic.id === selectedId) ?? PRODUCT_HELP[0];
-  const target = resolveHelpTarget(selected.id, surface);
-  const overview = narrationCatalog().find(clip => clip.id === selected.narration);
-  const activeClip = narrationCatalog().find(clip => clip.id === voice?.current);
-  const choose = (id: string) => { voice?.stop(); setSelectedId(id); };
-  return <section aria-label="Ask Kayla product guide" className="space-y-6">
-    <div className="flex flex-wrap items-center justify-between gap-4 border-b border-mansagold/30 pb-5">
-      <div className="flex items-center gap-3"><img src={logo} alt="1325.AI" className="h-12 w-12 shrink-0 object-contain" /><div><h2 ref={heading} tabIndex={-1} className="scroll-mt-6 text-xl font-semibold focus:outline-none">Kayla · Clinical product guide</h2><p className="mt-1 text-sm text-muted-foreground">1325 Clinical · Functionality & workflows</p></div></div>
-      <Badge variant="outline" className="border-mansagold/40 text-mansagold">Product help · Not medical advice</Badge>
-    </div>
-    <nav aria-label="Product help categories" className="flex flex-wrap gap-2">{HELP_CATEGORIES.map(value => <Button key={value} variant={category === value ? 'default' : 'outline'} aria-pressed={category === value} className="h-auto whitespace-normal text-left" onClick={() => { setCategory(value); const first = PRODUCT_HELP.find(topic => topic.category === value); if (first) choose(first.id); }}>{value}</Button>)}</nav>
-    <div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(240px,320px)_minmax(0,1fr)]">
-      <nav aria-label="Questions for Kayla" className="space-y-1 lg:border-r lg:border-border lg:pr-5">{PRODUCT_HELP.filter(topic => topic.category === category).map(topic => <Button key={topic.id} variant="ghost" aria-pressed={selectedId === topic.id} onClick={() => choose(topic.id)} className={`h-auto w-full justify-start whitespace-normal border-l-2 px-3 py-3 text-left leading-relaxed ${selectedId === topic.id ? 'border-mansagold bg-mansagold/10 text-mansagold' : 'border-transparent text-muted-foreground'}`}>{topic.question}</Button>)}</nav>
-      <article aria-live="polite" aria-label="Kayla product answer" className="min-w-0 space-y-5">
-        <div className="space-y-2"><p className="text-xs font-semibold text-mansagold">{selected.feature}</p><h3 className="text-xl font-semibold">{selected.question}</h3><Badge variant="outline">{selected.status}</Badge></div>
-        {voice && overview && <div className="flex flex-wrap items-center gap-3">
-          <Button variant="clinicalHelp" className="h-auto whitespace-normal" onClick={() => voice.playing && voice.current === selected.narration ? voice.pause() : voice.paused && voice.current === selected.narration ? voice.resume() : voice.play(selected.narration, true)}>
-            {voice.playing && voice.current === selected.narration ? <Pause /> : <Volume2 />}{voice.playing && voice.current === selected.narration ? 'Pause Kayla' : voice.paused && voice.current === selected.narration ? 'Resume Kayla' : 'Listen to Kayla'}
-          </Button>
-          <span className="text-xs text-muted-foreground">Related prerecorded overview · {overview.title}</span>
-        </div>}
-        <p className="text-sm leading-relaxed">{selected.answer}</p>
-        <div><h4 className="mb-3 flex items-center gap-2 text-sm font-semibold"><BookOpen className="h-4 w-4 text-mansagold" />Workflow</h4><ol className="list-decimal space-y-2 pl-5 text-sm leading-relaxed text-muted-foreground">{selected.steps.map(step => <li key={step}>{step}</li>)}</ol></div>
-        <div className="border-l-2 border-mansagold pl-4"><h4 className="text-sm font-semibold">Current boundary</h4><p className="mt-1 text-sm leading-relaxed text-muted-foreground">{selected.boundary}</p></div>
-        {target && (target.startsWith('/') ? <Button variant="outline" className="h-auto whitespace-normal" asChild><Link to={target} onClick={() => voice?.stop()}>Open related page<ArrowRight className="h-4 w-4 shrink-0" /></Link></Button> : <Button variant="outline" className="h-auto whitespace-normal" onClick={() => { voice?.stop(); onNavigate(target); }}>Open related screen<ArrowRight className="h-4 w-4 shrink-0" /></Button>)}
-        {voice && overview && <section aria-label="Product overview narration" className="space-y-3 border-t border-border pt-5">
-          <div className="flex flex-wrap items-center justify-between gap-3"><div><h4 className="text-sm font-semibold">Related spoken overview</h4><p className="text-xs text-muted-foreground">{overview.title} · Prerecorded, not a reading of this answer</p></div><div className="flex gap-1">
-            <Button variant="outline" size="icon" aria-label={voice.enabled ? 'Mute product guide' : 'Enable product guide sound'} title={voice.enabled ? 'Mute product guide' : 'Enable product guide sound'} onClick={voice.toggle}>{voice.enabled ? <Volume2 /> : <VolumeX />}</Button>
-            <Button variant="outline" size="icon" aria-label={voice.playing ? 'Pause product overview' : 'Play product overview'} title={voice.playing ? 'Pause product overview' : 'Play product overview'} onClick={() => voice.playing ? voice.pause() : voice.paused && voice.current === selected.narration ? voice.resume() : voice.play(selected.narration, true)}>{voice.playing ? <Pause /> : <Play />}</Button>
-            <Button variant="ghost" size="icon" disabled={!voice.current} aria-label="Stop product overview" title="Stop product overview" onClick={voice.stop}><Square /></Button>
-          </div></div>
-          <p aria-label="Product overview transcript" className="text-sm leading-relaxed text-muted-foreground">{activeClip && (voice.playing || voice.paused) ? activeClip.text : overview.text}</p>
-          {voice.error && <p role="alert" className="text-sm text-destructive">{voice.error}</p>}
-        </section>}
-        <p className="border-t border-border pt-4 text-xs leading-relaxed text-muted-foreground">Maintained product guidance for this preview. Unknown capabilities are not confirmed. Contact <a className="text-mansagold underline" href="mailto:Thomas@1325.ai">Thomas@1325.ai</a> for unanswered product questions; do not include patient information.</p>
-      </article>
-    </div>
+  useEffect(() => { if (!busy) form.current?.querySelector('textarea')?.focus({ preventScroll: true }); }, [busy]);
+  const submit = (text: string) => {
+    if (busy) return;
+    const selection = compileHelpQuestion(text, chat?.previousTopics());
+    if (!selection) { setInput(''); setLocalError('This question was not sent. Ask only about product features, without names, patient details or other personal information. You can choose a feature below.'); return; }
+    setLocalError(''); setInput(''); setSelectedId(selection.topics[0]); chat?.ask(selection, surface);
+  };
+  const followup = (intent: HelpIntent) => { setLocalError(''); chat?.ask({ topics: chat.previousTopics().length ? chat.previousTopics() : [selectedId], intent }, surface); };
+  const readAnswer = (id: string, text: string) => {
+    if (!window.speechSynthesis) { setLocalError('Spoken answers are unavailable in this browser. The written answer remains available.'); return; }
+    window.speechSynthesis.cancel(); stopVoice.current?.();
+    if (speaking === id) { setSpeaking(null); return; }
+    const utterance = new SpeechSynthesisUtterance(text.replace(/1325\.AI/gi, 'thirteen twenty-five dot A I').replace(/[*#`]/g, ''));
+    utterance.lang = 'en-US'; utterance.onend = () => setSpeaking(null); utterance.onerror = () => setSpeaking(null);
+    setSpeaking(id); window.speechSynthesis.speak(utterance);
+  };
+  const selected = PRODUCT_HELP.find(t => t.id === selectedId) ?? PRODUCT_HELP[0];
+  const target = resolveHelpTarget(selectedId, surface);
+  return <section aria-label="Ask Kayla product conversation" className="mx-auto min-w-0 max-w-4xl space-y-4">
+    <header className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
+      <div className="flex min-w-0 items-center gap-3"><img src={logo} alt="1325.AI" className="h-12 w-12 shrink-0 object-contain" /><div><h2 ref={heading} className="text-xl font-semibold">Ask Kayla</h2><p className="text-sm text-muted-foreground">1325 Clinical · Product specialist</p></div></div>
+      <div className="flex items-center gap-2"><Badge variant="outline">No saved history</Badge><Button variant="ghost" size="icon" title="Clear conversation" aria-label="Clear conversation" onClick={() => { chat?.clear(); setInput(''); setLocalError(''); setSpeaking(null); }}><RotateCcw /></Button></div>
+    </header>
+    <Conversation className="h-[min(52vh,560px)] min-h-[280px]" aria-label="Conversation with Kayla">
+      <ConversationContent className="gap-6 px-1 py-4">
+        {!chat?.messages.length && <Message from="assistant"><MessageContent><MessageResponse>{"I'm Kayla, your AI product guide for **1325 Clinical**. What would you like to know about its features or workflows?\n\nI can explain how the sample platform works, what is locked, and how the **42 Agentic AI Employees** fit into the broader 1325.AI team. I don't provide medical advice or accept patient information."}</MessageResponse></MessageContent></Message>}
+        {chat?.messages.map(message => <Message key={message.id} from={message.role}><MessageContent className={message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-transparent'}>
+          {message.parts.map((part, index) => part.type === 'text' ? <MessageResponse key={index}>{part.text}</MessageResponse> : part.type === 'reasoning' ? <details key={index} className="text-xs text-muted-foreground"><summary>Preparing the product answer</summary><MessageResponse>{part.text}</MessageResponse></details> : null)}
+        </MessageContent>{message.role === 'assistant' && message.parts.some(p => p.type === 'data-receipt') && <Button variant="ghost" size="icon" title={speaking === message.id ? 'Stop spoken answer' : 'Read this answer aloud'} aria-label={speaking === message.id ? 'Stop spoken answer' : 'Read this answer aloud'} onClick={() => readAnswer(message.id, message.parts.filter(p => p.type === 'text').map(p => p.text).join('\n'))}>{speaking === message.id ? <Square /> : <Volume2 />}</Button>}</Message>)}
+        {chat?.status === 'submitted' && <Shimmer>Kayla is preparing your answer…</Shimmer>}
+      </ConversationContent><ConversationScrollButton aria-label="Latest answer" />
+    </Conversation>
+    {(localError || chat?.problem) && <p role="alert" className="text-sm text-destructive">{localError || chat?.problem}</p>}
+    {!chat && <p role="alert" className="text-sm text-destructive">A current approved private session is required.</p>}
+    <div ref={form}><PromptInput attachmentsDisabled maxFiles={0} onSubmit={({ text }) => submit(text)}>
+      <PromptInputTextarea aria-label="Your product question" placeholder="Please tell me about 1325 Clinical and its features" value={input} onChange={e => setInput(e.target.value)} maxLength={600} disabled={busy || !chat} autoComplete="off" />
+      <PromptInputFooter className="justify-between"><span className="text-xs text-muted-foreground">Product questions only · No patient information</span><PromptInputSubmit variant="clinicalHelp" status={chat?.status} onStop={() => { void chat?.stop(); }} disabled={!chat || (!busy && !input.trim())} aria-label={busy ? 'Stop answer' : 'Ask Kayla'} /></PromptInputFooter>
+    </PromptInput></div>
+    <div className="flex flex-wrap gap-2" aria-label="Follow-up questions">{([['steps','Walk me through it'],['limits','What is available today?'],['team','How does the team help?']] as const).map(([intent,label]) => <Button key={intent} variant="outline" disabled={busy || !chat} className="h-auto whitespace-normal py-2" onClick={() => followup(intent)}>{label}</Button>)}</div>
+    <details className="border-t border-border pt-4"><summary className="cursor-pointer text-sm font-semibold text-primary">Browse all product features</summary><nav aria-label="Product features" className="mt-3 flex flex-wrap gap-2">{PRODUCT_HELP.map(topic => <Button key={topic.id} variant="ghost" disabled={busy || !chat} className="h-auto whitespace-normal text-left" onClick={() => { setSelectedId(topic.id); chat?.ask({ topics: [topic.id], intent: 'explain' }, surface); }}>{topic.feature}</Button>)}</nav></details>
+    <div className="border-l-2 border-primary pl-3 text-xs leading-relaxed text-muted-foreground"><p className="font-semibold text-foreground">{selected.feature} · {selected.status}</p><p>{selected.boundary}</p></div>
+    {target && (target.startsWith('/') ? <Button variant="outline" asChild><Link to={target}>Open related page<ArrowRight /></Link></Button> : <Button variant="outline" onClick={() => onNavigate(target)}>Open related screen<ArrowRight /></Button>)}
   </section>;
 }

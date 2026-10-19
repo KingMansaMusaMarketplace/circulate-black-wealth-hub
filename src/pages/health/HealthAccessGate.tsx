@@ -11,6 +11,7 @@ import ProprietaryNotice from './ProprietaryNotice';
 import VisitorWatermark from './VisitorWatermark';
 import { readPreviewGrant, type PreviewViewer } from './preview-access';
 import { ClinicalVoiceProvider } from './ClinicalVoice';
+import { ClinicalHelpConversationProvider } from './ClinicalHelpConversation';
 
 const KEY = 'hc_preview_access';
 const DEVICE_KEY = 'hc_preview_device';
@@ -162,7 +163,9 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
     const seconds = Math.ceil(remaining / 1000);
     return <PrivateSessionContext.Provider value={endSession}>
       <ClinicalVoiceProvider remaining={remaining} extended={extended} isAdmin={isAdmin}>
+      <ClinicalHelpConversationProvider>
       {children}
+      </ClinicalHelpConversationProvider>
       <VisitorWatermark viewer={viewer} />
       {extended && !isAdmin && <div role="alertdialog" aria-label="Extra time granted" className="theme-clinical dark fixed inset-0 z-[10000] grid place-items-center bg-background/70 px-6">
         <section className="max-w-sm rounded-xl border-2 border-primary bg-card p-6 text-center shadow-2xl space-y-4">
