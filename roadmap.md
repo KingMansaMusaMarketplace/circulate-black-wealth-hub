@@ -1,5 +1,11 @@
 # Roadmap
 
+## Clinical Access controls and Clarence invitation — October 19, 2026
+- [ ] Add confirmed administrator-only decisions, automatic refresh and explicit email outcomes; preserve visitor/clinical locks.
+- [x] Clarence's latest request at 03:39 UTC remains pending, with no approval or entry recorded; no request changed during diagnosis.
+- [ ] Test and deploy health-access controls.
+- [ ] Signed-in decisions/email/readback — blocked: external unmanaged Supabase has no authorized test session.
+
 ## Approved twenty-minute clinical viewing — October 19, 2026
 - [x] Extend newly entered grants to twenty minutes; deployed definition and service-only execution verified, atomic binding and immutable first entry retained. Already-started grants retain their original deadlines.
 - [x] Align timer, notices and emails; 14 timer/session/email tests passed, health-access deployed, build OK, local public gate shows twenty-minute wording with zero page errors. Public website changes await publishing; no new security findings (197 existing findings unchanged).
