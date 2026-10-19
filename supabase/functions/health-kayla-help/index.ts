@@ -48,7 +48,16 @@ Deno.serve(async req => {
   // AI SDK owns all streaming/parsing; the completion receipt authenticates browser-held history.
   const stream = createUIMessageStream({
     execute: async ({ writer }) => {
-      writer.merge(result.toUIMessageStream({ sendReasoning: true }));
+      const guarded = result.toUIMessageStream({ sendReasoning: false }).pipeThrough(new TransformStream({
+        async transform(chunk, controller) {
+          if (!await authorizeClinicalPreview(service, req, data.user)) {
+            controller.error(new Error('Private viewing has ended. Request fresh approval.'));
+            return;
+          }
+          controller.enqueue(chunk);
+        },
+      }));
+      writer.merge(guarded);
       const text = await result.text;
       if (!text.trim()) throw new Error('Kayla returned no answer. This request has stopped.');
       if (!await authorizeClinicalPreview(service, req, data.user)) throw new Error('Private viewing has ended. Request fresh approval.');
