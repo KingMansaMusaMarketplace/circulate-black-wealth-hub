@@ -40,7 +40,7 @@ const Request = z.object({
 });
 const Verify = z.object({ action: z.enum(["verify", "end"]), token: z.string().regex(/^[a-f0-9]{48}$/), device: z.string().regex(/^[a-f0-9]{32}$/), path: z.string().max(200).optional() });
 const WINDOW_DAYS = 7;
-const AdminDecision = z.object({ action: z.literal('admin_decision'), request_id: z.string().uuid(), decision: z.enum(['approve', 'deny', 'revoke']), expected_status: z.enum(['pending', 'approved']), confirmed: z.literal(true) }).strict();
+const AdminDecision = z.object({ action: z.literal('admin_decision'), request_id: z.string().uuid(), decision: z.enum(['approve', 'deny', 'revoke', 'reopen']), expected_status: z.enum(['pending', 'approved', 'expired']), confirmed: z.literal(true) }).strict();
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
