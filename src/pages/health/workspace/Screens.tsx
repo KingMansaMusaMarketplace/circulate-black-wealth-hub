@@ -12,6 +12,8 @@ import { db, fullName, money, Row, useRows } from './hc';
 import PriorAuthorization from './PriorAuthorization';
 import DataLoadErrors from './DataLoadErrors';
 import { scheduleDay } from './schedule-date';
+import { registrationSource } from './registration-source';
+import SamplePatientChart from './SamplePatientChart';
 
 type P = { clinicId: string; patients: Row[]; reloadPatients?: () => void; isOwner?: boolean };
 
@@ -98,14 +100,15 @@ export function Patients({ clinicId, patients }: P) {
         <Button disabled variant="outline">Patient entry · Locked</Button>
       </CardHeader>
       <CardContent>
+        <p className="mb-4 text-sm text-muted-foreground">Source-linked identities open the original fictional transcript. Older samples are retained but their clinical and billing details are unverified.</p>
         <Table>
           <TableHeader><TableRow><TableHead>Patient</TableHead><TableHead>MRN</TableHead><TableHead>Insurance</TableHead><TableHead>Conditions</TableHead><TableHead>Risk</TableHead></TableRow></TableHeader>
           <TableBody>
             {list.map((p) => (
               <TableRow key={p.id} className="cursor-pointer" onClick={() => setOpen(p.id)}>
-                <TableCell className="font-medium">{fullName(p)}</TableCell><TableCell>{p.mrn}</TableCell><TableCell>{p.payer}</TableCell>
-                <TableCell className="max-w-[260px] truncate">{(p.conditions || []).join(', ')}</TableCell>
-                <TableCell><Badge variant="outline" className={p.risk === 'High' ? 'border-destructive/40 text-destructive' : ''}>{p.risk}</Badge></TableCell>
+                <TableCell className="font-medium">{fullName(p)}<span className="mt-1 block text-xs text-muted-foreground">{registrationSource(p) ? 'Fictional transcript identity' : 'Legacy sample · Evidence unverified'}</span></TableCell><TableCell>Unknown</TableCell><TableCell>Unknown</TableCell>
+                <TableCell>See fictional source; current status unknown</TableCell>
+                <TableCell><Badge variant="outline">Unknown</Badge></TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -116,49 +119,8 @@ export function Patients({ clinicId, patients }: P) {
 }
 
 function Chart({ clinicId, patient, back }: { clinicId: string; patient: Row; back: () => void; reload?: () => void }) {
-  const eq: [string, string] = ['patient_id', patient.id];
-  const vit = useRows('hc_vitals', clinicId, { order: 'recorded_on', asc: true, eq });
-  const meds = useRows('hc_medications', clinicId, { eq });
-  const enc = useRows('hc_encounters', clinicId, { order: 'visit_date', eq });
-  return (
-    <div className="space-y-6">
-      <DataLoadErrors sources={[vit, meds, enc]} />
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <Button variant="link" onClick={back} className="px-0 text-sm text-muted-foreground hover:text-foreground">← All patients</Button>
-          <h2 className="text-2xl font-semibold">{fullName(patient)}</h2>
-          <p className="text-sm text-muted-foreground">{patient.mrn} · {patient.sex} · {patient.dob ? `Born ${patient.dob}` : ''} · {patient.payer}</p>
-        </div>
-        <div className="flex flex-wrap gap-2">{(patient.allergies || []).map((a: string) => <Badge key={a} variant="outline" className="border-destructive/40 text-destructive">Allergy: {a}</Badge>)}</div>
-      </div>
-      <div className="grid gap-6 lg:grid-cols-3">
-        <Card><CardHeader><CardTitle className="text-base">Problems</CardTitle></CardHeader>
-          <CardContent className="flex flex-wrap gap-2">{(patient.conditions || []).map((c: string) => <Badge key={c} variant="secondary">{c}</Badge>)}</CardContent></Card>
-        <Card><CardHeader><CardTitle className="text-base">Medicines</CardTitle></CardHeader>
-          <CardContent className="space-y-2">
-            {meds.rows.map((m) => (
-              <div key={m.id} className="flex items-center justify-between gap-2 text-sm">
-                <span><b>{m.name}</b> <span className="text-muted-foreground">{m.dose}</span></span>
-                <StatusBadge s={m.status} />
-              </div>
-            ))}
-            <Button disabled variant="outline" size="sm">Medicine entry · Locked</Button>
-          </CardContent></Card>
-        <Card><CardHeader><CardTitle className="text-base">Vitals</CardTitle></CardHeader>
-          <CardContent className="space-y-1 text-sm">
-            {vit.rows.map((r) => <div key={r.id} className="flex justify-between"><span className="text-muted-foreground">{r.recorded_on}</span><span>{r.bp_sys}/{r.bp_dia} · HR {r.heart_rate} · {r.weight_lb} lb{r.a1c ? ` · A1c ${r.a1c}` : ''}</span></div>)}
-            <Button disabled size="sm" variant="outline">Vitals entry · Locked</Button>
-          </CardContent></Card>
-      </div>
-      <Card><CardHeader><CardTitle className="text-base">Visits & notes</CardTitle></CardHeader>
-        <CardContent className="space-y-4">
-          <Button disabled variant="outline">Visit entry · Locked</Button>
-          <div className="border-l-2 border-mansagold/50 pl-4">
-            {enc.rows.map((e) => <div key={e.id} className="pb-4"><div className="text-xs text-muted-foreground">{e.visit_date} · {e.visit_type} · {e.provider}</div><div className="text-sm">{e.note}</div></div>)}
-          </div>
-        </CardContent></Card>
-    </div>
-  );
+  const source = registrationSource(patient);
+  return <div className="space-y-5"><Button variant="link" onClick={back}>← All patients</Button>{source ? <SamplePatientChart selectedVisitId={source.id} /> : <section role="status" className="space-y-3 border-y py-6"><h2 className="text-xl font-semibold">{fullName(patient)} · Legacy fictional sample</h2><p className="text-sm text-muted-foreground">This older sample has not been checked against the approved fictional transcripts. Stored details are preserved, but are not presented as supported medical or billing facts.</p><p className="text-sm text-muted-foreground">Demographics, allergies, medicines, risk, results and current clinical status remain unverified. Use Expanded Sample Chart for source-linked rehearsal.</p><Button disabled variant="outline">Patient records · Locked</Button></section>}</div>;
 }
 
 /* ---------- Schedule ---------- */

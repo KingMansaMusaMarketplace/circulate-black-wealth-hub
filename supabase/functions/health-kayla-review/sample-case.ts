@@ -20,11 +20,30 @@ export function validateSources(draft: ReviewDraft, exactAssertions = false): vo
     if (exactAssertions && finding.finding !== finding.sources.map(s => s.quote).join(' ')) throw new Error('Unsupported narrative assertion');
     for (const source of finding.sources) {
       const page = SAMPLE_PAGES.find((p) => p.page === source.page);
-      const normalize = (s: string) => s.replace(/\s+/g, ' ').trim();
-      if (!page || source.quote.trim().length < 8 || !normalize(page.text).includes(normalize(source.quote))) {
+      if (!page || source.quote.trim().length < 8 || !page.text.includes(source.quote)) {
         throw new Error('Citation could not be verified against the sample record');
       }
     }
+  }
+}
+
+/** Old saved drafts must still match today's immutable packet before acceptance. */
+export function validateSavedReview(value: unknown): void {
+  if (!value || typeof value !== 'object') throw new Error('Missing saved review');
+  const saved = value as Record<string, unknown>;
+  if (saved.sample_case_id !== SAMPLE_CASE_ID || !Array.isArray(saved.source_pages) || saved.source_pages.length !== SAMPLE_PAGES.length) throw new Error('Unrecognized saved source packet');
+  const sourcePages = saved.source_pages;
+  SAMPLE_PAGES.forEach((page, index) => {
+    const candidate = sourcePages[index] as Record<string, unknown> | undefined;
+    if (!candidate || candidate.page !== page.page || candidate.file !== page.file || candidate.date !== page.date || candidate.text !== page.text) throw new Error('Saved source packet changed');
+  });
+  if (!Array.isArray(saved.findings) || !Array.isArray(saved.questions_for_exam) || !Array.isArray(saved.report_outline)) throw new Error('Malformed saved review');
+  const draft = saved as unknown as ReviewDraft;
+  validateSources(draft, true);
+  for (const finding of draft.findings) {
+    if (!['timeline', 'pre_existing', 'conflict', 'gap'].includes(finding.category)) throw new Error('Invalid saved grouping');
+    const date = [...new Set(finding.sources.map(source => SAMPLE_PAGES.find(page => page.page === source.page)?.date ?? 'Not stated'))].join(' / ');
+    if (finding.date !== date) throw new Error('Saved date differs from source');
   }
 }
 

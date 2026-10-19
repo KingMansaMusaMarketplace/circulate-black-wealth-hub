@@ -179,6 +179,7 @@ export default function HealthWorkspacePage() {
               {NAV.map((n) => <Button key={n.k} size="sm" variant={tab === n.k ? 'default' : 'outline'} onClick={() => navigateTab(n.k)}>{n.l}</Button>)}
             </div>
             <p className="text-xs text-muted-foreground">health.1325.ai · {clinic.name}</p>
+            <p className="mt-2 text-xs text-muted-foreground">Saved legacy sample entries are retained and unverified. Their dates, treatment, booking, risk and billing examples are not source-verified facts or completed services.</p>
             <h1 className="mb-6 text-2xl font-semibold">{current.l}</h1>
             <ExecutiveWalkthrough key={`${user.id}:${clinic.id}:${tourRevision}`} onStep={(next) => { if (tourReturnTab.current === null) tourReturnTab.current = tab; setTab(next); }} onEnd={() => { if (tourReturnTab.current !== null) setTab(tourReturnTab.current); tourReturnTab.current = null; }} />
             {tab === 'dashboard' && <Dashboard {...props} go={navigateTab} />}
