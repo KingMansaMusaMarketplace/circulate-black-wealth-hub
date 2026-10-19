@@ -11,6 +11,7 @@ function useConversation() {
   const turns = useRef<HelpTurn[]>([]);
   const pending = useRef(false);
   const alive = useRef(true);
+  const account = useRef<string | undefined>();
   const surface = useRef<'demo' | 'workspace'>('demo');
   const [problem, setProblem] = useState('');
   const transport = useMemo(() => new DefaultChatTransport<HelpMessage>({
@@ -46,10 +47,12 @@ function useConversation() {
   stopRef.current = chat.stop;
   useEffect(() => {
     alive.current = true;
-    const { data } = supabase.auth.onAuthStateChange((event) => {
-      if (event === 'SIGNED_OUT' || event === 'SIGNED_IN') {
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT' || (account.current && session?.user.id !== account.current)) {
         void stopRef.current(); turns.current = []; chat.setMessages([]); setProblem('');
+        window.speechSynthesis?.cancel();
       }
+      account.current = session?.user.id;
     });
     return () => { alive.current = false; void stopRef.current(); turns.current = []; data.subscription.unsubscribe(); window.speechSynthesis?.cancel(); };
   }, [chat.setMessages]);
