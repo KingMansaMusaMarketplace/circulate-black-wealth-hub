@@ -40,6 +40,11 @@ export default {
         '30': '7.5rem',
       },
       colors: {
+        "clinical-help": {
+          DEFAULT: "hsl(var(--clinical-help))",
+          foreground: "hsl(var(--clinical-help-foreground))",
+          hover: "hsl(var(--clinical-help-hover))",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

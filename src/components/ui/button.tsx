@@ -13,6 +13,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        clinicalHelp: "bg-clinical-help text-clinical-help-foreground hover:bg-clinical-help-hover focus-visible:ring-clinical-help font-semibold shadow-md",
         default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg hover:scale-[1.02] hover:[&_svg]:scale-110",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-md hover:shadow-lg hover:scale-[1.02] hover:[&_svg]:scale-110",

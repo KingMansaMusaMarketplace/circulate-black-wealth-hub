@@ -1326,6 +1326,9 @@
 
 /* 1325 Clinical (health.1325.ai) — full 1325.AI theme: True Black + MansaBlue surfaces, MansaGold accents */
 .theme-clinical {
+  --clinical-help: 330 85% 68%;
+  --clinical-help-foreground: 330 60% 10%;
+  --clinical-help-hover: 330 85% 74%;
   --background: 220 60% 4%;
   --foreground: 40 30% 96%;
   --card: 212 70% 9%;
