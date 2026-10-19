@@ -1,5 +1,10 @@
 # Roadmap
 
+## Approved Ask Kayla clinical product guide — October 19, 2026
+- [ ] Add a shared selectable-question guide across demo/workspace covering clinical functions, navigation and honest sample/locked/future boundaries; preserve colors and access protections.
+- [ ] Verify guide navigation and safety rules with focused tests and check the public gate.
+- [ ] Verify approved visitor and signed-in clinic use — blocked: external Supabase has no authorized browser session; no access bypass permitted.
+
 ## Approved clinical invitation branding — October 19, 2026
 - [x] Style the shared invitation with the existing logo and email palette, prominent preview link and Thomas signature; preserve access rules and plain text.
 - [x] Nineteen mail/decision checks passed; fictional desktop/mobile rendering verified, logo loads and no mobile overflow. Deployed health-access; build OK. No actual visitor emailed for testing; inbox appearance/delivery remains unverified.
