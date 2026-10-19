@@ -1,7 +1,7 @@
 import { CLINICAL_OWNER_EMAIL, clinicalEmailRouting } from './email-routing.ts';
 import { emailWasAccepted } from './confirmation.ts';
 const esc = (s: string) => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] ?? c));
-type Sender = (message: { from: string; to: string[]; reply_to: string; subject: string; text: string; html: string }) => Promise<unknown>;
+type Sender = (message: { from: string; to: string[]; reply_to: string; subject: string; text: string; html: string }) => Promise<{ data?: { id?: string } | null; error?: unknown }>;
 export async function sendClinicalApproval(send: Sender, visitor: { full_name: string; work_email: string }, access: string, expires: Date) {
   const paragraphs = [
     `Hello ${visitor.full_name},`, 'Thomas approved your request to view 1325 Clinical.',
