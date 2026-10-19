@@ -21,6 +21,10 @@ export function createLovableAiGatewayRunIdFetch(initialRunId?: string) {
   if (runId) publishRunId(runId);
 
   return {
+    fetchResponse: async (response: Response) => {
+      publishRunId(response.headers.get(LOVABLE_AIG_RUN_ID_HEADER) ?? undefined);
+      return response;
+    },
     fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
       const headers = new Headers(init?.headers);
       if (runId && !headers.has(LOVABLE_AIG_RUN_ID_HEADER)) {

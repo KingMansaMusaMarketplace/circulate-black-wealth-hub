@@ -5,6 +5,7 @@ import { PRODUCT_HELP } from '../_shared/clinical-product-catalog.ts';
 import { buildClinicalProductHelpPrompt, loadApprovedImprovements } from '../_shared/kayla-brain.ts';
 import { readHelpHistory, sealReply } from '../_shared/clinical-help-history.ts';
 import { createResponsesCall } from '../_shared/clinical-help-responses.ts';
+import { withLovableAiGatewayRunIdHeader } from '../_shared/clinical-help-run-id.ts';
 
 const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'authorization, apikey, content-type, x-client-info, x-csrf-token, x-hc-preview-token, x-hc-preview-device' };
 const json = (error: string, status: number) => new Response(JSON.stringify({ error }), { status, headers: { ...cors, 'Content-Type': 'application/json' } });
@@ -31,9 +32,19 @@ Deno.serve(async req => {
   try { history = await readHelpHistory(body.turns, key); } catch (e) { return json(e instanceof Error ? e.message : 'Invalid product history', 400); }
   const apiKey = Deno.env.get('LOVABLE_API_KEY');
   if (!apiKey) return json('Kayla AI configuration is missing. Contact Thomas@1325.ai.', 401);
+  const { data: pause, error: pauseError } = await service.from('system_settings').select('setting_value').eq('setting_key', 'clinical_help_ai_pause').maybeSingle();
+  if (pauseError) return json('Kayla availability could not be verified. Contact Thomas@1325.ai.', 503);
+  if (pause?.setting_value?.paused) return json(pause.setting_value.message ?? 'Kayla AI is paused pending administrator action.', pause.setting_value.status === 402 ? 402 : 403);
   const lessons = await loadApprovedImprovements(service);
   const catalogue = PRODUCT_HELP.map(t => ({ feature: t.feature, answer: t.answer, steps: t.steps, boundary: t.boundary, status: t.status, destination: t[body.surface as 'demo' | 'workspace'] ?? 'Not a separate screen in this view' }));
-  const { result } = createResponsesCall(req, { baseURL: 'https://ai.gateway.lovable.dev/v1', apiKey, model: 'openai/gpt-6-astra' }, history, buildClinicalProductHelpPrompt(JSON.stringify(catalogue), lessons));
+  const call = createResponsesCall(req, { baseURL: 'https://ai.gateway.lovable.dev/v1', apiKey, model: 'openai/gpt-6-astra', onBlocked: async failure => {
+    const { error } = await service.from('system_settings').upsert({ setting_key: 'clinical_help_ai_pause', setting_value: { ...failure, paused: true }, setting_type: 'json', category: 'clinical', is_public: false, description: 'Terminal AI access pause; administrator must restore access and explicitly clear pause.' }, { onConflict: 'setting_key' });
+    if (error) throw new Error('Could not record the terminal AI pause. Contact Thomas@1325.ai.');
+  } }, history, buildClinicalProductHelpPrompt(JSON.stringify(catalogue), lessons));
+  const { result } = call;
+  await call.headersReady;
+  const upstreamFailure = call.failure();
+  if (upstreamFailure) return json(upstreamFailure.message, upstreamFailure.status);
   // AI SDK owns all streaming/parsing; the completion receipt authenticates browser-held history.
   const stream = createUIMessageStream({
     execute: async ({ writer }) => {
@@ -46,5 +57,5 @@ Deno.serve(async req => {
     },
     onError: error => error instanceof Error ? error.message : 'Kayla could not complete this request.',
   });
-  return createUIMessageStreamResponse({ stream, headers: cors });
+  return withLovableAiGatewayRunIdHeader(createUIMessageStreamResponse({ stream, headers: cors }), call.gateway, cors);
 });

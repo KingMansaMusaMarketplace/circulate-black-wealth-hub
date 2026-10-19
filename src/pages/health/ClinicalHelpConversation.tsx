@@ -15,6 +15,14 @@ function useConversation() {
   const [problem, setProblem] = useState('');
   const transport = useMemo(() => new DefaultChatTransport<HelpMessage>({
     api: `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/health-kayla-help`,
+    fetch: async (url, init) => {
+      const response = await fetch(url, init);
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        throw new Error(typeof body.error === 'string' ? body.error : `Kayla request failed (${response.status}).`);
+      }
+      return response;
+    },
     headers: async () => {
       const { data } = await supabase.auth.getSession();
       if (!data.session) throw new Error('Sign in with your approved email to ask Kayla.');
