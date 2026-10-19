@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import ClinicalVoiceGuide, { ClinicalVoiceProvider } from '@/pages/health/ClinicalVoice';
 
 const recordings: FakeAudio[] = [];
@@ -55,7 +55,7 @@ describe('private clinical voice playback', () => {
     render(<ClinicalVoiceProvider remaining={900000} extended={false} isAdmin><ClinicalVoiceGuide /></ClinicalVoiceProvider>);
     fireEvent.click(screen.getByRole('button', { name: 'Enable sound' }));
     fireEvent.click(screen.getByRole('button', { name: 'Read fictional source' }));
-    recordings[0].onerror?.();
+    act(() => recordings[0].onerror?.());
     await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent('Audio could not play'));
   });
 });
