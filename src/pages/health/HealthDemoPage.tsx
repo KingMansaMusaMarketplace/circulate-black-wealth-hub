@@ -309,7 +309,7 @@ const INBOX = [
   { kind: 'Refill request', pri: 'Normal', patient: 'Jordan Sample', text: 'Gabapentin 300 mg — flagged: 3rd early refill in 90 days. Review before signing.', due: 'Today' },
   { kind: 'Note to sign', pri: 'Normal', patient: 'Morgan Placeholder', text: 'Shoulder follow-up note drafted by Kayla from the visit. Ready for signature.', due: 'Today' },
   { kind: 'Patient message', pri: 'Normal', patient: 'Avery Example', text: '"My ankles are a little swollen this week." Kayla matched it to a 3 lb weight gain from home scale.', due: 'Today' },
-  { kind: 'Lab result', pri: 'Routine', patient: 'Jordan Sample', text: 'A1c 6.9% (down from 7.4%). Within goal range — no action needed.', due: 'This week' },
+  { kind: 'Lab result', pri: 'Routine', patient: 'Jordan Sample', text: 'A1c 6.9% (down from 7.4%). Result ready for the doctor’s review, with the prior value shown.', due: 'This week' },
   { kind: 'Prior auth update', pri: 'Routine', patient: 'Morgan Placeholder', text: 'Shoulder PT, 8 sessions — approved by Sample Commercial HMO.', due: 'This week' },
 ];
 const priVariant = (p: string) => (p === 'Urgent' ? 'destructive' : p === 'Normal' ? 'secondary' : 'outline');
