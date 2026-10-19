@@ -40,7 +40,7 @@ const Request = z.object({
 });
 const Verify = z.object({ action: z.enum(["verify", "end"]), token: z.string().regex(/^[a-f0-9]{48}$/), device: z.string().regex(/^[a-f0-9]{32}$/), path: z.string().max(200).optional() });
 const WINDOW_DAYS = 7;
-const AdminDecision = z.object({ action: z.literal('admin_decision'), request_id: z.string().uuid(), decision: z.enum(['approve', 'deny', 'revoke', 'reopen']), expected_status: z.enum(['pending', 'approved', 'expired']), confirmed: z.literal(true) }).strict();
+const AdminDecision = z.object({ action: z.literal('admin_decision'), request_id: z.string().uuid(), decision: z.enum(['approve', 'deny', 'revoke', 'reopen', 'extend']), expected_status: z.enum(['pending', 'approved', 'expired']), confirmed: z.literal(true) }).strict();
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
@@ -112,7 +112,7 @@ Deno.serve(async (req) => {
           return !role.error && role.data === true;
         },
         read: async id => {
-          const { data, error } = await db.from('hc_access_requests').select('id,status,revoked_at,full_name,work_email').eq('id', id).maybeSingle();
+          const { data, error } = await db.from('hc_access_requests').select('id,status,revoked_at,full_name,work_email,first_entered_at,viewing_expires_at').eq('id', id).maybeSingle();
           if (error) throw error;
           return data;
         },
