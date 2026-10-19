@@ -792,8 +792,9 @@ export default function HealthDemoPage() {
             {searchMatches.length ? searchMatches.map(module => <Button key={module.key} variant="ghost" className="h-auto w-full justify-start whitespace-normal text-left" onClick={() => { setMod(module.key); setTourStep(null); setTourRevision(revision => revision + 1); setNavigationSearch(''); }}>{module.label}</Button>) : <p className="p-2 text-sm text-muted-foreground">No matching sample sections</p>}
           </div>}
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <Badge variant="outline" className="hidden gap-1 border-mansagold/60 text-mansagold sm:flex"><ShieldCheck className="h-3 w-3" />Sample workspace</Badge>
+          <Button variant="clinicalHelp" aria-pressed={mod === 'ask-kayla' && tourStep === null} onClick={() => { setMod('ask-kayla'); setTourStep(null); setTourRevision(revision => revision + 1); setNavigationSearch(''); }}><MessageSquare />Ask Kayla</Button>
           <EnterpriseReadiness />
           <ClinicalSafetyPanel />
           <a href="/health/app" className="rounded-md bg-mansagold px-3 py-1.5 text-xs font-semibold text-mansablue hover:bg-mansagold-dark">Open live workspace</a>
