@@ -1,5 +1,10 @@
 # Roadmap
 
+## Approved twenty-minute clinical viewing — October 19, 2026
+- [x] Extend newly entered grants to twenty minutes; deployed definition and service-only execution verified, atomic binding and immutable first entry retained. Already-started grants retain their original deadlines.
+- [x] Align timer, notices and emails; 14 timer/session/email tests passed, health-access deployed, build OK, local public gate shows twenty-minute wording with zero page errors. Public website changes await publishing; no new security findings (197 existing findings unchanged).
+- [ ] Approved visitor twenty-minute countdown/expiry end-to-end — blocked: external unmanaged authentication has no authorized test session; no impersonation or approval bypass added.
+
 ## Clinical email address update — October 19, 2026
 - [x] Use the requested clinical-only sender and reply address, retain visitor invitation destinations, update sender guidance/contact and test routing — six email routing/acceptance tests passed.
 - [x] Deploy health-access to the connected project; shared marketplace/authentication email settings unchanged. Build OK. Inbox delivery not verified; preview sender guidance/contact changes need publishing to appear on the public site.
