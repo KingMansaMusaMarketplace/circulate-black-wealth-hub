@@ -44,6 +44,7 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
   const [remaining, setRemaining] = useState(0);
   const [isAdmin, setIsAdmin] = useState(false);
   const [viewer, setViewer] = useState<PreviewViewer | null>(null);
+  const [extended, setExtended] = useState(false);
   const deadline = useRef(0);
   const terminating = useRef(false);
   const busy = useRef(false);
@@ -76,8 +77,9 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
       const grant = error ? null : readPreviewGrant(data);
       if (grant) {
         const candidate = performance.now() + grant.remaining - (performance.now() - started);
-        // Heartbeats may shorten, but never lengthen, an already-open window.
-        deadline.current = deadline.current ? Math.min(deadline.current, candidate) : candidate;
+        // Heartbeats shorten freely; only a server deadline at least a minute later (admin extension) lengthens it.
+        if (deadline.current && candidate > deadline.current + 60000) { deadline.current = candidate; setExtended(true); }
+        else deadline.current = deadline.current ? Math.min(deadline.current, candidate) : candidate;
         setRemaining(Math.max(0, deadline.current - performance.now()));
         setViewer(grant.viewer);
         setState('open');
@@ -160,6 +162,14 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
     return <PrivateSessionContext.Provider value={endSession}>
       {children}
       <VisitorWatermark viewer={viewer} />
+      {extended && !isAdmin && <div role="alertdialog" aria-label="Extra time granted" className="theme-clinical dark fixed inset-0 z-[10000] grid place-items-center bg-background/70 px-6">
+        <section className="max-w-sm rounded-xl border-2 border-primary bg-card p-6 text-center shadow-2xl space-y-4">
+          <img src={logo1325} alt="1325.AI" className="mx-auto h-12 w-12 object-contain" />
+          <h2 className="text-xl font-semibold text-primary">Thomas just granted you an extra 20 minutes!</h2>
+          <p className="text-sm text-muted-foreground">Your timer has been reset. Same device and confidentiality terms apply.</p>
+          <Button onClick={() => setExtended(false)}>Continue viewing</Button>
+        </section>
+      </div>}
       <div className="theme-clinical dark fixed bottom-3 left-3 z-[9999] rounded-md border bg-card p-1 shadow-lg md:hidden"><EndPrivateSessionButton /></div>
       <div className="theme-clinical dark fixed top-3 right-3 z-[9999] rounded-md px-3 py-1.5 text-xs font-semibold shadow-lg border text-primary bg-card" aria-live="off">
         {isAdmin ? <><ShieldCheck className="inline h-3 w-3 mr-1" />Admin access</> : <><Lock className="inline h-3 w-3 mr-1" />Private viewing · {Math.floor(seconds / 60)}:{String(seconds % 60).padStart(2, '0')}</>}
