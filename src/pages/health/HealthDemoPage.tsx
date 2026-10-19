@@ -783,7 +783,7 @@ export default function HealthDemoPage() {
         <div className="flex items-center gap-3">
           <img src={logo1325} alt="1325.AI logo" className="h-10 w-10 rounded-lg object-contain" />
           <div className="leading-tight">
-            <p className="text-base font-semibold tracking-tight text-mansagold">1325 Clinical EMR / EHR</p>
+            <p className="text-base font-semibold tracking-tight text-mansagold">1325 Clinical EMR / EHR</p><p className="text-xs text-muted-foreground">Private preview · sample data only</p>
             <p className="text-[11px] uppercase tracking-[0.2em] text-mansagold/70">Enterprise Edition · by 1325.AI</p>
           </div>
         </div>

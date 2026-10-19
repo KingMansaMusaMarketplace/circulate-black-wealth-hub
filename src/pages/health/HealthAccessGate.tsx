@@ -255,6 +255,7 @@ function Teaser({ notice = "" }: { notice?: string }) {
             <Lock className="h-3 w-3" /> Private Physician Preview · By invitation only
           </div>
           <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">1325 Clinical EMR / EHR</h1>
+          <p className="-mt-2 mb-4 text-sm font-medium" style={{ color: "#FFB300" }}>Private preview · sample data only</p>
           <p className="text-lg opacity-85 mb-8">An AI-powered clinical co-pilot that helps physicians review records and document visits faster — with every finding linked to its source.</p>
           <div className="space-y-5">
             {features.map(({ icon: I, t, d }) => (
