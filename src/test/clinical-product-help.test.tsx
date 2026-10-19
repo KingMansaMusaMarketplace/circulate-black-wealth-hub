@@ -7,6 +7,10 @@ import { narrationCatalog } from '@/pages/health/clinical-narration';
 
 afterEach(cleanup);
 describe('clinical product guidance boundaries', () => {
+  it('moves keyboard focus to the guide when opened instead of leaving it on the header', () => {
+    render(<MemoryRouter><AskKayla surface="demo" onNavigate={vi.fn()} /></MemoryRouter>);
+    expect(document.activeElement).toBe(screen.getByRole('heading', { name: 'Kayla · Clinical product guide' }));
+  });
   it('covers every demo and clinic navigation destination without invented tabs', () => {
     const demo = ['doctor-day','sample-chart','medication-review','data-explorer','dashboard','inbox','patients','labs','rx','video','portal','cme','rpm','careplans','voice','referrals','auth','billing','reliability','evaluation','revenue','impact','specialties','quality','interop','audit','compliance'];
     const workspace = ['doctor-day','sample-chart','medication-review','data-explorer','connections','portal','intake','dashboard','patients','schedule','prep','chronology','review','notes','care','doccheck','auth','impact','specialties','billing','reliability','evaluation','quality','team'];
