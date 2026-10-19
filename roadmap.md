@@ -1,5 +1,9 @@
 # Roadmap
 
+## Unlimited owner clinical access — October 19, 2026
+- [x] Check server-verified administrator sign-in before old visitor exit markers; retain visitor deadlines, role verification and explicit session exit.
+- [ ] Verify unlimited administrator viewing, denied access and lost administrator privileges with regression tests; live owner sign-in remains unavailable to automated testing on external Supabase.
+
 ## Clinical request error correction — October 19, 2026
 - [x] Confirm the requesting email has three requests within the existing 24-hour limit; preserve the limit and approval rules.
 - [x] Show server rejection reasons instead of the generic failure; 13 request/session tests passed, build OK, browser form displays mocked HTTP 429 with no page errors. No live request inserted or invitation sent; live resubmission remains subject to the existing daily limit. Frontend correction requires publishing.

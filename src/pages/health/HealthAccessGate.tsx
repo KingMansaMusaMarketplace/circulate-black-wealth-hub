@@ -109,15 +109,20 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
       url.searchParams.delete('access');
       window.history.replaceState({}, '', url.toString());
     }
-    if (localStorage.getItem(PRIVATE_SESSION_ENDED)) { setState('ended'); return; }
     void (async () => {
-      const { data: s } = await supabase.auth.getSession();
-      if (s.session) {
-        const { data } = await supabase.functions.invoke('health-access', { body: { action: 'admin' } });
-        if (data?.ok && typeof data.email === 'string' && typeof data.name === 'string') {
-          setIsAdmin(true); setViewer({ name: data.name, email: data.email }); setState('open'); return;
+      try {
+        const { data: s } = await supabase.auth.getSession();
+        if (s.session) {
+          const { data, error } = await supabase.functions.invoke('health-access', { body: { action: 'admin' } });
+          if (!error && data?.ok === true && data.admin === true && typeof data.email === 'string' && typeof data.name === 'string') {
+            // A prior visitor exit cannot override a newly verified administrator sign-in.
+            localStorage.removeItem(PRIVATE_SESSION_ENDED);
+            localStorage.removeItem(SESSION_KEY);
+            setIsAdmin(true); setViewer({ name: data.name, email: data.email }); setState('open'); return;
+          }
         }
-      }
+      } catch { /* Fail closed and retain visitor restrictions when verification is unavailable. */ }
+      if (localStorage.getItem(PRIVATE_SESSION_ENDED)) { setState('ended'); return; }
       await verify(true);
     })();
   }, [verify]);
@@ -135,7 +140,7 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
     if (isAdmin) {
       const checkAdmin = async () => {
         const { data, error } = await supabase.functions.invoke('health-access', { body: { action: 'admin' } });
-        if (error || !data?.ok) { setIsAdmin(false); setViewer(null); setState('locked'); }
+        if (error || data?.ok !== true || data.admin !== true) { setIsAdmin(false); setViewer(null); setState('locked'); }
       };
       const timer = setInterval(() => { void checkAdmin(); }, 15000);
       const focus = () => { void checkAdmin(); };
