@@ -2,7 +2,8 @@
 
 ## Approved prominent clinical help button — October 19, 2026
 - [x] Add a pink Ask Kayla header button in demo and loaded clinic workspace, using shared semantic styles and existing guide navigation; retain sidebar entry, theme and access protections.
-- [ ] Verify focused product-help checks and public gates; approved/signed-in visual verification remains blocked by external unmanaged authentication.
+- [x] Fifteen product-guide, tour and access checks passed; build OK. Both public gates hide the new button with zero page exceptions.
+- [ ] Approved/signed-in button appearance and click verification — blocked by external unmanaged authentication; public-site update requires publishing.
 
 ## Approved Ask Kayla clinical product guide — October 19, 2026
 - [x] Add shared Ask Kayla navigation in demo/workspace with 44 maintained questions spanning the full screen inventory, surface-specific links, honest sample/locked/future boundaries and related existing spoken overviews; colors and access protections unchanged. No free-text chat, patient input, new prompt or live service added.
