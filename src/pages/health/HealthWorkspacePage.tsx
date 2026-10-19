@@ -183,9 +183,9 @@ export default function HealthWorkspacePage() {
             <p className="text-xs text-muted-foreground">health.1325.ai · {clinic.name}</p>
             <p className="mt-2 text-xs text-muted-foreground">Saved legacy sample entries are retained and unverified. Their dates, treatment, booking, risk and billing examples are not source-verified facts or completed services.</p>
             <h1 className="mb-6 text-2xl font-semibold">{current.l}</h1>
-            <ExecutiveWalkthrough key={`${user.id}:${clinic.id}:${tourRevision}`} onStep={(next) => { if (tourReturnTab.current === null) tourReturnTab.current = tab; setTab(next); }} onEnd={() => { if (tourReturnTab.current !== null) setTab(tourReturnTab.current); tourReturnTab.current = null; }} />
+            {tab !== 'ask-kayla' && <ExecutiveWalkthrough key={`${user.id}:${clinic.id}:${tourRevision}`} onStep={(next) => { if (tourReturnTab.current === null) tourReturnTab.current = tab; setTab(next); }} onEnd={() => { if (tourReturnTab.current !== null) setTab(tourReturnTab.current); tourReturnTab.current = null; }} />}
             {tab === 'dashboard' && <Dashboard {...props} go={navigateTab} />}
-            {tab === 'ask-kayla' && <AskKayla key={`${user.id}:${clinic.id}`} surface="workspace" onNavigate={(next) => { if (NAV.some(item => item.k === next)) navigateTab(next); }} />}
+            {tab === 'ask-kayla' && <AskKayla key={`${user.id}:${clinic.id}:${tourRevision}`} surface="workspace" onNavigate={(next) => { if (NAV.some(item => item.k === next)) navigateTab(next); }} />}
             {tab === 'doctor-day' && <DoctorDay key={`${user.id}:${clinic.id}`} clinicId={clinic.id} clinicRole={role} />}
             {tab === 'sample-chart' && <SamplePatientChart key={`${user.id}:${clinic.id}`} />}
             {tab === 'medication-review' && <MedicationReview key={`${user.id}:${clinic.id}`} />}

@@ -1,6 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import ClinicalVoiceGuide, { ClinicalVoiceProvider } from '@/pages/health/ClinicalVoice';
+import AskKayla from '@/pages/health/AskKayla';
+import { MemoryRouter } from 'react-router-dom';
 
 const recordings: FakeAudio[] = [];
 class FakeAudio {
@@ -14,6 +16,25 @@ class FakeAudio {
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); recordings.length = 0; });
 
 describe('private clinical voice playback', () => {
+  it('starts the product overview with one explicit Listen tap, pauses, resumes and stops on guide removal', async () => {
+    vi.stubGlobal('Audio', FakeAudio);
+    const view = render(<MemoryRouter><ClinicalVoiceProvider remaining={900000} extended={false} isAdmin><AskKayla surface="demo" onNavigate={vi.fn()} /></ClinicalVoiceProvider></MemoryRouter>);
+    expect(recordings).toHaveLength(0);
+    fireEvent.click(screen.getByRole('button', { name: 'Listen to Kayla' }));
+    await waitFor(() => expect(recordings).toHaveLength(1));
+    expect(recordings[0].src).toContain('tour-prep.mp3');
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Pause Kayla' })).toBeEnabled());
+    fireEvent.click(screen.getByRole('button', { name: 'Pause Kayla' }));
+    expect(recordings[0].pause).toHaveBeenCalled();
+    fireEvent.click(screen.getByRole('button', { name: 'Resume Kayla' }));
+    await waitFor(() => expect(recordings[0].play).toHaveBeenCalledTimes(2));
+    fireEvent.click(screen.getByRole('button', { name: 'Mute product guide' }));
+    expect(recordings[0].src).toBe('');
+    fireEvent.click(screen.getByRole('button', { name: 'Listen to Kayla' }));
+    await waitFor(() => expect(recordings).toHaveLength(2));
+    view.unmount();
+    expect(recordings[1].src).toBe('');
+  });
   it('starts silent, supports play/pause/resume and stops on mute and private gate removal', async () => {
     vi.stubGlobal('Audio', FakeAudio);
     const view = render(<ClinicalVoiceProvider remaining={900000} extended={false} isAdmin={false}><ClinicalVoiceGuide /></ClinicalVoiceProvider>);

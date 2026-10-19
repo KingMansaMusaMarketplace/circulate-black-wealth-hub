@@ -6,7 +6,7 @@ import { narrationCatalog, visitorAnnouncement } from './clinical-narration';
 
 const assets = import.meta.glob<{ url: string }>('/src/assets/clinical-voice/*.asset.json', { eager: true, import: 'default' });
 const catalog = narrationCatalog();
-type Voice = { enabled: boolean; toggle: () => void; play: (id: string) => void; stop: () => void; pause: () => void; resume: () => void; current: string | null; paused: boolean; playing: boolean; error: string };
+type Voice = { enabled: boolean; toggle: () => void; play: (id: string, enableSound?: boolean) => void; stop: () => void; pause: () => void; resume: () => void; current: string | null; paused: boolean; playing: boolean; error: string };
 const Context = createContext<Voice | null>(null);
 export const useClinicalVoice = () => useContext(Context);
 
@@ -20,8 +20,9 @@ export function ClinicalVoiceProvider({ children, remaining, extended, isAdmin }
   const warned = useRef(false);
   const priorExtension = useRef(false);
   const stop = () => { const old = audio.current; audio.current = null; if (old) { old.pause(); old.src = ''; } setPlaying(false); setPaused(false); };
-  const play = (id: string) => {
-    if (!enabled) return;
+  const play = (id: string, enableSound = false) => {
+    if (!enabled && !enableSound) return;
+    if (enableSound) setEnabled(true);
     const clip = catalog.find(item => item.id === id);
     const asset = assets[`/src/assets/clinical-voice/${id}.mp3.asset.json`];
     stop(); setError('');

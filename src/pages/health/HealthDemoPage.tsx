@@ -822,8 +822,8 @@ export default function HealthDemoPage() {
             </div>
             <p className="text-sm text-muted-foreground">{facility.name} · {facilityContext.department} · Fictional</p>
           </div>
-          <ExecutiveWalkthrough key={tourRevision} onStep={(_, step) => setTourStep(step)} onEnd={() => setTourStep(null)} />
-          <div key={`${facilityContext.facilityId}:${facilityContext.department}`}>{tourStep === 0 ? <ChartPrep /> : tourStep === 1 || tourStep === 2 ? <ExecutiveNotePreview review={tourStep === 2} /> : tourStep === 3 ? <CareGuide /> : mod === 'ask-kayla' ? <AskKayla surface="demo" onNavigate={(next) => { const target = MODULES.find(module => module.key === next); if (!target) return; setMod(target.key); setTourStep(null); setTourRevision(revision => revision + 1); }} /> : mod === 'quality' ? <ExecutiveQuality facilityContext={facilityContext} onNavigate={(next) => { setMod(next); setTourStep(null); setTourRevision((revision) => revision + 1); }} /> : View ? <View /> : null}</div>
+          {mod !== 'ask-kayla' && <ExecutiveWalkthrough key={tourRevision} onStep={(_, step) => setTourStep(step)} onEnd={() => setTourStep(null)} />}
+          <div key={`${facilityContext.facilityId}:${facilityContext.department}`}>{tourStep === 0 ? <ChartPrep /> : tourStep === 1 || tourStep === 2 ? <ExecutiveNotePreview review={tourStep === 2} /> : tourStep === 3 ? <CareGuide /> : mod === 'ask-kayla' ? <AskKayla key={tourRevision} surface="demo" onNavigate={(next) => { const target = MODULES.find(module => module.key === next); if (!target) return; setMod(target.key); setTourStep(null); setTourRevision(revision => revision + 1); }} /> : mod === 'quality' ? <ExecutiveQuality facilityContext={facilityContext} onNavigate={(next) => { setMod(next); setTourStep(null); setTourRevision((revision) => revision + 1); }} /> : View ? <View /> : null}</div>
         </main>
       </div>
       <footer className="space-y-2 border-t border-border bg-card px-6 py-4 text-[11px] leading-relaxed text-muted-foreground">

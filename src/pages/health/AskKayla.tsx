@@ -12,10 +12,15 @@ import { HELP_CATEGORIES, PRODUCT_HELP, resolveHelpTarget, type HelpSurface } fr
 export default function AskKayla({ surface, onNavigate }: { surface: HelpSurface; onNavigate: (tab: string) => void }) {
   const [category, setCategory] = useState(HELP_CATEGORIES[0]);
   const [selectedId, setSelectedId] = useState('overview');
+  const heading = useRef<HTMLHeadingElement>(null);
   const voice = useClinicalVoice();
   const stopRef = useRef(voice?.stop);
   stopRef.current = voice?.stop;
   useEffect(() => () => stopRef.current?.(), []);
+  useEffect(() => {
+    heading.current?.focus({ preventScroll: true });
+    heading.current?.scrollIntoView?.({ block: 'start', behavior: 'instant' });
+  }, []);
   const selected = PRODUCT_HELP.find(topic => topic.id === selectedId) ?? PRODUCT_HELP[0];
   const target = resolveHelpTarget(selected.id, surface);
   const overview = narrationCatalog().find(clip => clip.id === selected.narration);
@@ -23,7 +28,7 @@ export default function AskKayla({ surface, onNavigate }: { surface: HelpSurface
   const choose = (id: string) => { voice?.stop(); setSelectedId(id); };
   return <section aria-label="Ask Kayla product guide" className="space-y-6">
     <div className="flex flex-wrap items-center justify-between gap-4 border-b border-mansagold/30 pb-5">
-      <div className="flex items-center gap-3"><img src={logo} alt="1325.AI" className="h-12 w-12 shrink-0 object-contain" /><div><h2 className="text-xl font-semibold">Kayla · Clinical product guide</h2><p className="mt-1 text-sm text-muted-foreground">1325 Clinical · Functionality & workflows</p></div></div>
+      <div className="flex items-center gap-3"><img src={logo} alt="1325.AI" className="h-12 w-12 shrink-0 object-contain" /><div><h2 ref={heading} tabIndex={-1} className="scroll-mt-6 text-xl font-semibold focus:outline-none">Kayla · Clinical product guide</h2><p className="mt-1 text-sm text-muted-foreground">1325 Clinical · Functionality & workflows</p></div></div>
       <Badge variant="outline" className="border-mansagold/40 text-mansagold">Product help · Not medical advice</Badge>
     </div>
     <nav aria-label="Product help categories" className="flex flex-wrap gap-2">{HELP_CATEGORIES.map(value => <Button key={value} variant={category === value ? 'default' : 'outline'} aria-pressed={category === value} className="h-auto whitespace-normal text-left" onClick={() => { setCategory(value); const first = PRODUCT_HELP.find(topic => topic.category === value); if (first) choose(first.id); }}>{value}</Button>)}</nav>
@@ -31,6 +36,12 @@ export default function AskKayla({ surface, onNavigate }: { surface: HelpSurface
       <nav aria-label="Questions for Kayla" className="space-y-1 lg:border-r lg:border-border lg:pr-5">{PRODUCT_HELP.filter(topic => topic.category === category).map(topic => <Button key={topic.id} variant="ghost" aria-pressed={selectedId === topic.id} onClick={() => choose(topic.id)} className={`h-auto w-full justify-start whitespace-normal border-l-2 px-3 py-3 text-left leading-relaxed ${selectedId === topic.id ? 'border-mansagold bg-mansagold/10 text-mansagold' : 'border-transparent text-muted-foreground'}`}>{topic.question}</Button>)}</nav>
       <article aria-live="polite" aria-label="Kayla product answer" className="min-w-0 space-y-5">
         <div className="space-y-2"><p className="text-xs font-semibold text-mansagold">{selected.feature}</p><h3 className="text-xl font-semibold">{selected.question}</h3><Badge variant="outline">{selected.status}</Badge></div>
+        {voice && overview && <div className="flex flex-wrap items-center gap-3">
+          <Button variant="clinicalHelp" className="h-auto whitespace-normal" onClick={() => voice.playing && voice.current === selected.narration ? voice.pause() : voice.paused && voice.current === selected.narration ? voice.resume() : voice.play(selected.narration, true)}>
+            {voice.playing && voice.current === selected.narration ? <Pause /> : <Volume2 />}{voice.playing && voice.current === selected.narration ? 'Pause Kayla' : voice.paused && voice.current === selected.narration ? 'Resume Kayla' : 'Listen to Kayla'}
+          </Button>
+          <span className="text-xs text-muted-foreground">Related prerecorded overview · {overview.title}</span>
+        </div>}
         <p className="text-sm leading-relaxed">{selected.answer}</p>
         <div><h4 className="mb-3 flex items-center gap-2 text-sm font-semibold"><BookOpen className="h-4 w-4 text-mansagold" />Workflow</h4><ol className="list-decimal space-y-2 pl-5 text-sm leading-relaxed text-muted-foreground">{selected.steps.map(step => <li key={step}>{step}</li>)}</ol></div>
         <div className="border-l-2 border-mansagold pl-4"><h4 className="text-sm font-semibold">Current boundary</h4><p className="mt-1 text-sm leading-relaxed text-muted-foreground">{selected.boundary}</p></div>
@@ -38,7 +49,7 @@ export default function AskKayla({ surface, onNavigate }: { surface: HelpSurface
         {voice && overview && <section aria-label="Product overview narration" className="space-y-3 border-t border-border pt-5">
           <div className="flex flex-wrap items-center justify-between gap-3"><div><h4 className="text-sm font-semibold">Related spoken overview</h4><p className="text-xs text-muted-foreground">{overview.title} · Prerecorded, not a reading of this answer</p></div><div className="flex gap-1">
             <Button variant="outline" size="icon" aria-label={voice.enabled ? 'Mute product guide' : 'Enable product guide sound'} title={voice.enabled ? 'Mute product guide' : 'Enable product guide sound'} onClick={voice.toggle}>{voice.enabled ? <Volume2 /> : <VolumeX />}</Button>
-            <Button variant="outline" size="icon" disabled={!voice.enabled} aria-label={voice.playing ? 'Pause product overview' : 'Play product overview'} title={voice.playing ? 'Pause product overview' : 'Play product overview'} onClick={() => voice.playing ? voice.pause() : voice.paused && voice.current === selected.narration ? voice.resume() : voice.play(selected.narration)}>{voice.playing ? <Pause /> : <Play />}</Button>
+            <Button variant="outline" size="icon" aria-label={voice.playing ? 'Pause product overview' : 'Play product overview'} title={voice.playing ? 'Pause product overview' : 'Play product overview'} onClick={() => voice.playing ? voice.pause() : voice.paused && voice.current === selected.narration ? voice.resume() : voice.play(selected.narration, true)}>{voice.playing ? <Pause /> : <Play />}</Button>
             <Button variant="ghost" size="icon" disabled={!voice.current} aria-label="Stop product overview" title="Stop product overview" onClick={voice.stop}><Square /></Button>
           </div></div>
           <p aria-label="Product overview transcript" className="text-sm leading-relaxed text-muted-foreground">{activeClip && (voice.playing || voice.paused) ? activeClip.text : overview.text}</p>
