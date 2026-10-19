@@ -25,6 +25,7 @@ import ClinicalSafetyPanel from './ClinicalSafetyPanel';
 import DoctorDay from './workspace/DoctorDay';
 import SamplePatientChart from './workspace/SamplePatientChart';
 import MedicationReview from './workspace/MedicationReview';
+import DelegationDesk from './workspace/DelegationDesk';
 import ClinicalDataExplorer from './workspace/ClinicalDataExplorer';
 import ConnectionPreparation from './workspace/ConnectionPreparation';
 import PatientCommunication from './workspace/PatientCommunication';
@@ -40,6 +41,7 @@ import AskKayla from './AskKayla';
 const NAV = [
   { k: 'ask-kayla', l: 'Ask Kayla', i: BrainCircuit },
   { k: 'doctor-day', l: 'Connected Doctor Day', i: Calendar },
+  { k: 'delegation', l: 'Delegation Desk', i: ClipboardCheck },
   { k: 'sample-chart', l: 'Expanded Sample Chart', i: ClipboardCheck },
   { k: 'medication-review', l: 'Medication Review Assistance', i: ClipboardCheck },
   { k: 'data-explorer', l: 'Clinical Data Explorer', i: ClipboardCheck },
@@ -187,6 +189,7 @@ export default function HealthWorkspacePage() {
             {tab === 'dashboard' && <Dashboard {...props} go={navigateTab} />}
             {tab === 'ask-kayla' && <AskKayla key={`${user.id}:${clinic.id}:${tourRevision}`} surface="workspace" onNavigate={(next) => { if (NAV.some(item => item.k === next)) navigateTab(next); }} />}
             {tab === 'doctor-day' && <DoctorDay key={`${user.id}:${clinic.id}`} clinicId={clinic.id} clinicRole={role} />}
+            {tab === 'delegation' && <DelegationDesk key={`${user.id}:${clinic.id}`} />}
             {tab === 'sample-chart' && <SamplePatientChart key={`${user.id}:${clinic.id}`} />}
             {tab === 'medication-review' && <MedicationReview key={`${user.id}:${clinic.id}`} />}
             {tab === 'data-explorer' && <ClinicalDataExplorer key={`${user.id}:${clinic.id}`} />}
