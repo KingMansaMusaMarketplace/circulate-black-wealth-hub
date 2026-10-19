@@ -11,6 +11,7 @@ import patientCall2 from '@/assets/health-call/patient-2.mp3';
 import patientCall3 from '@/assets/health-call/patient-3.mp3';
 import { Helmet } from 'react-helmet-async';
 import ProprietaryNotice from './ProprietaryNotice';
+import AskKayla from './AskKayla';
 import {
   Activity, AlertTriangle, BrainCircuit, Calendar, ClipboardCheck, FileSearch, FileText,
   HeartPulse, FlaskConical, History, Send, Award, Video, Smartphone, Mic, MicOff, PhoneOff, MessageSquare, Network, Inbox, LayoutDashboard, TrendingUp, Target, Lock, Pill, Receipt, Search, ShieldCheck, Stethoscope, Users,
@@ -120,6 +121,7 @@ const CLAIMS = [
 ];
 
 const MODULES = [
+  { key: 'ask-kayla', label: 'Ask Kayla', icon: MessageSquare },
   { key: 'doctor-day', label: 'Connected Doctor Day', icon: Calendar },
   { key: 'sample-chart', label: 'Expanded Sample Chart', icon: FileText },
   { key: 'medication-review', label: 'Medication Review Assistance', icon: Pill },
@@ -756,7 +758,7 @@ const VoiceOutreach = () => {
   );
 };
 
-const VIEWS: Record<ModuleKey, React.FC> = { 'data-explorer': ClinicalDataExplorer, evaluation: DoctorEvaluation, reliability: EnterpriseReliability, 'medication-review': MedicationReview, 'sample-chart': SamplePatientChart, 'doctor-day': DoctorDay, specialties: SpecialtyExamples, dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, impact: PracticeImpact, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: ExecutiveQuality, voice: VoiceOutreach };
+const VIEWS: Record<Exclude<ModuleKey, 'ask-kayla'>, React.FC> = { 'data-explorer': ClinicalDataExplorer, evaluation: DoctorEvaluation, reliability: EnterpriseReliability, 'medication-review': MedicationReview, 'sample-chart': SamplePatientChart, 'doctor-day': DoctorDay, specialties: SpecialtyExamples, dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, impact: PracticeImpact, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: ExecutiveQuality, voice: VoiceOutreach };
 
 export default function HealthDemoPage() {
   const [facilityContext, setFacilityContext] = useState<FacilityContext>(DEFAULT_FACILITY_CONTEXT);
@@ -766,7 +768,7 @@ export default function HealthDemoPage() {
   const [tourRevision, setTourRevision] = useState(0);
   const [navigationSearch, setNavigationSearch] = useState('');
   const searchMatches = navigationSearch.trim() ? MODULES.filter(module => module.label.toLowerCase().includes(navigationSearch.trim().toLowerCase())) : [];
-  const View = VIEWS[mod];
+  const View = mod === 'ask-kayla' ? null : VIEWS[mod];
   const current = MODULES.find((m) => m.key === mod) ?? MODULES[0];
   return (
     <div className="theme-clinical dark flex min-h-screen flex-col">
@@ -820,7 +822,7 @@ export default function HealthDemoPage() {
             <p className="text-sm text-muted-foreground">{facility.name} · {facilityContext.department} · Fictional</p>
           </div>
           <ExecutiveWalkthrough key={tourRevision} onStep={(_, step) => setTourStep(step)} onEnd={() => setTourStep(null)} />
-          <div key={`${facilityContext.facilityId}:${facilityContext.department}`}>{tourStep === 0 ? <ChartPrep /> : tourStep === 1 || tourStep === 2 ? <ExecutiveNotePreview review={tourStep === 2} /> : tourStep === 3 ? <CareGuide /> : mod === 'quality' ? <ExecutiveQuality facilityContext={facilityContext} onNavigate={(next) => { setMod(next); setTourStep(null); setTourRevision((revision) => revision + 1); }} /> : <View />}</div>
+          <div key={`${facilityContext.facilityId}:${facilityContext.department}`}>{tourStep === 0 ? <ChartPrep /> : tourStep === 1 || tourStep === 2 ? <ExecutiveNotePreview review={tourStep === 2} /> : tourStep === 3 ? <CareGuide /> : mod === 'ask-kayla' ? <AskKayla surface="demo" onNavigate={(next) => { const target = MODULES.find(module => module.key === next); if (!target) return; setMod(target.key); setTourStep(null); setTourRevision(revision => revision + 1); }} /> : mod === 'quality' ? <ExecutiveQuality facilityContext={facilityContext} onNavigate={(next) => { setMod(next); setTourStep(null); setTourRevision((revision) => revision + 1); }} /> : View ? <View /> : null}</div>
         </main>
       </div>
       <footer className="space-y-2 border-t border-border bg-card px-6 py-4 text-[11px] leading-relaxed text-muted-foreground">
