@@ -1,5 +1,9 @@
 # Roadmap
 
+## Approved clinical invitation branding — October 19, 2026
+- [x] Style the shared invitation with the existing logo and email palette, prominent preview link and Thomas signature; preserve access rules and plain text.
+- [x] Nineteen mail/decision checks passed; fictional desktop/mobile rendering verified, logo loads and no mobile overflow. Deployed health-access; build OK. No actual visitor emailed for testing; inbox appearance/delivery remains unverified.
+
 ## Approved clinical voice experience — October 19, 2026
 - [x] Add fixed spoken walkthrough, fictional source reading, illustrative assistant handoffs, visitor announcements and shared sound-off playback controls; twelve prerecorded clips generated with no runtime patient-text endpoint.
 - [x] Fourteen narration/playback/access checks passed; hosted audio returns audio/mpeg, build OK, public /health gate hides private voice controls with no page errors. Local asset URLs return HTML, so hosted asset delivery was checked instead.

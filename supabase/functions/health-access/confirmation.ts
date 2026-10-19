@@ -6,9 +6,10 @@ export const escapeHtml = (value: string) => value.replace(/[&<>"']/g, (characte
   return entities[character] ?? character;
 });
 
+// Shared inline email tokens: email clients cannot use app CSS variables.
+export const clinicalEmailTheme = { background: '#000000', navy: '#003366', gold: '#FFB300', foreground: '#FFFFFF', muted: '#CBD5E1', border: '#38516B' };
 export function accessRequestEmail(details: { full_name: string; organization: string; role: string; work_email: string; phone: string }, links: { approve: string; deny: string; revoke: string }) {
-  // Email clients require inline colors; keep the brand palette together here.
-  const theme = { background: '#000000', navy: '#003366', gold: '#FFB300', foreground: '#FFFFFF', muted: '#CBD5E1', border: '#38516B' };
+  const theme = clinicalEmailTheme;
   const row = (label: string, value: string) => `<tr><td style="padding:14px 10px 14px 0;border-bottom:1px solid ${theme.border};color:${theme.muted};font-size:13px;vertical-align:top;width:38%">${label}</td><td style="padding:14px 0;border-bottom:1px solid ${theme.border};color:${theme.foreground};font-size:15px;font-weight:600;overflow-wrap:anywhere;word-break:break-word">${escapeHtml(value)}</td></tr>`;
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>1325 Clinical | Access request</title></head><body style="margin:0;background:${theme.background};font-family:Arial,Helvetica,sans-serif;line-height:1.5">
   <div style="display:none;max-height:0;overflow:hidden">A private preview request is awaiting your decision.</div>
