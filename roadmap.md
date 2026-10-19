@@ -1,5 +1,9 @@
 # Roadmap
 
+## Clinical Kayla button correction — October 19, 2026
+- [ ] Bring product answers into view without competing walkthrough controls; add one-click opt-in prerecorded narration.
+- [ ] Run guidance/playback/navigation checks; authenticated verification remains blocked by external unmanaged authentication.
+
 ## Approved prominent clinical help button — October 19, 2026
 - [x] Add a pink Ask Kayla header button in demo and loaded clinic workspace, using shared semantic styles and existing guide navigation; retain sidebar entry, theme and access protections.
 - [x] Fifteen product-guide, tour and access checks passed; build OK. Both public gates hide the new button with zero page exceptions.
