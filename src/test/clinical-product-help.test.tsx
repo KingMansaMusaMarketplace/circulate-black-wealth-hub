@@ -62,7 +62,7 @@ describe('product-only conversation intake', () => {
   it('answers the requested whole-platform question using IDs only', () => {
     const selection = compileHelpQuestion('Please tell me about 1325 Clinical and about the features');
     expect(selection).toEqual({ topics: ['overview'], intent: 'explain' });
-    expect(canonicalQuestion(selection ?? { topics: [], intent: 'explain' })).toBe('Explain in detail: 1325 Clinical.');
+    expect(canonicalQuestion(selection ?? { topics: [], intent: 'explain' })).toBe('Explain in detail: 1325 Clinical EMR / EHR.');
   });
   it('recognizes natural product workflows and contextual follow-ups', () => {
     expect(compileHelpQuestion('How does chart preparation work?')?.topics).toContain('prep');
