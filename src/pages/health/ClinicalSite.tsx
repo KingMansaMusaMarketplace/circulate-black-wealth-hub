@@ -4,7 +4,14 @@ import { Link, NavLink } from 'react-router-dom';
 import { ArrowRight, Building2, Check, ClipboardList, FileText, Hospital, Inbox, LockKeyhole, Mic, ShieldCheck, Stethoscope, UserCheck, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logo from '@/assets/1325-ai-logo.png';
-import team from '@/assets/clinical-marketplace-team.jpg';
+import homeRounds from '@/assets/clinical-home-rounds.jpg';
+import practiceSolution from '@/assets/clinical-solutions-practice.jpg';
+import hospitalSolution from '@/assets/clinical-solutions-hospital.jpg';
+import notesPhoto from '@/assets/clinical-features-notes.jpg';
+import delegationPhoto from '@/assets/clinical-features-delegation.jpg';
+import inboxPhoto from '@/assets/clinical-features-inbox.jpg';
+import securityReview from '@/assets/clinical-security-review.jpg';
+import securityPrivacy from '@/assets/clinical-security-privacy.jpg';
 import hospitalTeam from '@/assets/clinical-hospital-team.jpg';
 import physicianCare from '@/assets/clinical-physician-care.jpg';
 import ClinicalSiteBack from './ClinicalSiteBack';
@@ -38,11 +45,14 @@ function Heading({ eyebrow, title, intro }: { eyebrow: string; title: string; in
   </div>;
 }
 
-function Card({ icon: Icon, title, children }: { icon: typeof Mic; title: string; children: ReactNode }) {
-  return <div className="rounded-lg border border-border bg-card p-6">
+function Card({ icon: Icon, title, children, photo }: { icon: typeof Mic; title: string; children: ReactNode; photo?: { src: string; alt: string } }) {
+  return <div className="overflow-hidden rounded-lg border border-border bg-card">
+    {photo && <img src={photo.src} alt={photo.alt} width={1536} height={1024} loading="lazy" className="aspect-[3/2] w-full object-cover" />}
+    <div className="p-6">
     <Icon className="h-7 w-7 text-primary" aria-hidden />
     <h3 className="mt-4 text-lg font-semibold">{title}</h3>
     <div className="mt-2 text-muted-foreground text-sm leading-relaxed">{children}</div>
+    </div>
   </div>;
 }
 
@@ -98,7 +108,7 @@ function Home() {
   ];
   return <>
     <section className="relative isolate overflow-hidden border-b border-border">
-      <img src={team} alt="Illustrative image of a physician and clinic manager reviewing a laptop" width={1536} height={1024} className="absolute inset-0 -z-20 h-full w-full object-cover object-center" />
+      <img src={homeRounds} alt="Illustrative physician, nurse and care coordinator walking together in a hospital" fetchPriority="high" width={1536} height={1024} className="absolute inset-0 -z-20 h-full w-full object-cover object-center" />
       <div className="clinical-site-hero-scrim absolute inset-0 -z-10" />
       <div className="mx-auto max-w-6xl px-6 py-10 md:py-20">
         <p className="text-sm font-semibold text-primary flex items-center gap-2"><LockKeyhole className="h-4 w-4" /> Private preview · sample data only</p>
@@ -150,7 +160,7 @@ function Solutions() {
       <Heading eyebrow="Solutions" title="One platform for clinics and hospitals." intro="The same physician-controlled workflow, presented for the setting you work in." />
       <div className="grid gap-6 md:grid-cols-2">
         <div className="min-w-0">
-          <img src={physicianCare} alt="Illustrative private-clinic physician conversation" width={1536} height={1024} loading="lazy" className="mb-7 aspect-[3/2] w-full rounded-lg object-cover" />
+          <img src={practiceSolution} alt="Illustrative physician and practice manager planning at a private clinic" width={1536} height={1024} loading="lazy" className="mb-7 aspect-[3/2] w-full rounded-lg object-cover" />
           <Building2 className="h-8 w-8 text-primary" aria-hidden />
           <h3 className="mt-4 text-2xl font-semibold">Independent practices & clinics</h3>
           <ul className="mt-6 space-y-3 text-muted-foreground">
@@ -158,7 +168,7 @@ function Solutions() {
           </ul>
         </div>
         <div className="min-w-0">
-          <img src={hospitalTeam} alt="Illustrative hospital care-team discussion" width={1536} height={1024} loading="lazy" className="mb-7 aspect-[3/2] w-full rounded-lg object-cover" />
+          <img src={hospitalSolution} alt="Illustrative hospital department director meeting with a multidisciplinary team" width={1536} height={1024} loading="lazy" className="mb-7 aspect-[3/2] w-full rounded-lg object-cover" />
           <Hospital className="h-8 w-8 text-primary" aria-hidden />
           <h3 className="mt-4 text-2xl font-semibold">Hospitals & health systems</h3>
           <ul className="mt-6 space-y-3 text-muted-foreground">
@@ -176,18 +186,15 @@ function Features() {
   return <>
     <Section>
       <Heading eyebrow="Features" title="Built around physician review." intro="Every feature below can be explored in the private preview using fictional patients." />
-      <figure className="mb-10">
-        <img src={team} alt="Illustrative physician and clinic manager reviewing a laptop together" width={1536} height={1024} loading="lazy" className="aspect-[16/7] w-full rounded-lg object-cover" />
-        <figcaption className="mt-3 text-xs text-muted-foreground">Preparation for the team. Decisions for the physician. Illustrative AI-generated photography.</figcaption>
-      </figure>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card icon={ClipboardList} title="Delegation Desk">Spoken requests become draft orders, routed tasks and chart questions — with missing facts marked “Unknown” instead of guessed.</Card>
-        <Card icon={Mic} title="AI note-taking">Visit notes drafted from the conversation, with every line linked back to what was said. The doctor signs or rejects.</Card>
-        <Card icon={Inbox} title="Supervised inbox">Physician-approved rules sort routine items to staff and flag results for the doctor’s review.</Card>
+        <Card icon={ClipboardList} title="Delegation Desk" photo={{ src: delegationPhoto, alt: 'Illustrative physician and nurse coordinating work at a hospital workstation' }}>Spoken requests become draft orders, routed tasks and chart questions — with missing facts marked “Unknown” instead of guessed.</Card>
+        <Card icon={Mic} title="AI note-taking" photo={{ src: notesPhoto, alt: 'Illustrative physician reviewing documentation at a clinic laptop' }}>Visit notes drafted from the conversation, with every line linked back to what was said. The doctor signs or rejects.</Card>
+        <Card icon={Inbox} title="Supervised inbox" photo={{ src: inboxPhoto, alt: 'Illustrative care coordinator and physician reviewing administrative work' }}>Physician-approved rules sort routine items to staff and flag results for the doctor’s review.</Card>
         <Card icon={FileText} title="Record review">Long records organized into source-linked summaries and timelines for physician review.</Card>
         <Card icon={Stethoscope} title="Chart preparation">Visit-ready summaries built only from exact chart excerpts.</Card>
         <Card icon={ShieldCheck} title="Prior authorization & billing checks">Draft paperwork and documentation-gap checks — never claims submission or code selection.</Card>
       </div>
+      <p className="mt-5 text-xs text-muted-foreground">Illustrative AI-generated photography. Not customers, endorsements or clinical deployments.</p>
     </Section>
     <KaylaWorkforce />
     <CallToAction />
@@ -200,6 +207,11 @@ function Security() {
   return <>
     <Section>
       <Heading eyebrow="Trust & Security" title="Honest about what it does — and doesn’t." intro="1325 Clinical EMR / EHR is in development. Real patient records will only be used after legal agreements, vendor coverage and safeguards are confirmed." />
+      <div className="mb-10 grid gap-6 md:grid-cols-2">
+        <figure><img src={securityReview} alt="Illustrative physician and technology professional reviewing a privacy checklist" width={1536} height={1024} loading="lazy" className="aspect-[3/2] w-full rounded-lg object-cover" /><figcaption className="mt-3 text-sm text-muted-foreground">Careful review before real-world use.</figcaption></figure>
+        <figure><img src={securityPrivacy} alt="Illustrative clinician closing a consultation-room privacy door" width={1536} height={1024} loading="lazy" className="aspect-[3/2] w-full rounded-lg object-cover" /><figcaption className="mt-3 text-sm text-muted-foreground">Privacy belongs at the center of care.</figcaption></figure>
+      </div>
+      <p className="mb-6 text-xs text-muted-foreground">Illustrative AI-generated photography, not evidence of certification or a deployed healthcare environment.</p>
       <div className="grid gap-6 md:grid-cols-2">
         <div className="rounded-lg border border-border bg-card p-8"><h3 className="text-xl font-semibold">Preview safeguards</h3><ul className="mt-5 space-y-3 text-muted-foreground">{yes.map(x => <li key={x} className="flex gap-3"><Check className="h-5 w-5 shrink-0 text-primary" />{x}</li>)}</ul></div>
         <div className="rounded-lg border border-border bg-card p-8"><h3 className="text-xl font-semibold">What stays locked</h3><ul className="mt-5 space-y-3 text-muted-foreground">{no.map(x => <li key={x} className="flex gap-3"><X className="h-5 w-5 shrink-0 text-muted-foreground" />{x}</li>)}</ul></div>
