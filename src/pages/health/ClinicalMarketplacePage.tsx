@@ -72,9 +72,9 @@ export default function ClinicalMarketplacePage() {
       <section className="relative isolate overflow-hidden border-b border-border">
         <img src={team} alt="Illustrative image of a physician and clinic manager reviewing a laptop together" width={1536} height={1024} className="absolute inset-0 -z-20 h-full w-full object-cover object-right" />
         <div className="absolute inset-0 -z-10 bg-background/80" />
-        <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+        <div className="mx-auto max-w-6xl px-6 py-8 md:py-20">
           <p className="mb-5 flex items-center gap-2 text-sm font-medium text-primary"><LockKeyhole className="h-4 w-4" /> For private clinics & hospital leaders</p>
-          <h1 className="max-w-2xl text-4xl font-semibold leading-tight md:text-5xl">1325 Clinical EMR / EHR</h1>
+          <h1 className="max-w-2xl text-3xl font-semibold leading-tight md:text-5xl">1325 Clinical EMR / EHR</h1>
           <p className="mt-3 text-sm font-semibold text-primary">Private preview · sample data only</p>
           <h2 className="mt-8 max-w-xl font-display text-3xl leading-tight md:text-4xl">Give the doctor<br />their team back.</h2>
           <p className="mt-5 max-w-lg text-base leading-relaxed">Explore a different approach to clinical work: prepare the notes, organize the evidence and rehearse delegation — while the physician stays in control.</p>
