@@ -357,10 +357,12 @@ const LazySdkDocumentationPage = lazy(() => import('@/pages/developers/SdkDocume
 const LazyShowcaseGalleryPage = lazy(() => import('@/pages/developers/ShowcaseGalleryPage'));
 
 // Loading fallback component — self-healing: never spins forever.
+import loaderLogo from '@/assets/1325-ai-logo.png';
 // If a page chunk fails to download (offline / slow network / iPad WebView),
 // we surface a Retry button after 8 seconds instead of an endless indicator.
 const LoadingFallback: React.FC<{ message?: string }> = ({ message = "Loading..." }) => {
   const [stalled, setStalled] = useState(false);
+  const isClinicalLoad = typeof window !== 'undefined' && (window.location.hostname.startsWith('health.') || window.location.pathname.startsWith('/health'));
 
   useEffect(() => {
     const t = setTimeout(() => setStalled(true), 8000);
@@ -390,6 +392,13 @@ const LoadingFallback: React.FC<{ message?: string }> = ({ message = "Loading...
     // Match the site's True Black page color so switching pages never flashes white.
     <div className="min-h-screen bg-black flex items-center justify-center">
       <div className="text-center space-y-4">
+        {isClinicalLoad && (
+          <div className="flex flex-col items-center gap-3 mb-2">
+            <img src={loaderLogo} alt="1325.AI" className="h-16 w-auto object-contain" />
+            <p className="text-xl font-semibold text-white">1325 Clinical EMR / EHR</p>
+            <p className="text-xs text-primary">Private preview · sample data only</p>
+          </div>
+        )}
         <p className="text-white/70">{message}</p>
         <Progress value={75} className="w-64 mx-auto" />
       </div>

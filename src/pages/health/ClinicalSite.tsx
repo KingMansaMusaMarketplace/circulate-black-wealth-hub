@@ -119,6 +119,10 @@ function Home() {
       <video poster={homeRounds} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="absolute inset-0 -z-20 h-full w-full object-cover object-center motion-reduce:hidden"><source src={homeRoundsWebm.url} type="video/webm" /><source src={homeRoundsVideo.url} type="video/mp4" /></video>
       <div className="clinical-site-hero-scrim absolute inset-0 -z-10" />
       <div className="mx-auto max-w-6xl px-6 py-10 md:py-20">
+        <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-border bg-background/60 px-4 py-2 backdrop-blur-md">
+          <img src={logo} alt="1325.AI" className="h-8 w-auto object-contain" />
+          <span className="text-sm font-semibold">1325 Clinical EMR / EHR</span>
+        </div>
         <p className="text-sm font-semibold text-primary flex items-center gap-2"><LockKeyhole className="h-4 w-4" /> Private preview · sample data only</p>
         <h1 className="mt-6 max-w-2xl text-4xl md:text-5xl font-semibold leading-tight">1325 Clinical<br />EMR / EHR</h1>
         <p className="mt-5 max-w-xl text-2xl font-medium">Give the doctor their team back.</p>
