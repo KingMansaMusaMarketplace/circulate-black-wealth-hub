@@ -61,7 +61,7 @@ function ClinicRecordReview({ clinicId, clinicRole }: { clinicId: string; clinic
       const { data, error } = await supabase.functions.invoke('health-kayla-review', { body: { action: 'decision', review_id: active.id, decision: value } });
       if (error || data?.error) throw new Error(data?.error ?? error?.message ?? 'Could not save decision');
       const saved = await decisions.reload();
-      if (!saved?.some(d => d.review_id === active.id && d.decision === value)) throw new Error('The request completed, but the saved decision could not be confirmed. Refresh records before trying again.');
+      if (!data?.decision?.id || !saved?.some(d => d.id === data.decision.id && d.review_id === active.id && d.decision === value)) throw new Error('The request completed, but the saved decision could not be confirmed. Refresh records before trying again.');
       toast.success('Sample review decision saved');
     } catch (error) { toast.error(error instanceof Error ? error.message : 'Could not save decision'); }
     finally { pending.current = false; setSaving(false); }
