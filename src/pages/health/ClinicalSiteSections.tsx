@@ -112,7 +112,6 @@ export function LostTeamStory({ photo }: { photo: string }) {
         <li><strong className="text-foreground">1325 Clinical's goal:</strong> rebuild that team digitally — staff and Kayla, an Agentic AI assistant, prepare; the doctor reviews and signs.</li>
       </ul>
     </div>
-    <p className="mt-4 text-xs text-muted-foreground">Illustrative AI-generated photography. Not a customer or clinical deployment.</p>
   </Wrap>;
 }
 
@@ -161,7 +160,7 @@ export function NoRipAndReplace({ photo }: { photo: string }) {
         <p className="mt-5 text-muted-foreground">Your current system keeps billing, registration and beds. 1325 Clinical is being built to take on the preparation work — so leaders can test whether it helps before taking on bigger risks.</p>
       </div>
     </div>
-    <p className="mt-4 text-xs text-muted-foreground">Illustrative AI-generated photography. Live connections and inpatient workflows are not available in the preview.</p>
+    <p className="mt-4 text-xs text-muted-foreground">Live connections and inpatient workflows are not available in the preview.</p>
   </Wrap>;
 }
 

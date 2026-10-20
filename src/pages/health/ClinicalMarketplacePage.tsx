@@ -26,9 +26,9 @@ const requestSchema = z.object({
   phone: z.string().trim().min(7, 'Enter your phone number.').max(40),
 });
 const workflows = [
-  { icon: ClipboardList, title: 'Delegation Desk', problem: 'The doctor becomes the task queue.', solution: 'Explore fictional request-to-draft workflows and staff routing, with physician review kept central.' },
+  { icon: ClipboardList, title: 'Delegation Desk', problem: 'The doctor becomes the task queue.', solution: 'Explore request-to-draft workflows and staff routing, with physician review kept central.' },
   { icon: FileText, title: 'Evidence-linked notes', problem: 'Documentation competes with care.', solution: 'Review notes drafted from sample transcripts, with citations back to the original source.' },
-  { icon: MessageCircle, title: 'Inbox preparation', problem: 'Routine work crowds the inbox.', solution: 'See illustrative routing rules, review reasons and missing information without sending a message.' },
+  { icon: MessageCircle, title: 'Inbox preparation', problem: 'Routine work crowds the inbox.', solution: 'See sample routing rules, review reasons and missing information without sending a message.' },
 ];
 
 export default function ClinicalMarketplacePage() {
