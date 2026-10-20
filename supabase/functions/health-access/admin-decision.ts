@@ -10,7 +10,7 @@ export type DecisionDependencies = {
 export function allowedDecision(status: string, decision: Decision): boolean {
   if (decision === 'revoke') return status === 'approved';
   if (decision === 'extend') return status === 'approved';
-  if (decision === 'reopen') return status === 'expired';
+  if (decision === 'reopen') return status === 'expired' || status === 'approved';
   return status === 'pending';
 }
 export async function administerDecision(input: DecisionInput, deps: DecisionDependencies) {
@@ -19,6 +19,10 @@ export async function administerDecision(input: DecisionInput, deps: DecisionDep
   if (!r) return { status: 404, body: { error: 'Request not found.' } };
   if (r.status !== input.expected_status || r.revoked_at || !allowedDecision(r.status, input.decision)) return { status: 409, body: { error: 'This request has changed. Refresh before deciding again.' } };
   const stamp = new Date().toISOString();
+  if (input.decision === 'reopen' && r.status === 'approved') {
+    const end = r.viewing_expires_at ? Date.parse(r.viewing_expires_at) : NaN;
+    if (!r.first_entered_at || !Number.isFinite(end) || end > Date.now()) return { status: 409, body: { error: 'Only a finished visit can receive a new viewing. Refresh before deciding again.' } };
+  }
   if (input.decision === 'extend') {
     const end = r.viewing_expires_at ? Date.parse(r.viewing_expires_at) : NaN;
     if (!r.first_entered_at || !Number.isFinite(end) || end <= Date.now()) return { status: 409, body: { error: 'This visitor is not viewing right now. Refresh before deciding again.' } };

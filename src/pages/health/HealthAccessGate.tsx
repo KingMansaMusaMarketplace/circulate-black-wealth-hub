@@ -49,6 +49,7 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
   const [viewer, setViewer] = useState<PreviewViewer | null>(null);
   const [extended, setExtended] = useState(false);
   const deadline = useRef(0);
+  const serverDeadline = useRef(0);
   const terminating = useRef(false);
   const busy = useRef(false);
 
@@ -59,9 +60,10 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
     setState('ended');
     const token = localStorage.getItem(KEY);
     // Lock immediately; consume this grant server-side before stopping detached media.
+    if (!isAdmin && token) localStorage.setItem('hc_preview_pending_end', token);
     const consume = !isAdmin && token ? supabase.functions.invoke('health-access', {
       body: { action: 'end', token, device: deviceId() },
-    }) : Promise.resolve();
+    }).then(({ data, error }) => { if (!error && data?.reason !== 'unavailable') { localStorage.removeItem('hc_preview_pending_end'); localStorage.removeItem(KEY); } }) : Promise.resolve();
     void Promise.race([consume, new Promise((resolve) => setTimeout(resolve, 2500))])
       .finally(() => supabase.auth.signOut({ scope: 'local' }).finally(() => window.location.reload()));
   }, [isAdmin]);
@@ -83,9 +85,10 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
       const grant = readPreviewGrant(data);
       if (grant) {
         const candidate = performance.now() + grant.remaining - (performance.now() - started);
-        // Heartbeats shorten freely; only a server deadline at least a minute later (admin extension) lengthens it.
-        if (deadline.current && candidate > deadline.current + 60000) { deadline.current = candidate; setExtended(true); }
+        // Compare actual server deadlines, not network jitter, so even short extensions count.
+        if (serverDeadline.current && grant.expiresAt > serverDeadline.current) { deadline.current = candidate; setExtended(true); }
         else deadline.current = deadline.current ? Math.min(deadline.current, candidate) : candidate;
+        serverDeadline.current = grant.expiresAt;
         setRemaining(Math.max(0, deadline.current - performance.now()));
         setViewer(grant.viewer);
         setState('open');
@@ -131,6 +134,32 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
   }, [verify]);
 
   useEffect(() => {
+    const consumePending = async () => {
+      const token = localStorage.getItem('hc_preview_pending_end');
+      if (!token) return;
+      try {
+        const { data, error } = await supabase.functions.invoke('health-access', { body: { action: 'end', token, device: deviceId() } });
+        if (!error && data?.reason !== 'unavailable') {
+          localStorage.removeItem('hc_preview_pending_end');
+          if (localStorage.getItem(KEY) === token) localStorage.removeItem(KEY);
+        }
+      } catch { /* Retain the local lock and retry after reconnection. */ }
+    };
+    void consumePending();
+    const timer = setInterval(() => { void consumePending(); }, 15000);
+    window.addEventListener('online', consumePending);
+    return () => { clearInterval(timer); window.removeEventListener('online', consumePending); };
+  }, []);
+
+  useEffect(() => {
+    if (state !== 'locked' || localStorage.getItem(PRIVATE_SESSION_ENDED) || !localStorage.getItem(KEY)) return;
+    const retry = () => { void verify(true); };
+    const timer = setInterval(retry, 15000);
+    window.addEventListener('online', retry); window.addEventListener('focus', retry);
+    return () => { clearInterval(timer); window.removeEventListener('online', retry); window.removeEventListener('focus', retry); };
+  }, [state, verify]);
+
+  useEffect(() => {
     const onStorage = (event: StorageEvent) => {
       if (event.key === PRIVATE_SESSION_ENDED || event.key === KEY) window.location.reload();
     };
@@ -143,7 +172,8 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
     if (isAdmin) {
       const checkAdmin = async () => {
         const { data, error } = await supabase.functions.invoke('health-access', { body: { action: 'admin' } });
-        if (error || data?.ok !== true || data.admin !== true) { setIsAdmin(false); setViewer(null); setState('locked'); }
+        if (error || data?.ok !== true || data.admin !== true || typeof data.name !== 'string' || typeof data.email !== 'string') { setIsAdmin(false); setViewer(null); setState('locked'); }
+        else setViewer({ name: data.name, email: data.email });
       };
       const timer = setInterval(() => { void checkAdmin(); }, 15000);
       const focus = () => { void checkAdmin(); };
