@@ -17,7 +17,7 @@ export default function AskKayla({ surface, onNavigate }: { surface: HelpSurface
   const chat = useClinicalHelpConversation();
   const [input, setInput] = useState('');
   const [localError, setLocalError] = useState('');
-  const [selectedId, setSelectedId] = useState('overview');
+  const [selectedId, setSelectedId] = useState(() => chat?.previousTopics()[0] ?? 'overview');
   const [speaking, setSpeaking] = useState<string | null>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const form = useRef<HTMLDivElement>(null);
@@ -37,7 +37,7 @@ export default function AskKayla({ surface, onNavigate }: { surface: HelpSurface
     if (!selection) { setInput(''); setLocalError('This question was not sent. Ask only about product features, without names, patient details or other personal information. You can choose a feature below.'); return; }
     setLocalError(''); setInput(''); setSelectedId(selection.topics[0]); chat?.ask(selection, surface);
   };
-  const followup = (intent: HelpIntent) => { setLocalError(''); chat?.ask({ topics: chat.previousTopics().length ? chat.previousTopics() : [selectedId], intent }, surface); };
+  const followup = (intent: HelpIntent) => { const topics = chat?.previousTopics().length ? chat.previousTopics() : [selectedId]; setSelectedId(topics[0]); setLocalError(''); chat?.ask({ topics, intent }, surface); };
   const readAnswer = (id: string, text: string) => {
     if (!window.speechSynthesis) { setLocalError('Spoken answers are unavailable in this browser. The written answer remains available.'); return; }
     window.speechSynthesis.cancel(); stopVoice.current?.();

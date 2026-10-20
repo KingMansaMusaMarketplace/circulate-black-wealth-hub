@@ -17,8 +17,11 @@ const vocabulary = new Set([...grammar, 'walk', 'through', ...PRODUCT_HELP.flatM
 // A closed product vocabulary, not probabilistic PHI detection. Unknown text is never sent.
 const forbidden = /\b(patient|patients|symptom|symptoms|diagnosis|diagnoses|pain|creatinine|dose|dosage|drug|drugs|dob|born|address|phone|email|mrn|ssn|password|token)\b/i;
 export function compileHelpQuestion(text: string, previous: string[] = []): HelpSelection | null {
+  // Only exact, server-maintained product questions can bypass forbidden product nouns.
+  const catalogMatch = PRODUCT_HELP.find(t => t.question.toLowerCase() === text.trim().toLowerCase());
+  if (catalogMatch) return { topics: [catalogMatch.id], intent: 'explain' };
   if (!text.trim() || text.length > 600 || forbidden.test(text)) return null;
-  const normalized = text.replace(/1325(?:\.ai)?/gi, 'platform').replace(/\b42\b/g, 'employees');
+  const normalized = text.replace(/1325(?:\.ai)?/gi, 'platform').replace(/\bEMR\s*\/\s*EHR\b/gi, 'emr system').replace(/\bEHR\b/gi, 'emr').replace(/\b42\b/g, 'employees');
   if (/[^a-zA-Z\s?.,!‘’'()-]/.test(normalized)) return null;
   const tokens = words(normalized);
   if (!tokens.length || tokens.some(word => !vocabulary.has(word))) return null;
@@ -28,7 +31,7 @@ export function compileHelpQuestion(text: string, previous: string[] = []): Help
   }).filter(t => t.score > 0).sort((a, b) => b.score - a.score);
   const topics = scores.length ? scores.slice(0, 3).map(t => t.id) : previous.length ? previous : tokens.some(t => aliases.overview.includes(t)) ? ['overview'] : [];
   if (!topics.length) return null;
-  const intent: HelpIntent = tokens.some(t => ['compare','versus','vs','difference','differences'].includes(t)) ? 'compare' : tokens.some(t => ['employees','agentic','agents','team'].includes(t)) ? 'team' : tokens.some(t => ['where','find','open','location'].includes(t)) ? 'location' : tokens.some(t => ['steps','step','how','next','workflow','workflows'].includes(t)) ? 'steps' : tokens.some(t => ['live','locked','available','unavailable','limits','limitations','ready'].includes(t)) ? 'limits' : 'explain';
+  const intent: HelpIntent = tokens.some(t => ['compare','versus','vs','difference','differences'].includes(t)) ? 'compare' : tokens.some(t => ['employees','agentic','agents','team'].includes(t)) ? 'team' : tokens.some(t => ['where','find','open','location'].includes(t)) ? 'location' : tokens.some(t => ['steps','step','how','next','workflow','workflows','walkthrough'].includes(t)) || (tokens.includes('walk') && tokens.includes('through')) ? 'steps' : tokens.some(t => ['live','locked','available','unavailable','limits','limitations','ready'].includes(t)) ? 'limits' : 'explain';
   return { topics, intent };
 }
 export function validSelection(value: unknown): value is HelpSelection {
