@@ -10451,6 +10451,42 @@ export type Database = {
           },
         ]
       }
+      hc_founding_clinics: {
+        Row: {
+          clinic_name: string
+          clinician_count: number
+          contact_name: string
+          country: string
+          created_at: string
+          email: string
+          id: string
+          letter_of_intent: boolean
+          practice_type: string
+        }
+        Insert: {
+          clinic_name: string
+          clinician_count: number
+          contact_name: string
+          country: string
+          created_at?: string
+          email: string
+          id?: string
+          letter_of_intent?: boolean
+          practice_type: string
+        }
+        Update: {
+          clinic_name?: string
+          clinician_count?: number
+          contact_name?: string
+          country?: string
+          created_at?: string
+          email?: string
+          id?: string
+          letter_of_intent?: boolean
+          practice_type?: string
+        }
+        Relationships: []
+      }
       hc_medications: {
         Row: {
           clinic_id: string
