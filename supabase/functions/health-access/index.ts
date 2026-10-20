@@ -8,6 +8,7 @@ import { clinicalEmailRouting } from './email-routing.ts';
 
 import { administerDecision } from './admin-decision.ts';
 import { sendClinicalApproval } from './approval-email.ts';
+import { requestNotification } from './notification-result.ts';
 import { validateCsrf } from '../_shared/csrf-guard.ts';
 
 const cors = {
@@ -169,10 +170,10 @@ Deno.serve(async (req) => {
   const requestEmail = accessRequestEmail({ ...p.data, work_email: email }, {
     approve: link('approve'), deny: link('deny'), revoke: link('revoke'),
   });
-  await resend.emails.send({
+  const notificationAccepted = await requestNotification(() => resend.emails.send({
     ...clinicalEmailRouting(),
     subject: `New 1325 Clinical EMR / EHR access request: ${p.data.full_name} — ${p.data.organization}`,
     ...requestEmail,
-  });
-  return json({ ok: true });
+  }));
+  return json({ ok: true, notification_accepted: notificationAccepted });
 });

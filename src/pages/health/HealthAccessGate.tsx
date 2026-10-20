@@ -72,6 +72,7 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
     if (busy.current || terminating.current) return;
     const token = localStorage.getItem(KEY);
     if (!token) { setState('locked'); return; }
+    if (localStorage.getItem('hc_preview_pending_end') === token) { setState('ended'); return; }
     busy.current = true;
     const started = performance.now();
     try {
@@ -240,6 +241,7 @@ function Teaser({ notice = "" }: { notice?: string }) {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState(false);
+  const [notificationFailed, setNotificationFailed] = useState(false);
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setForm({ ...form, [k]: e.target.value });
 
   const submit = async (e: React.FormEvent) => {
@@ -263,6 +265,7 @@ function Teaser({ notice = "" }: { notice?: string }) {
           : 'Your request could not be confirmed. Please try again.');
         return;
       }
+      setNotificationFailed(data.notification_accepted === false);
       setSent(true);
     } catch { setError('Your request could not be confirmed. Please try again.'); }
     finally { setBusy(false); }
@@ -307,6 +310,7 @@ function Teaser({ notice = "" }: { notice?: string }) {
             <div className="text-center py-10">
               <ShieldCheck className="h-12 w-12 mx-auto mb-4" style={{ color: '#FFB300' }} />
               <h2 className="text-2xl font-semibold mb-2">Request received</h2>
+              {notificationFailed && <p role="alert" className="mb-4 text-primary">Your request is saved for Thomas in the Clinical Access dashboard, but the notification email was not confirmed sent. Please contact Thomas directly; do not submit another request.</p>}
               <p className="opacity-80">Thank you. Our team will review your request personally. If approved, you'll receive a private access link by email.</p>
               <p className="mt-5 text-sm opacity-80">After approval, check your inbox and Spam/Junk for an email from <strong>Thomas@1325.ai</strong>. Mark it “Not Junk” and add the sender to your contacts.</p>
             </div>
