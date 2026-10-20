@@ -1325,6 +1325,14 @@
 }
 
 /* 1325 Clinical (health.1325.ai) — full 1325.AI theme: True Black + MansaBlue surfaces, MansaGold accents */
+.clinical-site-hero-scrim {
+  background: linear-gradient(90deg, hsl(var(--background) / 0.97) 0%, hsl(var(--background) / 0.86) 35%, hsl(var(--background) / 0.35) 70%, hsl(var(--background) / 0.1) 100%);
+}
+@media (max-width: 767px) {
+  .clinical-site-hero-scrim {
+    background: linear-gradient(90deg, hsl(var(--background) / 0.94), hsl(var(--background) / 0.62));
+  }
+}
 .theme-clinical {
   --clinical-help: 330 85% 68%;
   --clinical-help-foreground: 330 60% 10%;

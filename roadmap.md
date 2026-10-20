@@ -1,5 +1,9 @@
 # Roadmap
 
+## Clinical enterprise website presentation — October 20, 2026
+- [x] Add coordinated medical imagery, prominent Kayla/team introduction and public-page back navigation.
+- [ ] Verify pictures, public navigation and desktop/phone layouts; retain sample-only boundaries.
+
 ## Clinical preview marketplace — October 20, 2026
 - [x] Add a public clinic/hospital pitch using the sales dossier’s workflow framing and the existing owner-approved request endpoint.
 - [x] Keep country-specific pricing unannounced and payment unavailable; preserve private viewing and real-patient restrictions.
