@@ -1,0 +1,202 @@
+import type { ReactNode } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { Link, NavLink } from 'react-router-dom';
+import { ArrowRight, Building2, Check, ClipboardList, FileText, Hospital, Inbox, LockKeyhole, Mic, ShieldCheck, Stethoscope, UserCheck, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import logo from '@/assets/1325-ai-logo.png';
+import team from '@/assets/clinical-marketplace-team.jpg';
+
+export type ClinicalSitePage = 'home' | 'solutions' | 'features' | 'security';
+
+export const CLINICAL_SITE_LINKS = [
+  { to: '/health/welcome', label: 'Home' },
+  { to: '/health/solutions', label: 'Solutions' },
+  { to: '/health/features', label: 'Features' },
+  { to: '/health/security', label: 'Trust & Security' },
+  { to: '/health/marketplace', label: 'Pricing & Preview' },
+] as const;
+
+const meta: Record<ClinicalSitePage, { title: string; description: string }> = {
+  home: { title: '1325 Clinical EMR / EHR — Give the Doctor Their Team Back', description: 'An Agentic AI clinical workflow preview that prepares notes, orders and inbox work for physician review. Private preview · sample data only.' },
+  solutions: { title: 'Solutions for Clinics & Hospitals | 1325 Clinical EMR / EHR', description: 'How 1325 Clinical EMR / EHR supports independent practices and hospital departments. Private preview · sample data only.' },
+  features: { title: 'Features | 1325 Clinical EMR / EHR', description: 'Delegation Desk, evidence-linked AI note-taking and physician-supervised inbox preparation, shown with fictional data.' },
+  security: { title: 'Trust & Security | 1325 Clinical EMR / EHR', description: 'Physician sign-off, fictional-data-only preview, owner-approved access and provisional patent application details.' },
+};
+
+function Section({ children, className = '' }: { children: ReactNode; className?: string }) {
+  return <section className={`mx-auto max-w-6xl px-6 py-16 ${className}`}>{children}</section>;
+}
+
+function Heading({ eyebrow, title, intro }: { eyebrow: string; title: string; intro?: string }) {
+  return <div className="max-w-2xl mb-10">
+    <p className="text-sm font-semibold uppercase tracking-wider text-primary">{eyebrow}</p>
+    <h2 className="mt-3 text-3xl md:text-4xl font-semibold leading-tight">{title}</h2>
+    {intro && <p className="mt-4 text-muted-foreground text-lg">{intro}</p>}
+  </div>;
+}
+
+function Card({ icon: Icon, title, children }: { icon: typeof Mic; title: string; children: ReactNode }) {
+  return <div className="rounded-xl border border-border bg-card p-6">
+    <Icon className="h-7 w-7 text-primary" aria-hidden />
+    <h3 className="mt-4 text-lg font-semibold">{title}</h3>
+    <div className="mt-2 text-muted-foreground text-sm leading-relaxed">{children}</div>
+  </div>;
+}
+
+function CallToAction() {
+  return <Section>
+    <div className="rounded-2xl border border-primary/40 bg-card p-8 md:p-12 text-center">
+      <h2 className="text-3xl font-semibold">See it for yourself.</h2>
+      <p className="mt-3 text-muted-foreground max-w-xl mx-auto">Request a private, owner-approved 20-minute viewing. Every preview uses sample data only.</p>
+      <div className="mt-8 flex flex-wrap justify-center gap-3">
+        <Button asChild size="lg"><Link to="/health/marketplace#request">Request private preview <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
+        <Button asChild size="lg" variant="outline"><Link to="/health">Approved visitors & owner sign in</Link></Button>
+      </div>
+    </div>
+  </Section>;
+}
+
+function Home() {
+  const steps = [
+    { icon: Mic, t: 'The doctor speaks', d: 'Requests, orders and notes are captured once, in plain language.' },
+    { icon: ClipboardList, t: 'Kayla prepares drafts', d: 'Kayla, our Agentic AI assistant, turns them into drafts linked to their source.' },
+    { icon: UserCheck, t: 'The doctor reviews & signs', d: 'Nothing is final until a physician approves it.' },
+  ];
+  return <>
+    <section className="relative isolate overflow-hidden border-b border-border">
+      <img src={team} alt="Illustrative image of a physician and clinic manager reviewing a laptop" width={1536} height={1024} className="absolute inset-0 -z-20 h-full w-full object-cover object-right" />
+      <div className="absolute inset-0 -z-10 bg-background/80" />
+      <div className="mx-auto max-w-6xl px-6 py-20 md:py-32">
+        <p className="text-sm font-semibold text-primary flex items-center gap-2"><LockKeyhole className="h-4 w-4" /> Private preview · sample data only</p>
+        <h1 className="mt-6 max-w-3xl text-4xl md:text-6xl font-semibold leading-tight">Give the doctor their team back.</h1>
+        <p className="mt-6 max-w-xl text-lg text-muted-foreground">1325 Clinical EMR / EHR is an Agentic AI workflow layer that prepares the clerical work modern records systems push onto physicians — so doctors review and sign instead of type and click.</p>
+        <div className="mt-10 flex flex-wrap gap-3">
+          <Button asChild size="lg"><Link to="/health/marketplace#request">Request private preview <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
+          <Button asChild size="lg" variant="outline"><Link to="/health/features">Explore features</Link></Button>
+        </div>
+      </div>
+    </section>
+    <Section>
+      <Heading eyebrow="The problem" title="Physicians have become the clerks." intro="Dr. Join Y. Luh, writing in Doximity Op-Med (October 8, 2026), describes how records systems shifted orders, prescriptions, documentation and inbox work onto doctors themselves. 1325.AI is not affiliated with or endorsed by Doximity or the author." />
+      <div className="grid gap-6 md:grid-cols-3">
+        <Card icon={FileText} title="Documentation">Notes compete with time in front of the patient — and spill into evenings.</Card>
+        <Card icon={ClipboardList} title="Orders">Every request becomes a series of clicks the doctor enters personally.</Card>
+        <Card icon={Inbox} title="Inbox">Routine messages and results crowd out the items that truly need a physician.</Card>
+      </div>
+    </Section>
+    <Section className="border-t border-border">
+      <Heading eyebrow="How it works" title="Say it once. Review it once." />
+      <ol className="grid gap-6 md:grid-cols-3">
+        {steps.map((s, i) => <li key={s.t} className="rounded-xl border border-border bg-card p-6">
+          <span className="text-primary font-semibold">Step {i + 1}</span>
+          <s.icon className="mt-4 h-7 w-7 text-primary" aria-hidden />
+          <h3 className="mt-3 text-lg font-semibold">{s.t}</h3>
+          <p className="mt-2 text-sm text-muted-foreground">{s.d}</p>
+        </li>)}
+      </ol>
+      <p className="mt-8 text-sm text-muted-foreground">Kayla works with the 42 Agentic AI Employees of 1325.AI. She is a product guide and workflow assistant — not a doctor or licensed clinician, and she never gives medical advice.</p>
+    </Section>
+    <CallToAction />
+  </>;
+}
+
+function Solutions() {
+  return <>
+    <Section>
+      <Heading eyebrow="Solutions" title="One platform for clinics and hospitals." intro="The same physician-controlled workflow, presented for the setting you work in." />
+      <div className="grid gap-6 md:grid-cols-2">
+        <div className="rounded-xl border border-border bg-card p-8">
+          <Building2 className="h-8 w-8 text-primary" aria-hidden />
+          <h3 className="mt-4 text-2xl font-semibold">Independent practices & clinics</h3>
+          <ul className="mt-6 space-y-3 text-muted-foreground">
+            {['Less after-hours charting with transcript-cited note drafts', 'Spoken requests become draft orders for batch sign-off', 'Inbox items routed to staff or doctor with clear reasons', 'Cloud-based — no server room required'].map(x => <li key={x} className="flex gap-3"><Check className="h-5 w-5 shrink-0 text-primary" />{x}</li>)}
+          </ul>
+        </div>
+        <div className="rounded-xl border border-border bg-card p-8">
+          <Hospital className="h-8 w-8 text-primary" aria-hidden />
+          <h3 className="mt-4 text-2xl font-semibold">Hospitals & health systems</h3>
+          <ul className="mt-6 space-y-3 text-muted-foreground">
+            {['Works alongside your existing records system as a workflow layer', 'Department-level views shown with illustrative facilities', 'Quality and safety overviews built from source evidence', 'Integration, backup and recovery requirements prepared up front'].map(x => <li key={x} className="flex gap-3"><Check className="h-5 w-5 shrink-0 text-primary" />{x}</li>)}
+          </ul>
+        </div>
+      </div>
+      <p className="mt-8 text-sm text-muted-foreground">Hospital and facility examples are illustrative. Live connections to other systems are not active in the preview.</p>
+    </Section>
+    <CallToAction />
+  </>;
+}
+
+function Features() {
+  return <>
+    <Section>
+      <Heading eyebrow="Features" title="Built around physician review." intro="Every feature below can be explored in the private preview using fictional patients." />
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Card icon={ClipboardList} title="Delegation Desk">Spoken requests become draft orders, routed tasks and chart questions — with missing facts marked “Unknown” instead of guessed.</Card>
+        <Card icon={Mic} title="AI note-taking">Visit notes drafted from the conversation, with every line linked back to what was said. The doctor signs or rejects.</Card>
+        <Card icon={Inbox} title="Supervised inbox">Physician-approved rules sort routine items to staff and flag results for the doctor’s review.</Card>
+        <Card icon={FileText} title="Record review">Long records organized into source-linked summaries and timelines for physician review.</Card>
+        <Card icon={Stethoscope} title="Chart preparation">Visit-ready summaries built only from exact chart excerpts.</Card>
+        <Card icon={ShieldCheck} title="Prior authorization & billing checks">Draft paperwork and documentation-gap checks — never claims submission or code selection.</Card>
+      </div>
+    </Section>
+    <CallToAction />
+  </>;
+}
+
+function Security() {
+  const yes = ['Physician sign-off required before anything is final', 'Every AI statement links to its source', 'Owner-approved, watermarked, time-limited preview access', 'Missing information stays “Unknown” — never invented'];
+  const no = ['No real patient records in the preview', 'No prescriptions, orders or messages are sent', 'No medical advice or diagnosis from Kayla', 'Not a certified or complete records system yet'];
+  return <>
+    <Section>
+      <Heading eyebrow="Trust & Security" title="Honest about what it does — and doesn’t." intro="1325 Clinical EMR / EHR is in development. Real patient records will only be used after legal agreements, vendor coverage and safeguards are confirmed." />
+      <div className="grid gap-6 md:grid-cols-2">
+        <div className="rounded-xl border border-border bg-card p-8"><h3 className="text-xl font-semibold">What we guarantee</h3><ul className="mt-5 space-y-3 text-muted-foreground">{yes.map(x => <li key={x} className="flex gap-3"><Check className="h-5 w-5 shrink-0 text-primary" />{x}</li>)}</ul></div>
+        <div className="rounded-xl border border-border bg-card p-8"><h3 className="text-xl font-semibold">What stays locked</h3><ul className="mt-5 space-y-3 text-muted-foreground">{no.map(x => <li key={x} className="flex gap-3"><X className="h-5 w-5 shrink-0 text-muted-foreground" />{x}</li>)}</ul></div>
+      </div>
+      <div className="mt-10 rounded-xl border border-border bg-card p-8">
+        <h3 className="text-xl font-semibold">Intellectual property</h3>
+        <p className="mt-3 text-muted-foreground">Related technology is the subject of U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending. The preview is licensed for evaluation only.</p>
+      </div>
+    </Section>
+    <CallToAction />
+  </>;
+}
+
+export default function ClinicalSite({ page }: { page: ClinicalSitePage }) {
+  const m = meta[page];
+  return <div className="theme-clinical dark min-h-screen bg-background text-foreground">
+    <Helmet>
+      <title>{m.title}</title>
+      <meta name="description" content={m.description} />
+      <meta property="og:title" content={m.title} />
+      <meta property="og:description" content={m.description} />
+      <meta property="og:type" content="website" />
+      <meta name="twitter:card" content="summary" />
+    </Helmet>
+    <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-3">
+        <Link to="/health/welcome" className="flex items-center gap-3">
+          <img src={logo} alt="1325.AI" width={40} height={40} className="h-10 w-10 object-contain" />
+          <span className="font-semibold leading-tight">1325 Clinical EMR / EHR<span className="block text-xs font-normal text-primary">Private preview · sample data only</span></span>
+        </Link>
+        <nav aria-label="1325 Clinical" className="flex flex-wrap items-center gap-1 text-sm">
+          {CLINICAL_SITE_LINKS.slice(1).map(l => <NavLink key={l.to} to={l.to} className={({ isActive }) => `rounded-md px-3 py-2 ${isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}>{l.label}</NavLink>)}
+          <Button asChild variant="outline" size="sm"><Link to="/health">Sign in</Link></Button>
+          <Button asChild size="sm"><Link to="/health/marketplace#request">Request preview</Link></Button>
+        </nav>
+      </div>
+    </header>
+    <main>
+      {page === 'home' && <Home />}
+      {page === 'solutions' && <Solutions />}
+      {page === 'features' && <Features />}
+      {page === 'security' && <Security />}
+    </main>
+    <footer className="border-t border-border">
+      <div className="mx-auto max-w-6xl px-6 py-10 text-sm text-muted-foreground grid gap-4 md:grid-cols-2">
+        <p>© 2026 1325.AI · 1325 Clinical EMR / EHR · Private preview · sample data only. Contact <a className="text-primary" href="mailto:Thomas@1325.ai">Thomas@1325.ai</a></p>
+        <p className="md:text-right">Proprietary & confidential. Not for clinical use. U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.</p>
+      </div>
+    </footer>
+  </div>;
+}
