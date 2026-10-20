@@ -43,8 +43,7 @@ describe('approved readiness corrections', () => {
     await screen.findByRole('button', { name: 'Request private access' });
     expect(screen.queryByText('Approved fictional viewing')).toBeNull();
     mock.invoke.mockResolvedValue(grant(Date.now() + 20 * 60000));
-    act(() => window.dispatchEvent(new Event('online')));
-    await screen.findByText('Approved fictional viewing');
+    await waitFor(() => { window.dispatchEvent(new Event('online')); expect(screen.getByText('Approved fictional viewing')).toBeInTheDocument(); });
   });
   it('recognizes a thirty-second server extension, without a sixty-second threshold', async () => {
     const expires = Date.now() + 10 * 60000;
