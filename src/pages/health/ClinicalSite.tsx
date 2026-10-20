@@ -69,7 +69,7 @@ function CallToAction() {
   return <Section>
     <div className="border-y border-primary/40 py-12 text-center">
       <h2 className="text-3xl font-semibold">See it for yourself.</h2>
-      <p className="mt-3 text-muted-foreground max-w-xl mx-auto">Request a private, owner-approved 20-minute viewing. Every preview uses sample data only.</p>
+      <p className="mt-3 text-muted-foreground max-w-xl mx-auto">Request a private, owner-approved 20-minute viewing.</p>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
         <Button asChild size="lg"><Link to="/health/marketplace#request">Request private preview <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
         <Button asChild size="lg" variant="outline"><Link to="/health">Approved visitors & owner sign in</Link></Button>
@@ -101,7 +101,7 @@ function KaylaWorkforce() {
         <p className="mt-3 text-5xl font-semibold text-primary">42</p>
         <h3 className="mt-2 text-2xl font-semibold">Agentic AI Employees</h3>
         <dl className="mt-7 divide-y divide-border">
-          {[['Product expertise', 'Kayla explains features, sample workflows and locked services.'], ['Evidence-led preparation', 'Clinical examples organize fictional sources into drafts for review.'], ['Physician authority', 'The doctor retains clinical judgment. No autonomous medical decisions.']].map(([title, text]) => <div key={title} className="py-4"><dt className="font-semibold">{title}</dt><dd className="mt-1 text-sm text-muted-foreground">{text}</dd></div>)}
+          {[['Product expertise', 'Kayla explains features, sample workflows and locked services.'], ['Evidence-led preparation', 'Clinical examples organize sources into drafts for review.'], ['Physician authority', 'The doctor retains clinical judgment. No autonomous medical decisions.']].map(([title, text]) => <div key={title} className="py-4"><dt className="font-semibold">{title}</dt><dd className="mt-1 text-sm text-muted-foreground">{text}</dd></div>)}
         </dl>
         <p className="mt-4 text-xs leading-relaxed text-muted-foreground">The 42 Agentic AI Employees ecosystem is a platform description, not a claim that all employees execute clinical tasks in this preview. Kayla is AI, not a doctor or licensed clinician. No patient information or medical advice.</p>
       </div>
@@ -111,7 +111,7 @@ function KaylaWorkforce() {
 
 function Home() {
   const steps = [
-    { icon: Mic, t: 'The doctor speaks', d: 'Explore fictional spoken requests and sample visit transcripts.' },
+    { icon: Mic, t: 'The doctor speaks', d: 'Explore spoken requests and sample visit transcripts.' },
     { icon: ClipboardList, t: 'Kayla prepares drafts', d: 'Kayla, our Agentic AI assistant, turns them into drafts linked to their source.' },
     { icon: UserCheck, t: 'The doctor reviews & signs', d: 'Nothing is final until a physician approves it.' },
   ];
@@ -153,7 +153,7 @@ function Home() {
           <p className="mt-2 text-sm text-muted-foreground">{s.d}</p>
         </li>)}
       </ol>
-      <p className="mt-8 text-sm text-muted-foreground">These workflows use fictional evidence. Live recording, order delivery and patient communication remain locked.</p>
+      <p className="mt-8 text-sm text-muted-foreground">Live recording, order delivery and patient communication remain locked.</p>
     </Section>
     <KaylaWorkforce />
     <Section>
@@ -203,7 +203,7 @@ function Solutions() {
           <p className="mt-6 text-sm text-muted-foreground">For clinics across the Caribbean, Africa, the UK and Latin America. International clinical use is planned, not a current offering; regional hosting and compliance are not yet verified.</p>
         </div>
       </div>
-      <p className="mt-8 text-sm text-muted-foreground">Photography and facility examples are illustrative, not customer endorsements. Workflow benefits are goals to evaluate, not measured outcomes. All previews use fictional data only; live recording and connections to other systems remain locked.</p>
+      <p className="mt-8 text-sm text-muted-foreground">Photography and facility examples are illustrative, not customer endorsements. Workflow benefits are goals to evaluate, not measured outcomes. Live recording and connections to other systems remain locked.</p>
     </Section>
     <NoRipAndReplace photo={hospitalLeadership} />
     <PilotRoadmap />
@@ -215,7 +215,7 @@ function Solutions() {
 function Features() {
   return <>
     <Section>
-      <Heading eyebrow="Features" title="Built around physician review." intro="Every feature below can be explored in the private preview using fictional patients." />
+      <Heading eyebrow="Features" title="Built around physician review." intro="Every feature below can be explored in the private preview." />
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card icon={ClipboardList} title="Delegation Desk" photo={{ src: delegationPhoto, alt: 'Illustrative physician and nurse coordinating work at a hospital workstation' }}>Spoken requests become draft orders, routed tasks and chart questions — with missing facts marked “Unknown” instead of guessed.</Card>
         <Card icon={Mic} title="AI note-taking" photo={{ src: notesPhoto, alt: 'Illustrative physician reviewing documentation at a clinic laptop' }}>Visit notes drafted from the conversation, with every line linked back to what was said. The doctor signs or rejects.</Card>
