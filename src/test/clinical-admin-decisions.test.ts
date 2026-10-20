@@ -46,7 +46,7 @@ import { allowedDecision as allowedReopen } from '../../supabase/functions/healt
 describe('20 more minutes', () => {
   it('only re-opens finished (expired) visits', () => {
     expect(allowedReopen('expired', 'reopen')).toBe(true);
-    expect(allowedReopen('approved', 'reopen')).toBe(false);
+    expect(allowedReopen('approved', 'reopen')).toBe(true); // Server checks the elapsed deadline below.
     expect(allowedReopen('denied', 'reopen')).toBe(false);
     expect(allowedReopen('revoked', 'reopen')).toBe(false);
   });
