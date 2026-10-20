@@ -6,7 +6,8 @@ import globalClinic from '@/assets/clinical-global-clinic.jpg';
 import { Button } from '@/components/ui/button';
 import logo from '@/assets/1325-ai-logo.png';
 import homeRounds from '@/assets/clinical-home-rounds.jpg';
-import homeRoundsVideo from '@/assets/clinical-home-rounds.mp4.asset.json';
+import homeRoundsVideo from '@/assets/clinical-home-rounds-seamless.mp4.asset.json';
+import homeRoundsWebm from '@/assets/clinical-home-rounds-seamless.webm.asset.json';
 import practiceSolution from '@/assets/clinical-solutions-practice.jpg';
 import hospitalSolution from '@/assets/clinical-solutions-hospital.jpg';
 import notesPhoto from '@/assets/clinical-features-notes.jpg';
@@ -115,7 +116,7 @@ function Home() {
   return <>
     <section className="relative isolate overflow-hidden border-b border-border">
       <img src={homeRounds} alt="Illustrative physician, nurse and care coordinator walking together in a hospital" fetchPriority="high" width={1536} height={1024} className="absolute inset-0 -z-20 h-full w-full object-cover object-center" />
-      <video src={homeRoundsVideo.url} poster={homeRounds} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="absolute inset-0 -z-20 h-full w-full object-cover object-center motion-reduce:hidden" />
+      <video poster={homeRounds} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="absolute inset-0 -z-20 h-full w-full object-cover object-center motion-reduce:hidden"><source src={homeRoundsWebm.url} type="video/webm" /><source src={homeRoundsVideo.url} type="video/mp4" /></video>
       <div className="clinical-site-hero-scrim absolute inset-0 -z-10" />
       <div className="mx-auto max-w-6xl px-6 py-10 md:py-20">
         <p className="text-sm font-semibold text-primary flex items-center gap-2"><LockKeyhole className="h-4 w-4" /> Private preview · sample data only</p>
