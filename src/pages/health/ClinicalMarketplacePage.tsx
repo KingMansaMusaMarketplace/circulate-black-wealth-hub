@@ -12,6 +12,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import logo from '@/assets/1325-ai-logo.png';
 import team from '@/assets/clinical-marketplace-team.jpg';
 import { getClinicalPreviewOffer } from './preview-offer';
+import ClinicalSiteBack from './ClinicalSiteBack';
 
 const requestSchema = z.object({
   full_name: z.string().trim().min(2, 'Enter your full name.').max(120),
@@ -69,6 +70,7 @@ export default function ClinicalMarketplacePage() {
       </div>
     </header>
     <main>
+      <div className="mx-auto max-w-6xl px-6 py-3"><ClinicalSiteBack /></div>
       <section className="relative isolate overflow-hidden border-b border-border">
         <img src={team} alt="Illustrative image of a physician and clinic manager reviewing a laptop together" width={1536} height={1024} className="absolute inset-0 -z-20 h-full w-full object-cover object-right" />
         <div className="absolute inset-0 -z-10 bg-background/80" />
