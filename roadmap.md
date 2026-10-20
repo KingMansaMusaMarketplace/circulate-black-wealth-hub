@@ -1,9 +1,11 @@
 # Roadmap
 
 ## Deep clinical readiness audit — October 20, 2026
-- [ ] Verify public website routes, images, navigation and interactive examples against preview and published website.
-- [ ] Audit private access, administrator controls, emails, Kayla and clinical workflow connections; run clinical regression tests.
-- [ ] Report confirmed defects separately from intentionally locked capabilities and checks blocked by unavailable authenticated testing.
+- [x] Verify nine routes on preview and live website, seven live phone pages, loaded photography, no horizontal overflow/page exceptions, FAQ/calculator/source selection, preview navigation and owner sign-in destination.
+- [x] Run 274 frontend clinical checks and 22 service checks; inspect deployed clinical policies and service-only twenty-minute grant; unauthorized probes denied. These results do not verify authenticated success or inbox delivery.
+- [x] Audit private access, administrator controls, emails, Kayla and clinical workflow connections; report reproducible export/intake defects and source-derived failure paths separately from intentionally locked services.
+- [ ] Focused correction pass — awaiting owner approval: saved-readback confirmation, export evidence validation, request-email acceptance, offline exit/retry, all server extensions, finished-visit renewal, current-account watermark, Kayla context/limits/speech, and misleading demo handoffs/counters.
+- [ ] Authorized visitor/admin/clinic end-to-end matrix and email delivery — blocked: external unmanaged Supabase has no authorized automated session; recipient mailbox access unavailable. No production visitor decisions or invitations changed.
 
 ## Distinct clinical website photography — October 20, 2026
 - [x] Added nine new medical pictures; all five public clinical pages have page-exclusive photography, with twelve distinct pictures overall.
