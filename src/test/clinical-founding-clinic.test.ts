@@ -8,3 +8,11 @@ describe('founding clinic signup', () => {
     expect(foundingClinicSchema.safeParse({ ...ok, clinician_count: '0' }).success).toBe(false);
   });
 });
+import { foundingCsv } from '@/components/admin/FoundingClinicsList';
+describe('founding clinic spreadsheet', () => {
+  it('marks letters of intent and neutralizes formula text', () => {
+    const csv = foundingCsv([{ id: '1', clinic_name: '=HACK()', country: 'UK', contact_name: 'A', email: 'a@b.co', practice_type: 'global_clinic', clinician_count: 3, letter_of_intent: true, created_at: '2026-10-20T00:00:00Z' }]);
+    expect(csv).toContain(`"'=HACK()"`);
+    expect(csv.split('\n')[1].endsWith('"Yes"')).toBe(true);
+  });
+});
