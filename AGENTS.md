@@ -18,3 +18,4 @@
 - Clinical `hc_*` data uses approved clinic membership, private `hc-sample-docs` storage and fixed fictional sources; client clinical writes stay blocked until healthcare clearance.
 - Subdirectories have their own AGENTS.md (clinical rules: src/pages/health/AGENTS.md); read them before changing files there.
 - The public clinical marketplace lives at /health/marketplace in both router trees and submits through the existing owner-approved health-access request endpoint; it never exposes private screens, serves the confidential dossier, grants account membership or enables checkout without configured pricing.
+- The public clinical website (ClinicalSite: /health/welcome, /solutions, /features, /security) is the health.* host front door; '/' there shows the gate only when an ?access link is present, so approval emails keep working.

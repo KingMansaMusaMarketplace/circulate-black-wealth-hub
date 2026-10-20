@@ -251,3 +251,7 @@
 - [ ] Test the workspace signed in (Thomas) with the built-in fictional CME case — external Supabase test session unavailable; arbitrary uploads intentionally blocked.
 
 - [x] Clinical AI note-taking on fictional sample visits (doctor sign-off; live recording locked)
+
+## Clinical public website — Oct 20, 2026
+- [x] Home, Solutions, Features, Trust & Security pages; health.1325.ai front door
+- [ ] Publish (user action)
