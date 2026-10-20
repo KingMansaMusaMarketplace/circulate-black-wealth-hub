@@ -19,6 +19,13 @@ beforeEach(() => {
 afterEach(() => { cleanup(); vi.useRealTimers(); });
 
 describe('unlimited server-verified owner access', () => {
+  it('refreshes the watermark identity when a different administrator is verified', async () => {
+    invoke.mockResolvedValue(verified); mount(); await screen.findByText('Private owner content');
+    invoke.mockResolvedValue({ data: { ...verified.data, name: 'Second Fictional Owner', email: 'second@example.invalid' }, error: null });
+    act(() => window.dispatchEvent(new Event('focus')));
+    await waitFor(() => expect(document.body.textContent).toContain('second@example.invalid'));
+    expect(document.body.textContent).not.toContain('owner@example.invalid');
+  });
   it('opens after administrator sign-in despite a previous visitor exit', async () => {
     localStorage.setItem('hc_preview_session_closed', 'true');
     localStorage.setItem('hc_preview_session_end', 'expired');

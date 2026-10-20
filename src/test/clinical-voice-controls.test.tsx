@@ -16,6 +16,16 @@ class FakeAudio {
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); recordings.length = 0; });
 
 describe('private clinical voice playback', () => {
+  it('cancels answer speech before playing or resuming a guide clip', async () => {
+    vi.stubGlobal('Audio', FakeAudio); const cancel = vi.fn(); vi.stubGlobal('speechSynthesis', { cancel });
+    render(<ClinicalVoiceProvider remaining={900000} extended={false} isAdmin><ClinicalVoiceGuide /></ClinicalVoiceProvider>);
+    fireEvent.click(screen.getByRole('button', { name: 'Enable sound' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Read fictional source' }));
+    await waitFor(() => expect(cancel).toHaveBeenCalledOnce());
+    fireEvent.click(screen.getByRole('button', { name: 'Pause narration' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Play narration' }));
+    expect(cancel).toHaveBeenCalledTimes(2);
+  });
   it('opens conversational help silently without starting a prerecorded overview', async () => {
     vi.stubGlobal('Audio', FakeAudio);
     const view = render(<MemoryRouter><ClinicalVoiceProvider remaining={900000} extended={false} isAdmin><AskKayla surface="demo" onNavigate={vi.fn()} /></ClinicalVoiceProvider></MemoryRouter>);

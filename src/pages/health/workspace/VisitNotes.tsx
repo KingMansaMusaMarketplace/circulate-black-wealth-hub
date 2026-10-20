@@ -48,7 +48,7 @@ export default function VisitNotes({ clinicId, clinicRole, selectedVisitId }: { 
       const { data, error } = await supabase.functions.invoke('health-kayla-notes', { body: { action: 'generate', clinic_id: clinicId, sample_visit_id: visitId } });
       if (error || data?.error) throw new Error(data?.error ?? error?.message ?? 'Draft failed');
       const saved = await notes.reload();
-      if (!saved?.some(n => n.sample_visit_id === visitId)) throw new Error('The request completed, but the saved draft could not be confirmed. Refresh records before trying again.');
+      if (!data?.note?.id || !saved?.some(n => n.id === data.note.id && n.sample_visit_id === visitId)) throw new Error('The request completed, but the saved draft could not be confirmed. Refresh records before trying again.');
       setHl([]);
       toast.success('Draft note ready for doctor review');
     } catch (e) { toast.error(e instanceof Error ? e.message : 'Draft failed'); }
@@ -62,7 +62,7 @@ export default function VisitNotes({ clinicId, clinicRole, selectedVisitId }: { 
       const { data, error } = await supabase.functions.invoke('health-kayla-notes', { body: { action: 'decision', note_id: note.id, decision, signer_name: signerName.trim() } });
       if (error || data?.error) throw new Error(data?.error ?? error?.message ?? 'Could not save');
       const saved = await signoffs.reload();
-      if (!saved?.some(s => s.note_id === note.id && s.decision === decision)) throw new Error('The request completed, but the saved decision could not be confirmed. Refresh records before trying again.');
+      if (!data?.signoff?.id || !saved?.some(s => s.id === data.signoff.id && s.note_id === note.id && s.decision === decision)) throw new Error('The request completed, but the saved decision could not be confirmed. Refresh records before trying again.');
       toast.success(decision === 'signed' ? 'Note signed' : 'Note sent back');
     } catch (e) { toast.error(e instanceof Error ? e.message : 'Could not save'); }
     finally { pending.current = false; setSaving(false); }
