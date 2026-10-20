@@ -1,5 +1,9 @@
 # Roadmap
 
+## Global clinical positioning — October 20, 2026
+- [ ] Present Global Clinics & Diaspora Networks as the third Solutions care track and make Global Access Commitment a named pricing note; retain fictional-only status and unannounced pricing.
+- [ ] Verify both public pages and adjacent clinical checks; publication remains a user action.
+
 ## Deep clinical readiness audit — October 20, 2026
 - [x] Verify nine routes on preview and live website, seven live phone pages, loaded photography, no horizontal overflow/page exceptions, FAQ/calculator/source selection, preview navigation and owner sign-in destination.
 - [x] Run 274 frontend clinical checks and 22 service checks; inspect deployed clinical policies and service-only twenty-minute grant; unauthorized probes denied. These results do not verify authenticated success or inbox delivery.
