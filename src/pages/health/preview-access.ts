@@ -7,5 +7,5 @@ export function readPreviewGrant(data: unknown) {
       typeof grant.viewing_expires_at !== 'string' || typeof grant.server_now !== 'string') return null;
   const remaining = Date.parse(grant.viewing_expires_at) - Date.parse(grant.server_now);
   if (!Number.isFinite(remaining) || remaining <= 0 || remaining > 20 * 60 * 1000) return null;
-  return { viewer: { name: grant.name, email: grant.email }, remaining };
+  return { viewer: { name: grant.name, email: grant.email }, remaining, expiresAt: Date.parse(grant.viewing_expires_at) };
 }

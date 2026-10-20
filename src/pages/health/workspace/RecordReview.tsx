@@ -46,7 +46,8 @@ function ClinicRecordReview({ clinicId, clinicRole }: { clinicId: string; clinic
     try {
       const { data, error } = await supabase.functions.invoke('health-kayla-review', { body: { action: 'generate', clinic_id: clinicId, sample_case_id: 'fictional-cme-v1' } });
       if (error || data?.error) throw new Error(data?.error ?? error?.message ?? 'Review failed');
-      await Promise.all([docs.reload(), reviews.reload()]);
+      const [savedDocs, savedReviews] = await Promise.all([docs.reload(), reviews.reload()]);
+      if (!savedDocs?.some(d => d.id === data?.review?.document_id) || !savedReviews?.some(r => r.id === data?.review?.id)) throw new Error('The request completed, but the saved review could not be confirmed. Refresh records before trying again.');
       setSelected(data.review.document_id); setSourcePage(null);
       toast.success('Source-linked draft saved for physician review');
     } catch (error) { toast.error(error instanceof Error ? error.message : 'Review failed'); }
@@ -59,7 +60,9 @@ function ClinicRecordReview({ clinicId, clinicRole }: { clinicId: string; clinic
     try {
       const { data, error } = await supabase.functions.invoke('health-kayla-review', { body: { action: 'decision', review_id: active.id, decision: value } });
       if (error || data?.error) throw new Error(data?.error ?? error?.message ?? 'Could not save decision');
-      await decisions.reload(); toast.success('Sample review decision saved');
+      const saved = await decisions.reload();
+      if (!data?.decision?.id || !saved?.some(d => d.id === data.decision.id && d.review_id === active.id && d.decision === value)) throw new Error('The request completed, but the saved decision could not be confirmed. Refresh records before trying again.');
+      toast.success('Sample review decision saved');
     } catch (error) { toast.error(error instanceof Error ? error.message : 'Could not save decision'); }
     finally { pending.current = false; setSaving(false); }
   };

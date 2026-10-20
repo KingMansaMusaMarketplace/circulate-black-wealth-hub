@@ -27,6 +27,8 @@ export function ClinicalVoiceProvider({ children, remaining, extended, isAdmin }
     const asset = assets[`/src/assets/clinical-voice/${id}.mp3.asset.json`];
     stop(); setError('');
     if (!clip || !asset) { setError('This narration is unavailable.'); return; }
+    // Announcements and guide clips take the single audio lane; never talk over an answer.
+    window.speechSynthesis?.cancel();
     setCurrent(id);
     const next = new Audio(asset.url); audio.current = next;
     next.onended = () => { if (audio.current === next) { setPlaying(false); setPaused(false); } };
@@ -54,7 +56,7 @@ export function ClinicalVoiceProvider({ children, remaining, extended, isAdmin }
     enabled, current, paused, playing, error, play, stop,
     toggle: () => { if (enabled) stop(); setEnabled(!enabled); },
     pause: () => { audio.current?.pause(); setPaused(true); setPlaying(false); },
-    resume: () => { const active = audio.current; if (!active) return; void active.play().then(() => { if (audio.current === active) { setPaused(false); setPlaying(true); } }).catch(() => setError('Audio could not resume.')); },
+    resume: () => { const active = audio.current; if (!active) return; window.speechSynthesis?.cancel(); void active.play().then(() => { if (audio.current === active) { setPaused(false); setPlaying(true); } }).catch(() => setError('Audio could not resume.')); },
   };
   return <Context.Provider value={voice}>{children}</Context.Provider>;
 }

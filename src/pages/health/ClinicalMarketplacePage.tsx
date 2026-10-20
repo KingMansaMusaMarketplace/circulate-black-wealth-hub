@@ -36,6 +36,7 @@ export default function ClinicalMarketplacePage() {
   const pending = useRef(false);
   const [error, setError] = useState('');
   const [sent, setSent] = useState(false);
+  const [notificationFailed, setNotificationFailed] = useState(false);
   const offer = getClinicalPreviewOffer();
   const update = (key: keyof typeof form, value: string) => setForm(previous => ({ ...previous, [key]: value }));
   const submit = async (event: React.FormEvent) => {
@@ -52,6 +53,7 @@ export default function ClinicalMarketplacePage() {
         const response = failure instanceof FunctionsHttpError ? await failure.context.json().catch(() => null) : data;
         throw new Error(typeof response?.error === 'string' ? response.error : 'Your request could not be confirmed. Please try again.');
       }
+      setNotificationFailed(data.notification_accepted === false);
       setSent(true);
     } catch (failure) { setError(failure instanceof Error ? failure.message : 'Your request could not be confirmed. Please try again.'); }
     finally { pending.current = false; setBusy(false); }
@@ -71,6 +73,7 @@ export default function ClinicalMarketplacePage() {
       </div>
     </header>
     <main>
+      {sent && notificationFailed && <p role="alert" className="mx-auto max-w-6xl px-6 py-4 text-primary">Your request is saved in Thomas’s Clinical Access dashboard, but the notification email was not confirmed sent. Please contact Thomas directly; do not submit another request.</p>}
       <div className="mx-auto max-w-6xl px-6 py-3"><ClinicalSiteBack /></div>
       <section className="relative isolate overflow-hidden border-b border-border">
         <img src={team} alt="Illustrative image of a physician and clinic manager reviewing a laptop together" width={1536} height={1024} className="absolute inset-0 -z-20 h-full w-full object-cover object-right" />

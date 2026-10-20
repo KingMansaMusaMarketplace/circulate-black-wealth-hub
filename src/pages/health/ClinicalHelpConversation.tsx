@@ -70,7 +70,11 @@ function useConversation() {
   }, [chat.setMessages]);
   const ask = (selection: HelpSelection, view: 'demo' | 'workspace') => {
     if (pending.current) return;
-    if (turns.current.length && !turns.current[turns.current.length - 1].reply) { setProblem('Clear the incomplete conversation before asking again.'); return; }
+    // Failed/aborted turns have no verified receipt and must never enter subsequent history.
+    if (turns.current.length && !turns.current[turns.current.length - 1].reply) turns.current.pop();
+    // Keep the visible conversation, but send only the latest verified context within the server cap.
+    turns.current = turns.current.slice(-39);
+    chat.clearError();
     setProblem(''); surface.current = view; pending.current = true;
     turns.current.push({ selection });
     void chat.sendMessage({ text: canonicalQuestion(selection) }).catch(e => { pending.current = false; setProblem(e instanceof Error ? e.message : 'Request failed'); });

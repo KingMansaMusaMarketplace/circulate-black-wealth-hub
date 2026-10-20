@@ -9,8 +9,10 @@ const SECTIONS = [['subjective', 'Patient story'], ['objective', 'Exam findings'
 /** Only doctor-signed notes can be exported; rejected or unsigned drafts never become reports. */
 export function assertExportable(input: ReportInput) {
   if (input.decision !== 'signed' || !input.signedAt || !Number.isFinite(Date.parse(input.signedAt))) throw new Error('Only sample-signed notes with a valid saved date can be exported');
-  for (const [k] of SECTIONS) for (const it of input.note[k] ?? []) for (const n of it.lines) {
-    if (!Number.isInteger(n) || n < 1 || n > input.transcript.length) throw new Error('Note cites a missing transcript line');
+  for (const k of ['subjective', 'objective', 'assessment', 'plan', 'flags'] as const) for (const it of input.note[k] ?? []) {
+    if (!Array.isArray(it.lines) || !it.lines.length) throw new Error('Every report statement must cite its source');
+    for (const n of it.lines) if (!Number.isInteger(n) || n < 1 || n > input.transcript.length) throw new Error('Note cites a missing transcript line');
+    if (it.text !== it.lines.map(n => input.transcript[n - 1]).join(' ')) throw new Error('Report contains unsupported source text');
   }
 }
 

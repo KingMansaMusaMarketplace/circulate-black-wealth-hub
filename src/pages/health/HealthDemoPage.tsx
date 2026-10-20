@@ -321,8 +321,8 @@ const InboxView = () => {
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Stat label="Open items" value={String(open)} icon={Inbox} />
-        <Stat label="Urgent" value="1" icon={AlertTriangle} />
-        <Stat label="Notes to sign" value="1" icon={FileText} />
+        <Stat label="Urgent" value={String(INBOX.filter((m, i) => !done.includes(i) && m.pri === 'Urgent').length)} icon={AlertTriangle} />
+        <Stat label="Notes to sign" value={String(INBOX.filter((m, i) => !done.includes(i) && m.kind === 'Note to sign').length)} icon={FileText} />
         <Stat label="Pre-sorted by Kayla" value="100%" icon={BrainCircuit} />
       </div>
       <Card><CardHeader><CardTitle className="text-base">Doctor's inbox — sorted by Kayla, most urgent first</CardTitle></CardHeader>
@@ -747,11 +747,11 @@ const VoiceOutreach = () => {
               : <p key={i}><b className={l.who === 'Kayla' ? 'text-mansagold' : ''}>{l.who}:</b> {l.text}{speaking && i === shown.length - 1 && <span className="ml-2 animate-pulse text-xs text-mansagold">● speaking</span>}</p>)}
           </div>
           <div className="rounded-md border p-3 text-sm">
-            <p className="mb-2 font-semibold">Saved to Avery's chart automatically</p>
+            <p className="mb-2 font-semibold">Unsaved fictional call summary</p>
             {finished ? (<div className="space-y-1">
               <p>• Symptom: new ankle swelling</p><p>• Weight: 170 lb (up 4 lb in 2 days)</p>
-              <p>• Medicines: taking as prescribed</p><p>• Action: warm transfer to nurse</p>
-              <p>• Task added to doctor's Inbox</p></div>)
+              <p>• Medicines: taking as prescribed</p><p>• Illustrative next step: nurse review</p>
+              <p>• No transfer, chart save or inbox task was performed</p></div>)
               : <p className="text-muted-foreground">Notes appear here when the call ends.</p>}
           </div>
         </CardContent></Card>

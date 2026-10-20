@@ -16,20 +16,22 @@ export function useRows(table: string, clinicId: string | null, opts: { order?: 
   const key = eq ? eq.join('=') : '';
   const reload = useCallback(async () => {
     const request = ++revision.current;
-    if (!clinicId) { setRows([]); setLoading(false); setError(''); return; }
+    if (!clinicId) { setRows([]); setLoading(false); setError(''); return null; }
     setLoading(true);
     setError('');
     try {
       let q = db.from(table).select(select).eq('clinic_id', clinicId).order(order, { ascending: asc });
       if (eq) q = q.eq(eq[0], eq[1]);
       const { data, error: queryError } = await q;
-      if (request !== revision.current) return;
+      if (request !== revision.current) return null;
       if (queryError) throw new Error('Records could not be loaded. Check your approved viewing and try again.');
       setRows(data ?? []);
+      return (data ?? []) as Row[];
     } catch (failure) {
-      if (request !== revision.current) return;
+      if (request !== revision.current) return null;
       setRows([]);
       setError(failure instanceof Error ? failure.message : 'Records could not be loaded. Try again.');
+      return null;
     } finally { if (request === revision.current) setLoading(false); }
   }, [table, clinicId, order, asc, select, key]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { setRows([]); void reload(); return () => { ++revision.current; }; }, [reload]);
