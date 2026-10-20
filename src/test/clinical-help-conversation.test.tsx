@@ -22,6 +22,25 @@ function Probe() {
 }
 afterEach(() => { cleanup(); vi.clearAllMocks(); mock.stop.mockResolvedValue(undefined); });
 describe('one unsaved private product conversation', () => {
+  it('continues beyond forty answers with bounded verified context only', async () => {
+    render(<ClinicalHelpConversationProvider><Probe /></ClinicalHelpConversationProvider>);
+    for (let i = 0; i < 45; i++) {
+      fireEvent.click(screen.getByText('Ask'));
+      act(() => mock.callbacks?.onFinish({ message: { parts: [{ type: 'data-receipt', data: { text: 'Fictional product answer', proof: 'a'.repeat(64) } }] }, isAbort: false, isError: false }));
+    }
+    expect(mock.sendMessage).toHaveBeenCalledTimes(45);
+    const body = mock.callbacks?.transport.prepareSendMessagesRequest().body as { turns: unknown[] };
+    expect(body.turns).toHaveLength(40);
+  });
+  it('permits retry after a failed turn without forwarding the incomplete turn', () => {
+    render(<ClinicalHelpConversationProvider><Probe /></ClinicalHelpConversationProvider>);
+    fireEvent.click(screen.getByText('Ask'));
+    act(() => mock.callbacks?.onError(new Error('offline')));
+    fireEvent.click(screen.getByText('Ask'));
+    expect(mock.sendMessage).toHaveBeenCalledTimes(2);
+    const body = mock.callbacks?.transport.prepareSendMessagesRequest().body as { turns: unknown[] };
+    expect(body.turns).toHaveLength(1);
+  });
   it('sends only selections, never SDK messages or arbitrary typed input', () => {
     render(<ClinicalHelpConversationProvider><Probe /></ClinicalHelpConversationProvider>);
     fireEvent.click(screen.getByText('Ask'));
