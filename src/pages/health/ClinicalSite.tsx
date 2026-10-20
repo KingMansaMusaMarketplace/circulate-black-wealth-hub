@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, NavLink } from 'react-router-dom';
-import { ArrowRight, Building2, Check, ClipboardList, FileText, Hospital, Inbox, LockKeyhole, Mic, ShieldCheck, Stethoscope, UserCheck, X } from 'lucide-react';
+import { ArrowRight, Building2, Check, ClipboardList, FileText, Globe2, Hospital, Inbox, LockKeyhole, Mic, ShieldCheck, Stethoscope, UserCheck, X } from 'lucide-react';
+import globalClinic from '@/assets/clinical-global-clinic.jpg';
 import { Button } from '@/components/ui/button';
 import logo from '@/assets/1325-ai-logo.png';
 import homeRounds from '@/assets/clinical-home-rounds.jpg';
@@ -184,6 +185,21 @@ function Solutions() {
         </div>
       </div>
       <p className="mt-8 text-sm text-muted-foreground">Photography and facility examples are illustrative, not customer endorsements. Workflow benefits are goals to evaluate, not measured outcomes. Live connections to other systems are not active in the preview.</p>
+    </Section>
+    <Section>
+      <div className="grid items-center gap-10 md:grid-cols-2">
+        <img src={globalClinic} alt="Illustrative physician using a phone and tablet in a private outpatient clinic" width={1536} height={1024} loading="lazy" className="aspect-[3/2] w-full rounded-lg object-cover" />
+        <div className="min-w-0">
+          <Globe2 className="h-8 w-8 text-primary" aria-hidden />
+          <p className="mt-4 text-sm text-primary">FUTURE EXPANSION</p>
+          <h3 className="mt-2 text-2xl font-semibold">Global clinics & diaspora networks</h3>
+          <p className="mt-4 text-muted-foreground">Many private clinics worldwide work on paper or spreadsheets because large records systems are too costly. Just as mobile money let people skip traditional bank branches, a lighter cloud workflow layer could help clinics skip expensive legacy software.</p>
+          <ul className="mt-6 space-y-3 text-muted-foreground">
+            {['Markets under study: the English-speaking Caribbean and Anglophone West & East Africa', 'Spoken, phone-friendly Delegation Desk and note drafting', 'Regional data hosting and local legal review in each country before any real patient records', 'Country-specific pricing, to be announced by region'].map(x => <li key={x} className="flex gap-3"><Check className="h-5 w-5 shrink-0 text-primary" />{x}</li>)}
+          </ul>
+          <p className="mt-6 text-sm text-muted-foreground">Other countries have their own health-privacy laws (for example Nigeria's data protection law, Kenya's Data Protection Act and UK data protection rules). International use is a plan, not a current offering; the preview uses fictional data only.</p>
+        </div>
+      </div>
     </Section>
     <NoRipAndReplace photo={hospitalLeadership} />
     <PilotRoadmap />
