@@ -105,6 +105,7 @@ const LazyHealthDemoPage = lazy(() => import('./pages/health/HealthDemoPage'));
 const LazyHealthWorkspacePage = lazy(() => import('./pages/health/HealthWorkspacePage'));
 const LazyHealthBaaPage = lazy(() => import('./pages/health/HealthBaaPage'));
 const LazyHealthIntakePage = lazy(() => import('./pages/health/HealthIntakePage'));
+const LazyClinicalSite = lazy(() => import('./pages/health/ClinicalSite'));
 const LazyClinicalMarketplacePage = lazy(() => import('./pages/health/ClinicalMarketplacePage'));
 const LazySupplierApiDocsPage = lazy(() => import('./pages/SupplierApiDocsPage'));
 
@@ -592,14 +593,14 @@ function App() {
                               {/* All routes wrapped with error boundary */}
                               <Route errorElement={<RouteErrorBoundary />}>
                               {/* Home — Kayla-led front door is the landing page */}
-                              <Route path="/" element={typeof window !== "undefined" && window.location.hostname.startsWith("health.") ? <LazyHealthAccessGate><LazyHealthDemoPage /></LazyHealthAccessGate> : <HomePage />} />
+                              <Route path="/" element={typeof window !== "undefined" && window.location.hostname.startsWith("health.") ? (new URLSearchParams(window.location.search).has("access") ? <LazyHealthAccessGate><LazyHealthDemoPage /></LazyHealthAccessGate> : <LazyClinicalSite page="home" />) : <HomePage />} />
                               <Route path="/about-1325" element={<LazyAboutPage />} />
                               <Route path="/home-preview" element={<LazyHomePreviewPage />} />
                               <Route path="/partner-directories" element={<LazyPartnerDirectoriesPage />} />
                               <Route path="/connect" element={<LazyConnectPage />} />
 <Route path="/connect/docs" element={<LazyMcpDocsPage />} />
                               <Route path="/health" element={<LazyHealthAccessGate><LazyHealthDemoPage /></LazyHealthAccessGate>} />
-                              <Route path="/health/marketplace" element={<LazyClinicalMarketplacePage />} />
+                              <Route path="/health/marketplace" element={<LazyClinicalMarketplacePage />} /><Route path="/health/welcome" element={<LazyClinicalSite page="home" />} /><Route path="/health/solutions" element={<LazyClinicalSite page="solutions" />} /><Route path="/health/features" element={<LazyClinicalSite page="features" />} /><Route path="/health/security" element={<LazyClinicalSite page="security" />} />
                               <Route path="/health/app" element={<LazyHealthAccessGate><LazyHealthWorkspacePage /></LazyHealthAccessGate>} />
                               <Route path="/health/baa" element={<LazyHealthAccessGate><LazyHealthBaaPage /></LazyHealthAccessGate>} />
                               <Route path="/health/intake" element={<LazyHealthAccessGate><LazyHealthIntakePage /></LazyHealthAccessGate>} />
@@ -1269,14 +1270,14 @@ function App() {
                         <Layout>
                           <Routes>
                           {/* Home — Kayla-led front door is the landing page */}
-                          <Route path="/" element={typeof window !== "undefined" && window.location.hostname.startsWith("health.") ? <LazyHealthAccessGate><LazyHealthDemoPage /></LazyHealthAccessGate> : <HomePage />} />
+                          <Route path="/" element={typeof window !== "undefined" && window.location.hostname.startsWith("health.") ? (new URLSearchParams(window.location.search).has("access") ? <LazyHealthAccessGate><LazyHealthDemoPage /></LazyHealthAccessGate> : <LazyClinicalSite page="home" />) : <HomePage />} />
                           <Route path="/about-1325" element={<LazyAboutPage />} />
                               <Route path="/home-preview" element={<LazyHomePreviewPage />} />
                               <Route path="/partner-directories" element={<LazyPartnerDirectoriesPage />} />
 <Route path="/connect" element={<LazyConnectPage />} />
                               <Route path="/connect/docs" element={<LazyMcpDocsPage />} />
                               <Route path="/health" element={<LazyHealthAccessGate><LazyHealthDemoPage /></LazyHealthAccessGate>} />
-                              <Route path="/health/marketplace" element={<LazyClinicalMarketplacePage />} />
+                              <Route path="/health/marketplace" element={<LazyClinicalMarketplacePage />} /><Route path="/health/welcome" element={<LazyClinicalSite page="home" />} /><Route path="/health/solutions" element={<LazyClinicalSite page="solutions" />} /><Route path="/health/features" element={<LazyClinicalSite page="features" />} /><Route path="/health/security" element={<LazyClinicalSite page="security" />} />
                               <Route path="/health/app" element={<LazyHealthAccessGate><LazyHealthWorkspacePage /></LazyHealthAccessGate>} />
                               <Route path="/health/baa" element={<LazyHealthAccessGate><LazyHealthBaaPage /></LazyHealthAccessGate>} />
                               <Route path="/health/intake" element={<LazyHealthAccessGate><LazyHealthIntakePage /></LazyHealthAccessGate>} />
