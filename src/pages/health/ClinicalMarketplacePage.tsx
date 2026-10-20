@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import logo from '@/assets/1325-ai-logo.png';
 import team from '@/assets/clinical-marketplace-team.jpg';
-import teamVideo from '@/assets/clinical-marketplace-team.mp4.asset.json';
+import teamVideo from '@/assets/clinical-marketplace-loop.mp4.asset.json';
 import { assetUrl } from '@/utils/assetUrl';
 import previewMeeting from '@/assets/clinical-preview-meeting.jpg';
 import { getClinicalPreviewOffer } from './preview-offer';
