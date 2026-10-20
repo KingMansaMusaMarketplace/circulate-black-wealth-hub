@@ -1,8 +1,8 @@
 # Roadmap
 
 ## Distinct clinical website photography — October 20, 2026
-- [ ] Add page-exclusive medical photography to Home, Solutions, Features, Trust & Security and Marketplace without repeating pictures.
-- [ ] Verify image loading, navigation and desktop/phone layout; preserve sample-only status and existing colors.
+- [x] Added nine new medical pictures; all five public clinical pages have page-exclusive photography, with twelve distinct pictures overall.
+- [x] Verified all pictures load without repeats across pages, back navigation and desktop/phone layout with no overflow or page errors; ten adjacent tests passed. Existing colors and sample-only status retained. Publishing remains a user action.
 
 ## Clinical enterprise website presentation — October 20, 2026
 - [x] Add coordinated medical imagery, prominent Kayla/team introduction and public-page back navigation.
