@@ -166,11 +166,11 @@ function Solutions() {
   return <>
     <Section>
       <Heading eyebrow="Solutions" title="One platform for clinics and hospitals." intro="The same physician-controlled workflow, presented for the setting you work in." />
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         <div className="min-w-0">
           <img src={practiceSolution} alt="Illustrative physician and practice manager planning at a private clinic" width={1536} height={1024} loading="lazy" className="mb-7 aspect-[3/2] w-full rounded-lg object-cover" />
           <Building2 className="h-8 w-8 text-primary" aria-hidden />
-          <h3 className="mt-4 text-2xl font-semibold">Independent practices & clinics</h3>
+          <h3 className="mt-4 text-2xl font-semibold">Independent Practices</h3>
           <ul className="mt-6 space-y-3 text-muted-foreground">
             {['Transcript-cited note drafts for physician review', 'Spoken requests become draft orders for batch sign-off', 'Inbox items routed to staff or doctor with clear reasons', 'Cloud-based — no server room required'].map(x => <li key={x} className="flex gap-3"><Check className="h-5 w-5 shrink-0 text-primary" />{x}</li>)}
           </ul>
@@ -178,28 +178,22 @@ function Solutions() {
         <div className="min-w-0">
           <img src={hospitalSolution} alt="Illustrative hospital department director meeting with a multidisciplinary team" width={1536} height={1024} loading="lazy" className="mb-7 aspect-[3/2] w-full rounded-lg object-cover" />
           <Hospital className="h-8 w-8 text-primary" aria-hidden />
-          <h3 className="mt-4 text-2xl font-semibold">Hospitals & health systems</h3>
+          <h3 className="mt-4 text-2xl font-semibold">Hospital Departments</h3>
           <ul className="mt-6 space-y-3 text-muted-foreground">
             {['A proposed workflow layer alongside existing records systems', 'Department-level views shown with illustrative facilities', 'Quality and safety overviews built from source evidence', 'Integration, backup and recovery requirements prepared up front'].map(x => <li key={x} className="flex gap-3"><Check className="h-5 w-5 shrink-0 text-primary" />{x}</li>)}
           </ul>
         </div>
-      </div>
-      <p className="mt-8 text-sm text-muted-foreground">Photography and facility examples are illustrative, not customer endorsements. Workflow benefits are goals to evaluate, not measured outcomes. Live connections to other systems are not active in the preview.</p>
-    </Section>
-    <Section>
-      <div className="grid items-center gap-10 md:grid-cols-2">
-        <img src={globalClinic} alt="Illustrative physician using a phone and tablet in a private outpatient clinic" width={1536} height={1024} loading="lazy" className="aspect-[3/2] w-full rounded-lg object-cover" />
         <div className="min-w-0">
+          <img src={globalClinic} alt="Illustrative physician using a phone and tablet in a private outpatient clinic" width={1536} height={1024} loading="lazy" className="mb-7 aspect-[3/2] w-full rounded-lg object-cover" />
           <Globe2 className="h-8 w-8 text-primary" aria-hidden />
-          <p className="mt-4 text-sm text-primary">FUTURE EXPANSION</p>
-          <h3 className="mt-2 text-2xl font-semibold">Global clinics & diaspora networks</h3>
-          <p className="mt-4 text-muted-foreground">Many private clinics worldwide work on paper or spreadsheets because large records systems are too costly. Just as mobile money let people skip traditional bank branches, a lighter cloud workflow layer could help clinics skip expensive legacy software.</p>
+          <h3 className="mt-4 text-2xl font-semibold">Global Clinics & Diaspora Networks</h3>
           <ul className="mt-6 space-y-3 text-muted-foreground">
-            {['Markets under study: the English-speaking Caribbean and Anglophone West & East Africa', 'Spoken, phone-friendly Delegation Desk and note drafting', 'Regional data hosting and local legal review in each country before any real patient records', 'Country-specific pricing, to be announced by region'].map(x => <li key={x} className="flex gap-3"><Check className="h-5 w-5 shrink-0 text-primary" />{x}</li>)}
+            {['A path to leapfrog legacy desktop software with lighter, mobile-first workflows', 'Spoken documentation through the Delegation Desk and note drafts — sample demonstrations today', 'Planned regional data residency compliance: regional hosting and local legal review before live records', 'Accessible, country-specific pricing for independent private clinics — to be announced'].map(x => <li key={x} className="flex gap-3"><Check className="h-5 w-5 shrink-0 text-primary" />{x}</li>)}
           </ul>
-          <p className="mt-6 text-sm text-muted-foreground">Other countries have their own health-privacy laws (for example Nigeria's data protection law, Kenya's Data Protection Act and UK data protection rules). International use is a plan, not a current offering; the preview uses fictional data only.</p>
+          <p className="mt-6 text-sm text-muted-foreground">For clinics across the Caribbean, Africa, the UK and Latin America. International clinical use is planned, not a current offering; regional hosting and compliance are not yet verified.</p>
         </div>
       </div>
+      <p className="mt-8 text-sm text-muted-foreground">Photography and facility examples are illustrative, not customer endorsements. Workflow benefits are goals to evaluate, not measured outcomes. All previews use fictional data only; live recording and connections to other systems remain locked.</p>
     </Section>
     <NoRipAndReplace photo={hospitalLeadership} />
     <PilotRoadmap />
