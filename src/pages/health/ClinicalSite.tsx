@@ -17,6 +17,7 @@ import securityPrivacy from '@/assets/clinical-security-privacy.jpg';
 import hospitalTeam from '@/assets/clinical-hospital-team.jpg';
 import physicianCare from '@/assets/clinical-physician-care.jpg';
 import ClinicalSiteBack from './ClinicalSiteBack';
+import DelegationLoop from './DelegationLoop';
 import { EvidenceDemo, ExecutiveFaq, LostTeamStory, NoRipAndReplace, PilotRoadmap, RoadToRealPatients, TimeCalculator, TraceabilityNotSafety, UnknownExample, WorkflowComparison } from './ClinicalSiteSections';
 import unitClerk from '@/assets/clinical-unit-clerk.jpg';
 import hospitalLeadership from '@/assets/clinical-hospital-leadership.jpg';
@@ -217,6 +218,7 @@ function Features() {
         <Card icon={ShieldCheck} title="Prior authorization & billing checks">Draft paperwork and documentation-gap checks — never claims submission or code selection.</Card>
       </div>
       <p className="mt-5 text-xs text-muted-foreground">Illustrative AI-generated photography. Not customers, endorsements or clinical deployments.</p>
+      <DelegationLoop />
     </Section>
     <EvidenceDemo />
     <UnknownExample />
