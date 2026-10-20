@@ -7,7 +7,7 @@
     "predev": "npx -y tsx scripts/generate-sitemaps.ts",
     "dev": "vite",
     "prebuild": "npx -y tsx scripts/generate-sitemaps.ts && npx -y tsx scripts/prerender-businesses.ts",
-    "build": "vite build",
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 vite build",
     "build:dev": "NODE_OPTIONS=--max-old-space-size=8192 vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
