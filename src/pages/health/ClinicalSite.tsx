@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, NavLink } from 'react-router-dom';
-import { ArrowRight, Building2, Check, ClipboardList, FileText, Hospital, Inbox, LockKeyhole, Mic, ShieldCheck, Stethoscope, UserCheck, X } from 'lucide-react';
+import { ArrowRight, Building2, Check, ClipboardList, FileText, Globe2, Hospital, Inbox, LockKeyhole, Mic, ShieldCheck, Stethoscope, UserCheck, X } from 'lucide-react';
+import globalClinic from '@/assets/clinical-global-clinic.jpg';
 import { Button } from '@/components/ui/button';
 import logo from '@/assets/1325-ai-logo.png';
 import homeRounds from '@/assets/clinical-home-rounds.jpg';
