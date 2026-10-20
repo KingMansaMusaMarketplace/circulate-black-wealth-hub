@@ -12,7 +12,10 @@ const FloatingNav = () => {
 
   // Don't show FloatingNav on auth pages
   const authPages = ['/login', '/signup', '/business-signup', '/password-reset-request', '/reset-password'];
-  const isAuthPage = authPages.includes(location.pathname);
+  const isClinical =
+    location.pathname.startsWith('/health') ||
+    (typeof window !== 'undefined' && window.location.hostname.startsWith('health.'));
+  const isAuthPage = authPages.includes(location.pathname) || isClinical;
 
   useEffect(() => {
     const handleScroll = () => {
