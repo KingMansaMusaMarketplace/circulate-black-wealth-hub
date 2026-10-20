@@ -15,7 +15,9 @@ import securityPrivacy from '@/assets/clinical-security-privacy.jpg';
 import hospitalTeam from '@/assets/clinical-hospital-team.jpg';
 import physicianCare from '@/assets/clinical-physician-care.jpg';
 import ClinicalSiteBack from './ClinicalSiteBack';
-import { ExecutiveFaq, PilotRoadmap, TimeCalculator, WorkflowComparison } from './ClinicalSiteSections';
+import { EvidenceDemo, ExecutiveFaq, LostTeamStory, NoRipAndReplace, PilotRoadmap, RoadToRealPatients, TimeCalculator, TraceabilityNotSafety, UnknownExample, WorkflowComparison } from './ClinicalSiteSections';
+import unitClerk from '@/assets/clinical-unit-clerk.jpg';
+import hospitalLeadership from '@/assets/clinical-hospital-leadership.jpg';
 
 export type ClinicalSitePage = 'home' | 'solutions' | 'features' | 'security';
 
@@ -151,6 +153,7 @@ function Home() {
       </div>
       <p className="mt-5 text-xs text-muted-foreground">Illustrative AI-generated photography. Not customers, endorsements or clinical deployments.</p>
     </Section>
+    <LostTeamStory photo={unitClerk} />
     <WorkflowComparison />
     <TimeCalculator />
     <ExecutiveFaq />
@@ -182,6 +185,7 @@ function Solutions() {
       </div>
       <p className="mt-8 text-sm text-muted-foreground">Photography and facility examples are illustrative, not customer endorsements. Workflow benefits are goals to evaluate, not measured outcomes. Live connections to other systems are not active in the preview.</p>
     </Section>
+    <NoRipAndReplace photo={hospitalLeadership} />
     <PilotRoadmap />
     <TimeCalculator />
     <CallToAction />
@@ -202,6 +206,8 @@ function Features() {
       </div>
       <p className="mt-5 text-xs text-muted-foreground">Illustrative AI-generated photography. Not customers, endorsements or clinical deployments.</p>
     </Section>
+    <EvidenceDemo />
+    <UnknownExample />
     <WorkflowComparison />
     <KaylaWorkforce />
     <CallToAction />
@@ -228,6 +234,8 @@ function Security() {
         <p className="mt-3 text-muted-foreground">Related technology is the subject of U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending. The preview is licensed for evaluation only.</p>
       </div>
     </Section>
+    <TraceabilityNotSafety />
+    <RoadToRealPatients />
     <ExecutiveFaq />
     <CallToAction />
   </>;

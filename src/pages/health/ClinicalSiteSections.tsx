@@ -101,3 +101,84 @@ export function ExecutiveFaq() {
     </Accordion>
   </Wrap>;
 }
+
+export function LostTeamStory({ photo }: { photo: string }) {
+  return <Wrap eyebrow="Why doctors became typists" title="Imagine a head chef forced to wash the dishes." intro="Hospitals once had unit clerks who turned a doctor's spoken decision into routed orders, calls and forms. When computer order entry arrived, many of those roles disappeared — and the clerical work landed on the doctor.">
+    <div className="grid items-center gap-8 md:grid-cols-2">
+      <img src={photo} alt="Illustrative unit clerk handing prepared order forms to a physician" width={1536} height={1024} loading="lazy" className="aspect-[3/2] w-full rounded-lg object-cover" />
+      <ul className="space-y-4 text-muted-foreground">
+        <li><strong className="text-foreground">Then:</strong> the doctor decided; the team prepared the paperwork.</li>
+        <li><strong className="text-foreground">Now:</strong> the doctor clicks, routes, answers the inbox and charts at night.</li>
+        <li><strong className="text-foreground">1325 Clinical's goal:</strong> rebuild that team digitally — staff and Kayla, an Agentic AI assistant, prepare; the doctor reviews and signs.</li>
+      </ul>
+    </div>
+    <p className="mt-4 text-xs text-muted-foreground">Illustrative AI-generated photography. Not a customer or clinical deployment.</p>
+  </Wrap>;
+}
+
+const NOTE = [
+  { text: 'Low back pain improved since last visit.', line: 2 },
+  { text: 'Strength is 5 out of 5 in both legs.', line: 4 },
+  { text: 'Continue home stretching program.', line: 5 },
+];
+const TRANSCRIPT = ['Doctor: How is your back doing?', 'Patient: Much better than last time.', 'Doctor: Push against my hands with both legs.', 'Doctor: Strength is five out of five in both legs.', 'Doctor: Keep doing the stretches at home.'];
+
+export function EvidenceDemo() {
+  const [line, setLine] = useState<number | null>(null);
+  return <Wrap eyebrow="Try it" title="Click a sentence. See where it came from." intro="Every line of a draft note links back to the exact words in the visit. Doctors check the evidence instead of trusting the AI.">
+    <div className="grid gap-6 md:grid-cols-2">
+      <div className="rounded-lg border border-border bg-card p-6">
+        <h3 className="mb-4 font-semibold">Draft visit note (fictional)</h3>
+        <ul className="space-y-2">{NOTE.map(n => <li key={n.line}><button type="button" onClick={() => setLine(n.line)} className={`w-full rounded-md border p-3 text-left text-sm transition-colors ${line === n.line ? 'border-primary bg-primary/10' : 'border-border hover:border-primary/50'}`}>{n.text} <span className="ml-1 text-xs text-primary">Source L{n.line}</span></button></li>)}</ul>
+      </div>
+      <div className="rounded-lg border border-border bg-card p-6">
+        <h3 className="mb-4 font-semibold">Visit transcript (fictional)</h3>
+        <ol className="space-y-2 text-sm">{TRANSCRIPT.map((t, i) => <li key={t} className={`rounded p-2 ${line === i + 1 ? 'bg-primary/15' : ''}`}><span className="mr-2 text-primary">L{i + 1}</span>{t}</li>)}</ol>
+        {line === null && <p className="mt-4 text-xs text-muted-foreground">Select a sentence on the left.</p>}
+      </div>
+    </div>
+  </Wrap>;
+}
+
+export function UnknownExample() {
+  return <Wrap eyebrow="Missing means Unknown" title="The absence of evidence is not evidence of absence." intro="Many AI tools fill gaps to make a summary look complete. 1325 Clinical flags them so the doctor addresses them.">
+    <div className="grid gap-6 md:grid-cols-2">
+      <div className="rounded-lg border border-border p-6"><p className="text-sm text-muted-foreground">A guessing summary might say</p><p className="mt-2 text-lg line-through decoration-destructive">Allergies: No known allergies</p></div>
+      <div className="rounded-lg border border-primary/50 p-6"><p className="text-sm text-muted-foreground">1325 Clinical says</p><p className="mt-2 text-lg font-semibold text-primary">Allergies: Unknown — not found in the record</p></div>
+    </div>
+    <p className="mt-4 text-sm text-muted-foreground">Undated items are listed separately at the end of the timeline instead of being given a guessed date.</p>
+  </Wrap>;
+}
+
+export function NoRipAndReplace({ photo }: { photo: string }) {
+  const risks = ['Downtime and paper fallback', 'Retraining every department', 'Billing disruption', 'Data migration risk', 'Rebuilding outside connections'];
+  return <Wrap eyebrow="For hospital leaders" title="Why not just replace your records system?" intro="Replacing a hospital's records system has been compared to changing the engines on a plane mid-flight. 1325 Clinical is designed to sit alongside your current system instead.">
+    <div className="grid items-center gap-8 md:grid-cols-2">
+      <img src={photo} alt="Illustrative hospital leadership team reviewing plans in an operations center" width={1536} height={1024} loading="lazy" className="aspect-[3/2] w-full rounded-lg object-cover" />
+      <div>
+        <h3 className="font-semibold">Risks a full replacement brings</h3>
+        <ul className="mt-3 space-y-2 text-muted-foreground">{risks.map(r => <li key={r}>• {r}</li>)}</ul>
+        <p className="mt-5 text-muted-foreground">Your current system keeps billing, registration and beds. 1325 Clinical is being built to take on the preparation work — so leaders can test whether it helps before taking on bigger risks.</p>
+      </div>
+    </div>
+    <p className="mt-4 text-xs text-muted-foreground">Illustrative AI-generated photography. Live connections and inpatient workflows are not available in the preview.</p>
+  </Wrap>;
+}
+
+export function TraceabilityNotSafety() {
+  return <Wrap eyebrow="An honest line" title="Proving the source is not a safety check." intro="A source label proves where a fact came from. It does not check drug interactions, doses or risk.">
+    <div className="grid gap-6 md:grid-cols-2">
+      <div className="rounded-lg border border-border bg-card p-6"><h3 className="font-semibold">What source labels do</h3><p className="mt-2 text-sm text-muted-foreground">Show the exact transcript line or record excerpt behind every statement.</p></div>
+      <div className="rounded-lg border border-border bg-card p-6"><h3 className="font-semibold">What they don't do</h3><p className="mt-2 text-sm text-muted-foreground">No risk scores, interaction screening or clinical clearance. Medical judgment stays 100% with the physician.</p></div>
+    </div>
+  </Wrap>;
+}
+
+const ROAD = ['Signed patient-privacy agreements (BAAs) with each vendor', 'Independent security and backup/recovery reviews', 'Attorney approval of terms', 'Independent testing with practicing physicians', 'A process to report and contain harmful output'];
+
+export function RoadToRealPatients() {
+  return <Wrap eyebrow="The road to real patients" title="What must happen before real patient data is used." intro="None of these are complete today. Until they are, the preview uses fictional data only.">
+    <ol className="grid gap-4 md:grid-cols-5">{ROAD.map((r, i) => <li key={r} className="rounded-lg border border-border bg-card p-5"><span className="text-2xl font-semibold text-primary">{i + 1}</span><p className="mt-2 text-sm">{r}</p><p className="mt-3 text-xs text-muted-foreground">Status: not yet complete</p></li>)}</ol>
+    <p className="mt-4 text-xs text-muted-foreground">A finished checklist alone does not authorize real records. BAA = business associate agreement under HIPAA.</p>
+  </Wrap>;
+}
