@@ -1,5 +1,10 @@
 # Roadmap
 
+## Deep clinical readiness audit — October 20, 2026
+- [ ] Verify public website routes, images, navigation and interactive examples against preview and published website.
+- [ ] Audit private access, administrator controls, emails, Kayla and clinical workflow connections; run clinical regression tests.
+- [ ] Report confirmed defects separately from intentionally locked capabilities and checks blocked by unavailable authenticated testing.
+
 ## Distinct clinical website photography — October 20, 2026
 - [x] Added nine new medical pictures; all five public clinical pages have page-exclusive photography, with twelve distinct pictures overall.
 - [x] Verified all pictures load without repeats across pages, back navigation and desktop/phone layout with no overflow or page errors; ten adjacent tests passed. Existing colors and sample-only status retained. Publishing remains a user action.
