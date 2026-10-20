@@ -97,7 +97,7 @@ function KaylaWorkforce() {
         <dl className="mt-7 divide-y divide-border">
           {[['Product expertise', 'Kayla explains features, sample workflows and locked services.'], ['Evidence-led preparation', 'Clinical examples organize fictional sources into drafts for review.'], ['Physician authority', 'The doctor retains clinical judgment. No autonomous medical decisions.']].map(([title, text]) => <div key={title} className="py-4"><dt className="font-semibold">{title}</dt><dd className="mt-1 text-sm text-muted-foreground">{text}</dd></div>)}
         </dl>
-        <p className="mt-4 text-xs leading-relaxed text-muted-foreground">The 42-person Agentic AI ecosystem is a platform description, not a claim that all employees execute clinical tasks in this preview. Kayla is AI, not a doctor or licensed clinician. No patient information or medical advice.</p>
+        <p className="mt-4 text-xs leading-relaxed text-muted-foreground">The 42 Agentic AI Employees ecosystem is a platform description, not a claim that all employees execute clinical tasks in this preview. Kayla is AI, not a doctor or licensed clinician. No patient information or medical advice.</p>
       </div>
     </div>
   </section>;
@@ -117,7 +117,7 @@ function Home() {
         <p className="text-sm font-semibold text-primary flex items-center gap-2"><LockKeyhole className="h-4 w-4" /> Private preview · sample data only</p>
         <h1 className="mt-6 max-w-2xl text-4xl md:text-5xl font-semibold leading-tight">1325 Clinical<br />EMR / EHR</h1>
         <p className="mt-5 max-w-xl text-2xl font-medium">Give the doctor their team back.</p>
-        <p className="mt-5 max-w-lg text-lg text-foreground/85">An Agentic AI workflow preview built around the physician: source-linked preparation, organized clerical work and final decisions that stay with the doctor.</p>
+        <p className="mt-5 max-w-lg text-lg text-foreground/85">An Agentic AI workflow preview built around the physician: source-linked preparation, organized clerical work and final decisions that stay with the doctor. Guided by Kayla, part of 1325.AI's team of <strong className="text-primary">42 Agentic AI Employees</strong>.</p>
         <div className="mt-10 flex flex-wrap gap-3">
           <Button asChild size="lg"><Link to="/health/marketplace#request">Request private preview <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
           <Button asChild size="lg" variant="outline"><Link to="/health/features">Explore features</Link></Button>
