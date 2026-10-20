@@ -274,7 +274,8 @@ export default function ClinicalSite({ page }: { page: ClinicalSitePage }) {
     </main>
     <footer className="border-t border-border">
       <div className="mx-auto max-w-6xl px-6 py-10 text-sm text-muted-foreground grid gap-4 md:grid-cols-2">
-        <p>© 2026 1325.AI · 1325 Clinical EMR / EHR · Private preview · sample data only. Contact <a className="text-primary" href="mailto:Thomas@1325.ai">Thomas@1325.ai</a></p>
+        <div><p>© 2026 1325.AI · 1325 Clinical EMR / EHR · Private preview · sample data only. Contact <a className="text-primary" href="mailto:Thomas@1325.ai">Thomas@1325.ai</a></p>
+        <address className="mt-3 not-italic">Headquarters: 1000 E. 111th St., Suite 1100, Chicago, Illinois 60628 · <a className="text-primary" href="tel:+13129006004">1-312-900-6004</a></address></div>
         <p className="md:text-right">Proprietary & confidential. Not for clinical use. U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.</p>
       </div>
     </footer>
