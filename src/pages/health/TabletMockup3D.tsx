@@ -69,14 +69,15 @@ function Tablet({ still }: { still: boolean }) {
 export default function TabletMockup3D() {
   const still = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   return (
-    <Canvas dpr={[1, 1.75]} camera={{ position: [0, 0, 6.2], fov: 40 }} gl={{ antialias: true, alpha: true }} frameloop={still ? 'demand' : 'always'}>
+    // Always render frames so dragging works even when the device has "reduce motion" on (only the auto-sway stops).
+    <Canvas dpr={[1, 1.75]} camera={{ position: [0, 0, 6.2], fov: 40 }} gl={{ antialias: true, alpha: true }} frameloop="always" style={{ touchAction: 'pan-y', cursor: 'grab' }}>
       <ambientLight intensity={0.4} />
       <directionalLight position={[3, 4, 5]} intensity={1.2} />
       <Environment resolution={128}>
         <Lightformer intensity={2} position={[0, 5, 2]} scale={[10, 4, 1]} />
         <Lightformer intensity={1.2} color="#FFB300" position={[-5, 0, 1]} rotation-y={Math.PI / 2} scale={[10, 2, 1]} />
       </Environment>
-      <PresentationControls global={false} cursor snap polar={[-0.4, 0.4]} azimuth={[-1.2, 1.2]} config={{ mass: 1, tension: 170, friction: 26 }}>
+      <PresentationControls global cursor snap polar={[-0.4, 0.4]} azimuth={[-1.2, 1.2]} config={{ mass: 1, tension: 170, friction: 26 }}>
         <Tablet still={!!still} />
       </PresentationControls>
       <ContactShadows position={[0, -1.9, 0]} opacity={0.5} scale={8} blur={2.5} far={3} />
