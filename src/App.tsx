@@ -105,6 +105,7 @@ const LazyHealthDemoPage = lazy(() => import('./pages/health/HealthDemoPage'));
 const LazyHealthWorkspacePage = lazy(() => import('./pages/health/HealthWorkspacePage'));
 const LazyHealthBaaPage = lazy(() => import('./pages/health/HealthBaaPage'));
 const LazyHealthIntakePage = lazy(() => import('./pages/health/HealthIntakePage'));
+const LazyClinicalMarketplacePage = lazy(() => import('./pages/health/ClinicalMarketplacePage'));
 const LazySupplierApiDocsPage = lazy(() => import('./pages/SupplierApiDocsPage'));
 
 // Media Kit page
@@ -598,6 +599,7 @@ function App() {
                               <Route path="/connect" element={<LazyConnectPage />} />
 <Route path="/connect/docs" element={<LazyMcpDocsPage />} />
                               <Route path="/health" element={<LazyHealthAccessGate><LazyHealthDemoPage /></LazyHealthAccessGate>} />
+                              <Route path="/health/marketplace" element={<LazyClinicalMarketplacePage />} />
                               <Route path="/health/app" element={<LazyHealthAccessGate><LazyHealthWorkspacePage /></LazyHealthAccessGate>} />
                               <Route path="/health/baa" element={<LazyHealthAccessGate><LazyHealthBaaPage /></LazyHealthAccessGate>} />
                               <Route path="/health/intake" element={<LazyHealthAccessGate><LazyHealthIntakePage /></LazyHealthAccessGate>} />
@@ -1274,6 +1276,7 @@ function App() {
 <Route path="/connect" element={<LazyConnectPage />} />
                               <Route path="/connect/docs" element={<LazyMcpDocsPage />} />
                               <Route path="/health" element={<LazyHealthAccessGate><LazyHealthDemoPage /></LazyHealthAccessGate>} />
+                              <Route path="/health/marketplace" element={<LazyClinicalMarketplacePage />} />
                               <Route path="/health/app" element={<LazyHealthAccessGate><LazyHealthWorkspacePage /></LazyHealthAccessGate>} />
                               <Route path="/health/baa" element={<LazyHealthAccessGate><LazyHealthBaaPage /></LazyHealthAccessGate>} />
                               <Route path="/health/intake" element={<LazyHealthAccessGate><LazyHealthIntakePage /></LazyHealthAccessGate>} />

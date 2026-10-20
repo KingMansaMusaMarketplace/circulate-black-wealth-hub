@@ -17,3 +17,4 @@
 - The MCP edge function is deployed manually with the Supabase CLI using the project secret SB_DEPLOY_TOKEN (edge-functions-only, expires ~Jan 2027); GitHub Actions workflow deploy-mcp.yml is a backup needing repo secret SUPABASE_ACCESS_TOKEN. Lovable cannot deploy it to this user-managed Supabase project.
 - Clinical `hc_*` data uses approved clinic membership, private `hc-sample-docs` storage and fixed fictional sources; client clinical writes stay blocked until healthcare clearance.
 - Subdirectories have their own AGENTS.md (clinical rules: src/pages/health/AGENTS.md); read them before changing files there.
+- The public clinical marketplace lives at /health/marketplace in both router trees and submits through the existing owner-approved health-access request endpoint; it never exposes private screens, serves the confidential dossier, grants account membership or enables checkout without configured pricing.

@@ -1,5 +1,11 @@
 # Roadmap
 
+## Clinical preview marketplace — October 20, 2026
+- [x] Add a public clinic/hospital pitch using the sales dossier’s workflow framing and the existing owner-approved request endpoint.
+- [x] Keep country-specific pricing unannounced and payment unavailable; preserve private viewing and real-patient restrictions.
+- [x] Twenty-three tests passed for request outcomes, unannounced pricing and private access; browser verified clinic/hospital selection, request navigation, disabled checkout and phone layout with no page errors. No fictional request emailed to the owner; live approval/readback remains unverified.
+- [ ] Enable approval-first payments — blocked: country-specific prices are not yet approved.
+
 ## Unlimited owner clinical access — October 19, 2026
 - [x] Check server-verified administrator sign-in before old visitor exit markers; retain visitor deadlines, role verification and explicit session exit.
 - [x] Nineteen access regression checks passed, including administrator viewing beyond twenty minutes, prior visitor exit recovery, denied roles and lost privileges; harness build OK.
