@@ -269,6 +269,7 @@ function Teaser({ notice = "" }: { notice?: string }) {
             ))}
           </div>
           <ProprietaryNotice className="mt-6 opacity-70" />
+          <Button asChild variant="outline" className="mt-6"><a href="/health/marketplace">Clinics & hospitals: explore the private preview</a></Button>
         </div>
 
         <div className="rounded-2xl p-8 border" style={{ background: 'rgba(0,0,0,0.35)', borderColor: 'rgba(255,179,0,0.4)' }}>
