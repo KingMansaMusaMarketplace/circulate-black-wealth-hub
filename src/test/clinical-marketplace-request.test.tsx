@@ -7,8 +7,12 @@ import ClinicalMarketplacePage from '@/pages/health/ClinicalMarketplacePage';
 
 const { invoke } = vi.hoisted(() => ({ invoke: vi.fn() }));
 vi.mock('@/integrations/supabase/client', () => ({ supabase: { functions: { invoke } } }));
-beforeEach(() => invoke.mockReset());
-afterEach(cleanup);
+beforeEach(() => {
+  invoke.mockReset();
+  vi.spyOn(HTMLMediaElement.prototype, 'play').mockResolvedValue();
+  vi.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
+});
+afterEach(() => { cleanup(); vi.restoreAllMocks(); });
 
 function submit() {
   render(<MemoryRouter><HelmetProvider><ClinicalMarketplacePage /></HelmetProvider></MemoryRouter>);

@@ -1,7 +1,7 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Building2, Check, ClipboardList, FileText, Globe2, Hospital, LockKeyhole, MessageCircle, ShieldCheck, Stethoscope } from 'lucide-react';
+import { ArrowRight, Building2, Check, ClipboardList, FileText, Globe2, Hospital, LockKeyhole, MessageCircle, Pause, Play, ShieldCheck, Stethoscope } from 'lucide-react';
 import { FunctionsHttpError } from '@supabase/supabase-js';
 import { z } from 'zod';
 import { supabase } from '@/integrations/supabase/client';
@@ -11,6 +11,8 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import logo from '@/assets/1325-ai-logo.png';
 import team from '@/assets/clinical-marketplace-team.jpg';
+import teamVideo from '@/assets/clinical-marketplace-team.mp4.asset.json';
+import { assetUrl } from '@/utils/assetUrl';
 import previewMeeting from '@/assets/clinical-preview-meeting.jpg';
 import { getClinicalPreviewOffer } from './preview-offer';
 import ClinicalSiteBack from './ClinicalSiteBack';
@@ -29,6 +31,28 @@ const workflows = [
 ];
 
 export default function ClinicalMarketplacePage() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [motionAllowed, setMotionAllowed] = useState(false);
+  const [videoFailed, setVideoFailed] = useState(false);
+  const [videoPaused, setVideoPaused] = useState(false);
+  useEffect(() => {
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updateMotion = () => setMotionAllowed(!preference.matches);
+    updateMotion();
+    preference.addEventListener('change', updateMotion);
+    return () => preference.removeEventListener('change', updateMotion);
+  }, []);
+  useEffect(() => {
+    const updatePlayback = () => {
+      const video = videoRef.current;
+      if (!video) return;
+      if (document.hidden || videoPaused) video.pause();
+      else void video.play().catch(() => setVideoPaused(true));
+    };
+    updatePlayback();
+    document.addEventListener('visibilitychange', updatePlayback);
+    return () => document.removeEventListener('visibilitychange', updatePlayback);
+  }, [motionAllowed, videoPaused, videoFailed]);
   const [setting, setSetting] = useState<'clinic' | 'hospital'>('clinic');
   const [form, setForm] = useState({ full_name: '', organization: '', role: '', work_email: '', phone: '' });
   const [consent, setConsent] = useState(false);
@@ -77,7 +101,9 @@ export default function ClinicalMarketplacePage() {
       <div className="mx-auto max-w-6xl px-6 py-3"><ClinicalSiteBack /></div>
       <section className="relative isolate overflow-hidden border-b border-border">
         <img src={team} alt="Illustrative image of a physician and clinic manager reviewing a laptop together" width={1536} height={1024} className="absolute inset-0 -z-20 h-full w-full object-cover object-right" />
+        {motionAllowed && !videoFailed && <video ref={videoRef} src={assetUrl(teamVideo.url)} poster={team} muted loop playsInline preload="metadata" aria-hidden="true" onError={() => setVideoFailed(true)} className="absolute inset-0 -z-20 h-full w-full object-cover object-right" />}
         <div className="absolute inset-0 -z-10 bg-background/80" />
+        {motionAllowed && !videoFailed && <Button variant="outline" size="icon" className="absolute bottom-4 right-4 bg-background/80" aria-label={videoPaused ? 'Play background video' : 'Pause background video'} title={videoPaused ? 'Play background video' : 'Pause background video'} onClick={() => setVideoPaused(previous => !previous)}>{videoPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}</Button>}
         <div className="mx-auto max-w-6xl px-6 py-8 md:py-20">
           <p className="mb-5 flex items-center gap-2 text-sm font-medium text-primary"><LockKeyhole className="h-4 w-4" /> For private clinics & hospital leaders</p>
           <h1 className="max-w-2xl text-3xl font-semibold leading-tight md:text-5xl">1325 Clinical EMR / EHR</h1>

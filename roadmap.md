@@ -1,5 +1,9 @@
 # Roadmap
 
+## Pricing & Preview ambient video — October 20, 2026
+- [ ] Generate an eight-second loop from the existing physician/manager photo and add it without changing pricing or access.
+- [ ] Verify playback, still-photo fallback and public-page layout.
+
 ## Global clinical positioning — October 20, 2026
 - [x] Present Global Clinics & Diaspora Networks as the third Solutions care track and make Global Access Commitment a named pricing note; retain fictional-only status and unannounced pricing.
 - [x] Both public pages checked on desktop and phone: three care tracks, visible commitment, loaded pictures, no overflow/page exceptions and checkout disabled. Four adjacent tests passed; harness build OK. Publication remains a user action.
