@@ -100,7 +100,7 @@ function Home() {
     <section className="relative isolate overflow-hidden border-b border-border">
       <img src={team} alt="Illustrative image of a physician and clinic manager reviewing a laptop" width={1536} height={1024} className="absolute inset-0 -z-20 h-full w-full object-cover object-center" />
       <div className="clinical-site-hero-scrim absolute inset-0 -z-10" />
-      <div className="mx-auto max-w-6xl px-6 py-16 md:py-20">
+      <div className="mx-auto max-w-6xl px-6 py-10 md:py-20">
         <p className="text-sm font-semibold text-primary flex items-center gap-2"><LockKeyhole className="h-4 w-4" /> Private preview · sample data only</p>
         <h1 className="mt-6 max-w-2xl text-4xl md:text-5xl font-semibold leading-tight">1325 Clinical<br />EMR / EHR</h1>
         <p className="mt-5 max-w-xl text-2xl font-medium">Give the doctor their team back.</p>
