@@ -19,6 +19,8 @@ import hospitalTeam from '@/assets/clinical-hospital-team.jpg';
 import physicianCare from '@/assets/clinical-physician-care.jpg';
 import ClinicalSiteBack from './ClinicalSiteBack';
 import DelegationLoop from './DelegationLoop';
+import { lazy, Suspense } from 'react';
+const TabletMockup3D = lazy(() => import('./TabletMockup3D'));
 import { EvidenceDemo, ExecutiveFaq, LostTeamStory, NoRipAndReplace, PilotRoadmap, RoadToRealPatients, TimeCalculator, TraceabilityNotSafety, UnknownExample, WorkflowComparison } from './ClinicalSiteSections';
 import unitClerk from '@/assets/clinical-unit-clerk.jpg';
 import hospitalLeadership from '@/assets/clinical-hospital-leadership.jpg';
@@ -224,6 +226,15 @@ function Features() {
       </div>
       <p className="mt-5 text-xs text-muted-foreground">Illustrative AI-generated photography. Not customers, endorsements or clinical deployments.</p>
       <DelegationLoop />
+      <div className="mt-10 rounded-2xl border border-border bg-card/40 p-6">
+        <h3 className="text-xl font-semibold">The chart, wherever you round</h3>
+        <p className="mt-2 text-sm text-muted-foreground">Drag to turn the tablet. Fictional sample chart · nothing sent or saved.</p>
+        <div className="mt-4 h-[340px] md:h-[440px] w-full touch-pan-y" aria-label="3D tablet showing a fictional sample patient chart" role="img">
+          <Suspense fallback={<div className="h-full w-full animate-pulse rounded-xl bg-muted/30" />}>
+            <TabletMockup3D />
+          </Suspense>
+        </div>
+      </div>
     </Section>
     <EvidenceDemo />
     <UnknownExample />
