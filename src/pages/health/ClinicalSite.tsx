@@ -19,6 +19,11 @@ import hospitalTeam from '@/assets/clinical-hospital-team.jpg';
 import physicianCare from '@/assets/clinical-physician-care.jpg';
 import ClinicalSiteBack from './ClinicalSiteBack';
 import DelegationLoop from './DelegationLoop';
+import ClinicalVideo from './ClinicalVideo';
+import demoVideo from '@/assets/clinical-product-demo.mp4.asset.json';
+import demoPoster from '@/assets/clinical-demo-poster.jpg';
+import clipDelegation from '@/assets/clinical-clip-delegation.mp4.asset.json';
+import clipGlobal from '@/assets/clinical-clip-global.mp4.asset.json';
 import { lazy, Suspense } from 'react';
 const TabletMockup3D = lazy(() => import('./TabletMockup3D'));
 import { EvidenceDemo, ExecutiveFaq, LostTeamStory, NoRipAndReplace, PilotRoadmap, RoadToRealPatients, TimeCalculator, TraceabilityNotSafety, UnknownExample, WorkflowComparison } from './ClinicalSiteSections';
@@ -203,6 +208,7 @@ function Solutions() {
           <p className="mt-6 text-sm text-muted-foreground">For clinics across the Caribbean, Africa, the UK and Latin America. International clinical use is planned, not a current offering; regional hosting and compliance are not yet verified.</p>
         </div>
       </div>
+      <div className="mt-10 max-w-3xl"><ClinicalVideo src={clipGlobal.url} poster={globalClinic} title="Mobile-first care in a private clinic" label="Illustrative, AI-generated · not a customer or real clinician" /></div>
       <p className="mt-8 text-sm text-muted-foreground">Photography and facility examples are illustrative, not customer endorsements. Workflow benefits are goals to evaluate, not measured outcomes. Live recording and connections to other systems remain locked.</p>
     </Section>
     <NoRipAndReplace photo={hospitalLeadership} />
@@ -225,6 +231,10 @@ function Features() {
         <Card icon={ShieldCheck} title="Prior authorization & billing checks">Draft paperwork and documentation-gap checks — never claims submission or code selection.</Card>
       </div>
       <p className="mt-5 text-xs text-muted-foreground">Illustrative AI-generated photography. Not customers, endorsements or clinical deployments.</p>
+      <div className="mt-10 grid gap-6 md:grid-cols-2">
+        <ClinicalVideo src={demoVideo.url} poster={demoPoster} title="Product demo: voice to draft orders" label="Screen recording · fictional sample" />
+        <ClinicalVideo src={clipDelegation.url} poster={delegationPhoto} title="A doctor delegating to the team" label="Illustrative, AI-generated · not a customer or real clinician" />
+      </div>
       <DelegationLoop />
       <div className="mt-10 rounded-2xl border border-border bg-card/40 p-6">
         <h3 className="text-xl font-semibold">The chart, wherever you round</h3>
