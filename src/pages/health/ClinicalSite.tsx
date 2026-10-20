@@ -97,8 +97,8 @@ function KaylaWorkforce() {
       <div>
         <p className="text-sm font-semibold uppercase text-primary">Meet your Agentic AI team</p>
         <h2 className="mt-4 text-3xl md:text-4xl font-semibold leading-tight">Kayla.<br />One guide. A broader vision.</h2>
-        <p className="mt-5 text-lg text-muted-foreground">Kayla is the Agentic AI product guide for 1325 Clinical EMR / EHR, helping doctors and nurses understand the platform, its workflows and what is available today.</p>
-        <p className="mt-4 text-muted-foreground">She sits at the center of 1325.AI’s ecosystem of <strong className="text-foreground">42 Agentic AI Employees</strong> — a broader team spanning executive coordination, finance, marketing, operations, growth and community.</p>
+        <p className="mt-5 text-lg text-muted-foreground">Kayla guides doctors and nurses through the platform and what works today.</p>
+        <p className="mt-4 text-muted-foreground">She leads 1325.AI’s <strong className="text-foreground">42 Agentic AI Employees</strong>.</p>
         <Button asChild size="lg" className="mt-7"><Link to="/health/marketplace#request">Meet Kayla in a private preview <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
       </div>
       <div className="border-y border-primary/40 py-8">
@@ -108,7 +108,7 @@ function KaylaWorkforce() {
         <dl className="mt-7 divide-y divide-border">
           {[['Product expertise', 'Kayla explains features, sample workflows and locked services.'], ['Evidence-led preparation', 'Clinical examples organize sources into drafts for review.'], ['Physician authority', 'The doctor retains clinical judgment. No autonomous medical decisions.']].map(([title, text]) => <div key={title} className="py-4"><dt className="font-semibold">{title}</dt><dd className="mt-1 text-sm text-muted-foreground">{text}</dd></div>)}
         </dl>
-        <p className="mt-4 text-xs leading-relaxed text-muted-foreground">The 42 Agentic AI Employees ecosystem is a platform description, not a claim that all employees execute clinical tasks in this preview. Kayla is AI, not a doctor or licensed clinician. No patient information or medical advice.</p>
+        <p className="mt-4 text-xs leading-relaxed text-muted-foreground">The 42 describe the wider platform, not clinical tasks in this preview. Kayla is AI, not a clinician, and gives no medical advice.</p>
       </div>
     </div>
   </section>;
@@ -116,9 +116,9 @@ function KaylaWorkforce() {
 
 function Home() {
   const steps = [
-    { icon: Mic, t: 'The doctor speaks', d: 'Explore spoken requests and sample visit transcripts.' },
-    { icon: ClipboardList, t: 'Kayla prepares drafts', d: 'Kayla, our Agentic AI assistant, turns them into drafts linked to their source.' },
-    { icon: UserCheck, t: 'The doctor reviews & signs', d: 'Nothing is final until a physician approves it.' },
+    { icon: Mic, t: 'The doctor speaks', d: 'Requests and visit conversations.' },
+    { icon: ClipboardList, t: 'Kayla prepares drafts', d: 'Drafts linked to their source.' },
+    { icon: UserCheck, t: 'The doctor reviews & signs', d: 'Nothing is final without approval.' },
   ];
   return <>
     <section className="relative isolate overflow-hidden border-b border-border">
@@ -133,7 +133,7 @@ function Home() {
         <p className="text-sm font-semibold text-primary flex items-center gap-2"><LockKeyhole className="h-4 w-4" /> Private preview · sample data only</p>
         <h1 className="mt-6 max-w-2xl text-4xl md:text-5xl font-semibold leading-tight">1325 Clinical<br />EMR / EHR</h1>
         <p className="mt-5 max-w-xl text-2xl font-medium">Give the doctor their team back.</p>
-        <p className="mt-5 max-w-lg text-lg text-foreground/85">An Agentic AI workflow preview built around the physician: source-linked preparation, organized clerical work and final decisions that stay with the doctor. Guided by Kayla, part of 1325.AI's team of <strong className="text-primary">42 Agentic AI Employees</strong>.</p>
+        <p className="mt-5 max-w-lg text-lg text-foreground/85">Kayla and <strong className="text-primary">42 Agentic AI Employees</strong> prepare the work. The doctor decides.</p>
         <div className="mt-10 flex flex-wrap gap-3">
           <Button asChild size="lg"><Link to="/health/marketplace#request">Request private preview <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
           <Button asChild size="lg" variant="outline"><Link to="/health/features">Explore features</Link></Button>
@@ -141,11 +141,11 @@ function Home() {
       </div>
     </section>
     <Section>
-      <Heading eyebrow="The problem" title="Physicians have become the clerks." intro="Dr. Join Y. Luh, writing in Doximity Op-Med (October 8, 2026), describes how records systems shifted orders, prescriptions, documentation and inbox work onto doctors themselves. 1325.AI is not affiliated with or endorsed by Doximity or the author." />
+      <Heading eyebrow="The problem" title="Physicians have become the clerks." intro="Records systems moved clerical work onto doctors (Dr. Join Y. Luh, Doximity Op-Med, Oct 8 2026; not affiliated or endorsed)." />
       <div className="grid gap-6 md:grid-cols-3">
-        <Card icon={FileText} title="Documentation">Notes compete with time in front of the patient — and spill into evenings.</Card>
-        <Card icon={ClipboardList} title="Orders">Every request becomes a series of clicks the doctor enters personally.</Card>
-        <Card icon={Inbox} title="Inbox">Routine messages and results crowd out the items that truly need a physician.</Card>
+        <Card icon={FileText} title="Documentation">Notes spill into evenings.</Card>
+        <Card icon={ClipboardList} title="Orders">Every request means more clicks.</Card>
+        <Card icon={Inbox} title="Inbox">Routine items bury what matters.</Card>
       </div>
     </Section>
     <Section className="border-t border-border">
@@ -162,10 +162,10 @@ function Home() {
     </Section>
     <KaylaWorkforce />
     <Section>
-      <Heading eyebrow="Your setting. Your team." title="From private practice to hospital department." intro="One physician-controlled vision for two care settings, supporting the people who deliver care." />
+      <Heading eyebrow="Your setting. Your team." title="From private practice to hospital department." />
       <div className="grid gap-8 md:grid-cols-2">
-        <SettingImage src={physicianCare} alt="Illustrative physician speaking with an adult in a private clinic" title="Private clinics" detail="Prepare the visit. Keep the conversation human." />
-        <SettingImage src={hospitalTeam} alt="Illustrative hospital physician, nurse and director collaborating" title="Hospitals & health systems" detail="Organized preparation for multidisciplinary teams." />
+        <SettingImage src={physicianCare} alt="Illustrative physician speaking with an adult in a private clinic" title="Private clinics" detail="Prepare the visit. Keep it human." />
+        <SettingImage src={hospitalTeam} alt="Illustrative hospital physician, nurse and director collaborating" title="Hospitals & health systems" detail="Organized work for whole teams." />
       </div>
       <p className="mt-5 text-xs text-muted-foreground">Illustrative AI-generated photography. Not customers, endorsements or clinical deployments.</p>
     </Section>
@@ -180,14 +180,14 @@ function Home() {
 function Solutions() {
   return <>
     <Section>
-      <Heading eyebrow="Solutions" title="One platform for clinics and hospitals." intro="The same physician-controlled workflow, presented for the setting you work in." />
+      <Heading eyebrow="Solutions" title="One platform for clinics and hospitals." />
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         <div className="min-w-0">
           <img src={practiceSolution} alt="Illustrative physician and practice manager planning at a private clinic" width={1536} height={1024} loading="lazy" className="mb-7 aspect-[3/2] w-full rounded-lg object-cover" />
           <Building2 className="h-8 w-8 text-primary" aria-hidden />
           <h3 className="mt-4 text-2xl font-semibold">Independent Practices</h3>
           <ul className="mt-6 space-y-3 text-muted-foreground">
-            {['Transcript-cited note drafts for physician review', 'Spoken requests become draft orders for batch sign-off', 'Inbox items routed to staff or doctor with clear reasons', 'Cloud-based — no server room required'].map(x => <li key={x} className="flex gap-3"><Check className="h-5 w-5 shrink-0 text-primary" />{x}</li>)}
+            {['Note drafts cited to the visit', 'Spoken requests become draft orders', 'Cloud-based, no server room'].map(x => <li key={x} className="flex gap-3"><Check className="h-5 w-5 shrink-0 text-primary" />{x}</li>)}
           </ul>
         </div>
         <div className="min-w-0">
@@ -195,7 +195,7 @@ function Solutions() {
           <Hospital className="h-8 w-8 text-primary" aria-hidden />
           <h3 className="mt-4 text-2xl font-semibold">Hospital Departments</h3>
           <ul className="mt-6 space-y-3 text-muted-foreground">
-            {['A proposed workflow layer alongside existing records systems', 'Department-level views shown with illustrative facilities', 'Quality and safety overviews built from source evidence', 'Integration, backup and recovery requirements prepared up front'].map(x => <li key={x} className="flex gap-3"><Check className="h-5 w-5 shrink-0 text-primary" />{x}</li>)}
+            {['Works alongside existing records systems', 'Department-level views', 'Quality overviews from source evidence'].map(x => <li key={x} className="flex gap-3"><Check className="h-5 w-5 shrink-0 text-primary" />{x}</li>)}
           </ul>
         </div>
         <div className="min-w-0">
@@ -203,17 +203,16 @@ function Solutions() {
           <Globe2 className="h-8 w-8 text-primary" aria-hidden />
           <h3 className="mt-4 text-2xl font-semibold">Global Clinics & Diaspora Networks</h3>
           <ul className="mt-6 space-y-3 text-muted-foreground">
-            {['A path to leapfrog legacy desktop software with lighter, mobile-first workflows', 'Spoken documentation through the Delegation Desk and note drafts — sample demonstrations today', 'Planned regional data residency compliance: regional hosting and local legal review before live records', 'Accessible, country-specific pricing for independent private clinics — to be announced'].map(x => <li key={x} className="flex gap-3"><Check className="h-5 w-5 shrink-0 text-primary" />{x}</li>)}
+            {['Leapfrog legacy desktop software, mobile-first', 'Spoken documentation (sample demos today)', 'Planned regional data residency and local legal review', 'Country-specific pricing, to be announced'].map(x => <li key={x} className="flex gap-3"><Check className="h-5 w-5 shrink-0 text-primary" />{x}</li>)}
           </ul>
-          <p className="mt-6 text-sm text-muted-foreground">For clinics across the Caribbean, Africa, the UK and Latin America. International clinical use is planned, not a current offering; regional hosting and compliance are not yet verified.</p>
+          <p className="mt-6 text-sm text-muted-foreground">For the Caribbean, Africa, the UK and Latin America. Planned, not yet offered.</p>
         </div>
       </div>
       <div className="mt-10 max-w-3xl"><ClinicalVideo src={clipGlobal.url} poster={globalClinic} title="Mobile-first care in a private clinic" label="Illustrative, AI-generated · not a customer or real clinician" /></div>
-      <p className="mt-8 text-sm text-muted-foreground">Photography and facility examples are illustrative, not customer endorsements. Workflow benefits are goals to evaluate, not measured outcomes. Live recording and connections to other systems remain locked.</p>
+      <p className="mt-8 text-sm text-muted-foreground">Illustrative AI-generated photography. Benefits are goals, not measured results.</p>
     </Section>
     <NoRipAndReplace photo={hospitalLeadership} />
     <PilotRoadmap />
-    <TimeCalculator />
     <CallToAction />
   </>;
 }
@@ -221,14 +220,14 @@ function Solutions() {
 function Features() {
   return <>
     <Section>
-      <Heading eyebrow="Features" title="Built around physician review." intro="Every feature below can be explored in the private preview." />
+      <Heading eyebrow="Features" title="Built around physician review." />
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card icon={ClipboardList} title="Delegation Desk" photo={{ src: delegationPhoto, alt: 'Illustrative physician and nurse coordinating work at a hospital workstation' }}>Spoken requests become draft orders, routed tasks and chart questions — with missing facts marked “Unknown” instead of guessed.</Card>
-        <Card icon={Mic} title="AI note-taking" photo={{ src: notesPhoto, alt: 'Illustrative physician reviewing documentation at a clinic laptop' }}>Visit notes drafted from the conversation, with every line linked back to what was said. The doctor signs or rejects.</Card>
-        <Card icon={Inbox} title="Supervised inbox" photo={{ src: inboxPhoto, alt: 'Illustrative care coordinator and physician reviewing administrative work' }}>Physician-approved rules sort routine items to staff and flag results for the doctor’s review.</Card>
-        <Card icon={FileText} title="Record review">Long records organized into source-linked summaries and timelines for physician review.</Card>
-        <Card icon={Stethoscope} title="Chart preparation">Visit-ready summaries built only from exact chart excerpts.</Card>
-        <Card icon={ShieldCheck} title="Prior authorization & billing checks">Draft paperwork and documentation-gap checks — never claims submission or code selection.</Card>
+        <Card icon={ClipboardList} title="Delegation Desk" photo={{ src: delegationPhoto, alt: 'Illustrative physician and nurse coordinating work at a hospital workstation' }}>Spoken requests become draft orders. Missing facts say “Unknown.”</Card>
+        <Card icon={Mic} title="AI note-taking" photo={{ src: notesPhoto, alt: 'Illustrative physician reviewing documentation at a clinic laptop' }}>Every line links to what was said.</Card>
+        <Card icon={Inbox} title="Supervised inbox" photo={{ src: inboxPhoto, alt: 'Illustrative care coordinator and physician reviewing administrative work' }}>Routine items to staff; results to the doctor.</Card>
+        <Card icon={FileText} title="Record review">Long records become sourced timelines.</Card>
+        <Card icon={Stethoscope} title="Chart preparation">Summaries from exact chart excerpts.</Card>
+        <Card icon={ShieldCheck} title="Prior authorization & billing checks">Draft paperwork. Never submits claims.</Card>
       </div>
       <p className="mt-5 text-xs text-muted-foreground">Illustrative AI-generated photography. Not customers, endorsements or clinical deployments.</p>
       <div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -248,8 +247,6 @@ function Features() {
     </Section>
     <EvidenceDemo />
     <UnknownExample />
-    <WorkflowComparison />
-    <KaylaWorkforce />
     <CallToAction />
   </>;
 }
