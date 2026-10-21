@@ -1,8 +1,8 @@
 # Roadmap
 
 ## Approved future clinical subscriptions — October 21, 2026
-- [ ] Add planned Core, Plus and Hospital / Network subscriptions to the clinical pricing marketplace, five-clinician totals and included administrative staff; preserve preview fees, free Founding Clinic signup and disabled payments.
-- [ ] Verify concrete pricing/staff rules, existing request protections and public-page layout.
+- [x] Added planned Core, Plus and Hospital / Network subscriptions, five-clinician totals and included administrative staff; preview fees, free Founding Clinic signup and disabled payments unchanged.
+- [x] Fourteen pricing/signup/request checks passed; build OK. Browser verified all plans/totals and disabled purchases, computer/phone layout without overflow or page errors; screenshots inspected. Publication remains a user action.
 
 ## Approved visitor refresh correction — October 21, 2026
 - [x] Confirm root approval-link sanitization leaves a public homepage URL; keep the sanitized address on the existing /health gate without changing grants or deadlines.
