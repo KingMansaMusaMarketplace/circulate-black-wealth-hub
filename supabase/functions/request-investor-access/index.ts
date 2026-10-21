@@ -1,5 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { z } from 'https://esm.sh/zod@3.23.8';
+import { decisionButtonsHtml, decisionLinks } from '../_shared/email-decision-token.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -83,8 +84,9 @@ Deno.serve(async (req) => {
               <p><b>AUM:</b> ${escapeHtml(d.aum || '—')}</p>
               <p><b>LinkedIn:</b> ${escapeHtml(d.linkedin_url || '—')}</p>
               <p><b>Reason:</b><br/>${escapeHtml(d.reason || '—').replace(/\n/g, '<br/>')}</p>
+              ${decisionButtonsHtml(await decisionLinks(Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, 'investor', inserted.id), 'Approve investor', 'Decline')}
               <hr/>
-              <p>Review at <a href="https://1325.ai/admin/investor-requests">/admin/investor-requests</a></p>
+              <p>Or review at <a href="https://1325.ai/admin/investor-requests">/admin/investor-requests</a></p>
             `,
           }),
         });

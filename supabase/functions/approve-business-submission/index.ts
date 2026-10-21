@@ -19,6 +19,11 @@ const PLACEHOLDER_OWNER_ID = "bd72a75e-1310-4f40-9c74-380443b09d9b";
 async function requireAdmin(req: Request) {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader?.startsWith("Bearer ")) return { ok: false, status: 401, error: "Unauthorized" };
+  // Server-to-server call from email-decision, which already verified the signed email link.
+  const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+  if (authHeader === `Bearer ${serviceKey}`) {
+    return { ok: true, userId: null as string | null, admin: createClient(Deno.env.get("SUPABASE_URL")!, serviceKey) };
+  }
 
   const supabaseAuth = createClient(
     Deno.env.get("SUPABASE_URL")!,
@@ -96,7 +101,8 @@ serve(async (req) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
-  const { userId, admin } = auth;
+  const userId = (auth as any).userId ?? null;
+  const admin = (auth as any).admin!;
 
   try {
     const { submission_id, action, admin_notes } = await req.json();

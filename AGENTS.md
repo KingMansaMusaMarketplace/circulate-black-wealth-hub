@@ -20,3 +20,4 @@
 - The public clinical website is the health.* front door; emailed root access links are sanitized to /health by the gate so reload/exit stays gated while plain '/' remains public. Browser routing never grants access.
 - Public clinical pages share ClinicalSiteBack and distinguish platform workers from sample-only clinical execution. Marketplace ambient media uses page-owned photo/CDN video, reduced-motion/error fallback and visibility/manual pause; pricing and access stay unchanged.
 - Founding Clinic signups insert into hc_founding_clinics (anon insert-only, admin read); no money, patient data or access approvals.
+- Admin email Approve/Decline buttons (clinical, investor, business listing) open /email-decision; non-clinical links use HMAC tokens from _shared/email-decision-token.ts and the email-decision function, which calls existing approval functions server-to-server. Keeps one approval path for phone and dashboard.

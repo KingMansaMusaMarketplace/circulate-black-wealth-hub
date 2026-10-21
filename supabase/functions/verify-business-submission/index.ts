@@ -1,3 +1,4 @@
+import { decisionLinks, decisionButtonsHtml } from "../_shared/email-decision-token.ts";
 // Verify Business Submission
 // Kayla-powered verification: checks website live, matches address/phone,
 // looks for Black-owned signals across the web, and scores confidence.
@@ -438,6 +439,27 @@ serve(async (req) => {
         status: "pending_review",
       })
       .eq("id", submission_id);
+
+    // First automatic check only: email the owner Approve/Decline buttons that work from a phone.
+    if (!isAdmin) {
+      try {
+        const resendKey = Deno.env.get("RESEND_API_KEY");
+        if (resendKey) {
+          const links = await decisionLinks(Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, "business", submission_id);
+          const e = (v: unknown) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
+          await fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json" },
+            body: JSON.stringify({
+              from: "Thomas at 1325.AI <Partner@1325.AI>",
+              to: [Deno.env.get("ADMIN_EMAIL") || "Partner@1325.AI"],
+              subject: `New business listing to approve: ${String(submission.business_name).replace(/[\r\n]/g, " ").slice(0, 100)}`,
+              html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px"><h2>New business listing awaiting approval</h2><p><b>${e(submission.business_name)}</b><br>${e(submission.owner_name)} &middot; ${e(submission.city)}, ${e(submission.state)}<br>${e(submission.email)} &middot; ${e(submission.phone)}<br>${e(submission.website)}</p><p>Kayla's confidence score: <b>${finalScore}/100</b><br>${e(report.llm_summary)}</p>${decisionButtonsHtml(links, "Approve listing", "Decline")}<p>Or review in the <a href="https://1325.ai/admin-dashboard">Admin Dashboard</a>.</p></div>`,
+            }),
+          });
+        }
+      } catch (err) { console.error("admin approval email failed", err); }
+    }
 
     return new Response(
       JSON.stringify(isAdmin ? { ok: true, confidence_score: finalScore, report } : { ok: true }),
