@@ -289,7 +289,7 @@ function Security() {
 function Person({ m }: { m: { name: string; title: string; photo: string } }) {
   return <figure className="overflow-hidden rounded-lg border border-border bg-card">
     <img src={m.photo} alt={m.name} loading="lazy" className="aspect-[4/5] w-full object-cover object-top" />
-    <figcaption className="p-4"><p className="font-semibold leading-tight">{m.name}</p><p className="mt-1 text-xs uppercase tracking-wider text-primary">{m.title}</p></figcaption>
+    <figcaption className="p-4"><p className="font-semibold leading-tight">{m.name}</p><p className="mt-1 text-xs uppercase tracking-wider text-primary">{m.title}</p>{m.name === founder.name && <p className="mt-1 text-xs text-muted-foreground">Inventor of the 1325 Clinical EMR / EHR</p>}</figcaption>
   </figure>;
 }
 
