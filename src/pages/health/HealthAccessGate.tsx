@@ -114,6 +114,9 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
       }
       localStorage.setItem(KEY, fromUrl);
       url.searchParams.delete('access');
+      // Keep emailed root links on the permanent gated route after hiding the token.
+      // Reloads (including exit/cross-tab reloads) must never select the public homepage.
+      if (url.pathname === '/') url.pathname = '/health';
       window.history.replaceState({}, '', url.toString());
     }
     void (async () => {
