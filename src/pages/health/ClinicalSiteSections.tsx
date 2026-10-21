@@ -211,3 +211,32 @@ export function OpenStandards() {
     <p className="mt-4 text-xs text-muted-foreground">Planned for after healthcare clearance. No live connections today, and no FHIR certification or vendor partnership is claimed.</p>
   </Wrap>;
 }
+
+export function StayIndependent() {
+  const points = [
+    ['Keep your name on the door', 'Modern tools without joining a large hospital system to get them.'],
+    ['Skip the decades-old software', 'A cloud-first system instead of software built decades ago.'],
+    ['Priced for community care', 'Planned per-clinician pricing, not big-hospital contracts.'],
+  ];
+  return <Wrap eyebrow="Community focus" title="Stay independent." intro="Independent practices shouldn’t have to give up control, or settle for outdated software, to get modern care tools.">
+    <dl className="grid gap-6 md:grid-cols-3">{points.map(([t, d]) => <div key={t} className="rounded-lg border border-border bg-card p-6"><dt className="font-semibold">{t}</dt><dd className="mt-2 text-sm text-muted-foreground">{d}</dd></div>)}</dl>
+  </Wrap>;
+}
+
+export function WorkforceNotMicrophone() {
+  const rows = [
+    ['Writes the visit note', 'Writes the note, then prepares the chart before the visit'],
+    ['Waits for the doctor', 'Sorts the inbox, drafts forms and follow-ups'],
+    ['One task', '42 Agentic AI Employees across operations and reporting'],
+  ];
+  return <Wrap eyebrow="Autonomous workforce vs. simple dictation" title="A workforce, not a microphone." intro="A dictation tool listens. 1325 Clinical is planned to give your clinic a full operations team.">
+    <div className="overflow-hidden rounded-lg border border-border">
+      <div className="hidden grid-cols-2 bg-muted text-sm font-semibold md:grid"><div className="p-4">Simple dictation</div><div className="p-4 text-primary">1325 Clinical</div></div>
+      {rows.map(([a, b]) => <div key={a} className="grid gap-1 border-t border-border p-4 md:grid-cols-2 md:gap-0 md:p-0">
+        <p className="text-sm text-muted-foreground md:p-4"><span className="font-medium md:hidden">Dictation: </span>{a}</p>
+        <p className="text-sm md:p-4"><span className="font-medium text-primary md:hidden">1325 Clinical: </span>{b}</p>
+      </div>)}
+    </div>
+    <p className="mt-4 text-xs text-muted-foreground">Planned capabilities. A licensed clinician reviews and signs everything; the AI Employees don’t replace clinicians or practice medicine.</p>
+  </Wrap>;
+}
