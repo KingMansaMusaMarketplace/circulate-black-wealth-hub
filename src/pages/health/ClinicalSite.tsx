@@ -20,7 +20,7 @@ import physicianCare from '@/assets/clinical-physician-care.jpg';
 import ClinicalSiteBack from './ClinicalSiteBack';
 import DelegationLoop from './DelegationLoop';
 import ClinicalVideo from './ClinicalVideo';
-import demoVideo from '@/assets/clinical-product-demo.mp4.asset.json';
+import demoVideo from '@/assets/clinical-product-demo-narrated.mp4.asset.json';
 import demoPoster from '@/assets/clinical-demo-poster.jpg';
 import clipDelegation from '@/assets/clinical-delegation-narrated.mp4.asset.json';
 import clipGlobal from '@/assets/clinical-global-narrated.mp4.asset.json';
@@ -231,7 +231,7 @@ function Features() {
       </div>
       <p className="mt-5 text-xs text-muted-foreground">Illustrative AI-generated photography. Not customers, endorsements or clinical deployments.</p>
       <div className="mt-10 grid gap-6 md:grid-cols-2">
-        <ClinicalVideo src={demoVideo.url} poster={demoPoster} title="Product demo: voice to draft orders" label="Screen recording · fictional sample" />
+        <ClinicalVideo src={demoVideo.url} poster={demoPoster} title="Product demo: voice to draft orders" label="Screen recording · fictional sample · narrated" />
         <ClinicalVideo src={clipDelegation.url} poster={delegationPhoto} title="A doctor delegating to the team" label="Illustrative, AI-generated · not a customer or real clinician" />
       </div>
       <DelegationLoop />
