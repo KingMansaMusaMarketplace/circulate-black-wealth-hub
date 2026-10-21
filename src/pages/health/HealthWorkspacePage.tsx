@@ -8,6 +8,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { db, Row } from './workspace/hc';
 import { Billing, Dashboard, Patients, PriorAuth, Schedule, Team } from './workspace/Screens';
+import StartHere from './workspace/StartHere';
 import RecordReview from './workspace/RecordReview';
 import VisitNotes from './workspace/VisitNotes';
 import ClinicIntake from './workspace/ClinicIntake';
@@ -184,6 +185,7 @@ export default function HealthWorkspacePage() {
             </div>
             <p className="text-xs text-muted-foreground">health.1325.ai · {clinic.name}</p>
             <p className="mt-2 text-xs text-muted-foreground">Saved legacy sample entries are retained and unverified. Their dates, treatment, booking, risk and billing examples are not source-verified facts or completed services.</p>
+            <StartHere current={tab} onGo={navigateTab} />
             <h1 className="mb-6 text-2xl font-semibold">{current.l}</h1>
             {tab !== 'ask-kayla' && <ExecutiveWalkthrough key={`${user.id}:${clinic.id}:${tourRevision}`} onStep={(next) => { if (tourReturnTab.current === null) tourReturnTab.current = tab; setTab(next); }} onEnd={() => { if (tourReturnTab.current !== null) setTab(tourReturnTab.current); tourReturnTab.current = null; }} />}
             {tab === 'dashboard' && <Dashboard {...props} go={navigateTab} />}
