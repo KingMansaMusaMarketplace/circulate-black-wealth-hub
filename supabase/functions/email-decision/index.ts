@@ -37,13 +37,13 @@ Deno.serve(async (req) => {
     return json({ ok: true, title: 'Investor approved', message: res.ok ? `The NDA and passcode email was sent to ${r.email}.` : `Approved, but the passcode email could not be sent. Resend it from the Admin Dashboard.` });
   }
 
-  const { data: s } = await db.from('business_submissions').select('id,business_name,owner_name,city,state,email,status').eq('id', id).maybeSingle();
+  const { data: s } = await db.from('business_submissions').select('id,business_name,owner_name,city,state,email,status,updated_at').eq('id', id).maybeSingle();
   if (!s) return json({ error: 'Submission not found.' }, 404);
   const open = OPEN_BUSINESS.includes(s.status);
   if (op === 'preview') return json({ ok: true, title: 'New business listing', name: s.business_name, details: [s.owner_name, `${s.city}, ${s.state}`, s.email], status: s.status, open });
   if (!open) return json({ ok: false, title: 'Already decided', message: `This submission was already ${s.status.replace(/_/g, ' ')}.` }, 409);
   // Claim the submission first so a double tap cannot create two listings.
-  const { data: claimed } = await db.from('business_submissions').update({ status: 'pending_review', admin_notes: 'Decided from email' }).eq('id', id).eq('status', s.status).select('id').maybeSingle();
+  const { data: claimed } = await db.from('business_submissions').update({ admin_notes: 'Decided from email', updated_at: new Date().toISOString() }).eq('id', id).eq('status', s.status).eq('updated_at', s.updated_at).select('id').maybeSingle();
   if (!claimed) return json({ ok: false, title: 'Not saved', message: 'Someone else may have decided first. Check the Admin Dashboard.' }, 409);
   const res = await internal('approve-business-submission', { submission_id: id, action: d === 'approve' ? 'approve' : 'reject', admin_notes: 'Decided from email' });
   const out = await res.json().catch(() => ({}));
