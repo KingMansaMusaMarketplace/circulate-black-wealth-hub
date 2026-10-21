@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { FunctionsHttpError } from '@supabase/supabase-js';
@@ -17,13 +17,16 @@ afterEach(() => { cleanup(); vi.restoreAllMocks(); });
 
 function submit() {
   render(<MemoryRouter><HelmetProvider><ClinicalMarketplacePage /></HelmetProvider></MemoryRouter>);
-  fireEvent.change(screen.getByLabelText('Full name'), { target: { value: 'Sample Representative' } });
-  fireEvent.change(screen.getByLabelText('Clinic / hospital / organization'), { target: { value: 'Sample Clinic' } });
-  fireEvent.change(screen.getByLabelText('Your role'), { target: { value: 'Hospital Leadership' } });
-  fireEvent.change(screen.getByLabelText('Work email'), { target: { value: 'sample@example.invalid' } });
-  fireEvent.change(screen.getByLabelText('Phone'), { target: { value: '5550101234' } });
-  fireEvent.click(screen.getByRole('checkbox'));
-  fireEvent.click(screen.getByRole('button', { name: 'Request private preview' }));
+  const form = screen.getByRole('button', { name: 'Request private preview' }).closest('form');
+  if (!form) throw new Error('Preview request form is missing');
+  const request = within(form);
+  fireEvent.change(request.getByLabelText('Full name'), { target: { value: 'Sample Representative' } });
+  fireEvent.change(request.getByLabelText('Clinic / hospital / organization'), { target: { value: 'Sample Clinic' } });
+  fireEvent.change(request.getByLabelText('Your role'), { target: { value: 'Hospital Leadership' } });
+  fireEvent.change(request.getByLabelText('Work email'), { target: { value: 'sample@example.invalid' } });
+  fireEvent.change(request.getByLabelText('Phone'), { target: { value: '5550101234' } });
+  fireEvent.click(request.getByRole('checkbox'));
+  fireEvent.click(request.getByRole('button', { name: 'Request private preview' }));
 }
 
 describe('marketplace preview requests', () => {
