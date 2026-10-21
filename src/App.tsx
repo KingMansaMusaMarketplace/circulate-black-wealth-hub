@@ -114,6 +114,7 @@ const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
 const LazyPressPage = lazy(() => import('@/pages/PressPage'));
 const LazyWhy1325Page = lazy(() => import('@/pages/Why1325Page'));
 const LazyHeyGenStudioPage = lazy(() => import('@/pages/admin/HeyGenStudioPage'));
+const LazyEmailDecisionPage = lazy(() => import('@/pages/EmailDecisionPage'));
 
 // Mansa Stays — Yearly Leasing
 const LazyLeaseSearchPage = lazy(() => import('@/pages/stays/LeaseSearchPage'));
@@ -838,6 +839,7 @@ function App() {
                               <Route path="/install" element={<LazyInstallPage />} />
                               <Route path="/investors" element={<LazyInvestorPage />} />
                               <Route path="/investor-portal" element={<LazyInvestorPortalPage />} />
+                              <Route path="/email-decision" element={<LazyEmailDecisionPage />} />
                               <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
                               
                               {/* P - New Pitch & Partnership routes */}
@@ -1511,6 +1513,7 @@ function App() {
                         <Route path="/install" element={<LazyInstallPage />} />
                         <Route path="/investors" element={<LazyInvestorPage />} />
                         <Route path="/investor-portal" element={<LazyInvestorPortalPage />} />
+                        <Route path="/email-decision" element={<LazyEmailDecisionPage />} />
                         <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
                         
                         {/* K */}
@@ -1949,6 +1952,7 @@ function App() {
                         <Route path="/marketing-studio" element={<LazyMarketingStudio />} />
                         <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
                         <Route path="/investor-portal" element={<LazyInvestorPortalPage />} />
+                        <Route path="/email-decision" element={<LazyEmailDecisionPage />} />
                         
                         {/* Legacy/speculative path redirects */}
                         <Route path="/founding-100" element={<Navigate to="/pricing#founding-100" replace />} />
