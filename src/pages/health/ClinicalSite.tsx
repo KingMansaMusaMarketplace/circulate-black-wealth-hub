@@ -313,7 +313,7 @@ function Team() {
         <div><p className="text-sm uppercase tracking-wider text-primary">{founder.title}</p><h3 className="mt-2 text-2xl font-semibold">{founder.name}</h3><p className="mt-2 font-medium">Inventor of the 1325 Clinical EMR / EHR</p><p className="mt-3 text-muted-foreground">{founder.bio}</p></div>
       </div>
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">{leadership.map(m => <Person key={m.name} m={m} />)}</div>
-      <p className="mt-8 text-xs text-muted-foreground">Titles describe roles at 1325.AI, Inc. and do not indicate that any person provides medical care through this preview.</p>
+      <p className="mt-8 text-base font-semibold text-destructive md:text-lg">Titles describe roles at 1325.AI, Inc. and do not indicate that any person provides medical care through this preview.</p>
     </Section>
     <CallToAction />
   </>;
