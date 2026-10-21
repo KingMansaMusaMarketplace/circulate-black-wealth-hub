@@ -1,5 +1,9 @@
 # Roadmap
 
+## Product demo readability — October 21, 2026
+- [x] Replace the product demo with 1080p close-ups of the actual fictional demo, retaining its 80.5-second length and bit-identical audio; inspected scene contact sheet and enlarged draft writing. Harness build OK.
+- [ ] Confirm revised on-page playback after publishing — blocked: local asset delivery returns HTML and automated media loading stalled; opening wide shot remains small, caption pan brief, tablet held still with softer text. Rendered revision is for review.
+
 ## Pricing & Preview ambient video — October 20, 2026
 - [x] Generate an eight-second loop from the existing physician/manager photo; silent WebM/MP4 added without changing pricing or access.
 - [x] Playback, pause/resume, repeated playback and reduced-motion fallback verified using the downloaded hosted clip because localhost asset delivery returns HTML. Desktop appearance checked, four adjacent tests passed and build OK. Direct hosted-page playback after publishing remains unverified.
