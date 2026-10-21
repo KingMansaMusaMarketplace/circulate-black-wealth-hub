@@ -20,7 +20,7 @@ import physicianCare from '@/assets/clinical-physician-care.jpg';
 import ClinicalSiteBack from './ClinicalSiteBack';
 import DelegationLoop from './DelegationLoop';
 import ClinicalVideo from './ClinicalVideo';
-import demoVideo from '@/assets/clinical-product-demo-readable.mp4.asset.json';
+import demoVideo from '@/assets/clinical-product-demo-sharp.mp4.asset.json';
 import demoPoster from '@/assets/clinical-demo-poster.jpg';
 import clipDelegation from '@/assets/clinical-delegation-narrated.mp4.asset.json';
 import clipGlobal from '@/assets/clinical-global-narrated.mp4.asset.json';
