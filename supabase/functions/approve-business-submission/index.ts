@@ -101,7 +101,8 @@ serve(async (req) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
-  const { userId, admin } = auth;
+  const userId = (auth as any).userId ?? null;
+  const admin = (auth as any).admin!;
 
   try {
     const { submission_id, action, admin_notes } = await req.json();
