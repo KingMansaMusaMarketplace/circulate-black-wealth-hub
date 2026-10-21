@@ -289,7 +289,7 @@ function Security() {
 function Person({ m }: { m: { name: string; title: string; photo: string } }) {
   return <figure className="overflow-hidden rounded-lg border border-border bg-card">
     <img src={m.photo} alt={m.name} loading="lazy" className="aspect-[4/5] w-full object-cover object-top" />
-    <figcaption className="p-4"><p className="font-semibold leading-tight">{m.name}</p><p className="mt-1 text-xs uppercase tracking-wider text-primary">{m.title}</p></figcaption>
+    <figcaption className="p-4"><p className="font-semibold leading-tight">{m.name}</p><p className="mt-1 text-xs uppercase tracking-wider text-primary">{m.title}</p>{m.name === founder.name && <p className="mt-1 text-xs text-muted-foreground">Inventor of the 1325 Clinical EMR / EHR</p>}</figcaption>
   </figure>;
 }
 
@@ -310,7 +310,7 @@ function Team() {
       <Heading eyebrow="Leadership" title="Accountable people. A tireless digital team." intro="1325 Clinical is built by 1325.AI, Inc., headquartered in Chicago. Our leaders set direction; Kayla’s 42 Agentic AI Employees handle preparation work; licensed clinicians make every clinical decision." />
       <div className="mb-10 grid gap-6 md:grid-cols-[240px_1fr] items-center rounded-lg border border-border bg-card p-6">
         <img src={founder.photo} alt={founder.name} className="aspect-[4/5] w-full rounded-lg object-cover object-top" />
-        <div><p className="text-sm uppercase tracking-wider text-primary">{founder.title}</p><h3 className="mt-2 text-2xl font-semibold">{founder.name}</h3><p className="mt-3 text-muted-foreground">{founder.bio}</p></div>
+        <div><p className="text-sm uppercase tracking-wider text-primary">{founder.title}</p><h3 className="mt-2 text-2xl font-semibold">{founder.name}</h3><p className="mt-2 font-medium">Inventor of the 1325 Clinical EMR / EHR</p><p className="mt-3 text-muted-foreground">{founder.bio}</p></div>
       </div>
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">{leadership.map(m => <Person key={m.name} m={m} />)}</div>
       <p className="mt-8 text-xs text-muted-foreground">Titles describe roles at 1325.AI, Inc. and do not indicate that any person provides medical care through this preview.</p>
