@@ -1,4 +1,5 @@
 import FoundingClinicSignup from './FoundingClinicSignup';
+import ClinicalSubscriptionPlans from './ClinicalSubscriptionPlans';
 import { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -86,10 +87,10 @@ export default function ClinicalMarketplacePage() {
   };
   return <div className="theme-clinical dark min-h-screen bg-background text-foreground">
     <Helmet>
-      <title>Clinical Preview for Clinics & Hospitals | 1325.AI</title>
-      <meta name="description" content="Request an owner-approved, fictional-data preview of 1325 Clinical EMR / EHR. Explore evidence-linked notes, delegation and physician-controlled review. Country-specific pricing to be announced." />
-      <meta property="og:title" content="1325 Clinical EMR / EHR — Clinic & Hospital Preview" />
-      <meta property="og:description" content="Give the doctor their team back. Private preview · sample data only. Pricing to be announced." />
+      <title>Planned Clinical Subscriptions & Private Preview | 1325.AI</title>
+      <meta name="description" content="Explore planned 1325 Clinical EMR / EHR subscriptions: Core $299 and Plus $499 per clinician/month, administrative staff included. Not yet available. Country-specific prices to be announced; fictional-data preview only." />
+      <meta property="og:title" content="1325 Clinical EMR / EHR — Planned Subscriptions & Preview" />
+      <meta property="og:description" content="Planned Core and Plus subscriptions with administrative staff included. Not yet available. Private preview · sample data only." />
       <meta property="og:type" content="website" /><meta name="twitter:card" content="summary" />
     </Helmet>
     <header className="border-b border-border bg-background">
@@ -133,6 +134,7 @@ export default function ClinicalMarketplacePage() {
           <div className="mt-8 grid gap-8 md:grid-cols-2"><div><h3 className="flex items-center gap-2 text-xl font-semibold"><Building2 className="h-5 w-5 text-primary" />{setting === 'clinic' ? 'A clearer day for the practice' : 'A shared view for hospital leadership'}</h3><p className="mt-4 max-w-lg leading-relaxed text-muted-foreground">{setting === 'clinic' ? 'Follow a fictional visit from source-linked chart preparation to draft notes and physician review. Explore the Delegation Desk and ask Kayla, the Agentic AI product guide, about the platform.' : 'Explore illustrative facility context, executive quality preparation and readiness requirements. These examples are not working hospital integrations or evidence of live multi-facility deployment.'}</p></div><ul className="space-y-4 text-sm">{(setting === 'clinic' ? ['Evidence-linked chart and note preparation', 'Sample inbox and delegation workflows', 'Kayla product questions, with no saved chat history'] : ['Illustrative hospital and facility perspectives', 'Read-only safety and readiness preparation', 'Unknown performance results — no invented quality scores']).map(text => <li key={text} className="flex gap-3"><Check className="h-4 w-4 shrink-0 text-primary" />{text}</li>)}</ul></div>
         </div>
       </section>
+      <ClinicalSubscriptionPlans />
       <FoundingClinicSignup />
       <section id="request" className="mx-auto grid max-w-6xl gap-12 px-6 py-14 lg:grid-cols-2 scroll-mt-6">
         <figure className="lg:col-span-2"><img src={previewMeeting} alt="Illustrative hospital executive, physician and administrator in a product evaluation meeting" width={1536} height={1024} loading="lazy" className="aspect-[3/2] w-full rounded-lg object-cover sm:aspect-[16/7]" /><figcaption className="mt-3 text-xs text-muted-foreground">Explore together before committing. Illustrative AI-generated photography, not customers or endorsements.</figcaption></figure>
