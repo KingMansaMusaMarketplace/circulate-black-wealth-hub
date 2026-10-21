@@ -1,5 +1,9 @@
 # Roadmap
 
+## Approved visitor refresh correction — October 21, 2026
+- [x] Confirm root approval-link sanitization leaves a public homepage URL; keep the sanitized address on the existing /health gate without changing grants or deadlines.
+- [x] Nineteen refresh/session/admin regression checks passed; browser reload twice retained the ended screen at /health with no page errors; build OK. Real approved-visitor verification remains unavailable with external unmanaged authentication; publication is a user action.
+
 ## Product demo readability — October 21, 2026
 - [x] Replace the product demo with 1080p close-ups of the actual fictional demo, retaining its 80.5-second length and bit-identical audio; inspected scene contact sheet and enlarged draft writing. Harness build OK.
 - [ ] Confirm revised on-page playback after publishing — blocked: local asset delivery returns HTML and automated media loading stalled; opening wide shot remains small, caption pan brief, tablet held still with softer text. Rendered revision is for review.
