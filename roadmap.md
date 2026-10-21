@@ -1,5 +1,9 @@
 # Roadmap
 
+## Product demo readability — October 21, 2026
+- [ ] Revise the existing 80-second narrated product demo with readable close-up writing; preserve approved audio and fictional-only labels.
+- [ ] Inspect revised scenes and verify replacement playback on the Features page.
+
 ## Pricing & Preview ambient video — October 20, 2026
 - [x] Generate an eight-second loop from the existing physician/manager photo; silent WebM/MP4 added without changing pricing or access.
 - [x] Playback, pause/resume, repeated playback and reduced-motion fallback verified using the downloaded hosted clip because localhost asset delivery returns HTML. Desktop appearance checked, four adjacent tests passed and build OK. Direct hosted-page playback after publishing remains unverified.
