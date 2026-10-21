@@ -26,7 +26,7 @@ import clipDelegation from '@/assets/clinical-delegation-narrated.mp4.asset.json
 import clipGlobal from '@/assets/clinical-global-narrated.mp4.asset.json';
 import { lazy, Suspense } from 'react';
 const TabletMockup3D = lazy(() => import('./TabletMockup3D'));
-import { EvidenceDemo, ExecutiveFaq, LostTeamStory, NoRipAndReplace, PilotRoadmap, RoadToRealPatients, TimeCalculator, TraceabilityNotSafety, UnknownExample, WorkflowComparison } from './ClinicalSiteSections';
+import { EpicComparison, EvidenceDemo, OpenStandards, ExecutiveFaq, LostTeamStory, NoRipAndReplace, PilotRoadmap, RoadToRealPatients, TimeCalculator, TraceabilityNotSafety, UnknownExample, WorkflowComparison } from './ClinicalSiteSections';
 import unitClerk from '@/assets/clinical-unit-clerk.jpg';
 import hospitalLeadership from '@/assets/clinical-hospital-leadership.jpg';
 
@@ -212,6 +212,7 @@ function Solutions() {
       <p className="mt-8 text-sm text-muted-foreground">Illustrative AI-generated photography. Benefits are goals, not measured results.</p>
     </Section>
     <NoRipAndReplace photo={hospitalLeadership} />
+    <OpenStandards />
     <PilotRoadmap />
     <CallToAction />
   </>;
@@ -245,6 +246,7 @@ function Features() {
         </div>
       </div>
     </Section>
+    <EpicComparison />
     <EvidenceDemo />
     <UnknownExample />
     <CallToAction />
