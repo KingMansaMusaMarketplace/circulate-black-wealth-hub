@@ -181,3 +181,33 @@ export function RoadToRealPatients() {
     <p className="mt-4 text-xs text-muted-foreground">A finished checklist alone does not authorize real records. BAA = business associate agreement under HIPAA.</p>
   </Wrap>;
 }
+
+export function EpicComparison() {
+  const rows = [
+    ['Autonomous Delegation vs. Manual Clicking', 'In many large legacy records systems, doctors enter orders and notes field by field.', 'The doctor says it once; Kayla and the team prepare drafts the doctor reviews and signs.'],
+    ['Instant Cloud vs. Overnight Syncs', 'Many legacy setups share data through scheduled batch exports, often overnight.', 'Cloud-based by design, so updates are planned to appear as soon as they are reviewed.'],
+  ];
+  return <Wrap eyebrow="Comparison" title="Epic vs. 1325 Clinical" intro="Two differences clinic leaders ask about most.">
+    <div className="overflow-hidden rounded-lg border border-border">
+      <div className="hidden grid-cols-3 gap-4 border-b border-border bg-card/60 p-4 text-sm font-semibold md:grid"><span /><span>Typical legacy records system</span><span className="text-primary">1325 Clinical</span></div>
+      {rows.map(([title, legacy, ours]) => <div key={title} className="grid gap-3 border-b border-border p-4 last:border-b-0 md:grid-cols-3 md:gap-4">
+        <h3 className="font-semibold">{title}</h3>
+        <p className="text-sm text-muted-foreground"><span className="font-medium md:hidden">Legacy: </span>{legacy}</p>
+        <p className="text-sm"><span className="font-medium text-primary md:hidden">1325 Clinical: </span>{ours}</p>
+      </div>)}
+    </div>
+    <p className="mt-4 text-xs text-muted-foreground">General industry patterns, not a review of any specific installation. Epic is a trademark of its owner; 1325.AI is not affiliated with Epic Systems. 1325 Clinical features shown are fictional-sample demonstrations.</p>
+  </Wrap>;
+}
+
+export function OpenStandards() {
+  const points = [
+    ['Designed around FHIR', 'FHIR (Fast Healthcare Interoperability Resources) is the open standard medical software uses to share records.'],
+    ['Built to avoid vendor lock-in', 'Your clinic’s data is planned to be exportable in standard formats.'],
+    ['Standard, documented connections', 'Planned connections follow published standards rather than private, custom formats.'],
+  ];
+  return <Wrap eyebrow="Interoperability" title="Open standards. No lock-in." intro="How 1325 Clinical is being built to work with labs, pharmacies and other records systems.">
+    <dl className="grid gap-6 md:grid-cols-3">{points.map(([t, d]) => <div key={t} className="rounded-lg border border-border bg-card p-6"><dt className="font-semibold">{t}</dt><dd className="mt-2 text-sm text-muted-foreground">{d}</dd></div>)}</dl>
+    <p className="mt-4 text-xs text-muted-foreground">Planned for after healthcare clearance. No live connections today, and no FHIR certification or vendor partnership is claimed.</p>
+  </Wrap>;
+}
