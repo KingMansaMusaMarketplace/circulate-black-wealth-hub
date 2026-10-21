@@ -51,7 +51,7 @@ type Member = {
 };
 
 // NOTE: Titles/bios are placeholders — send Kayla the finals and we'll swap them in.
-const founder: Member = {
+export const founder: Member = {
   name: 'Thomas D. Bowling',
   title: 'Founder & Chief Architect',
   photo: thomas,
@@ -62,7 +62,7 @@ const founder: Member = {
 
 
 
-const leadership: Member[] = [
+export const leadership: Member[] = [
   { name: 'Lisa Cooper Gavin', title: 'President', photo: lisa },
   { name: 'Clarence Smith', title: 'VP of Sales', photo: clarence },
   { name: 'Maurice G. Howard', title: 'VP of Technology', photo: maurice },
@@ -83,8 +83,7 @@ const leadership: Member[] = [
   { name: 'Brandon Palm', title: 'Senior (AI) Consultant', photo: brandonPalm },
   { name: 'Donald Palm, Ph.D.', title: 'Chief Education Officer', photo: donald },
   { name: 'Corey Mays', title: 'Chief Sports Officer', photo: corey },
-  // Hidden per owner request (Sep 24 2026) — restore when told:
-  // { name: 'Kayla Bruton', title: 'Senior Contracts Manager', photo: kayla },
+  { name: 'Kayla Bruton', title: 'Senior Contracts Manager', photo: kayla },
   { name: 'Douglas K. Morrison', title: 'General Counsel', photo: douglas, photoScale: 0.96 },
   { name: 'Robert H. Wilson, M.D.', title: 'Chief International Officer', photo: robert },
   { name: 'Charlotte Farmer, Ph.D.', title: 'Executive Advisor', photo: charlotte },

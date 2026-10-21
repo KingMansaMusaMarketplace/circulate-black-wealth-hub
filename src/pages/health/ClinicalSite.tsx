@@ -29,14 +29,16 @@ const TabletMockup3D = lazy(() => import('./TabletMockup3D'));
 import { EpicComparison, EvidenceDemo, OpenStandards, StayIndependent, WorkforceNotMicrophone, ExecutiveFaq, LostTeamStory, NoRipAndReplace, PilotRoadmap, RoadToRealPatients, TimeCalculator, TraceabilityNotSafety, UnknownExample, WorkflowComparison } from './ClinicalSiteSections';
 import unitClerk from '@/assets/clinical-unit-clerk.jpg';
 import hospitalLeadership from '@/assets/clinical-hospital-leadership.jpg';
+import { founder, leadership } from '../TeamPage';
 
-export type ClinicalSitePage = 'home' | 'solutions' | 'features' | 'security';
+export type ClinicalSitePage = 'home' | 'solutions' | 'features' | 'security' | 'team';
 
 export const CLINICAL_SITE_LINKS = [
   { to: '/health/welcome', label: 'Home' },
   { to: '/health/solutions', label: 'Solutions' },
   { to: '/health/features', label: 'Features' },
   { to: '/health/security', label: 'Trust & Security' },
+  { to: '/health/team', label: 'Team' },
   { to: '/health/marketplace', label: 'Pricing & Preview' },
 ] as const;
 
@@ -45,6 +47,7 @@ const meta: Record<ClinicalSitePage, { title: string; description: string }> = {
   solutions: { title: 'Solutions for Clinics & Hospitals | 1325 Clinical EMR / EHR', description: 'How 1325 Clinical EMR / EHR supports independent practices and hospital departments. Private preview · sample data only.' },
   features: { title: 'Features | 1325 Clinical EMR / EHR', description: 'Delegation Desk, evidence-linked AI note-taking and physician-supervised inbox preparation, shown with fictional data.' },
   security: { title: 'Trust & Security | 1325 Clinical EMR / EHR', description: 'Physician sign-off, fictional-data-only preview, owner-approved access and provisional patent application details.' },
+  team: { title: 'Leadership Team | 1325 Clinical EMR / EHR', description: 'Meet the 1325.AI leadership team behind 1325 Clinical EMR / EHR, headquartered in Chicago.' },
 };
 
 function Section({ children, className = '' }: { children: ReactNode; className?: string }) {
@@ -173,6 +176,7 @@ function Home() {
     <WorkflowComparison />
     <TimeCalculator />
     <ExecutiveFaq />
+    <TeamPreview />
     <CallToAction />
   </>;
 }
@@ -282,6 +286,39 @@ function Security() {
   </>;
 }
 
+function Person({ m }: { m: { name: string; title: string; photo: string } }) {
+  return <figure className="overflow-hidden rounded-lg border border-border bg-card">
+    <img src={m.photo} alt={m.name} loading="lazy" className="aspect-[4/5] w-full object-cover object-top" />
+    <figcaption className="p-4"><p className="font-semibold leading-tight">{m.name}</p><p className="mt-1 text-xs uppercase tracking-wider text-primary">{m.title}</p></figcaption>
+  </figure>;
+}
+
+const HOME_TEAM = ['Lisa Cooper Gavin', 'Clarence Smith', 'Maurice G. Howard', 'Kayla Bruton', 'Douglas K. Morrison'];
+
+function TeamPreview() {
+  const people = [founder, ...HOME_TEAM.map(n => leadership.find(l => l.name === n)).filter(Boolean)] as typeof leadership;
+  return <Section>
+    <Heading eyebrow="Leadership" title="The people behind 1325 Clinical." intro="Built by the 1325.AI team in Chicago, working with Kayla’s 42 Agentic AI Employees." />
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">{people.map(p => <Person key={p.name} m={p} />)}</div>
+    <Button asChild variant="outline" className="mt-8"><Link to="/health/team">Meet the full team <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
+  </Section>;
+}
+
+function Team() {
+  return <>
+    <Section>
+      <Heading eyebrow="Leadership" title="Accountable people. A tireless digital team." intro="1325 Clinical is built by 1325.AI, Inc., headquartered in Chicago. Our leaders set direction; Kayla’s 42 Agentic AI Employees handle preparation work; licensed clinicians make every clinical decision." />
+      <div className="mb-10 grid gap-6 md:grid-cols-[240px_1fr] items-center rounded-lg border border-border bg-card p-6">
+        <img src={founder.photo} alt={founder.name} className="aspect-[4/5] w-full rounded-lg object-cover object-top" />
+        <div><p className="text-sm uppercase tracking-wider text-primary">{founder.title}</p><h3 className="mt-2 text-2xl font-semibold">{founder.name}</h3><p className="mt-3 text-muted-foreground">{founder.bio}</p></div>
+      </div>
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">{leadership.map(m => <Person key={m.name} m={m} />)}</div>
+      <p className="mt-8 text-xs text-muted-foreground">Titles describe roles at 1325.AI, Inc. and do not indicate that any person provides medical care through this preview.</p>
+    </Section>
+    <CallToAction />
+  </>;
+}
+
 export default function ClinicalSite({ page }: { page: ClinicalSitePage }) {
   const m = meta[page];
   return <div className="theme-clinical dark min-h-screen bg-background text-foreground">
@@ -312,6 +349,7 @@ export default function ClinicalSite({ page }: { page: ClinicalSitePage }) {
       {page === 'solutions' && <Solutions />}
       {page === 'features' && <Features />}
       {page === 'security' && <Security />}
+      {page === 'team' && <Team />}
     </main>
     <footer className="border-t border-border">
       <div className="mx-auto max-w-6xl px-6 py-10 text-sm text-muted-foreground grid gap-4 md:grid-cols-2">
