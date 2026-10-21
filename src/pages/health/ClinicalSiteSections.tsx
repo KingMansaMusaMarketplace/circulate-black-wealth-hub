@@ -205,10 +205,11 @@ export function OpenStandards() {
     ['Designed around FHIR', 'FHIR (Fast Healthcare Interoperability Resources) is the open standard medical software uses to share records.'],
     ['Built to avoid vendor lock-in', 'Your clinic’s data is planned to be exportable in standard formats.'],
     ['Standard, documented connections', 'Planned connections follow published standards rather than private, custom formats.'],
+    ['Dual-standard coding (ICD-10 & ICD-11)', 'Planned support for both current U.S. insurance billing codes (ICD-10) and international digital health standards (ICD-11).'],
   ];
   return <Wrap eyebrow="Interoperability" title="Open standards. No lock-in." intro="How 1325 Clinical is being built to work with labs, pharmacies and other records systems.">
-    <dl className="grid gap-6 md:grid-cols-3">{points.map(([t, d]) => <div key={t} className="rounded-lg border border-border bg-card p-6"><dt className="font-semibold">{t}</dt><dd className="mt-2 text-sm text-muted-foreground">{d}</dd></div>)}</dl>
-    <p className="mt-4 text-xs text-muted-foreground">Planned for after healthcare clearance. No live connections today, and no FHIR certification or vendor partnership is claimed.</p>
+    <dl className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">{points.map(([t, d]) => <div key={t} className="rounded-lg border border-border bg-card p-6"><dt className="font-semibold">{t}</dt><dd className="mt-2 text-sm text-muted-foreground">{d}</dd></div>)}</dl>
+    <p className="mt-4 text-xs text-muted-foreground">Planned for after healthcare clearance. No live connections, coding or insurance claims today, and no FHIR certification or vendor partnership is claimed.</p>
   </Wrap>;
 }
 
