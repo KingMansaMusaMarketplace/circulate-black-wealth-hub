@@ -26,7 +26,7 @@ import clipDelegation from '@/assets/clinical-delegation-narrated.mp4.asset.json
 import clipGlobal from '@/assets/clinical-global-narrated.mp4.asset.json';
 import { lazy, Suspense } from 'react';
 const TabletMockup3D = lazy(() => import('./TabletMockup3D'));
-import { EpicComparison, EvidenceDemo, OpenStandards, ExecutiveFaq, LostTeamStory, NoRipAndReplace, PilotRoadmap, RoadToRealPatients, TimeCalculator, TraceabilityNotSafety, UnknownExample, WorkflowComparison } from './ClinicalSiteSections';
+import { EpicComparison, EvidenceDemo, OpenStandards, StayIndependent, WorkforceNotMicrophone, ExecutiveFaq, LostTeamStory, NoRipAndReplace, PilotRoadmap, RoadToRealPatients, TimeCalculator, TraceabilityNotSafety, UnknownExample, WorkflowComparison } from './ClinicalSiteSections';
 import unitClerk from '@/assets/clinical-unit-clerk.jpg';
 import hospitalLeadership from '@/assets/clinical-hospital-leadership.jpg';
 
@@ -213,6 +213,8 @@ function Solutions() {
     </Section>
     <NoRipAndReplace photo={hospitalLeadership} />
     <OpenStandards />
+    <StayIndependent />
+    <WorkforceNotMicrophone />
     <PilotRoadmap />
     <CallToAction />
   </>;
