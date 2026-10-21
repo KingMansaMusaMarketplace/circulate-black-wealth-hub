@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SAMPLE_VISITS } from './sample-visits';
 import { billingPreparation } from './billing-preparation';
+import BillingSimulationStudio from './BillingSimulationStudio';
 
 export default function BillingPreparation() {
   const [visitId, setVisitId] = useState<string>(SAMPLE_VISITS[0].id);
@@ -28,5 +29,6 @@ export default function BillingPreparation() {
       </section>
       <section aria-label="Billing source transcript" className="min-w-0 space-y-3 border-t border-border pt-5 xl:border-l xl:border-t-0 xl:pl-6 xl:pt-0"><h3 className="flex items-center gap-2 font-semibold"><FileSearch className="h-4 w-4 text-mansagold" />Original fictional transcript</h3><p className="text-xs text-muted-foreground">Undated sample · no insurer response or payment record</p><ol className="space-y-2 text-sm">{state.visit.lines.map((line, index) => <li key={`${visitId}:${index}`} id={`billing-source-${index + 1}`} aria-current={source === index + 1 ? 'true' : undefined} className={`rounded-md border-l-2 px-3 py-2 ${source === index + 1 ? 'border-mansagold bg-mansagold/10' : 'border-transparent'}`}><span className="mr-2 text-xs text-muted-foreground">L{index + 1}</span>{line}</li>)}</ol></section>
     </div>
+    <BillingSimulationStudio visitId={visitId} />
   </div>;
 }
