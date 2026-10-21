@@ -42,61 +42,78 @@ const Request = z.object({
 const Verify = z.object({ action: z.enum(["verify", "end"]), token: z.string().regex(/^[a-f0-9]{48}$/), device: z.string().regex(/^[a-f0-9]{32}$/), path: z.string().max(200).optional() });
 const WINDOW_DAYS = 7;
 const AdminDecision = z.object({ action: z.literal('admin_decision'), request_id: z.string().uuid(), decision: z.enum(['approve', 'deny', 'revoke', 'reopen', 'extend']), expected_status: z.enum(['pending', 'approved', 'expired']), confirmed: z.literal(true) }).strict();
+const EmailDecision = z.object({ action: z.enum(['email_preview', 'email_decide']), id: z.string().regex(/^[0-9a-f-]{36}$/), t: z.string().regex(/^[a-f0-9]{48}$/), d: z.enum(['approve', 'deny', 'revoke']) }).strict();
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
   const ua = (req.headers.get("user-agent") ?? "").slice(0, 300);
 
-  // GET is read-only: email security scanners must not approve, deny or revoke.
+  // Saves one email decision for a request already matched by its secret decision token.
+  // Every write is conditional on the current status, so repeated taps cannot double-apply.
+  type R = Record<string, any>;
+  const decideFromEmail = async (r: R, id: string, t: string, d: string): Promise<{ ok: boolean; title: string; message: string; html?: string }> => {
+    if (d === "revoke") {
+      if (r.status === "revoked") return { ok: false, title: "Already revoked", message: `${r.full_name} is already locked out.` };
+      const { data: saved, error } = await db.from("hc_access_requests").update({ status: "revoked", access_token: null, revoked_at: new Date().toISOString() }).eq("id", id).eq('decision_token', t).eq('status', r.status).select('id,status,access_token').maybeSingle();
+      if (error || !saved || saved.status !== 'revoked' || saved.access_token !== null) return { ok: false, title: 'Revocation not saved', message: 'No successful revocation could be confirmed. Please try again.' };
+      return { ok: true, title: "Access revoked", message: `${r.full_name} (${r.work_email}) is locked out. An open preview locks at its next access check, normally within 15 seconds.` };
+    }
+    if (r.status !== "pending") return { ok: false, title: "Already decided", message: `This request was already ${r.status}.` };
+    if (d === "deny") {
+      const { data: saved, error } = await db.from("hc_access_requests").update({ status: "denied", decided_at: new Date().toISOString() }).eq("id", id).eq("status", "pending").select('id,status').maybeSingle();
+      if (error || saved?.status !== 'denied') return { ok: false, title: 'Denial not saved', message: 'No successful denial could be confirmed. Please try again.' };
+      return { ok: true, title: "Request denied", message: `${r.full_name} will not receive access.` };
+    }
+    const access = Array.from(crypto.getRandomValues(new Uint8Array(24)), (b) => b.toString(16).padStart(2, "0")).join("");
+    const expires = new Date(Date.now() + WINDOW_DAYS * 86400000);
+    const { data: approved, error: approvalError } = await db.from("hc_access_requests").update({ status: "approved", access_token: access, decided_at: new Date().toISOString(), expires_at: expires.toISOString(), device_id: null, first_entered_at: null, viewing_expires_at: null }).eq("id", id).eq("status", "pending").select("id").maybeSingle();
+    if (approvalError || !approved) return { ok: false, title: 'Approval not saved', message: 'Your approval could not be saved. Please try again.' };
+    let accepted = false;
+    try { accepted = await sendClinicalApproval(message => resend.emails.send(message), r as never, access, expires); } catch { accepted = false; }
+    return {
+      ok: true, title: "Access approved",
+      message: `${r.full_name} can now open one twenty-minute viewing. ${accepted ? 'Their invitation email was accepted for sending.' : 'Sending their invitation could not be confirmed — resend from the Admin Dashboard.'}`,
+      html: approvedContent(r.full_name, r.work_email, expires, `${FN_URL}?id=${id}&t=${t}&d=revoke`, accepted),
+    };
+  };
+  const SITE_DECISION = 'https://1325.ai/email-decision';
+
+  // GET is read-only: email links open a confirmation screen on 1325.ai (works on phones); nothing changes until the button is tapped.
   if (req.method === 'GET' || (req.method === 'POST' && (req.headers.get('content-type') ?? '').includes('application/x-www-form-urlencoded'))) {
     const u = new URL(req.url);
     const id = u.searchParams.get("id") ?? "", t = u.searchParams.get("t") ?? "", d = u.searchParams.get("d");
     if (!/^[0-9a-f-]{36}$/.test(id) || !/^[a-f0-9]{48}$/.test(t) || (d !== "approve" && d !== "deny" && d !== "revoke")) return page("Invalid link", "This link is not valid.");
+    if (req.method === 'GET') {
+      return new Response(null, { status: 302, headers: { ...cors, Location: `${SITE_DECISION}?k=clinical&id=${id}&d=${d}&t=${t}`, 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer' } });
+    }
     const { data: r } = await db.from("hc_access_requests").select("*").eq("id", id).eq("decision_token", t).maybeSingle();
     if (!r) return page("Invalid link", "This request was not found.");
-    if (req.method === 'GET') {
-      const nonce = Array.from(crypto.getRandomValues(new Uint8Array(24)), b => b.toString(16).padStart(2, '0')).join('');
-      return new Response(confirmationPage('Confirm access decision', `<p>Confirm <strong>${esc(d)}</strong> for ${esc(r.full_name)} (${esc(r.work_email)}). Opening this link has not changed access.</p><form method="post" action="${esc(req.url)}"><input type="hidden" name="nonce" value="${nonce}"><button type="submit">Confirm ${esc(d)}</button></form>`), { headers: { ...cors, 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer', 'Set-Cookie': `${decisionCookieName(id, d)}=${nonce}; HttpOnly; Secure; SameSite=Strict; Max-Age=600; Path=/functions/v1/health-access` } });
-    }
     const form = await req.formData();
     if (!validDecisionSubmission(req, String(form.get('nonce') ?? ''))) return page('Confirmation required', 'Reopen your email decision link and confirm the action there. No access change was made.');
-    const confirmedPage = (title: string, msg: string) => {
-      const response = page(title, msg);
-      response.headers.set('Set-Cookie', `${decisionCookieName(id, d)}=; HttpOnly; Secure; SameSite=Strict; Max-Age=0; Path=/functions/v1/health-access`);
-      response.headers.set('Cache-Control', 'no-store');
-      response.headers.set('Referrer-Policy', 'no-referrer');
-      return response;
-    };
-    if (d === "revoke") {
-      if (r.status === "revoked") return page("Already revoked", `${esc(r.full_name)} is already locked out.`);
-      const { data: saved, error } = await db.from("hc_access_requests").update({ status: "revoked", access_token: null, revoked_at: new Date().toISOString() }).eq("id", id).eq('decision_token', t).eq('status', r.status).select('id,status,access_token').maybeSingle();
-      if (error || !saved || saved.status !== 'revoked' || saved.access_token !== null) return page('Revocation not saved', 'No successful revocation could be confirmed. Reopen the email link and try again.');
-      return confirmedPage("Access revoked", `${esc(r.full_name)} (${esc(r.work_email)}) cannot make further clinical requests. An open preview locks at its next access check, normally within 15 seconds.`);
-    }
-    if (r.status !== "pending") return page("Already decided", `This request was already ${esc(r.status)}.`);
-    if (d === "deny") {
-      const { data: saved, error } = await db.from("hc_access_requests").update({ status: "denied", decided_at: new Date().toISOString() }).eq("id", id).eq("status", "pending").select('id,status').maybeSingle();
-      if (error || saved?.status !== 'denied') return page('Denial not saved', 'No successful denial could be confirmed. Please try again.');
-      return confirmedPage("Request denied", `${esc(r.full_name)} will not receive access.`);
-    }
-    const bytes = crypto.getRandomValues(new Uint8Array(24));
-    const access = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
-    const expires = new Date(Date.now() + WINDOW_DAYS * 86400000);
-    const { data: approved, error: approvalError } = await db.from("hc_access_requests").update({ status: "approved", access_token: access, decided_at: new Date().toISOString(), expires_at: expires.toISOString(), device_id: null, first_entered_at: null, viewing_expires_at: null }).eq("id", id).eq("status", "pending").select("id").maybeSingle();
-    if (approvalError || !approved) return page('Approval not saved', '<p>Your approval could not be saved. Please try again from your request email.</p>');
-    let accepted = false;
-    try {
-    accepted = await sendClinicalApproval(message => resend.emails.send(message), r, access, expires);
-    } catch {
-      accepted = false;
-    }
-    const revoke = `${FN_URL}?id=${id}&t=${t}&d=revoke`;
-    return confirmedPage("Access Approved", approvedContent(r.full_name, r.work_email, expires, revoke, accepted));
+    const result = await decideFromEmail(r, id, t, d);
+    const response = page(result.title, result.html ?? `<p>${esc(result.message)}</p>`);
+    if (result.ok) response.headers.set('Set-Cookie', `${decisionCookieName(id, d)}=; HttpOnly; Secure; SameSite=Strict; Max-Age=0; Path=/functions/v1/health-access`);
+    response.headers.set('Cache-Control', 'no-store');
+    return response;
   }
 
   if (req.method !== 'POST') return json({ error: 'Use POST' }, 405);
   let body: unknown;
   try { body = await req.json(); } catch { return json({ error: "Invalid request" }, 400); }
+
+  // Phone-friendly email decisions: the 1325.ai confirmation screen posts the secret link token back after a deliberate tap.
+  const em = EmailDecision.safeParse(body);
+  if (em.success) {
+    const { id, t, d } = em.data;
+    const { data: r } = await db.from("hc_access_requests").select("*").eq("id", id).eq("decision_token", t).maybeSingle();
+    if (!r) return json({ error: 'This link is not valid.' }, 404);
+    if (em.data.action === 'email_preview') {
+      const open = d === 'revoke' ? r.status !== 'revoked' && r.status !== 'denied' : r.status === 'pending';
+      return json({ ok: true, title: '1325 Clinical EMR / EHR preview request', name: r.full_name, details: [r.organization, r.role, r.work_email], status: r.status, open });
+    }
+    const result = await decideFromEmail(r, id, t, d);
+    return json({ ok: result.ok, title: result.title, message: result.message }, result.ok ? 200 : 409);
+  }
 
   if ((body as { action?: string } | null)?.action === 'admin_decision') {
     if (!validateCsrf(req).valid) return json({ error: 'Reload this page before confirming your decision.' }, 403);
