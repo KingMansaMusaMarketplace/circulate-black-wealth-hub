@@ -202,14 +202,14 @@ export function EpicComparison() {
 
 export function OpenStandards() {
   const points = [
-    ['Designed around FHIR', 'FHIR (Fast Healthcare Interoperability Resources) is the open standard medical software uses to share records.'],
-    ['Built to avoid vendor lock-in', 'Your clinic’s data is planned to be exportable in standard formats.'],
-    ['Standard, documented connections', 'Planned connections follow published standards rather than private, custom formats.'],
+    ['Designed around FHIR R4', 'Planned around HL7® FHIR® Release 4 (R4), the modern open standard health systems worldwide use to share clinical records.'],
+    ['Zero data lock-in', 'Your clinic’s charts, visits and history are planned to be exportable at any time in open FHIR JSON format. Your data stays yours.'],
+    ['Standard, documented connections', 'Planned connections follow published open standards rather than closed, proprietary networks.'],
     ['Dual-standard coding (ICD-10 & ICD-11)', 'Planned support for both current U.S. insurance billing codes (ICD-10) and international digital health standards (ICD-11).'],
   ];
   return <Wrap eyebrow="Interoperability" title="Open standards. No lock-in." intro="How 1325 Clinical is being built to work with labs, pharmacies and other records systems.">
     <dl className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">{points.map(([t, d]) => <div key={t} className="rounded-lg border border-border bg-card p-6"><dt className="font-semibold">{t}</dt><dd className="mt-2 text-sm text-muted-foreground">{d}</dd></div>)}</dl>
-    <p className="mt-4 text-xs text-muted-foreground">Planned for after healthcare clearance. No live connections, coding or insurance claims today, and no FHIR certification or vendor partnership is claimed.</p>
+    <p className="mt-4 text-xs text-muted-foreground">Planned for after healthcare clearance. No live connections, exports, coding or insurance claims today, and no FHIR certification or HL7 partnership is claimed. HL7® and FHIR® are registered trademarks of Health Level Seven International.</p>
   </Wrap>;
 }
 
