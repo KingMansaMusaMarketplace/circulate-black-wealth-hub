@@ -30,7 +30,7 @@ import donald from '@/assets/team/navy_bg/Donald_Palm_PhD.jpg';
 import corey from '@/assets/team/navy_bg/Corey_Mays_headshot.jpg';
 import kayla from '@/assets/team/navy_bg/Kayla_Bruton_navy_v20.jpg';
 import douglas from '@/assets/team/navy_bg/Douglas_Morrison_headshot.jpg';
-import dallas from '@/assets/team/navy_bg/Dallas_Evans_headshot.jpg';
+import dallas from '@/assets/team/navy_bg/Dallas_Evans_headshot_final.jpg';
 import robert from '@/assets/team/navy_bg/Robert_Wilson_v2.jpg';
 import charlotte from '@/assets/team/navy_bg/Charlotte_Farmer_v2.jpg';
 import joseph from '@/assets/team/navy_bg/Joseph_Weaver.jpg';
@@ -86,7 +86,7 @@ export const leadership: Member[] = [
   { name: 'Corey Mays', title: 'Chief Sports Officer', photo: corey },
   { name: 'Kayla Bruton', title: 'Senior Contracts Manager', photo: kayla },
   { name: 'Douglas K. Morrison', title: 'General Counsel', photo: douglas, photoScale: 0.96 },
-  { name: 'Dallas R. Evans', title: 'Chief Real Estate & Community Development Officer', photo: dallas, photoScale: 0.85, fixedPhotoBackground: true },
+  { name: 'Dallas R. Evans', title: 'Chief Real Estate & Community Development Officer', photo: dallas, fixedPhotoBackground: true },
   { name: 'Robert H. Wilson, M.D.', title: 'Chief International Officer', photo: robert },
   { name: 'Charlotte Farmer, Ph.D.', title: 'Executive Advisor', photo: charlotte },
   { name: 'Joseph Weaver', title: 'Chief Strategy Officer', photo: joseph },
