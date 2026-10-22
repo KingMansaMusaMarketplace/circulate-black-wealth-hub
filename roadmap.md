@@ -1,5 +1,8 @@
 # Roadmap
 
+## Clinical investor launch-cost dossier — October 22, 2026
+- [ ] Deliver a confidential executive PDF with sourced launch requirements, a source-based readiness inventory, three illustrative cost scenarios, itemized funding, charts, recurring costs, revenue sensitivity and quote-required milestones; no application or healthcare restrictions changed.
+
 ## Full-system test — October 22, 2026
 - [x] Run all existing frontend and service tests: 654 frontend and 23 service checks passed; lint zero errors, 2,637 warnings.
 - [x] Initial 21-address desktop browser pass, protected-page denial, database read health, directory grants, private clinical storage and Ally separation checked; 197 existing database scanner findings and five recent production error events recorded.
