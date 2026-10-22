@@ -86,7 +86,7 @@ export const leadership: Member[] = [
   { name: 'Corey Mays', title: 'Chief Sports Officer', photo: corey },
   { name: 'Kayla Bruton', title: 'Senior Contracts Manager', photo: kayla },
   { name: 'Douglas K. Morrison', title: 'General Counsel', photo: douglas, photoScale: 0.96 },
-  { name: 'Dallas R. Evans', title: 'Chief Real Estate & Community Development Officer', photo: dallas },
+  { name: 'Dallas R. Evans', title: 'Chief Real Estate & Community Development Officer', photo: dallas, photoScale: 0.85, fixedPhotoBackground: true },
   { name: 'Robert H. Wilson, M.D.', title: 'Chief International Officer', photo: robert },
   { name: 'Charlotte Farmer, Ph.D.', title: 'Executive Advisor', photo: charlotte },
   { name: 'Joseph Weaver', title: 'Chief Strategy Officer', photo: joseph },
