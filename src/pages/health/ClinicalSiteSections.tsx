@@ -186,8 +186,10 @@ export function EpicComparison() {
   const rows = [
     ['Autonomous Delegation vs. Manual Clicking', 'In many large legacy records systems, doctors enter orders and notes field by field.', 'The doctor says it once; Kayla and the team prepare drafts the doctor reviews and signs.'],
     ['Instant Cloud vs. Overnight Syncs', 'Many legacy setups share data through scheduled batch exports, often overnight.', 'Cloud-based by design, so updates are planned to appear as soon as they are reviewed.'],
+    ['One Sentence, One Step', '"X-rays, a brace and physical therapy" can become three separate orders, three rounds of data entry and three linked diagnoses.', 'Said once, Kayla prepares all three linked draft orders together for the doctor to review and sign.'],
+    ['Built In vs. Bolted On', 'Some clinics pay for a second add-on tool that logs in and clicks through the records system for them.', 'Delegation is planned as part of the core system: one subscription, no outside tool clicking for you.'],
   ];
-  return <Wrap eyebrow="Comparison" title="Epic vs. 1325 Clinical" intro="Two differences clinic leaders ask about most.">
+  return <Wrap eyebrow="Comparison" title="Epic vs. 1325 Clinical" intro="The differences clinic leaders ask about most.">
     <div className="overflow-hidden rounded-lg border border-border">
       <div className="hidden grid-cols-3 gap-4 border-b border-border bg-card/60 p-4 text-sm font-semibold md:grid"><span /><span>Typical legacy records system</span><span className="text-primary">1325 Clinical</span></div>
       {rows.map(([title, legacy, ours]) => <div key={title} className="grid gap-3 border-b border-border p-4 last:border-b-0 md:grid-cols-3 md:gap-4">
@@ -196,7 +198,7 @@ export function EpicComparison() {
         <p className="text-sm"><span className="font-medium text-primary md:hidden">1325 Clinical: </span>{ours}</p>
       </div>)}
     </div>
-    <p className="mt-4 text-xs text-muted-foreground">General industry patterns, not a review of any specific installation. Epic is a trademark of its owner; 1325.AI is not affiliated with Epic Systems. 1325 Clinical features shown are fictional-sample demonstrations.</p>
+    <p className="mt-4 text-xs text-muted-foreground">General industry patterns, not a review of any specific installation or vendor. Epic and eClinicalWorks are trademarks of their owners; 1325.AI is not affiliated with either. 1325 Clinical features shown are fictional-sample demonstrations; the doctor reviews and signs every order.</p>
   </Wrap>;
 }
 
