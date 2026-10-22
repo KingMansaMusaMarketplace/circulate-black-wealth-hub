@@ -1,5 +1,8 @@
 # Roadmap
 
+## Clinical investor launch-cost dossier — October 22, 2026
+- [x] Delivered confidential 20-page executive PDF and design philosophy in Files, grouped with Clinical executive reports. Includes authoritative launch requirements, source-only readiness inventory, three hypothetical cost scenarios, itemized funding, three charts, recurring costs, revenue sensitivity and quote-required milestones. Rendered and inspected all 20 pages; funding arithmetic and key values checked. No application or healthcare restrictions changed; actual quotes, spend and live operating workload were not verified.
+
 ## Full-system test — October 22, 2026
 - [x] Run all existing frontend and service tests: 654 frontend and 23 service checks passed; lint zero errors, 2,637 warnings.
 - [x] Initial 21-address desktop browser pass, protected-page denial, database read health, directory grants, private clinical storage and Ally separation checked; 197 existing database scanner findings and five recent production error events recorded.
