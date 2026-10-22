@@ -1,9 +1,9 @@
 # Roadmap
 
 ## Full-system test — October 22, 2026
-- [ ] Run all existing frontend and service tests; collect failures without changing application behavior.
-- [ ] Check public pages, directory search, protected-page denial and deployed read-only service/database health.
-- [ ] Deliver a findings report separating tested results from unavailable signed-in, payment/email and physical iPhone checks.
+- [x] Run all existing frontend and service tests: 654 frontend and 23 service checks passed; lint zero errors, 2,637 warnings.
+- [x] Initial 21-address desktop browser pass, protected-page denial, database read health, directory grants, private clinical storage and Ally separation checked; 197 existing database scanner findings and five recent production error events recorded.
+- [x] Deliver findings report in Files; confirmed built-in database monitor references a nonexistent profiles.count column. No application behavior or permissions changed.
 - [ ] Verify signed-in success, actual inbox delivery/payments and iPhone startup — blocked: external unmanaged authentication, no disposable transaction/mailbox environment, and no device crash report.
 
 ## Approved future clinical subscriptions — October 21, 2026
