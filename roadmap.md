@@ -1,5 +1,11 @@
 # Roadmap
 
+## Full-system test — October 22, 2026
+- [ ] Run all existing frontend and service tests; collect failures without changing application behavior.
+- [ ] Check public pages, directory search, protected-page denial and deployed read-only service/database health.
+- [ ] Deliver a findings report separating tested results from unavailable signed-in, payment/email and physical iPhone checks.
+- [ ] Verify signed-in success, actual inbox delivery/payments and iPhone startup — blocked: external unmanaged authentication, no disposable transaction/mailbox environment, and no device crash report.
+
 ## Approved future clinical subscriptions — October 21, 2026
 - [x] Added planned Core, Plus and Hospital / Network subscriptions, five-clinician totals and included administrative staff; preview fees, free Founding Clinic signup and disabled payments unchanged.
 - [x] Fourteen pricing/signup/request checks passed; build OK. Browser verified all plans/totals and disabled purchases, computer/phone layout without overflow or page errors; screenshots inspected. Publication remains a user action.
