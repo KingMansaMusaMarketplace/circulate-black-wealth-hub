@@ -293,7 +293,7 @@ function Person({ m }: { m: { name: string; title: string; photo: string } }) {
   </figure>;
 }
 
-const HOME_TEAM = ['Lisa Cooper Gavin', 'Clarence Smith', 'Maurice G. Howard', 'Kayla Bruton', 'Douglas K. Morrison'];
+const HOME_TEAM = ['Lisa Cooper Gavin', 'Clarence Smith', 'Maurice G. Howard', 'Kayla Bruton', 'Douglas K. Morrison', 'Dallas R. Evans'];
 
 function TeamPreview() {
   const people = [founder, ...HOME_TEAM.map(n => leadership.find(l => l.name === n)).filter(Boolean)] as typeof leadership;
