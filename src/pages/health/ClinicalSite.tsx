@@ -294,9 +294,10 @@ function Person({ m }: { m: { name: string; title: string; photo: string } }) {
 }
 
 const HOME_TEAM = ['Lisa Cooper Gavin', 'Clarence Smith', 'Maurice G. Howard', 'Kayla Bruton', 'Douglas K. Morrison', 'Dallas R. Evans'];
+const CLINICAL_LEADERSHIP = leadership.filter(m => !/\bM\.?D\.?\s*$/i.test(m.name));
 
 function TeamPreview() {
-  const people = [founder, ...HOME_TEAM.map(n => leadership.find(l => l.name === n)).filter(Boolean)] as typeof leadership;
+  const people = [founder, ...HOME_TEAM.map(n => CLINICAL_LEADERSHIP.find(l => l.name === n)).filter(Boolean)] as typeof leadership;
   return <Section>
     <Heading eyebrow="Leadership" title="The people behind 1325 Clinical." intro="Built by the 1325.AI team in Chicago, working with Kayla’s 42 Agentic AI Employees." />
     <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">{people.map(p => <Person key={p.name} m={p} />)}</div>
@@ -312,7 +313,7 @@ function Team() {
         <img src={founder.photo} alt={founder.name} className="aspect-[4/5] w-full rounded-lg object-cover object-top" />
         <div><p className="text-sm uppercase tracking-wider text-primary">{founder.title}</p><h3 className="mt-2 text-2xl font-semibold">{founder.name}</h3><p className="mt-2 font-medium">Inventor of the 1325 Clinical EMR / EHR</p><p className="mt-3 text-muted-foreground">{founder.bio}</p></div>
       </div>
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">{leadership.map(m => <Person key={m.name} m={m} />)}</div>
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">{CLINICAL_LEADERSHIP.map(m => <Person key={m.name} m={m} />)}</div>
       <p className="mt-8 text-base font-semibold text-destructive md:text-lg">Titles describe roles at 1325.AI, Inc. and do not indicate that any person provides medical care through this preview.</p>
     </Section>
     <CallToAction />
