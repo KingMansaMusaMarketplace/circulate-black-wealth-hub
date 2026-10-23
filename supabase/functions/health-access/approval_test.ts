@@ -6,7 +6,7 @@ Deno.test('clinical invitations route to the visitor and reply to Thomas', async
     assertEquals(message.to, ['visitor@example.invalid']);
     assertStringIncludes(message.from, '<Thomas@1325.ai>');
     assertEquals(message.reply_to, 'Thomas@1325.ai');
-    assertStringIncludes(message.text, 'one twenty-minute viewing');
+    assertStringIncludes(message.text, 'one forty-minute viewing');
     assertStringIncludes(message.html, '&lt;Test&gt;');
     return { data: { id: 'fictional-message' }, error: null };
   }, { full_name: '<Test>', work_email: 'visitor@example.invalid' }, 'a'.repeat(48), new Date('2026-10-26T03:00:00Z'));

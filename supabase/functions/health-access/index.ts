@@ -72,7 +72,7 @@ Deno.serve(async (req) => {
     try { accepted = await sendClinicalApproval(message => resend.emails.send(message), r as never, access, expires); } catch { accepted = false; }
     return {
       ok: true, title: "Access approved",
-      message: `${r.full_name} can now open one twenty-minute viewing. ${accepted ? 'Their invitation email was accepted for sending.' : 'Sending their invitation could not be confirmed — resend from the Admin Dashboard.'}`,
+      message: `${r.full_name} can now open one forty-minute viewing. ${accepted ? 'Their invitation email was accepted for sending.' : 'Sending their invitation could not be confirmed — resend from the Admin Dashboard.'}`,
       html: approvedContent(r.full_name, r.work_email, expires, `${FN_URL}?id=${id}&t=${t}&d=revoke`, accepted),
     };
   };

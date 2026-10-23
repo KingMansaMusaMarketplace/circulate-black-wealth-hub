@@ -31,13 +31,13 @@ describe('Clinical Access confirmation controls', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Confirm approve' }));
     await waitFor(() => expect(screen.getByRole('status').textContent).toContain('invitation email was not confirmed sent'));
   });
-  it('keeps elapsed time within the twenty-minute approved window', () => {
+  it('keeps elapsed time within the forty-minute approved window', () => {
     const start = Date.parse('2026-10-19T04:03:05Z');
-    const visitor = { ...row(), status: 'approved', first_entered_at: new Date(start).toISOString(), viewing_expires_at: new Date(start + 20 * 60000).toISOString() };
-    expect(visitState(visitor, start + 1199999)).toBe('Viewing now');
+    const visitor = { ...row(), status: 'approved', first_entered_at: new Date(start).toISOString(), viewing_expires_at: new Date(start + 40 * 60000).toISOString() };
+    expect(visitState(visitor, start + 2399999)).toBe('Viewing now');
     expect(timeOnSite(visitor, start + 125000)).toBe(125000);
-    expect(visitState(visitor, start + 1200000)).toBe('Visit finished');
-    expect(timeOnSite(visitor, start + 1800000)).toBe(1200000);
+    expect(visitState(visitor, start + 2400000)).toBe('Visit finished');
+    expect(timeOnSite(visitor, start + 3000000)).toBe(2400000);
   });
   it('distinguishes unopened approval, denial and revocation', () => {
     const now = Date.parse('2026-10-19T04:05:00Z');
