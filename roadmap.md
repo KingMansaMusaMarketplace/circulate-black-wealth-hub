@@ -1,8 +1,9 @@
 # Roadmap
 
 ## Approved forty-minute clinical viewing — October 23, 2026
-- [ ] Update server first-entry limit, visitor validation, notices and approval emails; preserve existing started deadlines and one-device restrictions.
-- [ ] Run timer/access regressions and verify deployed enforcement; signed-in end-to-end remains dependent on an authorized session.
+- [x] Deployed 40-minute server first-entry limit and updated visitor validation, notices, renewed visits and approval emails; existing started deadlines, one-device restrictions and the separate administrator 20-minute reset control remain unchanged.
+- [x] Passed 52 frontend and nine service checks; build OK. Read back deployed 40-minute definition and service-role-only execution; health-access and health-kayla-help deployment confirmed.
+- [ ] Verify real approved-visitor countdown/expiry and inbox delivery — blocked by external unmanaged authentication and unavailable recipient mailbox; public website updates require publishing.
 
 ## Clinical investor launch-cost dossier — October 22, 2026
 - [x] Delivered confidential 20-page executive PDF and design philosophy in Files, grouped with Clinical executive reports. Includes authoritative launch requirements, source-only readiness inventory, three hypothetical cost scenarios, itemized funding, three charts, recurring costs, revenue sensitivity and quote-required milestones. Rendered and inspected all 20 pages; funding arithmetic and key values checked. No application or healthcare restrictions changed; actual quotes, spend and live operating workload were not verified.
