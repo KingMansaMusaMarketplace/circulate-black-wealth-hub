@@ -77,7 +77,7 @@ function CallToAction() {
   return <Section>
     <div className="border-y border-primary/40 py-12 text-center">
       <h2 className="text-3xl font-semibold">See it for yourself.</h2>
-      <p className="mt-3 text-muted-foreground max-w-xl mx-auto">Request a private, owner-approved 20-minute viewing.</p>
+      <p className="mt-3 text-muted-foreground max-w-xl mx-auto">Request a private, owner-approved 40-minute viewing.</p>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
         <Button asChild size="lg"><Link to="/health/marketplace#request">Request private preview <ArrowRight className="ml-2 h-4 w-4" /></Link></Button>
         <Button asChild size="lg" variant="outline"><Link to="/health">Approved visitors & owner sign in</Link></Button>

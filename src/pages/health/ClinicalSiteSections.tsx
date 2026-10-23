@@ -68,7 +68,7 @@ export function WorkflowComparison() {
 }
 
 const steps = [
-  ['Confidential preview', 'A personally approved, watermarked 20-minute tour using fictional patients.'],
+  ['Confidential preview', 'A personally approved, watermarked 40-minute tour using fictional patients.'],
   ['Workflow mapping', 'We map your specialty’s daily work against sample charts.'],
   ['Supervised trial', 'A physician-reviewed trial — only after legal, vendor and security clearance.'],
   ['Staged rollout', 'Expand step by step, only where results justify it.'],

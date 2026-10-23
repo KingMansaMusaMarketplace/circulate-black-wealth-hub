@@ -230,7 +230,7 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
       <img src={logo1325} alt="1325.AI" className="mx-auto h-16 w-16 object-contain" />
       <Lock className="mx-auto h-8 w-8 text-primary" />
       <h1 className="text-2xl font-semibold">Your private viewing has ended</h1>
-      <p className="text-muted-foreground">Private screens are locked. Each approval allows one twenty-minute viewing from first entry. Please request Thomas’s approval again to return.</p>
+      <p className="text-muted-foreground">Private screens are locked. Each approval allows one forty-minute viewing from first entry. Please request Thomas’s approval again to return.</p>
       <Button onClick={() => { localStorage.removeItem(PRIVATE_SESSION_ENDED); localStorage.removeItem(KEY); setState('locked'); }}>Request fresh approval</Button>
     </section>
   </div>;
@@ -323,7 +323,7 @@ function Teaser({ notice = "" }: { notice?: string }) {
                 <ShieldCheck className="h-4 w-4" /> Owner or administrator? Sign in here — no timer, no request needed
               </a>
               <h2 className="text-2xl font-semibold">Request access</h2>
-              <p className="text-sm opacity-75">For visitors. All fields are required. Approval allows one twenty-minute viewing from first entry. Your name, email and date will appear on private screens as a confidentiality watermark.</p>
+              <p className="text-sm opacity-75">For visitors. All fields are required. Approval allows one forty-minute viewing from first entry. Your name, email and date will appear on private screens as a confidentiality watermark.</p>
               {notice && <p className="text-sm rounded-md p-3" style={{ background: "rgba(255,179,0,0.15)", color: "#FFB300" }}>{notice}</p>}
               <Input required placeholder="Full name *" value={form.full_name} onChange={set('full_name')} maxLength={120} className="bg-white text-black" />
               <Input required placeholder="Clinic / hospital / organization *" value={form.organization} onChange={set('organization')} maxLength={160} className="bg-white text-black" />
