@@ -1,5 +1,9 @@
 # Roadmap
 
+## Approved forty-minute clinical viewing — October 23, 2026
+- [ ] Update server first-entry limit, visitor validation, notices and approval emails; preserve existing started deadlines and one-device restrictions.
+- [ ] Run timer/access regressions and verify deployed enforcement; signed-in end-to-end remains dependent on an authorized session.
+
 ## Clinical investor launch-cost dossier — October 22, 2026
 - [x] Delivered confidential 20-page executive PDF and design philosophy in Files, grouped with Clinical executive reports. Includes authoritative launch requirements, source-only readiness inventory, three hypothetical cost scenarios, itemized funding, three charts, recurring costs, revenue sensitivity and quote-required milestones. Rendered and inspected all 20 pages; funding arithmetic and key values checked. No application or healthcare restrictions changed; actual quotes, spend and live operating workload were not verified.
 
