@@ -1,8 +1,8 @@
 # Roadmap
 
 ## Special clinical invitation — October 24, 2026
-- [ ] Prepare Dr. Otieno's pending dashboard request with a server-enforced one-hour exception; keep ordinary forty-minute visits and device/approval safeguards unchanged.
-- [ ] Align invitation and dashboard duration, test and deploy; provide email draft with public website and approval instructions.
+- [x] Created and read back Dr. Otieno's pending sixty-minute invitation; no access token or fabricated confidentiality acceptance. Server duration, ordinary forty minutes, device binding, refresh and expiry passed rolled-back database checks.
+- [x] Aligned invitation/dashboard duration, added viewer confidentiality acceptance, deployed health-access; 49 frontend and six service checks passed, build OK. Delivered unsent email draft with public website and dashboard instructions. Website publication is required before special-link use.
 - [ ] Verify recipient inbox and signed-in dashboard flow — blocked by recipient mailbox access and external unmanaged authentication.
 
 ## Approved forty-minute clinical viewing — October 23, 2026
