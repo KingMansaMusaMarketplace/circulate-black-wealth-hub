@@ -10124,13 +10124,14 @@ export type Database = {
           first_entered_at: string | null
           full_name: string
           id: string
-          nda_accepted_at: string
+          nda_accepted_at: string | null
           organization: string
           phone: string | null
           revoked_at: string | null
           role: string
           status: string
           user_agent: string | null
+          viewing_duration_minutes: number
           viewing_expires_at: string | null
           work_email: string
         }
@@ -10144,13 +10145,14 @@ export type Database = {
           first_entered_at?: string | null
           full_name: string
           id?: string
-          nda_accepted_at?: string
+          nda_accepted_at?: string | null
           organization: string
           phone?: string | null
           revoked_at?: string | null
           role: string
           status?: string
           user_agent?: string | null
+          viewing_duration_minutes?: number
           viewing_expires_at?: string | null
           work_email: string
         }
@@ -10164,13 +10166,14 @@ export type Database = {
           first_entered_at?: string | null
           full_name?: string
           id?: string
-          nda_accepted_at?: string
+          nda_accepted_at?: string | null
           organization?: string
           phone?: string | null
           revoked_at?: string | null
           role?: string
           status?: string
           user_agent?: string | null
+          viewing_duration_minutes?: number
           viewing_expires_at?: string | null
           work_email?: string
         }

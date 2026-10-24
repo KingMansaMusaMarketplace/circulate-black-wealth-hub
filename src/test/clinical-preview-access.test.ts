@@ -4,6 +4,15 @@ import { readPreviewGrant } from '@/pages/health/preview-access';
 const start = '2026-10-18T17:00:00.000Z';
 const grant = (end: string, now = start) => ({ ok: true, name: 'Test visitor', email: 'visitor@example.invalid', server_now: now, viewing_expires_at: end });
 describe('single forty-minute visitor viewing', () => {
+  it('accepts a server-designated special sixty-minute grant', () => {
+    expect(readPreviewGrant({ ...grant('2026-10-18T18:00:00.000Z'), viewing_duration_minutes: 60 })?.remaining).toBe(3600000);
+  });
+  it('rejects one millisecond beyond the special sixty-minute limit', () => {
+    expect(readPreviewGrant({ ...grant('2026-10-18T18:00:00.001Z'), viewing_duration_minutes: 60 })).toBeNull();
+  });
+  it('does not treat arbitrary durations as a special grant', () => {
+    expect(readPreviewGrant({ ...grant('2026-10-18T18:00:00.000Z'), viewing_duration_minutes: 90 })).toBeNull();
+  });
   it('accepts exactly forty minutes from server first entry', () => {
     expect(readPreviewGrant(grant('2026-10-18T17:40:00.000Z'))?.remaining).toBe(2400000);
   });

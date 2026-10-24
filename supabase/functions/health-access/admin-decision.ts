@@ -1,5 +1,5 @@
 export type Decision = 'approve' | 'deny' | 'revoke' | 'reopen' | 'extend';
-export type DecisionRequest = { id: string; status: string; revoked_at: string | null; full_name: string; work_email: string; first_entered_at?: string | null; viewing_expires_at?: string | null };
+export type DecisionRequest = { id: string; status: string; revoked_at: string | null; full_name: string; work_email: string; viewing_duration_minutes?: number; first_entered_at?: string | null; viewing_expires_at?: string | null };
 export type DecisionInput = { request_id: string; decision: Decision; expected_status: string; confirmed: true };
 export type DecisionDependencies = {
   authorize: () => Promise<boolean>;
