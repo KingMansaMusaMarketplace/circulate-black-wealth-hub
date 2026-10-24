@@ -1,5 +1,10 @@
 # Roadmap
 
+## Special clinical invitation — October 24, 2026
+- [ ] Prepare Dr. Otieno's pending dashboard request with a server-enforced one-hour exception; keep ordinary forty-minute visits and device/approval safeguards unchanged.
+- [ ] Align invitation and dashboard duration, test and deploy; provide email draft with public website and approval instructions.
+- [ ] Verify recipient inbox and signed-in dashboard flow — blocked by recipient mailbox access and external unmanaged authentication.
+
 ## Approved forty-minute clinical viewing — October 23, 2026
 - [x] Deployed 40-minute server first-entry limit and updated visitor validation, notices, renewed visits and approval emails; existing started deadlines, one-device restrictions and the separate administrator 20-minute reset control remain unchanged.
 - [x] Passed 52 frontend and nine service checks; build OK. Read back deployed 40-minute definition and service-role-only execution; health-access and health-kayla-help deployment confirmed.
