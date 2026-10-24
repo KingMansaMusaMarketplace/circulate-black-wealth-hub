@@ -138,7 +138,7 @@ const ClinicalAccessMonitor: React.FC = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-white text-base flex flex-wrap items-center gap-2">
                 {r.full_name} <span className="text-slate-400 font-normal text-sm">{r.role} · {r.organization}</span>
-                <Badge className={st === 'Waiting for you' ? 'bg-mansagold text-black' : st === 'Viewing now' ? 'bg-green-600' : 'bg-slate-700'}>{st}{left > 0 ? ` · ${mins(left)} left` : ''}</Badge>
+                <Badge className={st === 'Waiting for you' ? 'bg-mansagold text-black' : st === 'Viewing now' ? 'bg-green-600' : st === 'Approved, not opened yet' ? 'bg-blue-100 text-blue-950 border border-blue-300 text-sm font-semibold px-3 py-1' : 'bg-slate-700'}>{st}{left > 0 ? ` · ${mins(left)} left` : ''}</Badge>
               </CardTitle>
             </CardHeader>
             <CardContent className="text-sm text-slate-300 grid md:grid-cols-3 gap-2">
