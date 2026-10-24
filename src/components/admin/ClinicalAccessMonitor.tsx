@@ -7,10 +7,11 @@ import { Input } from '@/components/ui/input';
 import { RefreshCw, Activity, Check, X, ShieldOff } from 'lucide-react';
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter } from '@/components/ui/alert-dialog';
 import { allowedDecision, type Decision } from '../../../supabase/functions/health-access/admin-decision';
+import { viewingMinutes } from '../../../supabase/functions/health-access/viewing-duration';
 
 type Req = {
   id: string; full_name: string; organization: string; role: string; work_email: string; phone: string | null;
-  status: string; created_at: string; decided_at: string | null; nda_accepted_at: string; expires_at: string | null;
+  status: string; created_at: string; decided_at: string | null; nda_accepted_at: string | null; expires_at: string | null; viewing_duration_minutes?: number;
   first_entered_at: string | null; viewing_expires_at: string | null; revoked_at: string | null;
   device_id: string | null; user_agent: string | null;
 };
@@ -60,7 +61,7 @@ const ClinicalAccessMonitor: React.FC = () => {
     setLoading(true);
     try {
     const [a, b] = await Promise.all([
-      supabase.from('hc_access_requests').select('id,full_name,organization,role,work_email,phone,status,created_at,decided_at,nda_accepted_at,expires_at,first_entered_at,viewing_expires_at,revoked_at,device_id,user_agent').order('created_at', { ascending: false }).limit(500),
+      supabase.from('hc_access_requests').select('id,full_name,organization,role,work_email,phone,status,created_at,decided_at,nda_accepted_at,expires_at,first_entered_at,viewing_expires_at,revoked_at,device_id,user_agent,viewing_duration_minutes').order('created_at', { ascending: false }).limit(500),
       supabase.from('hc_access_views').select('id,request_id,path,user_agent,created_at').order('created_at', { ascending: true }).limit(1000),
     ]);
     const error = a.error || b.error;
@@ -104,7 +105,7 @@ const ClinicalAccessMonitor: React.FC = () => {
       setNotice({ warning: failedEmail, text: failedEmail
         ? `Approval saved for ${decision.request.full_name}, but the invitation email was not confirmed sent. Do not approve again; check email sending before retrying delivery.`
         : decision.action === 'extend' ? `${decision.request.full_name} now has 20 minutes on their screen. A gold message tells them within about 15 seconds.`
-        : decision.action === 'reopen' ? `40 more minutes approved for ${decision.request.full_name}. A new link was sent to ${decision.request.work_email}; the time starts when they open it.`
+        : decision.action === 'reopen' ? `${viewingMinutes(decision.request)} more minutes approved for ${decision.request.full_name}. The email provider accepted a new link for ${decision.request.work_email}; the time starts on first entry.`
         : decision.action === 'approve' ? `Approval saved for ${decision.request.full_name}. The email provider accepted the invitation to ${decision.request.work_email}; inbox delivery is not yet confirmed.`
         : decision.action === 'deny' ? `Request denied for ${decision.request.full_name}.`
         : `Access revoked for ${decision.request.full_name}. An open preview locks at its next check, normally within 15 seconds.` });
@@ -142,7 +143,7 @@ const ClinicalAccessMonitor: React.FC = () => {
             </CardHeader>
             <CardContent className="text-sm text-slate-300 grid md:grid-cols-3 gap-2">
               <div>Email: {r.work_email}<br />Phone: {r.phone || '—'}</div>
-              <div>Requested: {fmt(r.created_at)}<br />Agreement accepted: {fmt(r.nda_accepted_at)}<br />Decided: {fmt(r.decided_at)}</div>
+              <div>Requested: {fmt(r.created_at)}<br />Agreement accepted: {r.nda_accepted_at ? fmt(r.nda_accepted_at) : 'Awaiting visitor acceptance'}<br />Viewing limit: {viewingMinutes(r)} minutes<br />Decided: {fmt(r.decided_at)}</div>
               <div>First entered: {fmt(r.first_entered_at)}<br />Time on site: {t == null ? 'Never entered' : mins(t)}<br />Device: {device(r.user_agent)}{r.device_id ? ' (locked to one device)' : ''}</div>
               <div className="md:col-span-3">
                 <div className="flex flex-wrap gap-2 mb-2">
@@ -150,7 +151,7 @@ const ClinicalAccessMonitor: React.FC = () => {
                   {allowedDecision(r.status, 'deny') && <Button size="sm" variant="outline" disabled={saving || !!err} onClick={() => { setNotice(null); setDecision({ request: r, action: 'deny' }); }}><X className="h-4 w-4 mr-1" />Deny</Button>}
                   {allowedDecision(r.status, 'revoke') && !r.revoked_at && <Button size="sm" variant="destructive" disabled={saving || !!err} onClick={() => { setNotice(null); setDecision({ request: r, action: 'revoke' }); }}><ShieldOff className="h-4 w-4 mr-1" />Revoke</Button>}
                   {st === 'Viewing now' && allowedDecision(r.status, 'extend') && !r.revoked_at && <Button size="sm" disabled={saving || !!err} onClick={() => { setNotice(null); setDecision({ request: r, action: 'extend' }); }}><RefreshCw className="h-4 w-4 mr-1" />Add 20 minutes now</Button>}
-                  {allowedDecision(r.status, 'reopen') && (r.status === 'expired' || st === 'Visit finished') && !r.revoked_at && <Button size="sm" disabled={saving || !!err} onClick={() => { setNotice(null); setDecision({ request: r, action: 'reopen' }); }}><RefreshCw className="h-4 w-4 mr-1" />Give 40 more minutes</Button>}
+                  {allowedDecision(r.status, 'reopen') && (r.status === 'expired' || st === 'Visit finished') && !r.revoked_at && <Button size="sm" disabled={saving || !!err} onClick={() => { setNotice(null); setDecision({ request: r, action: 'reopen' }); }}><RefreshCw className="h-4 w-4 mr-1" />Give {viewingMinutes(r)} more minutes</Button>}
                 </div>
                 <Button size="sm" variant="ghost" onClick={() => setOpen(open === r.id ? null : r.id)}>{open === r.id ? 'Hide' : 'Show'} screens viewed ({pv.length})</Button>
                 {open === r.id && (pv.length ? <ul className="mt-2 space-y-1">{pv.map(v => <li key={v.id}>{fmt(v.created_at)} — {v.path || 'unknown screen'} <span className="text-slate-500">({device(v.user_agent)})</span></li>)}</ul> : <p className="mt-2 text-slate-500">No screens recorded.</p>)}
@@ -162,16 +163,16 @@ const ClinicalAccessMonitor: React.FC = () => {
       <AlertDialog open={!!decision} onOpenChange={open => { if (!open && !pending.current) setDecision(null); }}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{decision?.action === 'extend' ? 'Add 20 minutes now?' : decision?.action === 'reopen' ? 'Give 40 more minutes?' : `Confirm ${decision?.action}`}</AlertDialogTitle>
+            <AlertDialogTitle>{decision?.action === 'extend' ? 'Add 20 minutes now?' : decision?.action === 'reopen' ? `Give ${viewingMinutes(decision.request)} more minutes?` : `Confirm ${decision?.action}`}</AlertDialogTitle>
             <AlertDialogDescription>
               {decision?.request.full_name} · {decision?.request.work_email}<br />
-              {decision?.action === 'extend' ? 'Reset this visitor\'s timer to twenty minutes on the same device. A gold message appears on their screen; no new email is needed.' : decision?.action === 'reopen' ? 'Send a new link from Thomas@1325.ai for another forty-minute viewing on one device. The timer begins when they open the new link.' : decision?.action === 'approve' ? 'Send an invitation from Thomas@1325.ai for one forty-minute viewing on one device. The timer begins on first entry.' : decision?.action === 'deny' ? 'Deny this request without sending an access link.' : 'Disable this approval and its access link. An open preview locks at its next access check.'}
+              {decision?.action === 'extend' ? 'Reset this visitor\'s timer to twenty minutes on the same device. A gold message appears on their screen; no new email is needed.' : decision?.action === 'reopen' || decision?.action === 'approve' ? `Send an invitation from Thomas@1325.ai for one ${viewingMinutes(decision.request)}-minute viewing on one device. The timer begins on first entry, after confidentiality acceptance.` : decision?.action === 'deny' ? 'Deny this request without sending an access link.' : 'Disable this approval and its access link. An open preview locks at its next access check.'}
             </AlertDialogDescription>
           </AlertDialogHeader>
           {notice?.warning && <p role="alert" className="text-destructive text-sm">{notice.text}</p>}
           <AlertDialogFooter>
             <Button variant="outline" disabled={saving} onClick={() => setDecision(null)}>Cancel</Button>
-            <Button variant={decision?.action === 'approve' || decision?.action === 'reopen' || decision?.action === 'extend' ? 'default' : 'destructive'} disabled={saving} onClick={confirmDecision}>{saving ? 'Saving…' : decision?.action === 'extend' ? 'Confirm add 20 minutes' : decision?.action === 'reopen' ? 'Confirm 40 more minutes' : `Confirm ${decision?.action ?? 'decision'}`}</Button>
+            <Button variant={decision?.action === 'approve' || decision?.action === 'reopen' || decision?.action === 'extend' ? 'default' : 'destructive'} disabled={saving} onClick={confirmDecision}>{saving ? 'Saving…' : decision?.action === 'extend' ? 'Confirm add 20 minutes' : decision?.action === 'reopen' ? `Confirm ${viewingMinutes(decision.request)} more minutes` : `Confirm ${decision?.action ?? 'decision'}`}</Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
