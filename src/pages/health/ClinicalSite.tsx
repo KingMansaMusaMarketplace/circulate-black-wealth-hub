@@ -294,7 +294,7 @@ function Person({ m }: { m: { name: string; title: string; photo: string } }) {
 }
 
 const HOME_TEAM = ['Lisa Cooper Gavin', 'Clarence Smith', 'Maurice G. Howard', 'Kayla Bruton', 'Douglas K. Morrison', 'Dallas R. Evans'];
-const CLINICAL_LEADERSHIP = leadership.filter(m => !/\bM\.?D\.?\s*$/i.test(m.name));
+const CLINICAL_LEADERSHIP = leadership;
 
 function TeamPreview() {
   const people = [founder, ...HOME_TEAM.map(n => CLINICAL_LEADERSHIP.find(l => l.name === n)).filter(Boolean)] as typeof leadership;
