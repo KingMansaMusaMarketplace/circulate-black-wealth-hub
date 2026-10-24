@@ -315,7 +315,9 @@ function Teaser({ notice = "" }: { notice?: string }) {
               <h2 className="text-2xl font-semibold mb-2">Request received</h2>
               {notificationFailed && <p role="alert" className="mb-4 text-primary">Your request is saved for Thomas in the Clinical Access dashboard, but the notification email was not confirmed sent. Please contact Thomas directly; do not submit another request.</p>}
               <p className="opacity-80">Thank you. Our team will review your request personally. If approved, you'll receive a private access link by email.</p>
-              <p className="mt-5 text-sm opacity-80">After approval, check your inbox and Spam/Junk for an email from <strong>Thomas@1325.ai</strong>. Mark it “Not Junk” and add the sender to your contacts.</p>
+              <p className="mt-5 font-semibold">Check your Spam or Junk folder</p>
+              <p className="mt-2 text-sm opacity-80">After approval, look for your private access email from <strong>Thomas@1325.ai</strong> in your inbox, Spam or Junk folder. If it is there, mark it “Not Spam” or “Not Junk” and add Thomas to your contacts.</p>
+              <p className="mt-3 text-sm opacity-80">Already approved but cannot find the email? Contact <a href="mailto:Thomas@1325.ai" className="underline underline-offset-4">Thomas@1325.ai</a> for help; you do not need to submit another request.</p>
             </div>
           ) : (
             <form onSubmit={submit} className="space-y-4">
