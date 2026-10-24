@@ -42,7 +42,9 @@ const MESSAGES: Record<Exclude<Reason, 'none'>, string> = {
 };
 
 export default function HealthAccessGate({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<'checking' | 'locked' | 'open' | 'timeout' | 'ended'>('checking');
+  const [state, setState] = useState<'checking' | 'locked' | 'open' | 'timeout' | 'ended' | 'confidentiality'>('checking');
+  const [accepting, setAccepting] = useState(false);
+  const [acceptError, setAcceptError] = useState('');
   const [reason, setReason] = useState<Reason>('none');
   const [remaining, setRemaining] = useState(0);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -93,6 +95,8 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
         setRemaining(Math.max(0, deadline.current - performance.now()));
         setViewer(grant.viewer);
         setState('open');
+      } else if (data?.reason === 'confidentiality') {
+        setViewer(null); setState('confidentiality');
       } else {
         setViewer(null);
         setReason(data?.reason === 'device' ? 'device' : data?.reason === 'expired' ? 'expired' : 'invalid');
@@ -202,6 +206,26 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
     };
   }, [state, isAdmin, verify, endSession]);
 
+  if (state === 'confidentiality') return <main className="theme-clinical dark min-h-screen grid place-items-center bg-background px-6 text-foreground">
+    <section className="max-w-md space-y-5">
+      <img src={logo1325} alt="1325.AI" className="h-16 w-16 object-contain" />
+      <h1 className="text-2xl font-semibold">1325 Clinical EMR / EHR</h1>
+      <p className="text-primary">Private preview · sample data only</p>
+      <p>Preview materials are confidential. Do not copy, forward, distribute or reproduce them. Do not enter patient information. Your name, email and date appear on private screens. Access is limited to your first device; your viewing timer begins when you enter.</p>
+      {acceptError && <p role="alert" className="text-destructive">{acceptError}</p>}
+      <Button disabled={accepting} onClick={async () => {
+        const token = localStorage.getItem(KEY);
+        if (!token) { setState('locked'); return; }
+        setAccepting(true); setAcceptError('');
+        try {
+          const { data, error } = await supabase.functions.invoke('health-access', { body: { action: 'verify', token, device: deviceId(), nda: true } });
+          if (error || data?.ok !== true) { setAcceptError('Access could not be confirmed. Please retry or contact Thomas@1325.ai.'); return; }
+          await verify(true);
+        } catch { setAcceptError('Check your connection and try again.'); }
+        finally { setAccepting(false); }
+      }}>{accepting ? 'Confirming…' : 'Accept confidentiality terms and enter'}</Button>
+    </section>
+  </main>;
   if (state === 'open' && viewer) {
     const seconds = Math.ceil(remaining / 1000);
     return <PrivateSessionContext.Provider value={endSession}>
@@ -230,7 +254,7 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
       <img src={logo1325} alt="1325.AI" className="mx-auto h-16 w-16 object-contain" />
       <Lock className="mx-auto h-8 w-8 text-primary" />
       <h1 className="text-2xl font-semibold">Your private viewing has ended</h1>
-      <p className="text-muted-foreground">Private screens are locked. Each approval allows one forty-minute viewing from first entry. Please request Thomas’s approval again to return.</p>
+      <p className="text-muted-foreground">Private screens are locked. Your approved viewing has ended. Please request Thomas’s approval again to return.</p>
       <Button onClick={() => { localStorage.removeItem(PRIVATE_SESSION_ENDED); localStorage.removeItem(KEY); setState('locked'); }}>Request fresh approval</Button>
     </section>
   </div>;

@@ -10,6 +10,7 @@ import { administerDecision } from './admin-decision.ts';
 import { sendClinicalApproval } from './approval-email.ts';
 import { requestNotification } from './notification-result.ts';
 import { validateCsrf } from '../_shared/csrf-guard.ts';
+import { viewingMinutes } from './viewing-duration.ts';
 
 const cors = {
   ...corsHeaders,
@@ -39,7 +40,7 @@ const Request = z.object({
   phone: z.string().trim().min(7).max(40),
   nda: z.literal(true),
 });
-const Verify = z.object({ action: z.enum(["verify", "end"]), token: z.string().regex(/^[a-f0-9]{48}$/), device: z.string().regex(/^[a-f0-9]{32}$/), path: z.string().max(200).optional() });
+const Verify = z.object({ action: z.enum(["verify", "end"]), token: z.string().regex(/^[a-f0-9]{48}$/), device: z.string().regex(/^[a-f0-9]{32}$/), path: z.string().max(200).optional(), nda: z.literal(true).optional() });
 const WINDOW_DAYS = 7;
 const AdminDecision = z.object({ action: z.literal('admin_decision'), request_id: z.string().uuid(), decision: z.enum(['approve', 'deny', 'revoke', 'reopen', 'extend']), expected_status: z.enum(['pending', 'approved', 'expired']), confirmed: z.literal(true) }).strict();
 const EmailDecision = z.object({ action: z.enum(['email_preview', 'email_decide']), id: z.string().regex(/^[0-9a-f-]{36}$/), t: z.string().regex(/^[a-f0-9]{48}$/), d: z.enum(['approve', 'deny', 'revoke']) }).strict();
@@ -72,8 +73,8 @@ Deno.serve(async (req) => {
     try { accepted = await sendClinicalApproval(message => resend.emails.send(message), r as never, access, expires); } catch { accepted = false; }
     return {
       ok: true, title: "Access approved",
-      message: `${r.full_name} can now open one forty-minute viewing. ${accepted ? 'Their invitation email was accepted for sending.' : 'Sending their invitation could not be confirmed — resend from the Admin Dashboard.'}`,
-      html: approvedContent(r.full_name, r.work_email, expires, `${FN_URL}?id=${id}&t=${t}&d=revoke`, accepted),
+      message: `${r.full_name} can now open one ${viewingMinutes(r)}-minute viewing. ${accepted ? 'Their invitation email was accepted for sending.' : 'Sending their invitation could not be confirmed — resend from the Admin Dashboard.'}`,
+      html: approvedContent(r.full_name, r.work_email, expires, `${FN_URL}?id=${id}&t=${t}&d=revoke`, accepted, viewingMinutes(r)),
     };
   };
   const SITE_DECISION = 'https://1325.ai/email-decision';
@@ -130,7 +131,7 @@ Deno.serve(async (req) => {
           return !role.error && role.data === true;
         },
         read: async id => {
-          const { data, error } = await db.from('hc_access_requests').select('id,status,revoked_at,full_name,work_email,first_entered_at,viewing_expires_at').eq('id', id).maybeSingle();
+          const { data, error } = await db.from('hc_access_requests').select('id,status,revoked_at,full_name,work_email,viewing_duration_minutes,first_entered_at,viewing_expires_at').eq('id', id).maybeSingle();
           if (error) throw error;
           return data;
         },
@@ -157,6 +158,12 @@ Deno.serve(async (req) => {
 
   const v = Verify.safeParse(body);
   if (v.success) {
+    if (v.data.action === 'verify' && v.data.nda === true) {
+      const { error } = await db.from('hc_access_requests').update({ nda_accepted_at: new Date().toISOString() })
+        .eq('access_token', v.data.token).eq('status', 'approved').is('revoked_at', null).is('nda_accepted_at', null)
+        .or(`device_id.is.null,device_id.eq.${v.data.device}`);
+      if (error) return json({ ok: false, reason: 'unavailable' }, 503);
+    }
     const { data: grant, error } = await db.rpc("hc_verify_preview_access", {
       p_token: v.data.token, p_device: v.data.device, p_end: v.data.action === "end",
     });
