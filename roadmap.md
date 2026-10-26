@@ -1,5 +1,9 @@
 # Roadmap
 
+## 1325.AI flagship transformation — October 26, 2026
+- [ ] Replace the crowded homepage with a Clinical-inspired public website, focused free signup, product pillars, workforce selector and founder section; preserve existing services.
+- [ ] Verify navigation, signup destination, workforce interaction and computer/phone presentation; publication remains the owner's action.
+
 ## Kenya dossier board audit — October 26, 2026
 - [x] Recalculated numerical scenarios: 30 original arithmetic/count checks passed; reviewed competitor price conditions and clinical evidence. Vendor claims, ambiguous identities and current contractual/legal status remain qualified, not certified true.
 - [x] Delivered a corrected 35-page v2 PDF and standalone audit summary without overwriting the original; rendered and inspected all pages. Currency/package/offline descriptions and architecture diagram corrected. Collection references added with pending upload status, not confirmed ready.
