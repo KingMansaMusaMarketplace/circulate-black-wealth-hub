@@ -39,6 +39,7 @@ import ClinicalDataExplorer from './workspace/ClinicalDataExplorer';
 import ConnectionPreparation from './workspace/ConnectionPreparation';
 import PatientCommunication from './workspace/PatientCommunication';
 import BillingPreparation from './workspace/BillingPreparation';
+import ClinicalOperationsTiles from './workspace/ClinicalOperationsTiles';
 import EnterpriseReliability from './workspace/EnterpriseReliability';
 import DoctorEvaluation from './workspace/DoctorEvaluation';
 import ExecutiveQuality from './workspace/ExecutiveQuality';
@@ -171,6 +172,7 @@ const Dashboard = () => (
       <Stat label="Pages reviewed by Kayla" value="4,000" icon={FileText} />
       <Stat label="Claims needing action" value="2" icon={Receipt} />
     </div>
+    <ClinicalOperationsTiles />
     <div className="grid gap-6 lg:grid-cols-2">
       <Card><CardHeader><CardTitle className="text-base">Today's schedule</CardTitle></CardHeader>
         <CardContent className="space-y-3">{APPOINTMENTS.map((a) => (
