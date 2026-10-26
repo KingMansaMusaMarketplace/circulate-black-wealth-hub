@@ -11,6 +11,7 @@ import { assetUrl } from '@/utils/assetUrl';
 import FlagshipWorkforce from '@/components/homepage/FlagshipWorkforce';
 import { FlagshipHeader, FlagshipFooter } from '@/components/homepage/FlagshipChrome';
 import hero from '@/assets/flagship-commerce.jpg';
+import heroLoop from '@/assets/videos/flagship-hero-loop.mp4.asset.json';
 import community from '@/assets/demo-soul-food.jpg';
 import clinical from '@/assets/clinical-solutions-practice.jpg';
 import founder from '@/assets/team/Thomas_D_Bowling_headshot.jpg';
@@ -54,6 +55,7 @@ export default function HomePage() {
       <FlagshipHeader />
       <section className="flagship-hero relative flex items-center overflow-hidden">
         <img src={hero} alt="Business owners collaborating in a modern workspace" width={1920} height={1024} fetchPriority="high" className="absolute inset-0 w-full h-full object-cover object-[65%_center]" />
+        <video src={assetUrl(heroLoop.url)} poster={hero} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" onError={(e) => { e.currentTarget.style.display = 'none'; }} className="absolute inset-0 w-full h-full object-cover object-[65%_center] motion-reduce:hidden" />
         <div className="flagship-content relative z-10 py-16 flagship-rise">
           <p className="text-primary text-sm font-medium mb-5">BUSINESS. COMMUNITY. POSSIBILITY.</p>
           <h1 className="text-5xl md:text-7xl font-medium leading-[1.08] max-w-3xl">1325.AI</h1>
