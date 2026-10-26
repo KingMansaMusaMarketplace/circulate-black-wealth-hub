@@ -1,302 +1,110 @@
-import HomeBusinessSignup from '@/components/HomePage/HomeBusinessSignup';
-import React, { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Youtube, TrendingUp, Users, PlayCircle, ArrowRight, Sparkles } from 'lucide-react';
-import { useQueryClient } from '@tanstack/react-query';
-import { updateMetaTags, pageSEO } from '@/utils/seoUtils';
-import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
+import { ArrowRight, ArrowUpRight, Play, Store, Globe2, Network } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
+import { Button } from '@/components/ui/button';
 import { OrganizationStructuredData } from '@/components/SEO/OrganizationStructuredData';
 import { WebsiteStructuredData } from '@/components/SEO/WebsiteStructuredData';
-import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
-import BusinessSubmissionBox from '@/components/homepage/BusinessSubmissionBox';
-import MultiSiteRevenueShareCard from '@/components/homepage/MultiSiteRevenueShareCard';
+import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
 import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
-import SponsorWallStrip from '@/components/sponsors/SponsorWallStrip';
-import WhyBuyBand from '@/components/homepage/WhyBuyBand';
-import WhyNowVideo from '@/components/homepage/WhyNowVideo';
-import HolidayVideoCard from '@/components/homepage/HolidayVideoCard';
-import AutonomousWorkforceVideo from '@/components/homepage/AutonomousWorkforceVideo';
-import { isHolidaySpecialActive } from '@/components/homepage/HolidayAnnouncementBar';
+import { assetUrl } from '@/utils/assetUrl';
+import FlagshipWorkforce from '@/components/homepage/FlagshipWorkforce';
+import { FlagshipHeader, FlagshipFooter } from '@/components/homepage/FlagshipChrome';
+import hero from '@/assets/flagship-commerce.jpg';
+import community from '@/assets/demo-soul-food.jpg';
+import clinical from '@/assets/clinical-solutions-practice.jpg';
+import founder from '@/assets/team/Thomas_D_Bowling_headshot.jpg';
+import film from '@/assets/meet-kayla-upgraded.mp4.asset.json';
+import '@/components/homepage/flagship.css';
 
+const pillars = [
+  { number: '01', icon: Store, eyebrow: 'FOR BUSINESS OWNERS', title: 'Your business. A bigger team.', description: 'Get found in the directory. Bring Kayla into your operations. Build your next chapter with specialized Agentic intelligence.', to: '/business-signup', action: 'List your business free', image: hero, alt: 'Business owners reviewing their work together' },
+  { number: '02', icon: Globe2, eyebrow: 'FOR CONSUMERS & COMMUNITIES', title: 'Discover local. Connect global.', description: 'Find Black-owned businesses, explore your community and keep the businesses you love within reach.', to: '/directory', action: 'Explore the directory', image: community, alt: 'Food from a community restaurant' },
+  { number: '03', icon: Network, eyebrow: 'FOR ENTERPRISE & HEALTHCARE', title: 'Infrastructure for what’s next.', description: 'Explore enterprise connectivity and the development of 1325 Clinical EMR / EHR. Private preview · sample data only.', to: '/connect', action: 'Explore enterprise', image: clinical, alt: 'Physicians collaborating in a clinical setting' },
+];
 
-/**
- * HomePage — Kayla-led institutional front door.
- * Three screens: Hero (Kayla + 42 Agentic AI Employees), The Workforce,
- * Scale (44,000+) with the business submission entry point.
- *
- * Pricing, Mansa Stays, Noire Rideshare, and the WhyBand live on their
- * own routes — intentionally kept off the homepage per Boardroom decision.
- */
-const HomePage: React.FC = () => {
-  const queryClient = useQueryClient();
-  const { rounded: liveCount, formatted: liveExact } = useLiveBusinessCount();
-
-  useEffect(() => {
-    trackFunnelEvent('homepage_view');
-    queryClient.invalidateQueries();
-    updateMetaTags({
-      title: 'Find a Black-Owned Business and Allies You Can Trust — 1325.AI',
-      description:
-        `Every listing verified. Every dollar you spend circulates. Search ${liveCount} Black-owned businesses worldwide, kept accurate by Kayla and 42 Agentic AI Employees.`,
-      path: '/about-1325',
-      keywords: pageSEO.home.keywords,
-    });
-  }, [queryClient, liveCount]);
-
-  // Smooth-scroll to #submit-business when navigated via hash link.
+export default function HomePage() {
+  const { formatted, isLoading } = useLiveBusinessCount();
+  const [watching, setWatching] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  const video = useRef<HTMLVideoElement>(null);
+  useEffect(() => { trackFunnelEvent('homepage_view'); }, []);
   useEffect(() => {
     const handleHash = () => {
-      const hash = window.location.hash.replace('#', '');
-      if (!hash) return;
-      const el = document.getElementById(hash);
-      if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+      const hash = window.location.hash.slice(1);
+      if (hash) document.getElementById(hash)?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     };
     handleHash();
     window.addEventListener('hashchange', handleHash);
     return () => window.removeEventListener('hashchange', handleHash);
   }, []);
-
+  useEffect(() => () => { video.current?.pause(); }, []);
   return (
-    <>
-      <OrganizationStructuredData />
-      <WebsiteStructuredData />
-
-      <div className="bg-black text-zinc-100 selection:bg-mansagold/30 min-h-screen">
-        {/* Screen 1 — Hero (VC Institutional) */}
-        <section className="flex flex-col items-center px-6 py-16 md:py-20 max-w-6xl mx-auto">
-          {isHolidaySpecialActive() ? (
-            <Link
-              to="/holiday-special"
-              className="inline-flex items-center gap-2 px-4 py-1.5 mb-10 border border-mansagold/60 rounded-full bg-mansagold/10 hover:bg-mansagold/20 transition-colors"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-mansagold opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-mansagold" />
-              </span>
-              <span className="text-[11px] uppercase tracking-widest font-semibold text-mansagold font-mono">
-                Holiday Special · Pro $149/mo (reg. $299) Locked In Forever →
-              </span>
-            </Link>
-          ) : (
-            <div className="inline-flex items-center gap-2 px-3 py-1 mb-10 border border-mansagold/30 rounded-full bg-mansagold/5">
-              <span className="text-[10px] uppercase tracking-widest font-medium text-mansagold font-mono">
-                Live on the Model Context Protocol Registry
-              </span>
-            </div>
-          )}
-
-          {/* Credibility metric strip */}
-          <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-8 py-8 mb-12 border-y border-white/10">
-            <div className="flex flex-col items-center md:items-start">
-              <span className="text-mansagold text-3xl font-bold tracking-tight">$2.1T</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-white/90 mt-1">U.S. Economy Impact</span>
-            </div>
-            <div className="flex flex-col items-center md:items-start">
-              <span className="text-mansagold text-3xl font-bold tracking-tight">$9.1T</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-white/90 mt-1">Global Market Size</span>
-            </div>
-            <div className="flex flex-col items-center md:items-start">
-              <span className="text-mansagold text-3xl font-bold tracking-tight">{liveCount}</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-white/90 mt-1">Verified Businesses</span>
-              <span className="text-[10px] text-white/60 mt-1 leading-snug text-center md:text-left">Verified means we confirmed the business is Black-owned and still operating.</span>
-            </div>
-            <div className="flex flex-col items-center md:items-start">
-              <span className="text-mansagold text-3xl font-bold tracking-tight">46</span>
-              <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-white/90 mt-1">Patent Claims</span>
-            </div>
+    <div className="flagship font-body">
+      <Helmet>
+        <title>1325.AI | Agentic Intelligence & Global Black-Owned Commerce</title>
+        <meta name="description" content="Connect your business to a global community. Explore Black-owned businesses, Kayla and 42 Agentic AI Employees, and enterprise connectivity. List your business free." />
+        <meta property="og:title" content="1325.AI | Agentic Intelligence & Global Commerce" />
+        <meta property="og:description" content="Intelligence for your business. Connections for your community. Discover the 1325.AI platform and list your business free." />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="canonical" href="https://1325.ai/" />
+      </Helmet>
+      <OrganizationStructuredData /><WebsiteStructuredData />
+      <FlagshipHeader />
+      <section className="flagship-hero relative flex items-center overflow-hidden">
+        <img src={hero} alt="Business owners collaborating in a modern workspace" width={1920} height={1024} fetchPriority="high" className="absolute inset-0 w-full h-full object-cover object-[65%_center]" />
+        <div className="flagship-content relative z-10 py-16 flagship-rise">
+          <p className="text-primary text-sm font-medium mb-5">BUSINESS. COMMUNITY. POSSIBILITY.</p>
+          <h1 className="text-5xl md:text-7xl font-medium leading-[1.08] max-w-3xl">1325.AI</h1>
+          <p className="text-3xl md:text-5xl font-light leading-[1.15] mt-5 max-w-[660px]">The autonomous enterprise layer for global commerce.</p>
+          <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-[540px] mt-6">Your ambition deserves more than a directory. Connect with a global community and meet Kayla &amp; the 42 Agentic AI Employees behind your next chapter.</p>
+          <div className="flex flex-col sm:flex-row gap-3 mt-9 max-w-xl">
+            <Button noHint asChild size="lg" className="flagship-action px-5 text-sm whitespace-normal h-auto min-h-14"><Link to="/business-signup" onClick={() => trackFunnelEvent('home_preview_cta_business_click', { placement: 'flagship_hero' })}>Claim or Add Your Business — Free <ArrowRight /></Link></Button>
+            <Button noHint asChild variant="ghost" size="lg" className="flagship-action border border-foreground/30 px-5 text-sm"><a href="#platform">Explore the platform <ArrowUpRight /></a></Button>
           </div>
-
-          {/* Hero content */}
-          <div className="max-w-4xl text-center space-y-8">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight leading-[1.1] text-white">
-              Find a Black-owned business and Allies you can{' '}
-              <span className="text-mansagold italic font-normal">trust</span> — anywhere in the world.
-            </h1>
-
-            <p className="text-lg md:text-2xl text-white font-light leading-relaxed max-w-3xl mx-auto">
-              Every listing verified. Every dollar you spend circulates.{' '}
-              <span className="text-mansagold italic">Kayla</span> and 42 Agentic AI Employees keep it accurate.
-            </p>
-            <p className="text-sm md:text-base text-white/90 font-light">
-              {liveCount} verified businesses worldwide.
-            </p>
-
-            {/* Consolidated CTAs */}
-            <div className="pt-4 flex flex-col items-center space-y-8">
-              <div className="flex flex-wrap justify-center gap-4">
-                <Link
-                  to="/directory"
-                  className="px-8 py-4 bg-mansagold text-black font-bold uppercase tracking-widest text-xs rounded-sm transition-transform hover:scale-105 active:scale-95"
-                >
-                  Shop Black-Owned
-                </Link>
-                <a
-                  href="#submit-business"
-                  className="px-8 py-4 bg-white text-black font-bold uppercase tracking-widest text-xs rounded-sm transition-transform hover:scale-105 active:scale-95"
-                >
-                  Claim or Add Your Business — Free
-                </a>
-              </div>
-
-              <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
-                <Link
-                  to="/what-kayla-does"
-                  className="group inline-flex items-center gap-2 min-h-[44px] px-5 py-3 rounded-full border border-white/25 bg-white/5 text-white/90 text-xs sm:text-sm font-semibold uppercase tracking-[0.15em] hover:border-mansagold hover:text-mansagold hover:bg-white/10 hover:-translate-y-0.5 transition-all"
-                >
-                  <Sparkles className="w-4 h-4 text-mansagold" aria-hidden="true" />
-                  Deploy Kayla
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-                </Link>
-                <Link
-                  to="/investors"
-                  className="group inline-flex items-center gap-2 min-h-[44px] px-5 py-3 rounded-full border border-white/25 bg-white/5 text-white/90 text-xs sm:text-sm font-semibold uppercase tracking-[0.15em] hover:border-mansagold hover:text-mansagold hover:bg-white/10 hover:-translate-y-0.5 transition-all"
-                >
-                  <TrendingUp className="w-4 h-4 text-mansagold" aria-hidden="true" />
-                  For Investors
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-                </Link>
-                <Link
-                  to="/team"
-                  className="group inline-flex items-center gap-2 min-h-[44px] px-5 py-3 rounded-full border border-white/25 bg-white/5 text-white/90 text-xs sm:text-sm font-semibold uppercase tracking-[0.15em] hover:border-mansagold hover:text-mansagold hover:bg-white/10 hover:-translate-y-0.5 transition-all"
-                >
-                  <Users className="w-4 h-4 text-mansagold" aria-hidden="true" />
-                  Meet the Team
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-                </Link>
-                <a
-                  href="https://www.1325.ai/ultimate-deep-dive.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Watch the founder video (opens in a new tab)"
-                  className="group inline-flex items-center gap-2 min-h-[44px] px-5 py-3 rounded-full border border-white/25 bg-white/5 text-white/90 text-xs sm:text-sm font-semibold uppercase tracking-[0.15em] hover:border-mansagold hover:text-mansagold hover:bg-white/10 hover:-translate-y-0.5 transition-all"
-                >
-                  <PlayCircle className="w-4 h-4 text-mansagold" aria-hidden="true" />
-                  Founder Video
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-                </a>
-              </div>
-
-              <a
-                href="https://www.youtube.com/@1325AI"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Watch 1325.AI on YouTube"
-                className="inline-flex items-center gap-3 px-8 py-4 border border-mansagold/60 text-mansagold font-bold uppercase tracking-widest text-xs rounded-sm hover:bg-mansagold hover:text-black transition-all"
-              >
-                <Youtube className="w-4 h-4" aria-hidden="true" />
-                Watch on YouTube
-              </a>
-            </div>
+          <p className="text-sm text-muted-foreground mt-4">Free business listing. No credit card required.</p>
+        </div>
+      </section>
+      <section aria-label="Platform at a glance" className="border-b border-border">
+        <div className="flagship-content grid grid-cols-2 md:grid-cols-4 gap-y-8 py-10 md:py-12">
+          {[['42', 'Agentic AI Employees'], [isLoading ? '…' : formatted, 'Businesses in the directory'], ['Global', 'Community connections'], ['46', 'Provisional claims pending']].map(([value, label]) => <div key={label} className="border-l border-border pl-5 first:border-l-0 first:pl-0"><p className="text-3xl md:text-4xl font-medium">{value}</p><p className="text-muted-foreground text-xs md:text-sm mt-3">{label}</p></div>)}
+        </div>
+      </section>
+      <section id="platform" className="py-20 md:py-28">
+        <div className="flagship-content">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12"><div><p className="text-primary text-sm mb-4">THE 1325.AI PLATFORM</p><h2 className="text-3xl md:text-5xl font-medium leading-tight">Built for your next move.</h2></div><p className="text-muted-foreground max-w-md leading-relaxed">From the neighborhood business to the enterprise network. One shared ambition: more opportunity.</p></div>
+          <div className="grid gap-8 md:grid-cols-3">
+            {pillars.map(({ icon: Icon, ...pillar }) => <article key={pillar.number} className="min-w-0 group">
+              <Link to={pillar.to} tabIndex={-1} aria-hidden="true" className="block aspect-[4/3] overflow-hidden rounded-sm mb-7"><img src={pillar.image} alt={pillar.alt} loading="lazy" width={640} height={480} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" /></Link>
+              <div className="flex items-center justify-between text-primary mb-4"><p className="text-xs font-medium">{pillar.eyebrow}</p><Icon className="h-5 w-5" /></div>
+              <h3 className="text-2xl font-medium leading-tight mb-4">{pillar.title}</h3><p className="text-muted-foreground text-sm leading-7 min-h-[112px]">{pillar.description}</p>
+              <Button noHint asChild variant="link" className="px-0 text-primary"><Link to={pillar.to}>{pillar.action} <ArrowRight /></Link></Button>
+              {pillar.number === '02' && <div><Link to="/allies" className="text-sm text-muted-foreground underline underline-offset-4">Browse Allies separately</Link></div>}
+              {pillar.number === '03' && <div><Link to="/health/welcome" className="text-sm text-muted-foreground underline underline-offset-4">Explore 1325 Clinical</Link></div>}
+            </article>)}
           </div>
-
-          {/* Founder quote */}
-          <div className="mt-16 pt-8 border-t border-white/10 w-full max-w-3xl">
-            <blockquote className="text-center">
-              <p className="italic text-white/90 font-light text-sm md:text-base leading-relaxed mb-4">
-                “For too long, we have been divided economically. 1325.AI is the MCP infrastructure layer that turns Black-owned business into global-scale enterprise.”
-              </p>
-              <cite className="not-italic">
-                <span className="block text-mansagold text-[10px] font-bold uppercase tracking-[0.3em]">Thomas D. Bowling</span>
-                <span className="block text-white/80 text-[9px] uppercase tracking-[0.1em] mt-1 font-mono">Founder &amp; Chief Architect</span>
-              </cite>
-            </blockquote>
+        </div>
+      </section>
+      <section id="meet-kayla" className="bg-card border-y border-border py-16 md:py-20">
+        <div className="flagship-content grid gap-10 lg:grid-cols-[1fr_1fr] items-center">
+          <div><p className="text-primary text-sm mb-4">MEET KAYLA</p><h2 className="text-3xl md:text-5xl font-medium leading-tight">Less working alone.<br />More moving forward.</h2><p className="text-muted-foreground leading-relaxed mt-6 max-w-lg">Kayla coordinates a specialized Agentic workforce around your business goals. Explore the team, the capabilities and the work they can help prepare.</p><Button noHint variant="link" asChild className="text-primary px-0 mt-5"><a href="#workforce">Meet the workforce <ArrowRight /></a></Button></div>
+          <div className="relative aspect-video bg-muted overflow-hidden rounded-sm flex items-center justify-center">
+            {watching ? <><video ref={video} src={assetUrl(film.url)} controls autoPlay playsInline preload="none" aria-label="Meet Kayla film" onError={() => setVideoError(true)} className="w-full h-full object-contain" />{videoError && <div role="alert" className="absolute inset-0 bg-card flex flex-col items-center justify-center p-6 text-center"><p>The film is unavailable right now.</p><Button noHint variant="link" asChild className="text-primary mt-3"><Link to="/what-kayla-does">Explore Kayla instead <ArrowRight /></Link></Button></div>}</> : <><img src={hero} alt="" width={640} height={360} loading="lazy" className="absolute inset-0 w-full h-full object-cover opacity-40" /><Button noHint onClick={() => setWatching(true)} variant="ghost" className="relative h-auto py-6 px-7 text-foreground flex flex-col gap-4"><span className="rounded-full border border-foreground/50 w-16 h-16 flex items-center justify-center"><Play className="h-6 w-6" /></span><span>Watch: Meet Kayla</span></Button></>}
           </div>
-        </section>
-
-        {/* Short business sign-up, right below the top banner */}
-        <SectionErrorBoundary sectionName="Business Signup">
-          <HomeBusinessSignup />
-        </SectionErrorBoundary>
-
-        {/* Why people buy: trust, standing, belonging */}
-        <WhyNowVideo />
-        <HolidayVideoCard />
-
-        <WhyBuyBand />
-        <AutonomousWorkforceVideo />
-
-        {/* Corporate partner wall — shows live partners and open slots */}
-        <SponsorWallStrip openSlots={2} />
-
-
-        {/* Screen 2 — The Workforce */}
-        <section className="px-6 py-24 border-t border-zinc-900">
-          <div className="max-w-6xl mx-auto">
-            <div className="mb-16">
-              <h2 className="text-sm uppercase tracking-[0.3em] text-mansagold font-medium mb-4">
-                The Workforce
-              </h2>
-              <p className="text-3xl font-light text-white">
-                Specialized Intelligence. Unified Mission.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-zinc-900 border border-zinc-900">
-              {[
-                {
-                  code: 'AGENT_01',
-                  name: 'Kayla',
-                  desc: `Chief Orchestrator. Directs the fleet of 42 agents to curate, verify, and connect ${liveCount} businesses to global capital.`,
-                },
-                {
-                  code: 'AGENT_02',
-                  name: 'The Verifier',
-                  desc: `Ensuring every entry in our ${liveCount} directory meets institutional standards for ownership and operational status.`,
-                },
-                {
-                  code: 'AGENT_42',
-                  name: 'The Connector',
-                  desc: 'Autonomous relationship manager matching directory listings with procurement opportunities and strategic partners.',
-                },
-              ].map((a) => (
-                <div key={a.code} className="bg-black p-8 group hover:bg-zinc-950 transition-colors">
-                  <span className="font-mono text-sm text-mansablue-light drop-shadow-[0_0_8px_rgba(59,130,246,0.5)] mb-4 block">{a.code}</span>
-                  <h3 className="text-xl font-medium mb-3 text-white">{a.name}</h3>
-                  <p className="text-zinc-400 text-sm leading-relaxed mb-6">{a.desc}</p>
-                  <div className="h-1 w-0 group-hover:w-full bg-mansagold transition-all duration-500" />
-                </div>
-              ))}
-            </div>
-            <p className="mt-8 text-base sm:text-lg text-gray-300">
-              How does this compare to Salesforce's AI agents?{' '}
-              <Link to="/compare/salesforce" className="font-semibold text-mansagold underline-offset-4 hover:underline">
-                See the comparison →
-              </Link>
-            </p>
-          </div>
-        </section>
-
-        {/* Screen 3 — Scale + Submit */}
-        <section className="px-6 py-24 md:py-32 border-t border-zinc-900">
-          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-12">
-            <div className="max-w-xl">
-              <h2 className="text-6xl md:text-8xl font-light text-white mb-6 italic" title={`${liveExact} verified businesses`}>{liveCount}</h2>
-              <p className="text-xl text-zinc-300 font-light leading-relaxed">
-                Verified listings making 1325.AI the definitive platform for Black-owned
-                enterprise. Scaled by AI Agentic, built for legacy.
-              </p>
-            </div>
-
-            <div id="submit-business" className="w-full md:max-w-md scroll-mt-24">
-              <div className="p-6 border border-zinc-900 bg-zinc-950/50 backdrop-blur-sm">
-                <h4 className="text-sm uppercase tracking-widest text-mansagold mb-4">
-                  Add your business
-                </h4>
-                <div className="h-px bg-zinc-800 w-full mb-4" />
-                <SectionErrorBoundary sectionName="Business Submission">
-                  <BusinessSubmissionBox />
-                </SectionErrorBoundary>
-                <SectionErrorBoundary sectionName="Multi-Site Revenue Sharing">
-                  <MultiSiteRevenueShareCard />
-                </SectionErrorBoundary>
-              </div>
-            </div>
-
-          </div>
-        </section>
-      </div>
-    </>
+        </div>
+      </section>
+      <FlagshipWorkforce />
+      <section className="border-t border-border py-20 md:py-24">
+        <div className="flagship-content grid gap-10 md:grid-cols-[280px_1fr] lg:gap-20 items-center">
+          <img src={founder} alt="Thomas D. Bowling, founder and inventor" loading="lazy" width={400} height={480} className="w-full max-w-[280px] aspect-[4/5] object-cover object-top rounded-sm" />
+          <div><p className="text-primary text-sm mb-5">THE FOUNDER’S VISION</p><blockquote className="text-2xl md:text-3xl font-light leading-relaxed">“For too long, we have been divided economically. 1325.AI is the MCP infrastructure layer that turns Black-owned business into global-scale enterprise.”</blockquote><p className="font-medium mt-7">Thomas D. Bowling</p><p className="text-muted-foreground text-sm mt-1">Founder &amp; Inventor</p><Button noHint asChild variant="link" className="text-primary px-0 mt-5"><a href="/ultimate-deep-dive.html">Watch the founder’s vision <ArrowUpRight /></a></Button><p className="text-xs text-muted-foreground mt-4">U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending</p></div>
+        </div>
+      </section>
+      <section id="submit-business" className="bg-card border-t border-border py-20 md:py-24">
+        <div className="flagship-content flex flex-col lg:flex-row justify-between gap-8 lg:items-center"><div><p className="text-primary text-sm mb-4">YOUR NEXT CHAPTER STARTS HERE</p><h2 className="text-3xl md:text-5xl font-medium leading-tight">Make your business<br />part of something bigger.</h2><p className="text-muted-foreground mt-5">Create your profile. Submit it for review. Connect with your community.</p></div><div className="lg:max-w-sm"><Button noHint asChild size="lg" className="flagship-action px-6 whitespace-normal h-auto min-h-14 w-full"><Link to="/business-signup" onClick={() => trackFunnelEvent('home_preview_cta_business_click', { placement: 'flagship_footer' })}>Claim or Add Your Business — Free <ArrowRight /></Link></Button><p className="text-muted-foreground text-sm mt-4">Free to list · No credit card required<br />Review required before a new listing goes live.</p></div></div>
+      </section>
+      <FlagshipFooter />
+    </div>
   );
-};
-
-export default HomePage;
+}
