@@ -40,6 +40,8 @@ export const LazyCorporateSponsorshipPage = lazyWithRetry(() => import('@/pages/
 export const LazyQRScannerPage = lazyWithRetry(() => import('@/pages/QRScannerPage'));
 export const LazyBusinessDetailPage = lazyWithRetry(() => import('@/pages/BusinessDetailPage'));
 export const LazySubscriptionPage = lazyWithRetry(() => import('@/pages/SubscriptionPage'));
+export const LazyOsTourPage = lazyWithRetry(() => import('@/pages/os/OsTourPage'));
+export const LazyOsDashboardPage = lazyWithRetry(() => import('@/pages/os/OsDashboardPage'));
 export const LazyBusinessSignupPage = lazyWithRetry(() => import('@/pages/BusinessSignupPage'));
 export const LazyIOSBlockedPage = lazyWithRetry(() => import('@/pages/IOSBlockedPage'));
 export const LazyBusinessFormPage = lazyWithRetry(() => import('@/pages/BusinessFormPage'));

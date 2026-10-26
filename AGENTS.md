@@ -25,3 +25,4 @@
 - Public clinical pages share ClinicalSiteBack and distinguish platform workers from sample-only clinical execution. Marketplace ambient media uses page-owned photo/CDN video, reduced-motion/error fallback and visibility/manual pause; pricing and access stay unchanged.
 - Founding Clinic signups insert into hc_founding_clinics (anon insert-only, admin read); no money, patient data or access approvals.
 - Admin email Approve/Decline buttons (clinical, investor, business listing) open /email-decision; non-clinical links use HMAC tokens from _shared/email-decision-token.ts and the email-decision function, which calls existing approval functions server-to-server. Keeps one approval path for phone and dashboard.
+- 1325 OS walkthrough (/os-tour request form, /os-dashboard) uses fixed sample content in src/pages/os; the dashboard shows only to server-verified admins until visitor approval links exist, so requests never grant access by themselves.

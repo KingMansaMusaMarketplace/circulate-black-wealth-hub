@@ -89,6 +89,8 @@ import {
   LazyBusinessDetailPage,
   LazySubscriptionPage,
   LazyBusinessSignupPage,
+  LazyOsTourPage,
+  LazyOsDashboardPage,
   LazyBusinessFormPage,
   LazyLoginPage,
   LazySignupPage,
@@ -694,7 +696,7 @@ function App() {
                                   <LazyBusinessFormPage />
                                 </IOSProtectedRoute>
                               } />
-                              <Route path="/submit-business" element={<SubmitBusinessRedirect />} />
+                              <Route path="/submit-business" element={<SubmitBusinessRedirect />} /><Route path="/os-tour" element={<LazyOsTourPage />} /><Route path="/os-dashboard" element={<LazyOsDashboardPage />} />
                         <Route path="/business-signup" element={
                                 <IOSProtectedRoute>
                                   <LazyBusinessSignupPage />
@@ -1364,6 +1366,7 @@ function App() {
                             <LazyBusinessFinancesPage />
                           </IOSProtectedRoute>
                         } />
+                        <Route path="/os-tour" element={<LazyOsTourPage />} /><Route path="/os-dashboard" element={<LazyOsDashboardPage />} />
                         <Route path="/business-form" element={
                           <IOSProtectedRoute>
                             <LazyBusinessFormPage />
