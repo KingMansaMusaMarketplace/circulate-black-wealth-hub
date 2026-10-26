@@ -14,6 +14,7 @@ import DataLoadErrors from './DataLoadErrors';
 import { scheduleDay } from './schedule-date';
 import { registrationSource } from './registration-source';
 import SamplePatientChart from './SamplePatientChart';
+import ClinicalOperationsTiles from './ClinicalOperationsTiles';
 
 type P = { clinicId: string; patients: Row[]; reloadPatients?: () => void; isOwner?: boolean };
 
@@ -58,6 +59,7 @@ export function Dashboard({ clinicId, patients, go }: P & { go: (k: string) => v
           </Button>
         ))}
       </div>
+      <ClinicalOperationsTiles />
       <div className="grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardHeader><CardTitle className="text-base">Today's schedule</CardTitle></CardHeader>

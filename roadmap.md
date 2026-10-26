@@ -1,5 +1,10 @@
 # Roadmap
 
+## Illustrative clinical dashboard tiles — October 26, 2026
+- [x] Add shared fictional patient flow, Kenya collections, supply alerts and browser-only connection tiles to both dashboards without live services or access changes.
+- [ ] Run focused arithmetic/safety/lifecycle tests and check automatic compilation and available browser layouts.
+- [ ] Verify signed-in dashboard end-to-end — blocked by external unmanaged authentication with no authorized test session.
+
 ## Special clinical invitation — October 24, 2026
 - [x] Created and read back Dr. Otieno's pending sixty-minute invitation; no access token or fabricated confidentiality acceptance. Server duration, ordinary forty minutes, device binding, refresh and expiry passed rolled-back database checks.
 - [x] Aligned invitation/dashboard duration, added viewer confidentiality acceptance, deployed health-access; 49 frontend and six service checks passed, build OK. Delivered unsent email draft with public website and dashboard instructions. Website publication is required before special-link use.

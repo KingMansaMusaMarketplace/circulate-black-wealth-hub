@@ -1,4 +1,5 @@
 # AGENTS
+- Clinical dashboard operations use a shared fictional-only presentation module; follow the clinical AGENTS.md boundaries to keep operational examples separate from records, payments and connection health.
 - Standalone shared-video links use public HTML viewing pages with native video controls and CDN asset URLs, matching the existing briefing pages rather than sending raw media links.
 - Development and production builds both reserve an 8 GiB Node heap because the large module graph exceeds the default heap during chunk rendering.
 - Clinical safety follows src/pages/health/AGENTS.md; admin decisions use verified identity and conditional writes in health-access/admin-decision.ts, sharing approval-email.ts to prevent mail drift.
