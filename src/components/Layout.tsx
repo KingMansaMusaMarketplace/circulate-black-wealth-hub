@@ -46,6 +46,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   // On native apps, ALWAYS show bottom tab bar for navigation recovery
   // Users should never be stuck on a page with no way to navigate
   const shouldShowTabBar = isNative;
+
+  // The flagship owns its public navigation; other routes retain the existing shell.
+  const isFlagship = location.pathname === '/' && !(typeof window !== 'undefined' && window.location.hostname.startsWith('health.'));
+  if (isFlagship) return <>{children}{shouldShowTabBar && <BottomTabBar />}</>;
   
   // Check if current path matches any no-layout page (exact match or starts with)
   const isHealthHost = typeof window !== 'undefined' && window.location.hostname.startsWith('health.');
