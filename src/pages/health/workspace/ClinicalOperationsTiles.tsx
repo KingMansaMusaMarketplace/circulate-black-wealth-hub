@@ -50,7 +50,7 @@ export default function ClinicalOperationsTiles() {
         <CardHeader><CardTitle className="flex items-center gap-2 text-base"><Coins className="h-5 w-5 shrink-0 text-mansagold" />Collections · Kenya scenario</CardTitle><SampleLabel /></CardHeader>
         <CardContent className="space-y-4">
           <div><p className="text-sm text-muted-foreground">Illustrative cash + M-Pesa received</p><p className="text-2xl font-semibold text-mansagold">{kes(totals.received)}</p><p className="text-xs text-muted-foreground">Kenyan shillings · invented example, not a forecast</p></div>
-          <svg viewBox="0 0 100 8" className="h-3 w-full overflow-hidden rounded-sm" role="img" aria-label={`Illustrative received amounts: M-Pesa ${kes(OPERATIONS_SCENARIO.collections.mpesa)}, cash ${kes(OPERATIONS_SCENARIO.collections.cash)}`}>
+          <svg viewBox="0 0 100 8" preserveAspectRatio="none" className="h-3 w-full overflow-hidden rounded-sm" role="img" aria-label={`Illustrative received amounts: M-Pesa ${kes(OPERATIONS_SCENARIO.collections.mpesa)}, cash ${kes(OPERATIONS_SCENARIO.collections.cash)}`}>
             <rect width={OPERATIONS_SCENARIO.collections.mpesa / totals.received * 100} height="8" fill="currentColor" className="text-mansagold" />
             <rect x={OPERATIONS_SCENARIO.collections.mpesa / totals.received * 100} width={OPERATIONS_SCENARIO.collections.cash / totals.received * 100} height="8" fill="currentColor" className="text-muted-foreground" />
           </svg>

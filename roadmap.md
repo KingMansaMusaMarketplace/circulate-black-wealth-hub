@@ -2,7 +2,7 @@
 
 ## Illustrative clinical dashboard tiles — October 26, 2026
 - [x] Add shared fictional patient flow, Kenya collections, supply alerts and browser-only connection tiles to both dashboards without live services or access changes.
-- [ ] Run focused arithmetic/safety/lifecycle tests and check automatic compilation and available browser layouts.
+- [x] Passed 31 focused arithmetic/safety/lifecycle and adjacent regression tests; automatic compilation OK. Isolated tile details and browser offline signal checked at computer/phone sizes without overflow or page errors; public approval gate hides the tiles. No approved/signed-in flow was bypassed.
 - [ ] Verify signed-in dashboard end-to-end — blocked by external unmanaged authentication with no authorized test session.
 
 ## Special clinical invitation — October 24, 2026
