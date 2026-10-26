@@ -7,6 +7,7 @@ import BackToButton from '@/components/ui/BackToButton';
 
 const links = [
   { label: 'Platform', to: '/#platform' },
+  { label: 'Tour the OS', to: '/os-tour' },
   { label: 'Directory', to: '/directory' },
   { label: '1325 Clinical', to: '/health/welcome' },
   { label: 'Enterprise', to: '/connect' },
