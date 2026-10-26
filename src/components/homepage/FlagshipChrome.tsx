@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logo from '@/assets/1325-ai-logo.webp';
+import BackToButton from '@/components/ui/BackToButton';
 
 const links = [
   { label: 'Platform', to: '/#platform' },
@@ -20,6 +21,7 @@ export function FlagshipHeader() {
       <nav aria-label="Main navigation" className="hidden xl:flex items-center gap-1">{links.map(link => <Button key={link.to} variant="ghost" noHint asChild className="flagship-nav text-muted-foreground"><Link to={link.to}>{link.label}</Link></Button>)}</nav>
       <div className="flex items-center gap-3"><Button noHint asChild variant="ghost" className="hidden sm:inline-flex flagship-nav"><Link to="/login">Sign in</Link></Button><Button noHint asChild className="hidden md:inline-flex flagship-action"><Link to="/business-signup?focus=true">List your business — Free <ArrowRight /></Link></Button><Button noHint size="icon" variant="ghost" className="xl:hidden" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="flagship-mobile-menu" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</Button></div>
     </div>
+    <div className="flagship-content pb-2"><BackToButton inline showOnHome /></div>
     {open && <nav id="flagship-mobile-menu" aria-label="Mobile navigation" className="flagship-content xl:hidden border-t border-border py-4 flex flex-col gap-1">{links.map(link => <Button key={link.to} noHint variant="ghost" asChild className="justify-start"><Link to={link.to} onClick={() => setOpen(false)}>{link.label}</Link></Button>)}<Button noHint variant="ghost" asChild className="justify-start"><Link to="/allies" onClick={() => setOpen(false)}>Browse Allies</Link></Button><Button noHint variant="ghost" asChild className="justify-start"><Link to="/login">Sign in</Link></Button><Button noHint asChild className="flagship-action mt-2"><Link to="/business-signup?focus=true">List your business — Free <ArrowRight /></Link></Button></nav>}
   </header>;
 }
