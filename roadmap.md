@@ -1,9 +1,9 @@
 # Roadmap
 
 ## Kenya ten-system comparison dossier — October 26, 2026
-- [ ] Research all ten article-listed systems against official sources and incorporate the four new fictional dashboard tiles.
-- [ ] Create a confidential executive PDF with substantial vendor profiles, charts, documented prices, diligence questions and source links; visually inspect every page and verify arithmetic.
-- [ ] Add the finished dossier to the clinical executive reports collection.
+- [x] Research the ten requested systems against official sources and incorporate the four new fictional dashboard tiles; retain article-body limitations and provisional eCare/Streamline identities.
+- [x] Create a confidential 34-page executive PDF with ten vendor profiles, 24 charts/diagrams, qualified prices, diligence questions and clickable sources; inspect all pages, correct source-register spacing and verify financial arithmetic.
+- [x] Save the finished dossier in Files and add its reference to the clinical executive reports collection; collection returned pending file-upload status, not confirmed ready.
 
 ## Illustrative clinical dashboard tiles — October 26, 2026
 - [x] Add shared fictional patient flow, Kenya collections, supply alerts and browser-only connection tiles to both dashboards without live services or access changes.
