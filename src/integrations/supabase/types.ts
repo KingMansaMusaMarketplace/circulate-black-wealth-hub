@@ -17257,6 +17257,54 @@ export type Database = {
           },
         ]
       }
+      os_access_requests: {
+        Row: {
+          access_token_hash: string | null
+          company: string
+          created_at: string
+          decided_at: string | null
+          email: string
+          full_name: string
+          id: string
+          phone: string | null
+          role: string | null
+          status: string
+          updated_at: string
+          viewing_expires_at: string | null
+          viewing_started_at: string | null
+        }
+        Insert: {
+          access_token_hash?: string | null
+          company: string
+          created_at?: string
+          decided_at?: string | null
+          email: string
+          full_name: string
+          id?: string
+          phone?: string | null
+          role?: string | null
+          status?: string
+          updated_at?: string
+          viewing_expires_at?: string | null
+          viewing_started_at?: string | null
+        }
+        Update: {
+          access_token_hash?: string | null
+          company?: string
+          created_at?: string
+          decided_at?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          role?: string | null
+          status?: string
+          updated_at?: string
+          viewing_expires_at?: string | null
+          viewing_started_at?: string | null
+        }
+        Relationships: []
+      }
       outreach_targets: {
         Row: {
           assigned_to: string | null
