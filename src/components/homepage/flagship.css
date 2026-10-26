@@ -20,12 +20,15 @@
 .flagship-hero::after { content: ''; position: absolute; inset: 0; background: var(--flagship-scrim); pointer-events: none; }
 .flagship-content { width: min(100% - 48px, 1280px); margin-inline: auto; }
 .flagship section { scroll-margin-top: 90px; }
+.flagship-signup form { border-radius: 4px; border: 1px solid hsl(var(--border)); box-shadow: none; }
+.flagship-signup form > div:first-child > p { font-size: 0; }
+.flagship-signup form > div:first-child > p::after { content: 'No password. No credit card required.'; font-size: 14px; }
 .flagship .flagship-action { border-radius: 4px; box-shadow: none; }
 .flagship .flagship-nav { border-radius: 4px; height: 40px; padding-inline: 12px; }
 .flagship-rise { animation: flagship-rise .7s ease-out both; }
 @keyframes flagship-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 767px) {
-  .flagship-hero { min-height: 640px; }
+  .flagship-hero { min-height: 580px; }
   .flagship-content { width: min(100% - 32px, 1280px); }
   .flagship { --flagship-scrim: linear-gradient(90deg, hsl(0 0% 0% / .9), hsl(0 0% 0% / .65)); }
 }
