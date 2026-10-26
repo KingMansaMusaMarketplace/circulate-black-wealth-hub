@@ -8,6 +8,9 @@ import QuickBusinessSignup from '@/components/auth/forms/QuickBusinessSignup';
 import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
 import { SalesAgent } from '@/types/sales-agent';
 import { trackFunnelEvent } from '@/lib/analytics/funnel-tracker';
+import { Button } from '@/components/ui/button';
+import { FlagshipHeader, FlagshipFooter } from '@/components/homepage/FlagshipChrome';
+import '@/components/homepage/flagship.css';
 import { useLiveBusinessCount } from '@/hooks/use-live-business-count';
 import { clearPendingLeadClaim, savePendingLeadClaim } from '@/lib/lead-claim';
 import { 
@@ -36,7 +39,8 @@ const BusinessSignupPage: React.FC = () => {
 
   // Remember the chosen listing so the claim is filed after sign-up or sign-in; forget it on a plain sign-up visit.
   useEffect(() => {
-    if (searchParams.get('claim')) savePendingLeadClaim(searchParams.get('claim')!, searchParams.get('name') || undefined);
+    const requestedClaim = searchParams.get('claim');
+    if (requestedClaim) savePendingLeadClaim(requestedClaim, searchParams.get('name') || undefined);
     else clearPendingLeadClaim();
   }, [searchParams]);
 
@@ -430,6 +434,22 @@ const BusinessSignupPage: React.FC = () => {
     'AI': 'bg-violet-500/20 text-violet-400 border-violet-500/30',
     'GROWTH': 'bg-teal-500/20 text-teal-400 border-teal-500/30',
   };
+
+  if (searchParams.get('focus') === 'true') return (
+    <div className="flagship font-body min-h-screen flex flex-col">
+      <Helmet><title>List Your Business Free | 1325.AI</title><meta name="description" content="Create your free business profile on 1325.AI. No credit card required. Ownership review required before publication." /><link rel="canonical" href="https://1325.ai/business-signup" /></Helmet>
+      <FlagshipHeader />
+      <section className="flagship-content flex-1 py-12 md:py-20 grid gap-10 lg:grid-cols-2 lg:gap-20 items-start">
+        <div className="order-2 lg:order-1 lg:sticky lg:top-28"><p className="text-primary text-sm mb-5">YOUR NEXT CHAPTER</p><h2 className="text-3xl md:text-5xl font-medium leading-tight">Your business belongs here.</h2><p className="text-muted-foreground leading-relaxed mt-6 max-w-md">Start with your name, email and business name. Confirm ownership, then continue setting up your profile.</p><ul className="space-y-4 mt-8 text-sm text-muted-foreground"><li>Free directory listing · No credit card required</li><li>Ownership review before publication</li><li>Optional paid Kayla plans, when you’re ready</li></ul><Button noHint asChild variant="link" className="text-primary px-0 mt-8"><Link to="/directory">Already listed? Find your business first <Search /></Link></Button></div>
+        <div className="flagship-signup min-w-0 order-1 lg:order-2">
+          {claimLeadId && <p role="status" className="text-primary mb-5">You’re claiming: {claimName || 'your business listing'}. Ownership verification is required.</p>}
+          {betaMode && <p className="text-primary mb-5">Welcome, Beta Tester!</p>}
+          {usePassword || betaMode ? <><BusinessSignupForm referralCode={referralCode} referringAgent={referringAgent} onCheckReferralCode={checkReferralCode} betaMode={betaMode} defaultBusinessName={claimName} />{!betaMode && <Button noHint variant="link" className="text-primary" onClick={() => setUsePassword(false)}>Use the quick form instead</Button>}</> : <QuickBusinessSignup focused referralCode={referralCode} defaultBusinessName={claimName} onUsePassword={() => setUsePassword(true)} />}
+        </div>
+      </section>
+      <FlagshipFooter />
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative flex flex-col justify-center py-12">
