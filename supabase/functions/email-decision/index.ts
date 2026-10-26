@@ -1,5 +1,7 @@
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import { verifyDecisionToken } from '../_shared/email-decision-token.ts';
+import { Resend } from 'https://esm.sh/resend@2.0.0';
+import { decideOsRequest } from '../_shared/os-access.ts';
 
 const cors = {
   'Access-Control-Allow-Origin': '*',
@@ -20,8 +22,18 @@ Deno.serve(async (req) => {
   let b: { op?: string; kind?: string; id?: string; d?: string; t?: string };
   try { b = await req.json(); } catch { return json({ error: 'Invalid request' }, 400); }
   const { op, kind, id = '', d = '', t = '' } = b ?? {};
-  if (!['preview', 'decide'].includes(op ?? '') || !['investor', 'business'].includes(kind ?? '') || !/^[0-9a-f-]{36}$/i.test(id) || !['approve', 'deny'].includes(d)) return json({ error: 'This link is not valid.' }, 400);
+  if (!['preview', 'decide'].includes(op ?? '') || !['investor', 'business', 'os'].includes(kind ?? '') || !/^[0-9a-f-]{36}$/i.test(id) || !['approve', 'deny'].includes(d)) return json({ error: 'This link is not valid.' }, 400);
   if (!await verifyDecisionToken(KEY, kind!, id, d, t)) return json({ error: 'This link is not valid or has expired. Use the Admin Dashboard instead.' }, 403);
+
+  if (kind === 'os') {
+    const { data: r } = await db.from('os_access_requests').select('id,full_name,company,role,email,status').eq('id', id).maybeSingle();
+    if (!r) return json({ error: 'Request not found.' }, 404);
+    const open = r.status === 'pending';
+    if (op === 'preview') return json({ ok: true, title: '1325 OS walkthrough request', name: r.full_name, details: [r.company, r.role ?? '', r.email], status: r.status, open });
+    const resend = new Resend(Deno.env.get('RESEND_API_KEY'));
+    const out = await decideOsRequest(db, (m) => resend.emails.send(m as never) as never, id, d as 'approve' | 'deny');
+    return json({ ok: out.ok, title: out.title, message: out.message }, out.status);
+  }
 
   if (kind === 'investor') {
     const { data: r } = await db.from('investor_access_requests').select('id,name,email,firm,status').eq('id', id).maybeSingle();

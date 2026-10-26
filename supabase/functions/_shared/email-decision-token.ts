@@ -1,5 +1,5 @@
 /** Signed, expiring links for approve/deny buttons in admin emails. Opening a link never changes anything; the confirmation page must POST it back. */
-export type EmailDecisionKind = 'investor' | 'business';
+export type EmailDecisionKind = 'investor' | 'business' | 'os';
 export type EmailDecision = 'approve' | 'deny';
 const enc = new TextEncoder();
 const hex = (b: ArrayBuffer) => Array.from(new Uint8Array(b), x => x.toString(16).padStart(2, '0')).join('');
