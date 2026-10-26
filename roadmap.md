@@ -1,5 +1,10 @@
 # Roadmap
 
+## Kenya ten-system comparison dossier — October 26, 2026
+- [ ] Research all ten article-listed systems against official sources and incorporate the four new fictional dashboard tiles.
+- [ ] Create a confidential executive PDF with substantial vendor profiles, charts, documented prices, diligence questions and source links; visually inspect every page and verify arithmetic.
+- [ ] Add the finished dossier to the clinical executive reports collection.
+
 ## Illustrative clinical dashboard tiles — October 26, 2026
 - [x] Add shared fictional patient flow, Kenya collections, supply alerts and browser-only connection tiles to both dashboards without live services or access changes.
 - [x] Passed 31 focused arithmetic/safety/lifecycle and adjacent regression tests; automatic compilation OK. Isolated tile details and browser offline signal checked at computer/phone sizes without overflow or page errors; public approval gate hides the tiles. No approved/signed-in flow was bypassed.
