@@ -56,6 +56,7 @@ const menuGroups: MenuGroup[] = [
       { id: 'hub', label: 'Hub', icon: Home },
       { id: 'admin-health-clinical', label: '1325 Clinical EMR / EHR (health.1325.ai)', icon: Activity, route: 'https://health.1325.ai/' },
       { id: 'clinical-access', label: 'Clinical Access & Visitors', icon: Eye },
+      { id: 'os-access', label: '1325 OS Walkthrough Requests', icon: Eye },
     ],
   },
   {
