@@ -21,10 +21,12 @@ interface Props {
   onUsePassword?: () => void;
   /** Homepage uses an h2 and its own wording; the sign-up page keeps the h1. */
   asSection?: boolean;
+  /** Focused public signup avoids an unmeasured completion-time promise. */
+  focused?: boolean;
 }
 
 /** Short business sign-up: three fields, one button, passwordless email sign-in link. */
-const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusinessName = '', onUsePassword, asSection = false }) => {
+const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusinessName = '', onUsePassword, asSection = false, focused = false }) => {
   const [values, setValues] = useState({ fullName: '', email: '', businessName: defaultBusinessName });
   const [errors, setErrors] = useState<Record<string, string | undefined>>({});
   const [loading, setLoading] = useState(false);
@@ -110,7 +112,7 @@ const QuickBusinessSignup: React.FC<Props> = ({ referralCode = '', defaultBusine
         {asSection
           ? <h2 className="text-3xl md:text-4xl font-extrabold text-foreground">Own a business? List it free</h2>
           : <h1 className="text-3xl md:text-4xl font-extrabold text-foreground">List your business free</h1>}
-        <p className="text-foreground mt-1">Takes 30 seconds. No password, no credit card.</p>
+        <p className="text-foreground mt-1">{focused ? 'No password. No credit card required.' : 'Takes 30 seconds. No password, no credit card.'}</p>
       </div>
       {([
         ['fullName', 'Your name', 'text', 'name'],

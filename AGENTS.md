@@ -1,5 +1,5 @@
 # AGENTS
-- The main-host root homepage owns its flagship navigation, footer and scoped theme; all other pages retain the existing Layout and native bottom tabs, keeping presentation changes separate from service flows.
+- The main-host root homepage and focus=true business signup own flagship navigation, footer and scoped theme; other pages retain existing Layout and native bottom tabs. Focused signup reuses the same forms, referral and claim handling without changing authentication or listing permissions.
 - Clinical dashboard operations use a shared fictional-only presentation module; follow the clinical AGENTS.md boundaries to keep operational examples separate from records, payments and connection health.
 - Standalone shared-video links use public HTML viewing pages with native video controls and CDN asset URLs, matching the existing briefing pages rather than sending raw media links.
 - Development and production builds both reserve an 8 GiB Node heap because the large module graph exceeds the default heap during chunk rendering.
