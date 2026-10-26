@@ -1,4 +1,5 @@
 # AGENTS
+- Team gallery uses preframed CDN portrait pointers with one shared display rule; retain source photos and perform framing/background correction on derived assets instead of per-person CSS transforms so portraits stay consistent without regenerating identities.
 - The main-host root homepage and focus=true business signup own flagship navigation, footer and scoped theme; other pages retain existing Layout and native bottom tabs. Focused signup reuses the same forms, referral and claim handling without changing authentication or listing permissions.
 - Clinical dashboard operations use a shared fictional-only presentation module; follow the clinical AGENTS.md boundaries to keep operational examples separate from records, payments and connection health.
 - Standalone shared-video links use public HTML viewing pages with native video controls and CDN asset URLs, matching the existing briefing pages rather than sending raw media links.
