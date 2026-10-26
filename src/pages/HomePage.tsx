@@ -18,7 +18,7 @@ import film from '@/assets/meet-kayla-upgraded.mp4.asset.json';
 import '@/components/homepage/flagship.css';
 
 const pillars = [
-  { number: '01', icon: Store, eyebrow: 'FOR BUSINESS OWNERS', title: 'Your business. A bigger team.', description: 'Get found in the directory. Bring Kayla into your operations. Build your next chapter with specialized Agentic intelligence.', to: '/business-signup', action: 'List your business free', image: hero, alt: 'Business owners reviewing their work together' },
+  { number: '01', icon: Store, eyebrow: 'FOR BUSINESS OWNERS', title: 'Your business. A bigger team.', description: 'Get found in the directory. Bring Kayla into your operations. Build your next chapter with specialized Agentic intelligence.', to: '/business-signup?focus=true', action: 'List your business free', image: hero, alt: 'Business owners reviewing their work together' },
   { number: '02', icon: Globe2, eyebrow: 'FOR CONSUMERS & COMMUNITIES', title: 'Discover local. Connect global.', description: 'Find Black-owned businesses, explore your community and keep the businesses you love within reach.', to: '/directory', action: 'Explore the directory', image: community, alt: 'Food from a community restaurant' },
   { number: '03', icon: Network, eyebrow: 'FOR ENTERPRISE & HEALTHCARE', title: 'Infrastructure for what’s next.', description: 'Explore enterprise connectivity and the development of 1325 Clinical EMR / EHR. Private preview · sample data only.', to: '/connect', action: 'Explore enterprise', image: clinical, alt: 'Physicians collaborating in a clinical setting' },
 ];
@@ -60,7 +60,7 @@ export default function HomePage() {
           <p className="text-3xl md:text-5xl font-light leading-[1.15] mt-5 max-w-[660px]">The autonomous enterprise layer for global commerce.</p>
           <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-[540px] mt-6">Your ambition deserves more than a directory. Connect with a global community and meet Kayla &amp; the 42 Agentic AI Employees behind your next chapter.</p>
           <div className="flex flex-col sm:flex-row gap-3 mt-9 max-w-xl">
-            <Button noHint asChild size="lg" className="flagship-action px-5 text-sm whitespace-normal h-auto min-h-14"><Link to="/business-signup" onClick={() => trackFunnelEvent('home_preview_cta_business_click', { placement: 'flagship_hero' })}>Claim or Add Your Business — Free <ArrowRight /></Link></Button>
+            <Button noHint asChild size="lg" className="flagship-action px-5 text-sm whitespace-normal h-auto min-h-14"><Link to="/business-signup?focus=true" onClick={() => trackFunnelEvent('home_preview_cta_business_click', { placement: 'flagship_hero' })}>Claim or Add Your Business — Free <ArrowRight /></Link></Button>
             <Button noHint asChild variant="ghost" size="lg" className="flagship-action border border-foreground/30 px-5 text-sm"><a href="#platform">Explore the platform <ArrowUpRight /></a></Button>
           </div>
           <p className="text-sm text-muted-foreground mt-4">Free business listing. No credit card required.</p>
@@ -102,7 +102,7 @@ export default function HomePage() {
         </div>
       </section>
       <section id="submit-business" className="bg-card border-t border-border py-20 md:py-24">
-        <div className="flagship-content flex flex-col lg:flex-row justify-between gap-8 lg:items-center"><div><p className="text-primary text-sm mb-4">YOUR NEXT CHAPTER STARTS HERE</p><h2 className="text-3xl md:text-5xl font-medium leading-tight">Make your business<br />part of something bigger.</h2><p className="text-muted-foreground mt-5">Create your profile. Submit it for review. Connect with your community.</p></div><div className="lg:max-w-sm"><Button noHint asChild size="lg" className="flagship-action px-6 whitespace-normal h-auto min-h-14 w-full"><Link to="/business-signup" onClick={() => trackFunnelEvent('home_preview_cta_business_click', { placement: 'flagship_footer' })}>Claim or Add Your Business — Free <ArrowRight /></Link></Button><p className="text-muted-foreground text-sm mt-4">Free to list · No credit card required<br />Review required before a new listing goes live.</p></div></div>
+        <div className="flagship-content flex flex-col lg:flex-row justify-between gap-8 lg:items-center"><div><p className="text-primary text-sm mb-4">YOUR NEXT CHAPTER STARTS HERE</p><h2 className="text-3xl md:text-5xl font-medium leading-tight">Make your business<br />part of something bigger.</h2><p className="text-muted-foreground mt-5">Create your profile. Submit it for review. Connect with your community.</p></div><div className="lg:max-w-sm"><Button noHint asChild size="lg" className="flagship-action px-6 whitespace-normal h-auto min-h-14 w-full"><Link to="/business-signup?focus=true" onClick={() => trackFunnelEvent('home_preview_cta_business_click', { placement: 'flagship_footer' })}>Claim or Add Your Business — Free <ArrowRight /></Link></Button><p className="text-muted-foreground text-sm mt-4">Free to list · No credit card required<br />Review required before a new listing goes live.</p></div></div>
       </section>
       <FlagshipFooter />
     </div>
