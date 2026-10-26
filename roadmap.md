@@ -1,8 +1,5 @@
 # Roadmap
 
-## Approved team portrait harmonization — October 26, 2026
-- [ ] Harmonize existing team portraits with consistent framing, navy backgrounds, restrained exposure and clean edges; preserve original assets, identities and team information.
-- [ ] Inspect every finished portrait and verify the team page at computer and phone widths.
 
 ## 1325.AI flagship transformation — October 26, 2026
 - [x] Replaced the crowded homepage with Clinical-inspired navigation, new photography, focused free signup using unchanged forms, product pillars, workforce selector and founder section. Directory, payments, clinical gates and other pages retain existing service flows.
