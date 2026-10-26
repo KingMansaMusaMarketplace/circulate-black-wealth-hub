@@ -1366,6 +1366,7 @@ function App() {
                             <LazyBusinessFinancesPage />
                           </IOSProtectedRoute>
                         } />
+                        <Route path="/os-tour" element={<LazyOsTourPage />} /><Route path="/os-dashboard" element={<LazyOsDashboardPage />} />
                         <Route path="/business-form" element={
                           <IOSProtectedRoute>
                             <LazyBusinessFormPage />
