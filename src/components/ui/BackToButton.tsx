@@ -4,15 +4,16 @@ import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { isHolidaySpecialActive } from '@/components/homepage/HolidayAnnouncementBar';
 
-const BackToButton: React.FC = () => {
+const BackToButton: React.FC<{ inline?: boolean; showOnHome?: boolean }> = ({ inline = false, showOnHome = false }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
   // Don't show on the homepage
-  if (location.pathname === '/') return null;
+  if (location.pathname === '/' && !showOnHome) return null;
 
   const handleBack = () => {
-    if (window.history.length > 2) {
+    const index = window.history.state?.idx;
+    if (typeof index === 'number' && index > 0) {
       navigate(-1);
     } else {
       navigate('/');
@@ -21,15 +22,15 @@ const BackToButton: React.FC = () => {
 
   return (
     // While the Holiday banner shows, sit below the banner + menu so it never covers them.
-    <div className={`fixed left-4 z-50 ${isHolidaySpecialActive() ? 'top-36' : 'top-4'}`}>
+    <div className={inline ? '' : `fixed left-4 z-50 ${isHolidaySpecialActive() ? 'top-36' : 'top-4'}`}>
       <Button
         variant="ghost"
         size="sm"
         onClick={handleBack}
-        className="text-white hover:text-white hover:bg-white/15 gap-1.5 backdrop-blur-md bg-black/30 border border-white/10 shadow-lg"
+        className={inline ? 'gap-1.5 px-0 text-muted-foreground hover:text-foreground' : 'text-foreground hover:text-foreground hover:bg-accent gap-1.5 backdrop-blur-md bg-background/80 border border-border shadow-lg'}
       >
         <ArrowLeft className="h-4 w-4" />
-        Back
+        Go Back
       </Button>
     </div>
   );
