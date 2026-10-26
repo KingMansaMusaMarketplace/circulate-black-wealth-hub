@@ -1,8 +1,8 @@
 # Roadmap
 
 ## Kenya dossier board audit — October 26, 2026
-- [ ] Independently recalculate every numeric figure and verify competitor price conditions and clinical evidence against cited sources.
-- [ ] Report errors, confirmed arithmetic and remaining unverified facts; deliver any needed corrections as a new version without overwriting the original.
+- [x] Recalculated numerical scenarios: 30 original arithmetic/count checks passed; reviewed competitor price conditions and clinical evidence. Vendor claims, ambiguous identities and current contractual/legal status remain qualified, not certified true.
+- [x] Delivered a corrected 35-page v2 PDF and standalone audit summary without overwriting the original; rendered and inspected all pages. Currency/package/offline descriptions and architecture diagram corrected. Collection references added with pending upload status, not confirmed ready.
 
 ## Kenya ten-system comparison dossier — October 26, 2026
 - [x] Research the ten requested systems against official sources and incorporate the four new fictional dashboard tiles; retain article-body limitations and provisional eCare/Streamline identities.
