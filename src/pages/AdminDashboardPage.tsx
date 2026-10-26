@@ -56,6 +56,7 @@ import APITokenManager from '@/components/admin/APITokenManager';
 import SystemHealthDashboard from '@/components/admin/SystemHealthDashboard';
 import PartnerOnboardingFunnel from '@/components/admin/PartnerOnboardingFunnel';
 import ClinicalAccessMonitor from '@/components/admin/ClinicalAccessMonitor';
+import OsAccessRequests from '@/components/admin/OsAccessRequests';
 import FoundingClinicsList from '@/components/admin/FoundingClinicsList';
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
@@ -82,6 +83,8 @@ const AdminDashboardPage: React.FC = () => {
     switch (activeTab) {
       case 'hub':
         return <AdminHub onNavigate={setActiveTab} />;
+      case 'os-access':
+        return <OsAccessRequests />;
       case 'clinical-access':
         return <><ClinicalAccessMonitor /><FoundingClinicsList /></>;
       case 'overview':

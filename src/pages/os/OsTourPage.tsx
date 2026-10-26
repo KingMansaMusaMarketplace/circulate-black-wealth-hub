@@ -21,9 +21,8 @@ export default function OsTourPage() {
     e.preventDefault();
     if (!valid || status === 'sending') return;
     setStatus('sending');
-    const message = [`1325 OS walkthrough request`, `Company: ${form.company.trim()}`, `Role: ${form.role.trim() || '—'}`, `Phone: ${form.phone.trim() || '—'}`].join('\n');
-    const { error } = await supabase.from('contact_submissions').insert([{ id: crypto.randomUUID(), name: form.name.trim(), email: form.email.trim().toLowerCase(), message, inquiry_type: 'general' }]);
-    setStatus(error ? 'error' : 'sent');
+    const { data, error } = await supabase.functions.invoke('os-access', { body: { action: 'request', ...form } });
+    setStatus(error || !data?.ok ? 'error' : 'sent');
   };
 
   const set = (k: keyof typeof empty) => (e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, [k]: e.target.value });
