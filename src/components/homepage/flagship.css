@@ -11,7 +11,7 @@
   --accent: 0 0% 15%;
   --accent-foreground: 0 0% 97%;
   --ring: 42 100% 50%;
-  --flagship-scrim: linear-gradient(90deg, hsl(0 0% 0% / .91), hsl(0 0% 0% / .55) 53%, hsl(0 0% 0% / .12));
+  --flagship-scrim: linear-gradient(90deg, hsl(0 0% 0% / .86), hsl(0 0% 0% / .4) 53%, hsl(0 0% 0% / .04));
   background: hsl(var(--background));
   color: hsl(var(--foreground));
   letter-spacing: 0;
@@ -28,6 +28,6 @@
 @media (max-width: 767px) {
   .flagship-hero { min-height: 580px; }
   .flagship-content { width: min(100% - 32px, 1280px); }
-  .flagship { --flagship-scrim: linear-gradient(90deg, hsl(0 0% 0% / .9), hsl(0 0% 0% / .65)); }
+  .flagship { --flagship-scrim: linear-gradient(90deg, hsl(0 0% 0% / .86), hsl(0 0% 0% / .55)); }
 }
 @media (prefers-reduced-motion: reduce) { .flagship-rise { animation: none; } }
