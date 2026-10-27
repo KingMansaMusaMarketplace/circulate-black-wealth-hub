@@ -10,7 +10,7 @@ const links = [
   { label: 'Tour the OS', to: '/os-tour' },
   { label: 'Directory', to: '/directory' },
   { label: '1325 Clinical', to: '/health/welcome' },
-  { label: 'Enterprise', to: '/connect' },
+  { label: 'Enterprise', to: '/corporate-sponsorship' },
   { label: 'Team', to: '/team' },
 ];
 

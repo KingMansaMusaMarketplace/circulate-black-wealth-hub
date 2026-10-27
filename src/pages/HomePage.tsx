@@ -21,7 +21,7 @@ import '@/components/homepage/flagship.css';
 const pillars = [
   { number: '01', icon: Store, eyebrow: 'FOR BUSINESS OWNERS', title: 'Your business. A bigger team.', description: 'Get found in the directory. Bring Kayla into your operations. Build your next chapter with specialized Agentic intelligence.', to: '/business-signup?focus=true', action: 'List your business free', image: hero, alt: 'Business owners reviewing their work together' },
   { number: '02', icon: Globe2, eyebrow: 'FOR CONSUMERS & COMMUNITIES', title: 'Discover local. Connect global.', description: 'Find Black-owned businesses, explore your community and keep the businesses you love within reach.', to: '/directory', action: 'Explore the directory', image: community, alt: 'Food from a community restaurant' },
-  { number: '03', icon: Network, eyebrow: 'FOR ENTERPRISE & HEALTHCARE', title: 'Infrastructure for what’s next.', description: 'Explore enterprise connectivity and the development of 1325 Clinical EMR / EHR. Private preview · sample data only.', to: '/connect', action: 'Explore enterprise', image: clinical, alt: 'Physicians collaborating in a clinical setting' },
+  { number: '03', icon: Network, eyebrow: 'FOR ENTERPRISE & HEALTHCARE', title: 'Infrastructure for what’s next.', description: 'Explore enterprise connectivity and the development of 1325 Clinical EMR / EHR. Private preview · sample data only.', to: '/corporate-sponsorship', action: 'Explore enterprise', image: clinical, alt: 'Physicians collaborating in a clinical setting' },
 ];
 
 export default function HomePage() {
