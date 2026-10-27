@@ -73,7 +73,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             leave the incoming page at opacity zero, so animate entry only. */}
           <motion.div
             key={pageAnimationKey}
-            initial="initial"
+            initial={false}
             animate="animate"
             variants={pageVariants}
             transition={pageTransition}
