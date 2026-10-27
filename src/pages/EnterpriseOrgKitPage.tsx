@@ -46,7 +46,7 @@ const EnterpriseOrgKitPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white text-slate-900">
       <Helmet>
-        <title>{shortName} × 1325.AI — Launch Kit</title>
+        <title>{`${shortName} × 1325.AI — Launch Kit`}</title>
         <meta name="robots" content="noindex" />
       </Helmet>
 

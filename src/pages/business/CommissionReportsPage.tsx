@@ -88,7 +88,7 @@ const CommissionReportsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Commission Reports - {businessName}</title>
+        <title>{`Commission Reports - ${businessName}`}</title>
         <meta name="description" content="View commission breakdown and transaction history for your business" />
       </Helmet>
 
