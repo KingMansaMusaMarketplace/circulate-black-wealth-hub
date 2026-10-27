@@ -240,6 +240,17 @@ const AdminDashboardPage: React.FC = () => {
                         <ExternalLink className="h-4 w-4 shrink-0" />
                       </a>
                     </Button>
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="mt-3 ml-0 md:ml-3 h-auto min-h-11 max-w-full justify-start whitespace-normal border-primary text-primary hover:bg-accent hover:text-accent-foreground"
+                    >
+                      <a href="/os-dashboard" target="_blank" rel="noopener noreferrer">
+                        <Activity className="h-4 w-4 shrink-0" />
+                        <span className="text-left">1325 OS Dashboard</span>
+                        <ExternalLink className="h-4 w-4 shrink-0" />
+                      </a>
+                    </Button>
                   </div>
                   <div className="flex items-center gap-3">
                     {activeTab !== 'hub' && (
