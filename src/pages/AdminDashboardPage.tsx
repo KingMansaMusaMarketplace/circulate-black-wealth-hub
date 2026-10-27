@@ -1,63 +1,63 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import AdminAnalyticsDashboard from '@/components/admin/AdminAnalyticsDashboard';
-import VerificationQueue from '@/components/admin/verification/VerificationQueue';
-import SalesAgentAnalytics from '@/components/admin/SalesAgentAnalytics';
-import UserManagement from '@/components/admin/UserManagement';
-import FinancialManagement from '@/components/admin/FinancialManagement';
-import SubscriptionsAdmin from '@/components/admin/SubscriptionsAdmin';
-import ListingApprovalsQueue from '@/components/admin/ListingApprovalsQueue';
-import SystemSettings from '@/components/admin/SystemSettings';
-import AdminAIDashboard from '@/components/admin/ai/AdminAIDashboard';
+const AdminAnalyticsDashboard = React.lazy(() => import('@/components/admin/AdminAnalyticsDashboard'));
+const VerificationQueue = React.lazy(() => import('@/components/admin/verification/VerificationQueue'));
+const SalesAgentAnalytics = React.lazy(() => import('@/components/admin/SalesAgentAnalytics'));
+const UserManagement = React.lazy(() => import('@/components/admin/UserManagement'));
+const FinancialManagement = React.lazy(() => import('@/components/admin/FinancialManagement'));
+const SubscriptionsAdmin = React.lazy(() => import('@/components/admin/SubscriptionsAdmin'));
+const ListingApprovalsQueue = React.lazy(() => import('@/components/admin/ListingApprovalsQueue'));
+const SystemSettings = React.lazy(() => import('@/components/admin/SystemSettings'));
+const AdminAIDashboard = React.lazy(() => import('@/components/admin/ai/AdminAIDashboard'));
 import RequireAdmin from '@/components/auth/RequireAdmin';
 import HelpPanel from '@/components/admin/HelpPanel';
 import DashboardAIAssistant from '@/components/admin/DashboardAIAssistant';
-import OnboardingTour from '@/components/admin/OnboardingTour';
-import LoyaltyManagement from '@/components/admin/LoyaltyManagement';
-import AdminAuditLog from '@/components/admin/AdminAuditLog';
-import SupportTicketManager from '@/components/admin/SupportTicketManager';
-import ContentModerationQueue from '@/components/admin/ContentModerationQueue';
-import PromoCodeManager from '@/components/admin/PromoCodeManager';
-import FeatureFlagsManager from '@/components/admin/FeatureFlagsManager';
-import MaintenanceModeControl from '@/components/admin/MaintenanceModeControl';
-import RetentionAnalytics from '@/components/admin/RetentionAnalytics';
-import GeographicAnalytics from '@/components/admin/GeographicAnalytics';
-import DataExportManager from '@/components/admin/DataExportManager';
-import ScheduledReportsManager from '@/components/admin/ScheduledReportsManager';
-import AdminRolesManager from '@/components/admin/AdminRolesManager';
-import DatabasePerformanceMonitor from '@/components/admin/DatabasePerformanceMonitor';
-import UserImpersonation from '@/components/admin/UserImpersonation';
+const OnboardingTour = React.lazy(() => import('@/components/admin/OnboardingTour'));
+const LoyaltyManagement = React.lazy(() => import('@/components/admin/LoyaltyManagement'));
+const AdminAuditLog = React.lazy(() => import('@/components/admin/AdminAuditLog'));
+const SupportTicketManager = React.lazy(() => import('@/components/admin/SupportTicketManager'));
+const ContentModerationQueue = React.lazy(() => import('@/components/admin/ContentModerationQueue'));
+const PromoCodeManager = React.lazy(() => import('@/components/admin/PromoCodeManager'));
+const FeatureFlagsManager = React.lazy(() => import('@/components/admin/FeatureFlagsManager'));
+const MaintenanceModeControl = React.lazy(() => import('@/components/admin/MaintenanceModeControl'));
+const RetentionAnalytics = React.lazy(() => import('@/components/admin/RetentionAnalytics'));
+const GeographicAnalytics = React.lazy(() => import('@/components/admin/GeographicAnalytics'));
+const DataExportManager = React.lazy(() => import('@/components/admin/DataExportManager'));
+const ScheduledReportsManager = React.lazy(() => import('@/components/admin/ScheduledReportsManager'));
+const AdminRolesManager = React.lazy(() => import('@/components/admin/AdminRolesManager'));
+const DatabasePerformanceMonitor = React.lazy(() => import('@/components/admin/DatabasePerformanceMonitor'));
+const UserImpersonation = React.lazy(() => import('@/components/admin/UserImpersonation'));
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import AdminHub from '@/components/admin/AdminHub';
-import LegalIPDocuments from '@/components/admin/LegalIPDocuments';
-import PartnerApplicationsManager from '@/components/admin/PartnerApplicationsManager';
-import GrowthDashboard from '@/components/admin/GrowthDashboard';
-import PartnerSuccessStories from '@/components/partner/PartnerSuccessStories';
-import AdminEcosystemDashboard from '@/components/admin/AdminEcosystemDashboard';
-import AdminDevelopers from '@/components/admin/AdminDevelopers';
-import ArchiveRecovery from '@/components/admin/ArchiveRecovery';
-import ValuationMetrics from '@/components/admin/ValuationMetrics';
-import DatabaseSetup from '@/components/admin/DatabaseSetup';
-import BetaTesterManager from '@/components/admin/BetaTesterManager';
-import StaysBetaManager from '@/components/admin/StaysBetaManager';
+const LegalIPDocuments = React.lazy(() => import('@/components/admin/LegalIPDocuments'));
+const PartnerApplicationsManager = React.lazy(() => import('@/components/admin/PartnerApplicationsManager'));
+const GrowthDashboard = React.lazy(() => import('@/components/admin/GrowthDashboard'));
+const PartnerSuccessStories = React.lazy(() => import('@/components/partner/PartnerSuccessStories'));
+const AdminEcosystemDashboard = React.lazy(() => import('@/components/admin/AdminEcosystemDashboard'));
+const AdminDevelopers = React.lazy(() => import('@/components/admin/AdminDevelopers'));
+const ArchiveRecovery = React.lazy(() => import('@/components/admin/ArchiveRecovery'));
+const ValuationMetrics = React.lazy(() => import('@/components/admin/ValuationMetrics'));
+const DatabaseSetup = React.lazy(() => import('@/components/admin/DatabaseSetup'));
+const BetaTesterManager = React.lazy(() => import('@/components/admin/BetaTesterManager'));
+const StaysBetaManager = React.lazy(() => import('@/components/admin/StaysBetaManager'));
 import { Tabs as BetaTabs, TabsList as BetaTabsList, TabsTrigger as BetaTabsTrigger, TabsContent as BetaTabsContent } from '@/components/ui/tabs';
-import SupabaseSetup from '@/components/admin/SupabaseSetup';
-import MansaStaysAdmin from '@/components/admin/MansaStaysAdmin';
-import NoireRideshareAdmin from '@/components/admin/NoireRideshareAdmin';
-import QRScanFraudMonitor from '@/components/admin/QRScanFraudMonitor';
-import KaylaAgentCostMeter from '@/components/admin/KaylaAgentCostMeter';
-import BroadcastAnnouncements from '@/components/admin/BroadcastAnnouncements';
-import BackupRestorePanel from '@/components/admin/BackupRestorePanel';
+const SupabaseSetup = React.lazy(() => import('@/components/admin/SupabaseSetup'));
+const MansaStaysAdmin = React.lazy(() => import('@/components/admin/MansaStaysAdmin'));
+const NoireRideshareAdmin = React.lazy(() => import('@/components/admin/NoireRideshareAdmin'));
+const QRScanFraudMonitor = React.lazy(() => import('@/components/admin/QRScanFraudMonitor'));
+const KaylaAgentCostMeter = React.lazy(() => import('@/components/admin/KaylaAgentCostMeter'));
+const BroadcastAnnouncements = React.lazy(() => import('@/components/admin/BroadcastAnnouncements'));
+const BackupRestorePanel = React.lazy(() => import('@/components/admin/BackupRestorePanel'));
 import { AdminIdleLock } from '@/components/admin/AdminIdleLock';
 import { AdminShadowModeProvider } from '@/contexts/AdminShadowModeContext';
 import { AdminShadowModeToggle } from '@/components/admin/AdminShadowModeToggle';
-import WebhookManager from '@/components/admin/WebhookManager';
-import APITokenManager from '@/components/admin/APITokenManager';
-import SystemHealthDashboard from '@/components/admin/SystemHealthDashboard';
-import PartnerOnboardingFunnel from '@/components/admin/PartnerOnboardingFunnel';
-import ClinicalAccessMonitor from '@/components/admin/ClinicalAccessMonitor';
-import OsAccessRequests from '@/components/admin/OsAccessRequests';
-import FoundingClinicsList from '@/components/admin/FoundingClinicsList';
+const WebhookManager = React.lazy(() => import('@/components/admin/WebhookManager'));
+const APITokenManager = React.lazy(() => import('@/components/admin/APITokenManager'));
+const SystemHealthDashboard = React.lazy(() => import('@/components/admin/SystemHealthDashboard'));
+const PartnerOnboardingFunnel = React.lazy(() => import('@/components/admin/PartnerOnboardingFunnel'));
+const ClinicalAccessMonitor = React.lazy(() => import('@/components/admin/ClinicalAccessMonitor'));
+const OsAccessRequests = React.lazy(() => import('@/components/admin/OsAccessRequests'));
+const FoundingClinicsList = React.lazy(() => import('@/components/admin/FoundingClinicsList'));
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { PlayCircle, Home, Activity, ExternalLink } from 'lucide-react';
@@ -274,12 +274,14 @@ const AdminDashboardPage: React.FC = () => {
 
               {/* Main Content Card - Glass morphism */}
               <div className="backdrop-blur-xl bg-white/5 rounded-2xl p-4 md:p-6 border border-white/10 shadow-2xl shadow-black/20 admin-dark-theme">
-                {renderContent()}
+                <Suspense fallback={<div className="py-16 text-center text-sm" role="status">Loading…</div>}>
+                  {renderContent()}
+                </Suspense>
               </div>
             </div>
           </SidebarInset>
 
-          {showTour && <OnboardingTour onComplete={handleTourComplete} />}
+          {showTour && <Suspense fallback={null}><OnboardingTour onComplete={handleTourComplete} /></Suspense>}
         </div>
       </SidebarProvider>
 
