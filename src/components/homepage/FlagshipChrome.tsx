@@ -31,7 +31,7 @@ export function FlagshipFooter() {
   const groups = [
     { name: 'Platform', links: [['Business directory', '/directory'], ['Browse Allies', '/allies'], ['Meet Kayla', '/what-kayla-does'], ['Plans & pricing', '/pricing'], ['Holiday Special', '/holiday-special']] },
     { name: 'Enterprise', links: [['Enterprise connectivity', '/connect'], ['1325 Clinical EMR / EHR', '/health/welcome'], ['Corporate partnerships', '/corporate-sponsorship'], ['For investors', '/investors'], ['Our team', '/team']] },
-    { name: 'Resources', links: [['How it works', '/how-it-works'], { name: 'Resources', links: [['How it works', '/how-it-works'], ['Founder film', '/ultimate-deep-dive.html'], ['Contact', '/contact'], ['Help', '/help']] }, ['Contact', '/contact'], ['Help', '/help']] },
+    { name: 'Resources', links: [['How it works', '/how-it-works'], ['Founder film', '/ultimate-deep-dive.html'], ['Contact', '/contact'], ['Help', '/help']] },
   ];
   return <footer className="border-t border-border py-14">
     <div className="flagship-content">
