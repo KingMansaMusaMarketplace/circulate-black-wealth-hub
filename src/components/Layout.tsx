@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useCapacitor } from '@/hooks/use-capacitor';
 import Navbar from './navbar/Navbar';
 import Footer from './Footer';
@@ -15,7 +15,6 @@ interface LayoutProps {
 const pageVariants = {
   initial: { opacity: 0, y: 8 },
   animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -8 },
 };
 
 const pageTransition = {
@@ -70,19 +69,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </div>
       )}
       <main className={`flex-1 bg-black ${shouldShowTabBar ? 'pb-16' : ''}`}>
-        <AnimatePresence mode="wait" initial={false}>
+        {/* Lazy routes can suspend during navigation. An exit-wait boundary can
+            leave the incoming page at opacity zero, so animate entry only. */}
           <motion.div
             key={pageAnimationKey}
             initial="initial"
             animate="animate"
-            exit="exit"
             variants={pageVariants}
             transition={pageTransition}
           >
             <BackToButton />
             {children}
           </motion.div>
-        </AnimatePresence>
       </main>
       {!isNative && <Footer />}
       {shouldShowTabBar && <BottomTabBar />}
