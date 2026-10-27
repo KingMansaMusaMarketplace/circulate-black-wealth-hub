@@ -16,7 +16,7 @@ const ErrorPage: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#000000] via-[#050a18] to-[#030712] relative overflow-hidden p-4">
       <Helmet>
-        <title>{errorStatus} - {is404 ? 'Page Not Found' : 'Error'} | 1325.AI</title>
+        <title>{`${errorStatus} - ${is404 ? 'Page Not Found' : 'Error'} | 1325.AI`}</title>
       </Helmet>
       
       {/* Animated Gradient Orbs */}

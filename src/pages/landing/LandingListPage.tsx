@@ -91,7 +91,7 @@ export default function LandingListPage({ mode }: Props) {
   return (
     <>
       <Helmet>
-        <title>{heading} ({total.toLocaleString()}) | 1325.AI</title>
+        <title>{`${heading} (${total.toLocaleString()}) | 1325.AI`}</title>
         <meta name="description" content={description} />
         <link rel="canonical" href={`https://1325.ai${path}`} />
         <meta property="og:title" content={heading} />

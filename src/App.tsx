@@ -599,8 +599,8 @@ function App() {
                         <OfflineBanner />
                         <SubscriptionAlertBanner />
                         <GlobalErrorRecovery />
-                        <Suspense fallback={<LoadingFallback />}>
-                          <Layout>
+                        <Layout>
+                          <Suspense fallback={<LoadingFallback />}>
                             <Routes>
                               {/* All routes wrapped with error boundary */}
                               <Route errorElement={<RouteErrorBoundary />}>
@@ -1250,8 +1250,8 @@ function App() {
                               <Route path="*" element={<NotFound />} />
                               </Route>
                             </Routes>
-                          </Layout>
-                        </Suspense>
+                          </Suspense>
+                        </Layout>
                       </div>
                     </div>
                     <NativeFeaturesOnboarding />
@@ -1279,8 +1279,8 @@ function App() {
                         <OfflineBanner />
                         <SubscriptionAlertBanner />
                         <GlobalErrorRecovery />
-                        <Suspense fallback={<LoadingFallback />}>
                         <Layout>
+                        <Suspense fallback={<LoadingFallback />}>
                           <Routes>
                           {/* Home — Kayla-led front door is the landing page */}
                           <Route path="/" element={typeof window !== "undefined" && window.location.hostname.startsWith("health.") ? (new URLSearchParams(window.location.search).has("access") ? <LazyHealthAccessGate><LazyHealthDemoPage /></LazyHealthAccessGate> : <LazyClinicalSite page="home" />) : <HomePage />} />
@@ -1970,8 +1970,8 @@ function App() {
                         {/* 404 */}
                         <Route path="*" element={<NotFound />} />
                           </Routes>
-                        </Layout>
-                    </Suspense>
+                        </Suspense>
+                    </Layout>
                   </div>
                 </div>
                 <NativeFeaturesOnboarding />

@@ -1,4 +1,5 @@
 # AGENTS
+- Route content starts visible and route Suspense stays inside Layout in both routers, so lazy page loading cannot hide the navigation shell; Helmet titles use a single string expression to prevent page-title render crashes.
 - Fictional Agentic AI Employee portraits share src/assets/agents/index.ts across homepage and Clinical displays, keeping employee identity and portrait selection consistent without touching real team photos.
 - The main-host root homepage and focus=true business signup own flagship navigation, footer and scoped theme; other pages retain existing Layout and native bottom tabs. Focused signup reuses the same forms, referral and claim handling without changing authentication or listing permissions.
 - Clinical dashboard operations use a shared fictional-only presentation module; follow the clinical AGENTS.md boundaries to keep operational examples separate from records, payments and connection health.

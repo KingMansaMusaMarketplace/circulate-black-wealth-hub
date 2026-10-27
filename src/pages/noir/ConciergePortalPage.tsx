@@ -77,10 +77,13 @@ const ConciergePortalPage: React.FC = () => {
       .then(({ data }) => setRides((data as HotelRide[] | null) ?? []));
   }, [hotelId, showForm]);
 
-  if (authLoading || loading) {
+  if (authLoading) {
     return <div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-mansagold" /></div>;
   }
   if (!user) return <Navigate to="/login?redirect=/noir/concierge" replace />;
+  if (loading) {
+    return <div className="min-h-screen bg-black flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-mansagold" /></div>;
+  }
 
   if (memberships.length === 0) {
     return (
@@ -123,7 +126,7 @@ const ConciergePortalPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-black text-white pt-24 pb-12 px-4">
-      <Helmet><title>Concierge Portal | {hotelName} — Noire</title></Helmet>
+      <Helmet><title>{`Concierge Portal | ${hotelName} — Noire`}</title></Helmet>
       <div className="max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>

@@ -1,5 +1,10 @@
 # Roadmap
 
+## Site-wide invisible-page navigation audit — October 27, 2026
+- [x] Audited both routers and animation wrappers; essential shared route content now starts visible and navigation remains outside the page-loading boundary.
+- [x] Retested 272 fixed routes and 20 parameterized missing-record routes with no page crashes or stuck full-page loaders. Actual About footer click, Go Back to directory and error-page home recovery passed; the directory spotlight flag was a temporary carousel transition, visibly rechecked.
+- [x] Corrected seven invalid page-title patterns and the signed-out concierge loading trap; four focused loading/access regression tests passed, automatic build OK.
+- [ ] Verify authenticated administrator/business/clinical interiors and existing-record parameterized pages — blocked: external unmanaged authentication supplies no authorized test session. Public gates and missing-record states are not proof of signed-in success.
 
 ## 1325.AI flagship transformation — October 26, 2026
 - [x] Replaced the crowded homepage with Clinical-inspired navigation, new photography, focused free signup using unchanged forms, product pillars, workforce selector and founder section. Directory, payments, clinical gates and other pages retain existing service flows.
