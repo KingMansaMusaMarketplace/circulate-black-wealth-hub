@@ -9,7 +9,7 @@ import ezra from './ezra.jpg.asset.json';
 import faye from './faye.jpg.asset.json';
 import flo from './flo.jpg.asset.json';
 import gard from './gard.jpg.asset.json';
-import hugo from './hugo.jpg.asset.json';
+import hugo from './hugo-inclusive.jpg';
 import ines from './ines.jpg.asset.json';
 import iris from './iris.jpg.asset.json';
 import joss from './joss.jpg.asset.json';
@@ -17,12 +17,12 @@ import june from './june.jpg.asset.json';
 import kit from './kit.jpg.asset.json';
 import lena from './lena.jpg.asset.json';
 import luca from './luca.jpg.asset.json';
-import maya from './maya.jpg.asset.json';
+import maya from './maya-inclusive.jpg';
 import mech from './mech.jpg.asset.json';
 import mira from './mira.jpg.asset.json';
 import nova from './nova.jpg.asset.json';
 import olive from './olive.jpg.asset.json';
-import owen from './owen.jpg.asset.json';
+import owen from './owen-inclusive.jpg';
 import pace from './pace.jpg.asset.json';
 import pia from './pia.jpg.asset.json';
 import quinn from './quinn.jpg.asset.json';
@@ -52,7 +52,7 @@ export const AGENT_PORTRAITS: Record<string, string> = {
   faye: faye.url,
   flo: flo.url,
   gard: gard.url,
-  hugo: hugo.url,
+  hugo,
   ines: ines.url,
   iris: iris.url,
   joss: joss.url,
@@ -60,12 +60,12 @@ export const AGENT_PORTRAITS: Record<string, string> = {
   kit: kit.url,
   lena: lena.url,
   luca: luca.url,
-  maya: maya.url,
+  maya,
   mech: mech.url,
   mira: mira.url,
   nova: nova.url,
   olive: olive.url,
-  owen: owen.url,
+  owen,
   pace: pace.url,
   pia: pia.url,
   quinn: quinn.url,
