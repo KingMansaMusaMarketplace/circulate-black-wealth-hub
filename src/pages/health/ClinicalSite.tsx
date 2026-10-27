@@ -26,7 +26,7 @@ import clipDelegation from '@/assets/clinical-delegation-narrated.mp4.asset.json
 import clipGlobal from '@/assets/clinical-global-narrated.mp4.asset.json';
 import { lazy, Suspense } from 'react';
 const TabletMockup3D = lazy(() => import('./TabletMockup3D'));
-import { EpicComparison, EvidenceDemo, OpenStandards, StayIndependent, WorkforceNotMicrophone, ExecutiveFaq, LostTeamStory, NoRipAndReplace, PilotRoadmap, RoadToRealPatients, TimeCalculator, TraceabilityNotSafety, UnknownExample, WorkflowComparison } from './ClinicalSiteSections';
+import { ClinicAgentTeam, EpicComparison, EvidenceDemo, OpenStandards, StayIndependent, WorkforceNotMicrophone, ExecutiveFaq, LostTeamStory, NoRipAndReplace, PilotRoadmap, RoadToRealPatients, TimeCalculator, TraceabilityNotSafety, UnknownExample, WorkflowComparison } from './ClinicalSiteSections';
 import unitClerk from '@/assets/clinical-unit-clerk.jpg';
 import hospitalLeadership from '@/assets/clinical-hospital-leadership.jpg';
 import { founder, leadership } from '../TeamPage';
@@ -164,6 +164,7 @@ function Home() {
       <p className="mt-8 text-sm text-muted-foreground">Live recording, order delivery and patient communication remain locked.</p>
     </Section>
     <KaylaWorkforce />
+    <ClinicAgentTeam />
     <Section>
       <Heading eyebrow="Your setting. Your team." title="From private practice to hospital department." />
       <div className="grid gap-8 md:grid-cols-2">
