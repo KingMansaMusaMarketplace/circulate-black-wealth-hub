@@ -1,5 +1,9 @@
 # Roadmap
 
+## Site-wide invisible-page navigation audit — October 27, 2026
+- [ ] Audit shared page transitions and all configured route wrappers for blank/invisible navigation risks.
+- [ ] Exercise static routes and real navigation/back actions; distinguish intentional access gates and unavailable authenticated checks.
+- [ ] Correct confirmed shared navigation defects and run focused regressions.
 
 ## 1325.AI flagship transformation — October 26, 2026
 - [x] Replaced the crowded homepage with Clinical-inspired navigation, new photography, focused free signup using unchanged forms, product pillars, workforce selector and founder section. Directory, payments, clinical gates and other pages retain existing service flows.
