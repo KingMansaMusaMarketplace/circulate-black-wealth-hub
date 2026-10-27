@@ -34,10 +34,10 @@ import saga from './saga.jpg.asset.json';
 import soli from './soli.jpg.asset.json';
 import tess from './tess.jpg.asset.json';
 import tex from './tex.jpg.asset.json';
-import theo from './theo.jpg.asset.json';
+import theo from './theo-inclusive.jpg';
 import tor from './tor.jpg.asset.json';
 import trig from './trig.jpg.asset.json';
-import vera from './vera.jpg.asset.json';
+import vera from './vera-inclusive.jpg';
 import wes from './wes.jpg.asset.json';
 import zane from './zane.jpg.asset.json';
 
@@ -77,10 +77,10 @@ export const AGENT_PORTRAITS: Record<string, string> = {
   soli: soli.url,
   tess: tess.url,
   tex: tex.url,
-  theo: theo.url,
+  theo,
   tor: tor.url,
   trig: trig.url,
-  vera: vera.url,
+  vera,
   wes: wes.url,
   zane: zane.url,
 };
