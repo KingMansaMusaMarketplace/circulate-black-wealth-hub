@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Slider } from '@/components/ui/slider';
+import { AGENT_PORTRAITS } from '@/assets/agents';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const WORKDAYS_PER_MONTH = 20;
@@ -241,5 +242,26 @@ export function WorkforceNotMicrophone() {
       </div>)}
     </div>
     <p className="mt-4 text-xs text-muted-foreground">Planned capabilities. A licensed clinician reviews and signs everything; the AI Employees don’t replace clinicians or practice medicine.</p>
+  </Wrap>;
+}
+
+const CLINIC_TEAM = [
+  ['maya', 'Maya', 'Follow-up drafts', 'Prepares follow-up reminders and care-guide drafts for staff to review.'],
+  ['theo', 'Theo', 'Scheduling help', 'Sorts appointment requests and drafts replies to new inquiries.'],
+  ['owen', 'Owen', 'Billing preparation', 'Checks paperwork is complete before billing and tracks clinic cash flow.'],
+  ['hugo', 'Hugo', 'Agreements & policies', 'Drafts agreement and policy documents for attorney review.'],
+  ['tess', 'Tess', 'Records organization', 'Keeps sample records organized, dated and easy to find.'],
+  ['vera', 'Vera', 'Clinic reporting', 'Builds operations reports for clinic leadership.'],
+] as const;
+
+export function ClinicAgentTeam() {
+  return <Wrap eyebrow="Kayla's Agentic team" title="The team behind 1325 Clinical." intro="Led by Kayla, these Agentic AI Employees are planned to handle the office work so your staff and doctors can focus on patients.">
+    <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {CLINIC_TEAM.map(([id, name, job, line]) => <li key={id} className="flex items-start gap-4 rounded-lg border border-border bg-card p-5">
+        <img src={AGENT_PORTRAITS[id]} alt={`${name}, AI employee portrait`} loading="lazy" width={64} height={64} className="h-16 w-16 shrink-0 rounded-full object-cover border border-border" />
+        <div><p className="font-semibold">{name}</p><p className="text-sm text-primary">{job}</p><p className="mt-1 text-sm text-muted-foreground">{line}</p></div>
+      </li>)}
+    </ul>
+    <p className="mt-4 text-xs text-muted-foreground">These are AI employees with AI-generated portraits, not real people. They are not doctors or licensed clinicians and do not practice medicine. Private preview · sample data only; a licensed clinician reviews and signs everything.</p>
   </Wrap>;
 }
