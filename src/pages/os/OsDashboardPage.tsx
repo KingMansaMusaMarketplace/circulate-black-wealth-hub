@@ -9,6 +9,7 @@ import { useServerAdminVerification } from '@/hooks/useServerAdminVerification';
 import { FlagshipHeader, FlagshipFooter } from '@/components/homepage/FlagshipChrome';
 import { OS_STATIONS, OS_TOOL_COUNT, SAMPLE_BUSINESS } from './os-stations';
 import { DispatchBoard, MarketingSandbox } from './OsPilotStations';
+import { CommercePilot, CommunityPilot, FinancePilot, OperationsPilot } from './OsPilotStations2';
 import '@/components/homepage/flagship.css';
 
 type Viewer = { name: string; email: string; expiresAt: number };
@@ -87,6 +88,10 @@ export default function OsDashboardPage() {
           <p className="text-muted-foreground mt-2 mb-6">{station.summary}</p>
           {station.id === 'command' && <DispatchBoard />}
           {station.id === 'marketing' && <MarketingSandbox />}
+          {station.id === 'commerce' && <CommercePilot />}
+          {station.id === 'finance' && <FinancePilot />}
+          {station.id === 'operations' && <OperationsPilot />}
+          {station.id === 'community' && <CommunityPilot />}
           <div className="grid gap-4 md:grid-cols-2">
             {station.tools.map(t => (
               <article key={t.name} className="border border-border rounded-lg p-5 bg-card">
