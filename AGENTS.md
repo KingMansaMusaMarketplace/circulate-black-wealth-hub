@@ -1,4 +1,5 @@
 # AGENTS
+- Kenya IDSR uses the shared fictional reporting module in both private Clinical dashboards; source-versioned sample exports are separate from signed clinical reports and never grant real reporting access. See clinical AGENTS.md.
 - Route content starts visible and route Suspense stays inside Layout in both routers, so lazy page loading cannot hide the navigation shell; Helmet titles use a single string expression to prevent page-title render crashes.
 - Fictional Agentic AI Employee portraits share src/assets/agents/index.ts across homepage and Clinical displays, keeping employee identity and portrait selection consistent without touching real team photos.
 - The main-host root homepage and focus=true business signup own flagship navigation, footer and scoped theme; other pages retain existing Layout and native bottom tabs. Focused signup reuses the same forms, referral and claim handling without changing authentication or listing permissions.

@@ -1,9 +1,9 @@
 # Roadmap
 
 ## Kenya IDSR sample reporting — October 28, 2026
-- [ ] Verify official form fields and build fictional-only weekly reporting/export in both private Clinical dashboards.
-- [ ] Test aggregation, validation and downloads; revise the four-pillar chart without claiming certification.
-- [ ] Verify approved signed-in navigation — external unmanaged authentication has no authorized test session.
+- [x] Verified MOH 505 Edition 2020 in official May 2022 Annex 2H; added shared fictional-only weekly reporting to both private dashboards, preserving live-data and government-submission locks.
+- [x] Sixteen reporting/adjacent tests passed; isolated browser CSV/PDF downloads and week-change reset passed, public gate remains closed. Both sample PDFs and revised one-page chart visually inspected; automatic build OK.
+- [ ] Verify approved signed-in navigation — blocked: external unmanaged authentication has no authorized test session. Current Kenyan form acceptance, immediate notifications and live reporting require official validation/healthcare clearance.
 
 ## Site-wide invisible-page navigation audit — October 27, 2026
 - [x] Audited both routers and animation wrappers; essential shared route content now starts visible and navigation remains outside the page-loading boundary.
