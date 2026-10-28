@@ -1,4 +1,5 @@
 # 1325 Clinical rules
+- Kenya IDSR reporting uses an independent fixed synthetic MOH 505 Edition 2020 / May 2022 Annex 2H fixture, source-blocked cells and validated local review exports; no charts, intake, persistence, outbreak detection or government transport. CSV is not a KHIS import and current Kenyan acceptance remains unverified, so sample testing cannot become certification.
 - Dashboard operations share independent fixed fictional queue, supply and KES collection scenarios across demo/workspace; SHA pending is excluded from received totals and browser status has no clinical cache, queue or sync, so operational presentation cannot imply live care or integrations.
 - Public clinical photography uses explicit page-owned imports and optional image-bearing feature cards with illustrative captions, keeping placement auditable without changing private workflows.
 - Clinical narration is fixed prerecorded explanation or numbered fictional evidence in one gate-scoped player, never a second prompt or agent execution; sound defaults off and gate unmount stops audio to preserve intake and private-session boundaries.
