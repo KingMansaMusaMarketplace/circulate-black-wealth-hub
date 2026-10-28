@@ -1,5 +1,10 @@
 # Roadmap
 
+## Kenya FHIR fictional export pilot — October 28, 2026
+- [ ] Pin Kenya Core 1.0.0 / FHIR 4.0.1 and build independent fixed synthetic export in shared connection preparation.
+- [ ] Run the official validator, retain accurate findings and test semantic read-back/negative cases without clinical writes.
+- [ ] Verify downloads and preserve access/intake locks; authenticated checks need an authorized external session.
+
 ## Kenya IDSR sample reporting — October 28, 2026
 - [x] Re-ran fictional CSV/PDF downloads and independently compared official MOH 505 inventory: 25 disease/event rows, 36 lab cells and administrative fields covered; sample tallies/blocked cells checked. Layout and footnotes differ, so exact replica/official acceptance is not claimed. Chart v3 says Sample exports checked and was visually inspected and collected.
 - [x] Verified MOH 505 Edition 2020 in official May 2022 Annex 2H; added shared fictional-only weekly reporting to both private dashboards, preserving live-data and government-submission locks.
