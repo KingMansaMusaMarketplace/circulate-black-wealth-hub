@@ -1,5 +1,10 @@
 # Roadmap
 
+## Kenya IDSR sample reporting — October 28, 2026
+- [ ] Verify official form fields and build fictional-only weekly reporting/export in both private Clinical dashboards.
+- [ ] Test aggregation, validation and downloads; revise the four-pillar chart without claiming certification.
+- [ ] Verify approved signed-in navigation — external unmanaged authentication has no authorized test session.
+
 ## Site-wide invisible-page navigation audit — October 27, 2026
 - [x] Audited both routers and animation wrappers; essential shared route content now starts visible and navigation remains outside the page-loading boundary.
 - [x] Retested 272 fixed routes and 20 parameterized missing-record routes with no page crashes or stuck full-page loaders. Actual About footer click, Go Back to directory and error-page home recovery passed; the directory spotlight flag was a temporary carousel transition, visibly rechecked.
