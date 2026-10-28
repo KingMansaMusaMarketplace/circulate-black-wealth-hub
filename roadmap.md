@@ -1,9 +1,9 @@
 # Roadmap
 
 ## Kenya SHA fictional claims pilot — October 28, 2026
-- [ ] Verify published SHA claims requirements separately from national exchange; implement fixed local sample workflow in shared billing preparation.
-- [ ] Test validation, missing-document scenarios, reset and locked submission/payment; revise and visually inspect one-page readiness chart.
-- [ ] Official SHA schema, sandbox acceptance and approved signed-in navigation require external evidence/access; no real claims enabled.
+- [x] Reviewed official DHA claims workflow and endpoint-specific start-visit/authorization documentation; shared independent local fictional claims rehearsal added to billing preparation in both private dashboards. Local format explicitly is not an official claim contract.
+- [x] Nineteen claims and existing billing tests passed; isolated browser complete/return, missing-document, unknown-coverage, reset and locked-action checks passed with no page errors. Public gate intact; automatic build OK. One-page chart v4 rendered and inspected with separate FHIR/SHA limits.
+- [ ] Official SHA contract conformance, authorized sandbox acceptance and approved signed-in navigation remain blocked by unavailable authorized test access; no real claims enabled.
 
 ## Kenya FHIR fictional export pilot — October 28, 2026
 - [x] Pinned Kenya Core 1.0.0 / FHIR 4.0.1 with package and sample SHA256; shared connection preparation exports independent synthetic Patient/temperature Observation only.
