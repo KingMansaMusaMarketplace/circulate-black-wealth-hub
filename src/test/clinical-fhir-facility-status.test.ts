@@ -2,11 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { getFacilityStatuses } from '@/pages/health/workspace/fhir/facility-status';
 
 describe('Kenya facility export evidence isolation', () => {
-  it('has only one tested fictional facility packet with zero errors and nine warnings', () => {
+  it('has only one tested fictional facility packet with zero errors and two remaining warnings', () => {
     const rows = getFacilityStatuses(false, false);
     expect(rows.filter(r => r.validationDate !== null)).toHaveLength(1);
-    expect(rows[0].errors).toBe(0); expect(rows[0].warnings).toBe(9);
-    expect(rows[0].findings.filter(i => i.severity === 'warning')).toHaveLength(9);
+    expect(rows[0].errors).toBe(0); expect(rows[0].warnings).toBe(2);
+    expect(rows[0].findings.filter(i => i.severity === 'warning')).toHaveLength(2);
   });
   it('requires local read-back before making the fictional download available', () => {
     expect(getFacilityStatuses(false, false)[0].exportStatus).toBe('Read-back required');

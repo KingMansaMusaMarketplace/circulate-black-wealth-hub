@@ -22,13 +22,14 @@ describe('Independent Kenya FHIR fictional pilot', () => {
   it('pins the exact exported bytes to recorded validation evidence', () => {
     expect(createHash('sha256').update(exportFictionalBundle()).digest('hex')).toBe(manifest.sampleSha256);
     expect(outcome.issue.filter(i => ['error', 'fatal'].includes(i.severity))).toHaveLength(0);
-    expect(outcome.issue.filter(i => i.severity === 'warning')).toHaveLength(9);
+    expect(outcome.issue.filter(i => i.severity === 'warning')).toHaveLength(2);
+    expect(manifest.validatorInputSha256).toBe(manifest.sampleSha256);
   });
   it('resolves every reference inside the five-resource fictional collection', () => {
     const packet = JSON.parse(exportFictionalBundle());
     const urls = packet.entry.map((e: { fullUrl: string }) => e.fullUrl);
     const references = [...exportFictionalBundle().matchAll(/"reference": "([^"]+)"/g)].map(m => m[1]);
-    expect(references).toHaveLength(3);
+    expect(references).toHaveLength(4);
     for (const reference of references) expect(urls).toContain(reference);
   });
   it('keeps the real public facility code outside fictional care and professional IDs unissued', () => {

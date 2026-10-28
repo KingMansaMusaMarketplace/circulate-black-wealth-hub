@@ -1,7 +1,7 @@
 # AGENTS
 - National health exchange preparation shares an independent readiness module across private Clinical dashboards; fixed sample evidence stays separate from national acceptance and live connections. See clinical AGENTS.md.
 - Kenya SHA claims use a shared independent local fictional rehearsal in billing preparation, separate from HIE exports; no official schema, tariff, coverage, payment or transport is implied. See clinical AGENTS.md.
-- Clinical Kenya FHIR exports use an independent fixed synthetic fixture and pinned guide/validator evidence; no receiving system, real intake or clinical writes are enabled. See clinical AGENTS.md.
+- Clinical Kenya FHIR exports use an independent fixed synthetic fixture with exact export-byte evidence and separately archived original findings; publisher conflicts remain visible and terminology checks never enable receiving systems, real intake or clinical writes. See clinical AGENTS.md.
 - Kenya IDSR uses the shared fictional reporting module in both private Clinical dashboards; source-versioned sample exports are separate from signed clinical reports and never grant real reporting access. See clinical AGENTS.md.
 - Route content starts visible and route Suspense stays inside Layout in both routers, so lazy page loading cannot hide the navigation shell; Helmet titles use a single string expression to prevent page-title render crashes.
 - Fictional Agentic AI Employee portraits share src/assets/agents/index.ts across homepage and Clinical displays, keeping employee identity and portrait selection consistent without touching real team photos.

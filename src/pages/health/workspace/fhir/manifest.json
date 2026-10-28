@@ -4,10 +4,22 @@
   "fhirVersion": "4.0.1",
   "source": "https://fhir.dha.go.ke/ig/core/package.tgz",
   "packageSha256": "59a7d93f5b7691e31d27d8af62ba029fff40083e4b5c1e518ae7c76d630dedd9",
-  "sampleSha256": "327bd65a43181a8fb506d25a387cbd6b4e9850d1a4511849b51bc50975994ef8",
+  "sampleSha256": "7d4f0d027a5a394603952bec7f3a32909ece8f37ac8babd7041dd0baa972cf67",
+  "validatorInputSha256": "7d4f0d027a5a394603952bec7f3a32909ece8f37ac8babd7041dd0baa972cf67",
+  "validatorOutcomeSha256": "f3fb45660ad71f145eaeda7ac8d8a371902a872c7350bd9356e263573ed37aa8",
+  "originalValidation": {
+    "inputFileSha256": "6123f81bfe2a76ab2a1bc57a5c98bdbc9b0032a1de6fe1ac31c930d3fd21950d",
+    "normalizedExportSha256": "327bd65a43181a8fb506d25a387cbd6b4e9850d1a4511849b51bc50975994ef8",
+    "outcomeSha256": "26104e8f634eb997282379703efe0f0b7c7c7cc5c500f950c5cb2cd45c539c34",
+    "terminologyService": "disabled (-tx n/a)",
+    "errors": 0,
+    "warnings": 9
+  },
   "validatorVersion": "7.0.3",
   "notForPublication": true,
   "scope": "Independent five-resource synthetic collection. Published Kenya facility category, professional role and specialty codes; all identity identifiers unissued. Public KMHFR reference is separate, not mapped to DHA identifiers or linked to fictional care. No registry verification, real intake or transport.",
   "validatedOn": "2026-10-28",
-  "terminologyService": "disabled (-tx n/a)"
+  "terminologyService": "https://tx.fhir.org/r4",
+  "validationCommand": "java -Xmx3g -jar validator_cli.jar revised-export.json -version 4.0.1 -ig kenya-core-1.0.0.tgz -tx https://tx.fhir.org/r4 -output terminology-outcome.json",
+  "hashScope": "Current sampleSha256 pins exact browser export bytes used as validator input. Original raw JSON escaped Unicode; normalized export used literal Unicode. Both parse identically; original hashes are retained separately."
 }

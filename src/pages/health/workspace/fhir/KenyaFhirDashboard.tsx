@@ -12,7 +12,7 @@ export default function KenyaFhirDashboard({ checked, downloaded }: { checked: b
     <div className="flex flex-wrap items-start justify-between gap-3">
       <div><h4 className="flex items-center gap-2 font-semibold"><FileCheck2 className="h-4 w-4" />Facility export status</h4>
         <p className="mt-1 text-xs text-muted-foreground">Recorded sample evidence · no live facility exchange</p></div>
-      <span className="flex items-center gap-2 text-sm text-mansagold"><AlertTriangle className="h-4 w-4" />1 tested fictional packet · 9 warnings</span>
+      <span className="flex items-center gap-2 text-sm text-mansagold"><AlertTriangle className="h-4 w-4" />1 tested fictional packet · {facilities[0]?.warnings} warnings</span>
     </div>
     <div className="overflow-x-auto border-y border-border">
       <table className="w-full min-w-[720px] text-left text-sm">
