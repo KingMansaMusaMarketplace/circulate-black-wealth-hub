@@ -1,5 +1,10 @@
 # Roadmap
 
+## Kenya facility dates and packet re-export — October 28, 2026
+- [x] Label last recorded validation date and add guarded fictional row re-export; real references remain unvalidated with no packet.
+- [ ] Run warning/date/export safety tests and isolated browser downloads, readiness reset and public gate checks.
+- [ ] Signed-in dashboard verification — blocked by external unmanaged authentication; no real exchange enabled.
+
 ## Kenya FHIR warning corrections — October 28, 2026
 - [ ] Preserve the original nine-warning evidence and reconcile file-byte versus exported-byte fingerprints.
 - [ ] Correct four narratives, fictional performer and additive standard identifier type; revalidate exact exported bytes and retain unresolved publisher/terminology findings.
