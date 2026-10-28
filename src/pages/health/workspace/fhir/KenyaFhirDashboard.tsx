@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { ChevronDown, ChevronUp, AlertTriangle, FileCheck2 } from 'lucide-react';
+import { ChevronDown, ChevronUp, AlertTriangle, FileCheck2, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { getFacilityStatuses } from './facility-status';
 import { facilityReference } from './pilot';
 
-export default function KenyaFhirDashboard({ checked, downloaded }: { checked: boolean; downloaded: boolean }) {
+export default function KenyaFhirDashboard({ checked, downloaded, onReExport }: { checked: boolean; downloaded: boolean; onReExport: (facilityId: string) => void }) {
   const [selected, setSelected] = useState<string | null>(null);
   const facilities = getFacilityStatuses(checked, downloaded);
   const active = facilities.find(f => f.id === selected);
@@ -17,13 +17,14 @@ export default function KenyaFhirDashboard({ checked, downloaded }: { checked: b
     <div className="overflow-x-auto border-y border-border">
       <table className="w-full min-w-[720px] text-left text-sm">
         <caption className="sr-only">Facility exports and recorded whole-packet validation results</caption>
-        <thead className="text-xs text-muted-foreground"><tr>{['Facility', 'Export status', 'Read-back', 'Recorded validation', 'Findings'].map(title => <th key={title} scope="col" className="px-3 py-3 font-medium">{title}</th>)}</tr></thead>
+        <thead className="text-xs text-muted-foreground"><tr>{['Facility', 'Export status', 'Read-back', 'Last recorded validation', 'Findings', 'Packet'].map(title => <th key={title} scope="col" className="px-3 py-3 font-medium">{title}</th>)}</tr></thead>
         <tbody>{facilities.map(f => <tr key={f.id} className="border-t border-border align-top">
           <th scope="row" className="max-w-[250px] break-words px-3 py-4 font-medium">{f.name}<span className="mt-1 block text-xs font-normal text-muted-foreground">{f.kind}<br />{f.identifier}</span></th>
           <td className="px-3 py-4">{f.exportStatus}<span className="mt-1 block text-xs text-muted-foreground">{f.transport}</span></td>
           <td className="px-3 py-4">{f.readBack}</td>
-          <td className="px-3 py-4">{f.validationDate ?? 'Not run'}<span className="mt-1 block text-xs text-muted-foreground">{f.errors === null ? 'Errors / warnings unknown' : `${f.errors} errors · ${f.warnings} warnings`}</span></td>
+          <td className="px-3 py-4">{f.validationDate ? <time dateTime={f.validationDate}>{f.validationDate}</time> : 'Not validated'}<span className="mt-1 block text-xs text-muted-foreground">{f.errors === null ? 'Errors / warnings unknown' : `${f.errors} errors · ${f.warnings} warnings`}</span></td>
           <td className="px-3 py-3"><Button variant="ghost" size="sm" aria-label={`View findings for ${f.name}`} aria-expanded={selected === f.id} aria-controls="kenya-facility-findings" onClick={() => setSelected(selected === f.id ? null : f.id)}>{selected === f.id ? <ChevronUp className="mr-1 h-4 w-4" /> : <ChevronDown className="mr-1 h-4 w-4" />}Details</Button></td>
+          <td className="px-3 py-3"><Button variant="outline" size="sm" className="h-auto whitespace-normal text-left" aria-label={`Re-export fictional packet for ${f.name}`} disabled={!f.canReExport} onClick={() => onReExport(f.id)}><Download className="mr-2 h-4 w-4 shrink-0" />Re-export fictional packet</Button><span className="mt-2 block text-xs text-muted-foreground">{f.id !== 'fictional' ? 'No packet available' : checked ? 'Same recorded packet · no revalidation' : 'Read-back required'}</span></td>
         </tr>)}</tbody>
       </table>
     </div>
