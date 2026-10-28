@@ -136,8 +136,8 @@
             "coding": [
               {
                 "system": "https://fhir.dha.go.ke/terminology/CodeSystem/organization-type-cs",
-                "code": "GENERAL-PRACTICE-CLINIC",
-                "display": "General Practice Clinic"
+                "code": "GP-GENERAL-PRACTITIONER-SITE",
+                "display": "GP General Practitioner Site"
               }
             ]
           }
