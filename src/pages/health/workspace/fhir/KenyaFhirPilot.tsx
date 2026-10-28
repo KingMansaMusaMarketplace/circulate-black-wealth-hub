@@ -2,16 +2,19 @@ import { useState } from 'react';
 import { Download, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import outcome from './validator-outcome.json';
+import KenyaFhirDashboard from './KenyaFhirDashboard';
 import { checkFictionalRoundTrip, downloadPilotFile, exportFictionalBundle, facilityReference, manifest } from './pilot';
 
 export default function KenyaFhirPilot() {
   const [checked, setChecked] = useState(false);
+  const [downloaded, setDownloaded] = useState(false);
   const issues = outcome.issue;
   const errors = issues.filter(issue => issue.severity === 'error' || issue.severity === 'fatal').length;
   const warnings = issues.filter(issue => issue.severity === 'warning').length;
   return <section aria-label="Kenya FHIR fictional export pilot" className="space-y-4 border-y border-border py-5">
     <h3 className="font-semibold">Kenya FHIR fictional export pilot</h3>
     <p className="text-sm text-muted-foreground">Kenya Core {manifest.version} · FHIR {manifest.fhirVersion} · HL7 validator {manifest.validatorVersion}</p>
+    <KenyaFhirDashboard checked={checked} downloaded={downloaded} />
     <p className="text-sm">Five independent fictional resources: Patient, temperature Observation (36.8 °C), Organization, Practitioner and PractitionerRole. All patient, facility and professional identifiers are unissued test placeholders. No real care, professional registration or national connection.</p>
     <dl className="grid gap-2 text-sm sm:grid-cols-2">
       <dt className="text-muted-foreground">Published Kenya facility category</dt><dd className="break-words">GP-GENERAL-PRACTITIONER-SITE</dd>
@@ -29,7 +32,7 @@ export default function KenyaFhirPilot() {
     <p className="text-xs text-muted-foreground">Narrative and performer warnings are retained. The guide's facility identifier slice uses a CodeSystem address different from its packaged terminology address; that unresolved warning is not silently remapped. The guide is marked notForPublication; national acceptance remains unverified. Browser checking is a fixed-fixture read-back, not a fresh HL7 run.</p>
     <div className="flex flex-wrap gap-2">
       <Button variant="outline" onClick={() => { checkFictionalRoundTrip(exportFictionalBundle()); setChecked(true); }}><CheckCircle2 className="mr-2 h-4 w-4" />Check fictional read-back</Button>
-      <Button variant="outline" disabled={!checked} onClick={() => downloadPilotFile(exportFictionalBundle(), '1325-fictional-kenya-fhir.json')}><Download className="mr-2 h-4 w-4" />Download fictional FHIR</Button>
+      <Button variant="outline" disabled={!checked} onClick={() => { downloadPilotFile(exportFictionalBundle(), '1325-fictional-kenya-fhir.json'); setDownloaded(true); }}><Download className="mr-2 h-4 w-4" />Download fictional FHIR</Button>
       <Button variant="outline" onClick={() => downloadPilotFile(JSON.stringify({ manifest, outcome, facilityReference }, null, 2), '1325-fhir-validation-evidence.json')}><Download className="mr-2 h-4 w-4" />Download validation evidence</Button>
     </div>
     {checked && <p role="status" className="text-sm">All five fictional resources, identifiers, role codes, value, unit, timestamp and references read back unchanged.</p>}

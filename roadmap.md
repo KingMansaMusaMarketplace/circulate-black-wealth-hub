@@ -1,5 +1,10 @@
 # Roadmap
 
+## Kenya FHIR facility dashboard — October 28, 2026
+- [x] Added private facility status table with session export/read-back state and expandable actual recorded findings; public facility reference remains untested with unknown counts.
+- [x] Eighteen focused/regression tests passed; isolated browser warning expansion, reference details and download status checked, screenshots inspected; automatic build OK. Existing development ref warnings remain, no page crash.
+- [ ] Signed-in dashboard verification — blocked by external unmanaged authentication; isolated sample checks do not establish live facility exchange or official acceptance.
+
 ## Kenya facility/professional FHIR extension — October 28, 2026
 - [x] Extended fixed fictional exchange with Kenya Organization, Practitioner and PractitionerRole profiles, exact published professional/category codes and isolated KMHFR facility reference (29468); no real identities added to care.
 - [x] Pinned HL7 validator 7.0.3 returned zero errors/nine warnings, terminology service disabled; actual outcome retained including facility identifier namespace mismatch. Eight read-back/hash/reference/rejection tests and six connection regressions passed.
