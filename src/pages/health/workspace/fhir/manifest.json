@@ -4,8 +4,10 @@
   "fhirVersion": "4.0.1",
   "source": "https://fhir.dha.go.ke/ig/core/package.tgz",
   "packageSha256": "59a7d93f5b7691e31d27d8af62ba029fff40083e4b5c1e518ae7c76d630dedd9",
-  "sampleSha256": "c56f4d9cebc1ca93029dba6f3e082fc56424fc99db622198eef9bb9371839187",
+  "sampleSha256": "327bd65a43181a8fb506d25a387cbd6b4e9850d1a4511849b51bc50975994ef8",
   "validatorVersion": "7.0.3",
   "notForPublication": true,
-  "scope": "Independent synthetic Patient and temperature Observation only. SHA namespace value is a test placeholder, not issued or verified. No encounter, diagnosis, prescription, registry or government transport."
+  "scope": "Independent five-resource synthetic collection. Published Kenya facility category, professional role and specialty codes; all identity identifiers unissued. Public KMHFR reference is separate, not mapped to DHA identifiers or linked to fictional care. No registry verification, real intake or transport.",
+  "validatedOn": "2026-10-28",
+  "terminologyService": "disabled (-tx n/a)"
 }
