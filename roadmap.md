@@ -1,5 +1,11 @@
 # Roadmap
 
+## Kenya FHIR warning corrections — October 28, 2026
+- [ ] Preserve the original nine-warning evidence and reconcile file-byte versus exported-byte fingerprints.
+- [ ] Correct four narratives, fictional performer and additive standard identifier type; revalidate exact exported bytes and retain unresolved publisher/terminology findings.
+- [ ] Update warning walkthrough, dashboard counts and tests; verify isolated downloads and unchanged public gates.
+- [ ] Publisher canonical reconciliation and signed-in/national acceptance — blocked by publisher clarification and unavailable authorized access.
+
 ## Kenya national health exchange preparation — October 28, 2026
 - [ ] Build a separate shared private module with readiness chart, evidence and fictional export rehearsal; preserve real-data locks.
 - [ ] Test readiness rules, existing exchange regressions, isolated interactions and public access gates.

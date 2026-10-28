@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "1325-fictional-kenya-v2",
+  "id": "1325-fictional-kenya-v3",
   "meta": {
     "security": [
       {
@@ -16,6 +16,10 @@
       "resource": {
         "resourceType": "Patient",
         "id": "synthetic-patient",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Fictional Example; gender unknown; sample birth date 2000-01-01. Independent fictional patient, not a real person. Identifier SYNTHETIC-NOT-ISSUED-1325-001 is unissued; no SHA enrollment or identity verification.</p></div>"
+        },
         "meta": {
           "profile": [
             "https://fhir.dha.go.ke/core/StructureDefinition/kenya-core-patient"
@@ -85,6 +89,9 @@
         "subject": {
           "reference": "urn:uuid:11111111-1111-4111-8111-111111111111"
         },
+        "performer": [
+          { "reference": "urn:uuid:44444444-4444-4444-8444-444444444444" }
+        ],
         "effectiveDateTime": "2026-10-19T12:00:00Z",
         "valueQuantity": {
           "value": 36.8,
@@ -94,7 +101,7 @@
         },
         "note": [
           {
-            "text": "Independent fictional fixture; not a measured patient result."
+            "text": "Independent fictional fixture; not a measured patient result. Performer attribution is fictional only; no actual measurement or professional service occurred."
           }
         ]
       }
@@ -104,6 +111,10 @@
       "resource": {
         "resourceType": "Organization",
         "id": "synthetic-facility",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>1325 Fictional Facility — not a registered provider. Inactive fictional GP General Practitioner Site. Identifier SYNTHETIC-NOT-ISSUED-FACILITY-1325 is unissued. No real facility affiliation, registry verification or exchange participation.</p></div>"
+        },
         "meta": {
           "security": [
             {
@@ -123,6 +134,11 @@
                 {
                   "system": "https://fhir.dha.go.ke/fhir/terminology/CodeSystem/facility-identifier-types",
                   "code": "fid",
+                  "display": "Facility ID"
+                },
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "FI",
                   "display": "Facility ID"
                 }
               ]
@@ -150,6 +166,10 @@
       "resource": {
         "resourceType": "Practitioner",
         "id": "synthetic-professional",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Fictional Professional Example; inactive; gender unknown. Registration, registry and national-ID identifiers are SYNTHETIC-NOT-ISSUED placeholders, not verified credentials. Work email fictional-professional@example.invalid is a fictional non-deliverable example. Not a real professional.</p></div>"
+        },
         "meta": {
           "security": [
             {
@@ -199,6 +219,10 @@
       "resource": {
         "resourceType": "PractitionerRole",
         "id": "synthetic-role",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>Inactive fictional General practitioner role with Medical Doctor specialty coding, linking Fictional Professional Example to 1325 Fictional Facility. Classification examples only: no real appointment, licensure, affiliation, service or participation.</p></div>"
+        },
         "meta": {
           "security": [
             {
