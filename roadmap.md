@@ -3,7 +3,7 @@
 ## Clinical pitch video: real screens and Kayla movement — October 28, 2026
 - [x] Check existing Kayla look and account balance without generating: photo avatar supports Avatar IV/V; 3,111 premium credits remain. Native 4K is not supported for this photo avatar. HeyGen's published Avatar V rate is 48 credits/minute: approximately 24 for a thirty-second test plus up to 336 for seven minutes; exact charge and motion quality remain unconfirmed.
 - [x] Record all 31 fictional dashboard views using Thomas's approved invitation; original footage preserved.
-- [ ] Produce video-only clean footage without personal watermarks using the existing authorized session; keep live dashboard safeguards unchanged (approved October 28).
+- [x] Produce video-only clean footage without personal watermarks using the existing authorized session; all 31 sections captured, sample labels retained, 1080p recording decoded successfully; live dashboard safeguards unchanged (October 28).
 - [x] Receive approval and submit one short Avatar V test using the same Kayla look and Janet voice; HeyGen video ID: 27f7fa884428746b2714742278aa53b5. No full-length regeneration submitted.
 - [x] Deliver completed 32.92-second 1080p Kayla test with AI-presenter/sample-only labels; sampled frames inspected and entire file decoded without errors. Visible face/head changes are modest; full motion and audible lip-sync need viewer review.
 - [x] Submit approved second short test using the same Kayla and voice with Avatar IV directed visible-hand gestures; Avatar V has no eligible animation-reference look in this avatar group. Video ID: 58323b3c3e893d19a1fd0728b17004fc.
