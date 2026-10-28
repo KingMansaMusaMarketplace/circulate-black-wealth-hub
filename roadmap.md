@@ -1,5 +1,10 @@
 # Roadmap
 
+## Kenya national health exchange preparation — October 28, 2026
+- [ ] Build a separate shared private module with readiness chart, evidence and fictional export rehearsal; preserve real-data locks.
+- [ ] Test readiness rules, existing exchange regressions, isolated interactions and public access gates.
+- [ ] Signed-in navigation and national acceptance — blocked by external unmanaged authentication and unavailable authorized sandbox.
+
 ## Kenya FHIR facility dashboard — October 28, 2026
 - [x] Added private facility status table with session export/read-back state and expandable actual recorded findings; public facility reference remains untested with unknown counts.
 - [x] Eighteen focused/regression tests passed; isolated browser warning expansion, reference details and download status checked, screenshots inspected; automatic build OK. Existing development ref warnings remain, no page crash.
