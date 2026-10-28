@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CONNECTION_TYPES, connectionPreparation } from './connection-preparation';
+import KenyaFhirPilot from './fhir/KenyaFhirPilot';
 
 const ICONS = { laboratory: FlaskConical, pharmacy: Pill, records: Network };
 
@@ -27,6 +28,7 @@ export default function ConnectionPreparation() {
     <div className="border-l-2 border-mansagold pl-4"><p className="flex items-center gap-2 font-medium"><Lock className="h-4 w-4 shrink-0 text-mansagold" />Live exchange remains locked</p><p className="mt-2 text-sm text-muted-foreground">Attorney-reviewed clinic agreements, written Business Associate Agreement (BAA) coverage for each relevant vendor, independently verified healthcare safeguards and provider-specific validation are required. A signed agreement alone cannot activate connections.</p></div>
     <Tabs value={id} onValueChange={setId}><TabsList aria-label="Clinical connection categories" className="h-auto w-full flex-wrap justify-start gap-1">{CONNECTION_TYPES.map((connection) => { const Icon = ICONS[connection.id]; return <TabsTrigger key={connection.id} value={connection.id} className="gap-2 whitespace-normal"><Icon className="h-4 w-4 shrink-0" />{connection.title}</TabsTrigger>; })}</TabsList></Tabs>
     <ConnectionDetails key={id} id={id} />
+    {id === 'records' && <KenyaFhirPilot />}
     <p className="border-t border-border pt-4 text-xs text-muted-foreground">No vendor partnership, supported connection standard or certification is claimed. No credentials or patient records are accepted. Preview access and doctor sign-off do not authorize live exchange.</p>
   </div>;
 }

@@ -1,5 +1,11 @@
 # Roadmap
 
+## Kenya FHIR fictional export pilot — October 28, 2026
+- [x] Pinned Kenya Core 1.0.0 / FHIR 4.0.1 with package and sample SHA256; shared connection preparation exports independent synthetic Patient/temperature Observation only.
+- [x] HL7 validator 7.0.3 ran against pinned package: zero errors, four warnings, terminology services disabled. Actual outcome retained; eleven focused tests pass including fixed-fixture read-back and altered-field rejection. No clinical writes.
+- [x] Isolated browser read-back and downloaded JSON byte comparison passed; visible warnings checked and automatic build OK. Not an authenticated dashboard end-to-end check.
+- [ ] Authenticated dashboard verification blocked by external unmanaged session; terminology-backed validation and DHA receiving-system acceptance remain unverified.
+
 ## Kenya IDSR sample reporting — October 28, 2026
 - [x] Re-ran fictional CSV/PDF downloads and independently compared official MOH 505 inventory: 25 disease/event rows, 36 lab cells and administrative fields covered; sample tallies/blocked cells checked. Layout and footnotes differ, so exact replica/official acceptance is not claimed. Chart v3 says Sample exports checked and was visually inspected and collected.
 - [x] Verified MOH 505 Edition 2020 in official May 2022 Annex 2H; added shared fictional-only weekly reporting to both private dashboards, preserving live-data and government-submission locks.
