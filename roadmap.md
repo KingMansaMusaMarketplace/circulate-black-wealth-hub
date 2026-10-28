@@ -1,7 +1,7 @@
 # Roadmap
 
 ## Kenya IDSR sample reporting — October 28, 2026
-- [ ] Re-run fictional exports, independently compare all fields with the official weekly form, and version the chart with evidence-qualified readiness.
+- [x] Re-ran fictional CSV/PDF downloads and independently compared official MOH 505 inventory: 25 disease/event rows, 36 lab cells and administrative fields covered; sample tallies/blocked cells checked. Layout and footnotes differ, so exact replica/official acceptance is not claimed. Chart v3 says Sample exports checked and was visually inspected and collected.
 - [x] Verified MOH 505 Edition 2020 in official May 2022 Annex 2H; added shared fictional-only weekly reporting to both private dashboards, preserving live-data and government-submission locks.
 - [x] Sixteen reporting/adjacent tests passed; isolated browser CSV/PDF downloads and week-change reset passed, public gate remains closed. Both sample PDFs and revised one-page chart visually inspected; automatic build OK.
 - [ ] Verify approved signed-in navigation — blocked: external unmanaged authentication has no authorized test session. Current Kenyan form acceptance, immediate notifications and live reporting require official validation/healthcare clearance.
