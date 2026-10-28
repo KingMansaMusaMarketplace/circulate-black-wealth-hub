@@ -1,6 +1,6 @@
 {
   "resourceType": "Bundle",
-  "id": "1325-fictional-kenya-v1",
+  "id": "1325-fictional-kenya-v2",
   "meta": {
     "security": [
       {
@@ -88,13 +88,155 @@
         "effectiveDateTime": "2026-10-19T12:00:00Z",
         "valueQuantity": {
           "value": 36.8,
-          "unit": "°C",
+          "unit": "\u00b0C",
           "system": "http://unitsofmeasure.org",
           "code": "Cel"
         },
         "note": [
           {
             "text": "Independent fictional fixture; not a measured patient result."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:33333333-3333-4333-8333-333333333333",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "synthetic-facility",
+        "meta": {
+          "security": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+              "code": "HTEST"
+            }
+          ],
+          "profile": [
+            "https://fhir.dha.go.ke/core/StructureDefinition/kenya-core-organization"
+          ]
+        },
+        "identifier": [
+          {
+            "use": "official",
+            "type": {
+              "coding": [
+                {
+                  "system": "https://fhir.dha.go.ke/fhir/terminology/CodeSystem/facility-identifier-types",
+                  "code": "fid",
+                  "display": "Facility ID"
+                }
+              ]
+            },
+            "value": "SYNTHETIC-NOT-ISSUED-FACILITY-1325"
+          }
+        ],
+        "active": false,
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.dha.go.ke/terminology/CodeSystem/organization-type-cs",
+                "code": "GP-GENERAL-PRACTITIONER-SITE",
+                "display": "GP General Practitioner Site"
+              }
+            ]
+          }
+        ],
+        "name": "1325 Fictional Facility \u2014 not a registered provider"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:44444444-4444-4444-8444-444444444444",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "synthetic-professional",
+        "meta": {
+          "security": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+              "code": "HTEST"
+            }
+          ],
+          "profile": [
+            "https://fhir.dha.go.ke/core/StructureDefinition/practitioner-sha-ke"
+          ]
+        },
+        "identifier": [
+          {
+            "use": "official",
+            "system": "https://fhir.dha.go.ke/fhir/Practitioner/PractitionerRegistrationNumber",
+            "value": "SYNTHETIC-NOT-ISSUED-REGISTRATION-1325"
+          },
+          {
+            "use": "official",
+            "system": "https://fhir.dha.go.ke/fhir/Practitioner/PractitionerRegistryID",
+            "value": "SYNTHETIC-NOT-ISSUED-REGISTRY-1325"
+          },
+          {
+            "use": "official",
+            "system": "https://fhir.dha.go.ke/fhir/Practitioner/National_ID",
+            "value": "SYNTHETIC-NOT-ISSUED-NATIONAL-ID-1325"
+          }
+        ],
+        "active": false,
+        "name": [
+          {
+            "text": "Fictional Professional Example"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "email",
+            "value": "fictional-professional@example.invalid",
+            "use": "work"
+          }
+        ],
+        "gender": "unknown"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:55555555-5555-4555-8555-555555555555",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "synthetic-role",
+        "meta": {
+          "security": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+              "code": "HTEST"
+            }
+          ],
+          "profile": [
+            "https://fhir.dha.go.ke/core/StructureDefinition/kenya-core-practitionerrole"
+          ]
+        },
+        "active": false,
+        "practitioner": {
+          "reference": "urn:uuid:44444444-4444-4444-8444-444444444444"
+        },
+        "organization": {
+          "reference": "urn:uuid:33333333-3333-4333-8333-333333333333"
+        },
+        "code": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.dha.go.ke/terminology/CodeSystem/practitioner-roles-cs",
+                "code": "GENERAL-PRACTITIONER",
+                "display": "General practitioner"
+              }
+            ]
+          }
+        ],
+        "specialty": [
+          {
+            "coding": [
+              {
+                "system": "https://fhir.dha.go.ke/terminology/CodeSystem/practitioner-specialties-cs",
+                "code": "MEDICAL-DOCTOR",
+                "display": "Medical Doctor"
+              }
+            ]
           }
         ]
       }
