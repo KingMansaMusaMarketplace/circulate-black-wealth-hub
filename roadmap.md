@@ -2,18 +2,18 @@
 
 ## Kenya facility dates and packet re-export — October 28, 2026
 - [x] Label last recorded validation date and add guarded fictional row re-export; real references remain unvalidated with no packet.
-- [ ] Run warning/date/export safety tests and isolated browser downloads, readiness reset and public gate checks.
+- [x] Twenty-two warning/date/export/readiness tests passed; isolated browser repeated re-exports match recorded input hash, dates/warnings remain unchanged, evidence archive and reset checked, both public gates hide exports, no page errors; screenshots inspected.
 - [ ] Signed-in dashboard verification — blocked by external unmanaged authentication; no real exchange enabled.
 
 ## Kenya FHIR warning corrections — October 28, 2026
-- [ ] Preserve the original nine-warning evidence and reconcile file-byte versus exported-byte fingerprints.
-- [ ] Correct four narratives, fictional performer and additive standard identifier type; revalidate exact exported bytes and retain unresolved publisher/terminology findings.
-- [ ] Update warning walkthrough, dashboard counts and tests; verify isolated downloads and unchanged public gates.
+- [x] Preserved original nine-warning input/outcome and separately pinned raw escaped-Unicode versus normalized export fingerprints; parsed content is identical.
+- [x] Corrected four narratives and fictional performer; terminology-enabled exact-export run returned zero errors/two warnings. Trial FI addition violated pinned profile and was removed; both publisher identifier conflicts remain visible.
+- [x] Updated warning walkthrough, dashboard counts and tests; verified isolated exact-hash downloads, archive evidence and unchanged public gates with twenty-two passing tests.
 - [ ] Publisher canonical reconciliation and signed-in/national acceptance — blocked by publisher clarification and unavailable authorized access.
 
 ## Kenya national health exchange preparation — October 28, 2026
-- [ ] Build a separate shared private module with readiness chart, evidence and fictional export rehearsal; preserve real-data locks.
-- [ ] Test readiness rules, existing exchange regressions, isolated interactions and public access gates.
+- [x] Built separate shared private module with readiness chart, evidence and fictional export rehearsal; real-data locks preserved.
+- [x] Readiness rules and exchange regressions passed; isolated findings filter/details, evidence navigation, export/reset and disabled national actions checked; public gates hide module. Not signed-in verification.
 - [ ] Signed-in navigation and national acceptance — blocked by external unmanaged authentication and unavailable authorized sandbox.
 
 ## Kenya FHIR facility dashboard — October 28, 2026
