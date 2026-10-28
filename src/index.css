@@ -1360,6 +1360,48 @@
     radial-gradient(800px 400px at -10% 110%, hsl(var(--mansagold) / 0.06), transparent 60%);
   color: hsl(var(--foreground));
 }
+/* Private dashboard-only readability; public Clinical pages retain their scale. */
+.clinical-dashboard-readable {
+  --foreground: 40 30% 98%;
+  --card-foreground: 40 30% 98%;
+  --popover-foreground: 40 30% 98%;
+  --secondary-foreground: 40 30% 98%;
+  --muted-foreground: 215 20% 78%;
+  --clinical-text-xs: 0.875rem;
+  --clinical-text-sm: 1rem;
+  --clinical-text-base: 1.125rem;
+  --clinical-text-lg: 1.25rem;
+  --clinical-text-xl: 1.5rem;
+  --clinical-text-2xl: 1.875rem;
+  --clinical-text-3xl: 2.25rem;
+  --clinical-text-4xl: 3rem;
+  --clinical-text-5xl: 3.75rem;
+  font-size: var(--clinical-text-base);
+}
+.clinical-dashboard-readable :is(.text-xs, .text-\[11px\], .text-\[10px\]) { font-size: var(--clinical-text-xs); }
+.clinical-dashboard-readable .text-sm { font-size: var(--clinical-text-sm); }
+.clinical-dashboard-readable .text-base { font-size: var(--clinical-text-base); }
+.clinical-dashboard-readable .text-lg { font-size: var(--clinical-text-lg); }
+.clinical-dashboard-readable .text-xl { font-size: var(--clinical-text-xl); }
+.clinical-dashboard-readable .text-2xl { font-size: var(--clinical-text-2xl); }
+.clinical-dashboard-readable .text-3xl { font-size: var(--clinical-text-3xl); }
+.clinical-dashboard-readable .text-4xl { font-size: var(--clinical-text-4xl); }
+.clinical-dashboard-readable .text-5xl { font-size: var(--clinical-text-5xl); }
+.clinical-dashboard-readable :is(button, [role="tab"]) { white-space: normal; height: auto; min-height: 2.5rem; }
+.clinical-dashboard-readable :is(button, [role="tab"]) svg { flex-shrink: 0; }
+@media (min-width: 640px) {
+  .clinical-dashboard-readable .sm\:text-sm { font-size: var(--clinical-text-sm); }
+  .clinical-dashboard-readable .sm\:text-base { font-size: var(--clinical-text-base); }
+  .clinical-dashboard-readable .sm\:text-lg { font-size: var(--clinical-text-lg); }
+  .clinical-dashboard-readable .sm\:text-xl { font-size: var(--clinical-text-xl); }
+  .clinical-dashboard-readable .sm\:text-2xl { font-size: var(--clinical-text-2xl); }
+}
+@media (min-width: 768px) {
+  .clinical-dashboard-readable .md\:text-xl { font-size: var(--clinical-text-xl); }
+  .clinical-dashboard-readable .md\:text-2xl { font-size: var(--clinical-text-2xl); }
+  .clinical-dashboard-readable .md\:text-3xl { font-size: var(--clinical-text-3xl); }
+  .clinical-dashboard-readable .md\:text-4xl { font-size: var(--clinical-text-4xl); }
+}
 .theme-clinical .rounded-lg.border,
 .theme-clinical [class*="rounded-xl"].border {
   box-shadow: 0 1px 0 hsl(var(--mansagold) / 0.08) inset, 0 12px 32px -16px hsl(0 0% 0% / 0.8);
