@@ -5,6 +5,8 @@
 - [ ] Add real dashboard footage — blocked: external unmanaged authentication provides no authorized recording session; user-supplied sample-only recordings needed.
 - [x] Receive approval and submit one short Avatar V test using the same Kayla look and Janet voice; HeyGen video ID: 27f7fa884428746b2714742278aa53b5. No full-length regeneration submitted.
 - [x] Deliver completed 32.92-second 1080p Kayla test with AI-presenter/sample-only labels; sampled frames inspected and entire file decoded without errors. Visible face/head changes are modest; full motion and audible lip-sync need viewer review.
+- [x] Submit approved second short test using the same Kayla and voice with Avatar IV directed visible-hand gestures; Avatar V has no eligible animation-reference look in this avatar group. Video ID: 58323b3c3e893d19a1fd0728b17004fc.
+- [ ] Review and deliver the second gesture test — processing; gesture quality is not guaranteed.
 - [ ] Upgrade the full presentation while preserving approved narration — blocked pending Thomas's test review and fictional-sample dashboard recording; no full-length generation submitted.
 - [ ] Assemble and review a new version, preserving the audience mix, applause, labels and original backup — blocked by the two inputs above.
 
