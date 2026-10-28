@@ -779,7 +779,7 @@ export default function HealthDemoPage() {
   const View = mod === 'ask-kayla' || mod === 'national-exchange' ? null : VIEWS[mod];
   const current = MODULES.find((m) => m.key === mod) ?? MODULES[0];
   return (
-    <div className="theme-clinical dark flex min-h-screen flex-col">
+    <div className="theme-clinical clinical-dashboard-readable dark flex min-h-screen flex-col">
       <Helmet><title>1325 Clinical EMR / EHR — Investor Demo | 1325.AI</title>
         <meta name="description" content="Investor preview of 1325 Clinical EMR / EHR, a planned AI-powered health record system by 1325.AI. Sample data only." /></Helmet>
       <div className="flex items-center justify-center gap-2 border-b border-mansagold/30 bg-mansagold/10 px-4 py-1.5 text-center text-xs font-medium tracking-wide text-mansagold">

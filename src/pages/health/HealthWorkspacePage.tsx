@@ -166,7 +166,7 @@ export default function HealthWorkspacePage() {
   const props = { clinicId: clinic?.id, patients, reloadPatients: loadPatients, isOwner: role === 'owner' };
   const current = NAV.find((n) => n.k === tab) ?? NAV[0];
   return (
-    <div className="theme-clinical dark min-h-screen">
+    <div className="theme-clinical clinical-dashboard-readable dark min-h-screen">
       <Helmet><title>1325 Clinical EMR / EHR Workspace | health.1325.ai</title><meta name="robots" content="noindex" /></Helmet>
       <Banner />
       {shellHeader}
