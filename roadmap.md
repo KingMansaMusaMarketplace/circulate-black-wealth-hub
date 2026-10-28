@@ -1,5 +1,10 @@
 # Roadmap
 
+## Clinical sign-in and facility verification — October 28, 2026
+- [ ] Verify the current user with hosted Auth and read their facility memberships through existing preview-protected policies; keep these rows separate from fictional and public-registry examples.
+- [ ] Show current verification state/time and permitted Clinical facilities, clearing stale state on sign-out, account change or failure; facility packets and national access remain unavailable.
+- [ ] Test identity/membership failures and lifecycle; verify available browser states. Real signed-in end-to-end remains blocked by external unmanaged authentication.
+
 ## Kenya facility dates and packet re-export — October 28, 2026
 - [x] Label last recorded validation date and add guarded fictional row re-export; real references remain unvalidated with no packet.
 - [x] Twenty-two warning/date/export/readiness tests passed; isolated browser repeated re-exports match recorded input hash, dates/warnings remain unchanged, evidence archive and reset checked, both public gates hide exports, no page errors; screenshots inspected.

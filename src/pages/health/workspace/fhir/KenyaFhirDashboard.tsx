@@ -3,12 +3,14 @@ import { ChevronDown, ChevronUp, AlertTriangle, FileCheck2, Download } from 'luc
 import { Button } from '@/components/ui/button';
 import { getFacilityStatuses } from './facility-status';
 import { facilityReference } from './pilot';
+import ClinicalFacilityVerification from './ClinicalFacilityVerification';
 
 export default function KenyaFhirDashboard({ checked, downloaded, onReExport }: { checked: boolean; downloaded: boolean; onReExport: (facilityId: string) => void }) {
   const [selected, setSelected] = useState<string | null>(null);
   const facilities = getFacilityStatuses(checked, downloaded);
   const active = facilities.find(f => f.id === selected);
   return <section aria-label="Kenya exchange facility dashboard" className="space-y-4">
+    <ClinicalFacilityVerification />
     <div className="flex flex-wrap items-start justify-between gap-3">
       <div><h4 className="flex items-center gap-2 font-semibold"><FileCheck2 className="h-4 w-4" />Facility export status</h4>
         <p className="mt-1 text-xs text-muted-foreground">Recorded sample evidence · no live facility exchange</p></div>
