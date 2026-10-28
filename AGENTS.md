@@ -1,4 +1,5 @@
 # AGENTS
+- Kenya SHA claims use a shared independent local fictional rehearsal in billing preparation, separate from HIE exports; no official schema, tariff, coverage, payment or transport is implied. See clinical AGENTS.md.
 - Clinical Kenya FHIR exports use an independent fixed synthetic fixture and pinned guide/validator evidence; no receiving system, real intake or clinical writes are enabled. See clinical AGENTS.md.
 - Kenya IDSR uses the shared fictional reporting module in both private Clinical dashboards; source-versioned sample exports are separate from signed clinical reports and never grant real reporting access. See clinical AGENTS.md.
 - Route content starts visible and route Suspense stays inside Layout in both routers, so lazy page loading cannot hide the navigation shell; Helmet titles use a single string expression to prevent page-title render crashes.
