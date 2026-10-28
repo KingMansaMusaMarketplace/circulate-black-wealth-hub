@@ -34,6 +34,7 @@ import BillingPreparation from './workspace/BillingPreparation';
 import EnterpriseReliability from './workspace/EnterpriseReliability';
 import DoctorEvaluation from './workspace/DoctorEvaluation';
 import ExecutiveQuality from './workspace/ExecutiveQuality';
+import IdsrReporting from './workspace/IdsrReporting';
 import FacilitySelector from './FacilitySelector';
 import { DEFAULT_FACILITY_CONTEXT, type FacilityContext } from './workspace/facility-context';
 import ProprietaryNotice from './ProprietaryNotice';
@@ -46,6 +47,7 @@ const NAV = [
   { k: 'sample-chart', l: 'Expanded Sample Chart', i: ClipboardCheck },
   { k: 'medication-review', l: 'Medication Review Assistance', i: ClipboardCheck },
   { k: 'data-explorer', l: 'Clinical Data Explorer', i: ClipboardCheck },
+  { k: 'idsr', l: 'Kenya IDSR Reporting', i: ClipboardCheck },
   { k: 'connections', l: 'Clinical Connections', i: ClipboardCheck },
   { k: 'portal', l: 'Patient Communication', i: Users },
   { k: 'intake', l: 'Clinic Intake', i: Lock },
@@ -195,6 +197,7 @@ export default function HealthWorkspacePage() {
             {tab === 'sample-chart' && <SamplePatientChart key={`${user.id}:${clinic.id}`} />}
             {tab === 'medication-review' && <MedicationReview key={`${user.id}:${clinic.id}`} />}
             {tab === 'data-explorer' && <ClinicalDataExplorer key={`${user.id}:${clinic.id}`} />}
+            {tab === 'idsr' && <IdsrReporting key={`${user.id}:${clinic.id}`} />}
             {tab === 'connections' && <ConnectionPreparation key={`${user.id}:${clinic.id}`} />}
             {tab === 'portal' && <PatientCommunication key={`${user.id}:${clinic.id}`} />}
             {tab === 'intake' && <ClinicIntake clinicId={clinic.id} clinicName={clinic.name} clinicRole={role} signedIn />}

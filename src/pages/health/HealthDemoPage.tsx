@@ -43,6 +43,7 @@ import ClinicalOperationsTiles from './workspace/ClinicalOperationsTiles';
 import EnterpriseReliability from './workspace/EnterpriseReliability';
 import DoctorEvaluation from './workspace/DoctorEvaluation';
 import ExecutiveQuality from './workspace/ExecutiveQuality';
+import IdsrReporting from './workspace/IdsrReporting';
 import FacilitySelector from './FacilitySelector';
 import { DEFAULT_FACILITY_CONTEXT, resolveFacilityContext, type FacilityContext } from './workspace/facility-context';
 
@@ -129,6 +130,7 @@ const MODULES = [
   { key: 'sample-chart', label: 'Expanded Sample Chart', icon: FileText },
   { key: 'medication-review', label: 'Medication Review Assistance', icon: Pill },
   { key: 'data-explorer', label: 'Clinical Data Explorer', icon: Search },
+  { key: 'idsr', label: 'Kenya IDSR Reporting', icon: Activity },
   { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { key: 'inbox', label: 'Inbox & Tasks', icon: Inbox },
   { key: 'patients', label: 'Patient Charts', icon: Users },
@@ -762,7 +764,7 @@ const VoiceOutreach = () => {
   );
 };
 
-const VIEWS: Record<Exclude<ModuleKey, 'ask-kayla'>, React.FC> = { 'data-explorer': ClinicalDataExplorer, evaluation: DoctorEvaluation, reliability: EnterpriseReliability, 'medication-review': MedicationReview, delegation: DelegationDesk, 'sample-chart': SamplePatientChart, 'doctor-day': DoctorDay, specialties: SpecialtyExamples, dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, impact: PracticeImpact, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: ExecutiveQuality, voice: VoiceOutreach };
+const VIEWS: Record<Exclude<ModuleKey, 'ask-kayla'>, React.FC> = { idsr: IdsrReporting, 'data-explorer': ClinicalDataExplorer, evaluation: DoctorEvaluation, reliability: EnterpriseReliability, 'medication-review': MedicationReview, delegation: DelegationDesk, 'sample-chart': SamplePatientChart, 'doctor-day': DoctorDay, specialties: SpecialtyExamples, dashboard: Dashboard, inbox: InboxView, labs: Labs, rx: Prescriptions, careplans: CarePlans, revenue: Revenue, impact: PracticeImpact, patients: Patients, cme: CME, rpm: RPM, auth: PriorAuth, billing: Billing, compliance: Compliance, audit: AuditLog, interop: Interop, video: VideoVisits, portal: PatientPortal, referrals: Referrals, quality: ExecutiveQuality, voice: VoiceOutreach };
 
 export default function HealthDemoPage() {
   const [facilityContext, setFacilityContext] = useState<FacilityContext>(DEFAULT_FACILITY_CONTEXT);
