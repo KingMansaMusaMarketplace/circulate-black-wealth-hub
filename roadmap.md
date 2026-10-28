@@ -1,9 +1,10 @@
 # Roadmap
 
 ## Kenya facility/professional FHIR extension — October 28, 2026
-- [ ] Extend fixed fictional exchange with Kenya Organization, Practitioner and PractitionerRole profiles, published professional codes and isolated verified public facility reference.
-- [ ] Run pinned HL7 validation and exact read-back/rejection tests; retain all warnings and distinguish vocabulary checks from registry verification.
-- [ ] Verify downloads and presentation without bypassing private access; authenticated acceptance remains dependent on authorized access.
+- [x] Extended fixed fictional exchange with Kenya Organization, Practitioner and PractitionerRole profiles, exact published professional/category codes and isolated KMHFR facility reference (29468); no real identities added to care.
+- [x] Pinned HL7 validator 7.0.3 returned zero errors/nine warnings, terminology service disabled; actual outcome retained including facility identifier namespace mismatch. Eight read-back/hash/reference/rejection tests and six connection regressions passed.
+- [x] Isolated browser download/hash comparison and presentation checked; public gate intact, automatic build OK. Existing development ref warnings observed, no page crash. Not a signed-in end-to-end check.
+- [ ] Authenticated exchange verification, terminology-backed checks and DHA receiving-system acceptance — blocked by external unmanaged authentication and unavailable authorized sandbox; no real exchange enabled.
 
 ## Kenya SHA fictional claims pilot — October 28, 2026
 - [x] Reviewed official DHA claims workflow and endpoint-specific start-visit/authorization documentation; shared independent local fictional claims rehearsal added to billing preparation in both private dashboards. Local format explicitly is not an official claim contract.
