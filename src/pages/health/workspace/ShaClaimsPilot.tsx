@@ -37,6 +37,12 @@ export default function ShaClaimsPilot() {
     {review && <p role="status" className="border-l-2 border-mansagold pl-3 text-sm">{review.status} · scripted example, not a response from SHA.</p>}
     <div className="flex flex-wrap gap-2 border-t border-border pt-4"><Button variant="outline" disabled><Lock className="mr-2 h-4 w-4" />Send to SHA</Button><Button variant="outline" disabled>Export SHA claim</Button><Button variant="outline" disabled>Record reimbursement</Button></div>
     <p className="text-xs text-muted-foreground">Local fixture {SHA_PILOT_VERSION} · No patient entry, uploads, storage or government transport.</p>
+    <section aria-label="Published SHA integration checklist" className="space-y-3 border-t border-border pt-4">
+      <h4 className="font-semibold">Official integration work still required</h4>
+      <ul className="list-disc space-y-2 pl-5 text-sm text-muted-foreground"><li>Authorized test tenant, facility and synthetic beneficiary identifiers; eligibility and benefit checks.</li><li>Patient consent and authorization testing. No actual consent, one-time code or biometric is collected here.</li><li>Approved intervention codes, benefit rules, pricing and preauthorization where applicable.</li><li>Claim dispatch, payer adjudication and remittance testing. Pending is not paid.</li></ul>
+      <p className="text-sm text-muted-foreground">Published start-visit fields include <code>patient_id</code>, <code>service_type</code>, <code>intervention_codes</code> and <code>otp</code>. Authorization uses <code>interventions</code> instead. These endpoint-specific contracts are not validated by our local packet checks.</p>
+      <div className="flex flex-wrap gap-4 text-xs"><a className="underline" href="https://hie-docs.dha.go.ke/docs/claims/getting-started/introduction" target="_blank" rel="noreferrer">Official claims workflow</a><a className="underline" href="https://hie-docs.dha.go.ke/eclaims/start-visit-consent" target="_blank" rel="noreferrer">Start-visit contract</a><a className="underline" href="https://hie-docs.dha.go.ke/eclaims/authorizations" target="_blank" rel="noreferrer">Authorization contract</a></div>
+    </section>
     <p className="text-xs text-muted-foreground">Certification requirement: <a className="underline" href="https://certification.dha.go.ke/faq" target="_blank" rel="noreferrer">DHA certification FAQ</a>. Claims integration must be tested separately from national exchange connectivity.</p>
   </section>;
 }
