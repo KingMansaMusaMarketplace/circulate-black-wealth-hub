@@ -8,7 +8,7 @@
 - [x] Deliver completed 32.92-second 1080p Kayla test with AI-presenter/sample-only labels; sampled frames inspected and entire file decoded without errors. Visible face/head changes are modest; full motion and audible lip-sync need viewer review.
 - [x] Submit approved second short test using the same Kayla and voice with Avatar IV directed visible-hand gestures; Avatar V has no eligible animation-reference look in this avatar group. Video ID: 58323b3c3e893d19a1fd0728b17004fc.
 - [x] Deliver second 32.92-second 1080p gesture test; eleven sampled frames show visible open-palm and mid-torso hand gestures at multiple points. Labels inspected; full file decoded without errors. Full playback, voice and finger-motion realism remain for viewer review.
-- [ ] Upgrade the full seven-minute presentation while preserving approved narration — Thomas approved production October 28 at 16:46 UTC; gesture test and clean dashboard footage approved. Starting balance: 3,074 premium credits.
+- [ ] Upgrade the full seven-minute presentation while preserving approved narration — submitted to HeyGen October 28; video ID 947fabd3c0828925d882485436f4c7e5, currently processing. Same Kayla, Avatar IV directed gestures, original audio asset 79e1ee3be08141e6a1f2d711a3dbae7d. Starting balance: 3,074 premium credits. Resume with get_video; do not resubmit.
 - [ ] Assemble and review a new version, preserving the audience mix, applause, labels and original backup — awaiting clean footage and full-length Kayla upgrade.
 
 ## Clinical sign-in and facility verification — October 28, 2026
