@@ -1,9 +1,10 @@
 # Roadmap
 
 ## Clinical sign-in and facility verification — October 28, 2026
-- [ ] Verify the current user with hosted Auth and read their facility memberships through existing preview-protected policies; keep these rows separate from fictional and public-registry examples.
-- [ ] Show current verification state/time and permitted Clinical facilities, clearing stale state on sign-out, account change or failure; facility packets and national access remain unavailable.
-- [ ] Test identity/membership failures and lifecycle; verify available browser states. Real signed-in end-to-end remains blocked by external unmanaged authentication.
+- [x] Hosted Auth double-check and current-user membership reads use existing deployed preview-protected policies; Clinical rows remain separate from fictional/public registry examples, with no new grants or writes.
+- [x] Show verification state/time and permitted Clinical facilities; clear stale results during refresh, auth changes, failure and unmount; focus/30-second rechecks. Facility packets and national access remain unavailable.
+- [x] Twenty-seven focused tests passed including signed-out, matching membership, empty policies, failed queries and changed identity. Isolated browser displayed verification failure honestly, unchanged downloads/reset/public gates passed with no page errors; screenshot inspected, automatic build OK.
+- [ ] Real signed-in end-to-end and event-lifecycle browser checks — blocked by external unmanaged authentication with no authorized session; isolated and mocked tests do not establish successful hosted membership verification.
 
 ## Kenya facility dates and packet re-export — October 28, 2026
 - [x] Label last recorded validation date and add guarded fictional row re-export; real references remain unvalidated with no packet.
