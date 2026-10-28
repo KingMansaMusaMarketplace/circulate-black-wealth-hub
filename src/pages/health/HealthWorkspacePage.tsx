@@ -29,6 +29,7 @@ import MedicationReview from './workspace/MedicationReview';
 import DelegationDesk from './workspace/DelegationDesk';
 import ClinicalDataExplorer from './workspace/ClinicalDataExplorer';
 import ConnectionPreparation from './workspace/ConnectionPreparation';
+import NationalHealthExchange from './workspace/national-exchange/NationalHealthExchange';
 import PatientCommunication from './workspace/PatientCommunication';
 import BillingPreparation from './workspace/BillingPreparation';
 import EnterpriseReliability from './workspace/EnterpriseReliability';
@@ -49,6 +50,7 @@ const NAV = [
   { k: 'data-explorer', l: 'Clinical Data Explorer', i: ClipboardCheck },
   { k: 'idsr', l: 'Kenya IDSR Reporting', i: ClipboardCheck },
   { k: 'connections', l: 'Clinical Connections', i: ClipboardCheck },
+  { k: 'national-exchange', l: 'National Health Exchange', i: ClipboardCheck },
   { k: 'portal', l: 'Patient Communication', i: Users },
   { k: 'intake', l: 'Clinic Intake', i: Lock },
   { k: 'dashboard', l: 'Dashboard', i: LayoutDashboard },
@@ -199,6 +201,7 @@ export default function HealthWorkspacePage() {
             {tab === 'data-explorer' && <ClinicalDataExplorer key={`${user.id}:${clinic.id}`} />}
             {tab === 'idsr' && <IdsrReporting key={`${user.id}:${clinic.id}`} />}
             {tab === 'connections' && <ConnectionPreparation key={`${user.id}:${clinic.id}`} />}
+            {tab === 'national-exchange' && <NationalHealthExchange key={`${user.id}:${clinic.id}`} onBack={() => navigateTab('dashboard')} />}
             {tab === 'portal' && <PatientCommunication key={`${user.id}:${clinic.id}`} />}
             {tab === 'intake' && <ClinicIntake clinicId={clinic.id} clinicName={clinic.name} clinicRole={role} signedIn />}
             {tab === 'patients' && <Patients {...props} />}

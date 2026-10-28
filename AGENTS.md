@@ -1,4 +1,5 @@
 # AGENTS
+- National health exchange preparation shares an independent readiness module across private Clinical dashboards; fixed sample evidence stays separate from national acceptance and live connections. See clinical AGENTS.md.
 - Kenya SHA claims use a shared independent local fictional rehearsal in billing preparation, separate from HIE exports; no official schema, tariff, coverage, payment or transport is implied. See clinical AGENTS.md.
 - Clinical Kenya FHIR exports use an independent fixed synthetic fixture and pinned guide/validator evidence; no receiving system, real intake or clinical writes are enabled. See clinical AGENTS.md.
 - Kenya IDSR uses the shared fictional reporting module in both private Clinical dashboards; source-versioned sample exports are separate from signed clinical reports and never grant real reporting access. See clinical AGENTS.md.
