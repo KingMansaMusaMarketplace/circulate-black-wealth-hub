@@ -1,5 +1,10 @@
 # Roadmap
 
+## Full Clinical documentary presentation — October 29, 2026
+- [ ] Obtain Board Check approval for the full seven-minute documentary extension.
+- [ ] Preserve approved Kayla narration and sample hospital scenes; add more Black male and female doctors, match clean sample screens to each narrated topic, retain applause and AI/sample labels without personal watermarks.
+- [ ] Check opening sound, every topic transition and complete visual sequence; deliver a new version without replacing preferred originals.
+
 ## One-minute Clinical documentary quality test — October 29, 2026
 - [x] Create three native 1080p hospital clips including reference-guided Kayla listening; one-second frame grids and close-up checked, preferred seven-minute versions preserved.
 - [x] Assemble exactly sixty seconds at 1080p using approved off-camera narration and three matched clean dashboard stills; no personal watermark, AI/sample disclosures retained. Preferred originals preserved.
