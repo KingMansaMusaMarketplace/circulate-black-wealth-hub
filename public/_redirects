@@ -9,4 +9,5 @@
 /mcp/*    https://agoclnqfyinwjxdmjnns.supabase.co/functions/v1/mcp/:splat    200
 /mcp      https://agoclnqfyinwjxdmjnns.supabase.co/functions/v1/mcp    200
 
+/briefing    /clinical-briefing.html    200
 /*    /index.html   200
