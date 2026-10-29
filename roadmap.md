@@ -2,7 +2,7 @@
 
 ## Full Clinical documentary presentation — October 29, 2026
 - [x] Obtain Board Check approval for the full seven-minute documentary extension; Thomas approved "go" October 29.
-- [ ] Preserve approved Kayla narration and sample hospital scenes; add more Black male and female doctors, match clean sample screens to each narrated topic, retain applause and AI/sample labels without personal watermarks.
+- [ ] Preserve approved Kayla narration and sample hospital scenes; three additional Black-doctor collaboration/conference/applause clips generated and grids inspected. Full 420-second composition assigned to sub_7rrz5671 with exact narration topic map, clean still offsets and immediate opening voice; retain applause and AI/sample labels without personal watermarks.
 - [ ] Check opening sound, every topic transition and complete visual sequence; deliver a new version without replacing preferred originals.
 
 ## One-minute Clinical documentary quality test — October 29, 2026
