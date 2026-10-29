@@ -1,7 +1,7 @@
 # Roadmap
 
 ## One-minute Clinical documentary quality test — October 29, 2026
-- [ ] Create realistic hospital B-roll with the approved Kayla identity and approximately 60% Black audience; preserve preferred seven-minute versions.
+- [x] Create three native 1080p hospital clips including reference-guided Kayla listening; one-second frame grids and close-up checked, preferred seven-minute versions preserved.
 - [ ] Assemble a sixty-second sample with approved narration and matched clean fictional dashboard footage; no personal watermark, retain AI/sample disclosures.
 - [ ] Check every shot, cut, opening audio and narration alignment; deliver as a quality test with remaining limitations stated.
 
