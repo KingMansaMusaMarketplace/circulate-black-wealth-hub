@@ -612,7 +612,7 @@ function App() {
                               <Route path="/connect" element={<LazyConnectPage />} />
 <Route path="/connect/docs" element={<LazyMcpDocsPage />} />
                               <Route path="/health" element={<LazyHealthAccessGate><LazyHealthDemoPage /></LazyHealthAccessGate>} />
-                              <Route path="/health/marketplace" element={<LazyClinicalMarketplacePage />} /><Route path="/health/welcome" element={<LazyClinicalSite page="home" />} /><Route path="/health/solutions" element={<LazyClinicalSite page="solutions" />} /><Route path="/health/features" element={<LazyClinicalSite page="features" />} /><Route path="/health/security" element={<LazyClinicalSite page="security" />} /><Route path="/health/team" element={<LazyClinicalSite page="team" />} />
+                              <Route path="/briefing" element={<BriefingRedirect />} /><Route path="/health/marketplace" element={<LazyClinicalMarketplacePage />} /><Route path="/health/welcome" element={<LazyClinicalSite page="home" />} /><Route path="/health/solutions" element={<LazyClinicalSite page="solutions" />} /><Route path="/health/features" element={<LazyClinicalSite page="features" />} /><Route path="/health/security" element={<LazyClinicalSite page="security" />} /><Route path="/health/team" element={<LazyClinicalSite page="team" />} />
                               <Route path="/health/app" element={<LazyHealthAccessGate><LazyHealthWorkspacePage /></LazyHealthAccessGate>} />
                               <Route path="/health/baa" element={<LazyHealthAccessGate><LazyHealthBaaPage /></LazyHealthAccessGate>} />
                               <Route path="/health/intake" element={<LazyHealthAccessGate><LazyHealthIntakePage /></LazyHealthAccessGate>} />
@@ -1290,7 +1290,7 @@ function App() {
 <Route path="/connect" element={<LazyConnectPage />} />
                               <Route path="/connect/docs" element={<LazyMcpDocsPage />} />
                               <Route path="/health" element={<LazyHealthAccessGate><LazyHealthDemoPage /></LazyHealthAccessGate>} />
-                              <Route path="/health/marketplace" element={<LazyClinicalMarketplacePage />} /><Route path="/health/welcome" element={<LazyClinicalSite page="home" />} /><Route path="/health/solutions" element={<LazyClinicalSite page="solutions" />} /><Route path="/health/features" element={<LazyClinicalSite page="features" />} /><Route path="/health/security" element={<LazyClinicalSite page="security" />} /><Route path="/health/team" element={<LazyClinicalSite page="team" />} />
+                              <Route path="/briefing" element={<BriefingRedirect />} /><Route path="/health/marketplace" element={<LazyClinicalMarketplacePage />} /><Route path="/health/welcome" element={<LazyClinicalSite page="home" />} /><Route path="/health/solutions" element={<LazyClinicalSite page="solutions" />} /><Route path="/health/features" element={<LazyClinicalSite page="features" />} /><Route path="/health/security" element={<LazyClinicalSite page="security" />} /><Route path="/health/team" element={<LazyClinicalSite page="team" />} />
                               <Route path="/health/app" element={<LazyHealthAccessGate><LazyHealthWorkspacePage /></LazyHealthAccessGate>} />
                               <Route path="/health/baa" element={<LazyHealthAccessGate><LazyHealthBaaPage /></LazyHealthAccessGate>} />
                               <Route path="/health/intake" element={<LazyHealthAccessGate><LazyHealthIntakePage /></LazyHealthAccessGate>} />
@@ -1994,3 +1994,4 @@ function App() {
 }
 
 export default App;
+function BriefingRedirect() { if (typeof window !== "undefined") window.location.replace("/clinical-briefing.html"); return null; }
