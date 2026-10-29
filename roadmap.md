@@ -1,9 +1,9 @@
 # Roadmap
 
 ## Clinical documentary scene-variety revision — October 29, 2026
-- [ ] Generate many fresh, realistic hospital people scenes with more Black male and female clinicians; Thomas approved "go". Do not reuse clips in the revised edit.
-- [ ] Revise the seven-minute documentary pictures while preserving approved Kayla narration, clean dashboard footage and sample/AI disclosures; originals stay unchanged.
-- [ ] Check the full output for repeated shots, black seams and audio continuity; save a new version and add it to the presentation collection.
+- [x] Generate 32 fresh hospital people scenes with more Black male and female clinicians; all inspected at sampled frames, each used once in the revised edit.
+- [x] Deliver seven-minute v3 with 37 unique hospital clips, unchanged approved narration, clean dashboard footage and sample/AI disclosures; originals unchanged.
+- [x] Full decode, every-frame black/motion checks and soundtrack checksum passed; new version added to presentation collection. Real-time motion and audible review unavailable; minor synthetic hands/badge text remain and approved soundtrack retains quiet final ~24 seconds.
 
 ## Full Clinical documentary presentation — October 29, 2026
 - [x] Obtain Board Check approval for the full seven-minute documentary extension; Thomas approved "go" October 29.
