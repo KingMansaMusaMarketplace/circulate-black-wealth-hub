@@ -22,6 +22,7 @@ import DelegationLoop from './DelegationLoop';
 import ClinicalVideo from './ClinicalVideo';
 import demoVideo from '@/assets/clinical-product-demo-sharp.mp4.asset.json';
 import demoPoster from '@/assets/clinical-demo-poster.jpg';
+import briefingPoster from '@/assets/clinical-briefing-poster.jpg';
 import clipDelegation from '@/assets/clinical-delegation-narrated.mp4.asset.json';
 import clipGlobal from '@/assets/clinical-global-narrated.mp4.asset.json';
 import { lazy, Suspense } from 'react';
@@ -143,6 +144,10 @@ function Home() {
         </div>
       </div>
     </section>
+    <Section>
+      <Heading eyebrow="Executive briefing · 7 minutes" title="Watch Kayla walk through 1325 Clinical." />
+      <ClinicalVideo src="/__l5e/assets-v1/0bc56bf7-fa50-462e-8a92-eb41f4aa3bfc/1325-Clinical-Executive-Briefing.mp4" poster={briefingPoster} title="1325 Clinical executive briefing" label="AI-generated people & presenter · sample records only" />
+    </Section>
     <Section>
       <Heading eyebrow="The problem" title="Physicians have become the clerks." intro="Records systems moved clerical work onto doctors (Dr. Join Y. Luh, Doximity Op-Med, Oct 8 2026; not affiliated or endorsed)." />
       <div className="grid gap-6 md:grid-cols-3">
