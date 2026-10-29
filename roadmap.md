@@ -1,7 +1,7 @@
 # Roadmap
 
 ## Full Clinical documentary presentation — October 29, 2026
-- [ ] Obtain Board Check approval for the full seven-minute documentary extension.
+- [x] Obtain Board Check approval for the full seven-minute documentary extension; Thomas approved "go" October 29.
 - [ ] Preserve approved Kayla narration and sample hospital scenes; add more Black male and female doctors, match clean sample screens to each narrated topic, retain applause and AI/sample labels without personal watermarks.
 - [ ] Check opening sound, every topic transition and complete visual sequence; deliver a new version without replacing preferred originals.
 
