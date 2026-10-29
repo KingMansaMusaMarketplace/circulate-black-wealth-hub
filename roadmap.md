@@ -1,5 +1,10 @@
 # Roadmap
 
+## One-minute Clinical documentary quality test — October 29, 2026
+- [ ] Create realistic hospital B-roll with the approved Kayla identity and approximately 60% Black audience; preserve preferred seven-minute versions.
+- [ ] Assemble a sixty-second sample with approved narration and matched clean fictional dashboard footage; no personal watermark, retain AI/sample disclosures.
+- [ ] Check every shot, cut, opening audio and narration alignment; deliver as a quality test with remaining limitations stated.
+
 ## Clinical pitch video: real screens and Kayla movement — October 28, 2026
 - [x] Check existing Kayla look and account balance without generating: photo avatar supports Avatar IV/V; 3,111 premium credits remain. Native 4K is not supported for this photo avatar. HeyGen's published Avatar V rate is 48 credits/minute: approximately 24 for a thirty-second test plus up to 336 for seven minutes; exact charge and motion quality remain unconfirmed.
 - [x] Record all 31 fictional dashboard views using Thomas's approved invitation; original footage preserved.
