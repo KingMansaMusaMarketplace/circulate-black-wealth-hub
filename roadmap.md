@@ -1,5 +1,9 @@
 # Roadmap
 
+## Maurice’s Clinical video corrections — October 29, 2026
+- [ ] Replace the changing walking scene near 5:14–5:17 with fresh stable people footage and smooth the cut near 4:47–4:49; preserve approved voice and all other footage.
+- [ ] Inspect corrected intervals, verify seven-minute duration and unchanged soundtrack, and deliver a new version without overwriting the original.
+
 ## Clinical documentary scene-variety revision — October 29, 2026
 - [x] Generate 32 fresh hospital people scenes with more Black male and female clinicians; all inspected at sampled frames, each used once in the revised edit.
 - [x] Deliver seven-minute v3 with 37 unique hospital clips, unchanged approved narration, clean dashboard footage and sample/AI disclosures; originals unchanged.
