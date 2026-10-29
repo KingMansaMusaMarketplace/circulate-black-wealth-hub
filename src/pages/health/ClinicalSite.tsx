@@ -146,7 +146,7 @@ function Home() {
     </section>
     <Section>
       <Heading eyebrow="Executive briefing · 7 minutes" title="Watch Kayla walk through 1325 Clinical." />
-      <ClinicalVideo src="/__l5e/assets-v1/0bc56bf7-fa50-462e-8a92-eb41f4aa3bfc/1325-Clinical-Executive-Briefing.mp4" poster={briefingPoster} title="1325 Clinical executive briefing" label="AI-generated people & presenter · sample records only" />
+      <ClinicalVideo src="/__l5e/assets-v1/e7890108-2fec-4f79-a656-f7662971c33f/kayla-1325-clinical-briefing-v5.mp4" poster={briefingPoster} title="1325 Clinical executive briefing" label="AI-generated people & presenter · sample records only" />
     </Section>
     <Section>
       <Heading eyebrow="The problem" title="Physicians have become the clerks." intro="Records systems moved clerical work onto doctors (Dr. Join Y. Luh, Doximity Op-Med, Oct 8 2026; not affiliated or endorsed)." />
