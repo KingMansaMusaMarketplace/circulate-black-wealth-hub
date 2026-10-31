@@ -1,5 +1,9 @@
 # Roadmap
 
+## SkyWatch rooftop motion — October 31, 2026
+- [x] Generate and add a 10.048-second 720p rooftop loop with original-photo fallback, manual pause, reduced-motion and visibility handling; page copy and briefing unchanged. Hosted MP4 downloaded and sampled frame inspected; automatic build OK and desktop/mobile fallback inspected.
+- [ ] Confirm on-page motion playback after publication — local Chromium cannot play the hosted MP4 even with intercepted bytes; original-photo error fallback verified, actual pause/resume remains unverified.
+
 ## SkyWatch Clinical-style redesign — October 31, 2026
 - [x] Match the public Clinical theme with dedicated weather imagery, navigation, briefing, model, pilot and host sections; preserve email-interest behavior and proposed-program safeguards.
 - [x] Verified desktop/mobile layout, loaded images, section navigation, host form completion/return and no page errors or overflow; automatic build OK. Existing public video returns HTTP 200/video/mp4; localhost playback fails with media error 4, so actual playback remains unverified. No email sent and publication remains the owner's action.
