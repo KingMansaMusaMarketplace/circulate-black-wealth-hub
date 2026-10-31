@@ -86,12 +86,12 @@ export default function SkyWatchPage() {
       <section className="relative isolate overflow-hidden border-b border-border">
         <img src={rooftop} alt="Illustrative rooftop weather station overlooking a Maryland community" width={1920} height={1088} fetchPriority="high" className="absolute inset-0 -z-20 h-full w-full object-cover object-right" />
         <div className="clinical-site-hero-scrim absolute inset-0 -z-10" />
-        <div className="mx-auto max-w-6xl px-6 py-12 md:py-20">
-          <Button asChild variant="link" className="mb-8 h-auto p-0 text-muted-foreground"><Link to="/"><ArrowLeft className="h-4 w-4" />Back to 1325.AI</Link></Button>
+        <div className="mx-auto max-w-6xl px-6 py-8 md:py-20">
+          <Button asChild variant="link" className="mb-5 h-auto p-0 text-muted-foreground md:mb-8"><Link to="/"><ArrowLeft className="h-4 w-4" />Back to 1325.AI</Link></Button>
           <p className="text-sm font-semibold uppercase text-primary">Community Weather Intelligence</p>
           <h1 className="mt-5 max-w-2xl text-4xl font-semibold leading-tight md:text-5xl lg:text-6xl">1325 SkyWatch</h1>
           <p className="mt-5 max-w-lg text-2xl font-medium leading-snug md:text-3xl">Local insight.<br />Stronger communities.</p>
-          <p className="mt-6 max-w-lg text-lg leading-relaxed text-foreground/85">Neighborhood weather stations. Kayla and <strong className="text-primary">42 Agentic AI Employees</strong>. A community-led plan to help people prepare—and keep opportunity close to home.</p>
+          <p className="mt-6 max-w-lg text-base leading-relaxed text-foreground/85 md:text-lg">Neighborhood weather stations. Kayla and <strong className="text-primary">42 Agentic AI Employees</strong>. A community-led plan to help people prepare—and keep opportunity close to home.</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg"><a href="#host">Become an anchor host <ArrowRight className="h-4 w-4" /></a></Button>
             <Button asChild size="lg" variant="outline" className="bg-background/60"><a href="#briefing"><Play className="h-4 w-4" />Watch the briefing</a></Button>
