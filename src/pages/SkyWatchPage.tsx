@@ -118,8 +118,8 @@ export default function SkyWatchPage() {
       </header>
 
       <section ref={heroRef} className="relative isolate overflow-hidden border-b border-border">
-        <img src={rooftop} alt="Illustrative rooftop weather station overlooking a Maryland community" width={1920} height={1088} fetchPriority="high" className="absolute inset-0 -z-20 h-full w-full object-cover object-right" />
-        {motionAllowed && !motionFailed && <video ref={motionRef} poster={rooftop} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" onError={() => setMotionFailed(true)} className="absolute inset-0 -z-20 h-full w-full object-cover object-right">
+        <img src={rooftop} alt="Illustrative rooftop weather station overlooking a Maryland community" width={1920} height={1088} fetchPriority="high" className="absolute inset-0 -z-20 h-full w-full object-cover object-right brightness-[1.15]" />
+        {motionAllowed && !motionFailed && <video ref={motionRef} poster={rooftop} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" onError={() => setMotionFailed(true)} className="absolute inset-0 -z-20 h-full w-full object-cover object-right brightness-[1.15]">
           <source src={rooftopMotionWebm.url} type="video/webm" />
           <source src={rooftopMotion.url} type="video/mp4" />
         </video>}
