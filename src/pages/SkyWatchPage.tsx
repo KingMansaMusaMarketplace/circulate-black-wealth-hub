@@ -9,8 +9,8 @@ import { Label } from '@/components/ui/label';
 import video from '@/assets/videos/1325-skywatch-briefing.mp4.asset.json';
 import logo from '@/assets/1325-ai-logo.png';
 import rooftop from '@/assets/skywatch-maryland-rooftop.jpg';
-import rooftopMotion from '@/assets/videos/skywatch-rooftop-motion-compatible.mp4.asset.json';
-import rooftopMotionWebm from '@/assets/videos/skywatch-rooftop-motion.webm.asset.json';
+import rooftopMotion from '@/assets/videos/skywatch-visible-motion-v2-compatible.mp4.asset.json';
+import rooftopMotionWebm from '@/assets/videos/skywatch-visible-motion-v2.webm.asset.json';
 import communityScience from '@/assets/skywatch-community-science.jpg';
 
 const hostSchema = z.object({
