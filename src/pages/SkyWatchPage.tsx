@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { z } from 'zod';
-import { ArrowLeft, ArrowRight, CloudSun, Cpu, MessageSquareText, HandCoins, ShieldAlert, CalendarDays, Church, Play, MapPin, Menu, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CloudSun, Cpu, MessageSquareText, HandCoins, ShieldAlert, CalendarDays, Church, Play, Pause, MapPin, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import video from '@/assets/videos/1325-skywatch-briefing.mp4.asset.json';
 import logo from '@/assets/1325-ai-logo.png';
 import rooftop from '@/assets/skywatch-maryland-rooftop.jpg';
+import rooftopMotion from '@/assets/videos/skywatch-rooftop-motion.mp4.asset.json';
 import communityScience from '@/assets/skywatch-community-science.jpg';
 
 const hostSchema = z.object({
@@ -33,6 +34,33 @@ const pilot = [
 ];
 
 export default function SkyWatchPage() {
+  const heroRef = useRef<HTMLElement>(null);
+  const motionRef = useRef<HTMLVideoElement>(null);
+  const [motionAllowed, setMotionAllowed] = useState(false);
+  const [motionVisible, setMotionVisible] = useState(true);
+  const [motionPaused, setMotionPaused] = useState(false);
+  const [motionFailed, setMotionFailed] = useState(false);
+  useEffect(() => {
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const update = () => setMotionAllowed(!preference.matches && !document.hidden);
+    update();
+    preference.addEventListener('change', update);
+    document.addEventListener('visibilitychange', update);
+    const observer = new IntersectionObserver(([entry]) => setMotionVisible(entry?.isIntersecting ?? false));
+    if (heroRef.current) observer.observe(heroRef.current);
+    return () => {
+      preference.removeEventListener('change', update);
+      document.removeEventListener('visibilitychange', update);
+      observer.disconnect();
+    };
+  }, []);
+  useEffect(() => {
+    const player = motionRef.current;
+    if (!player) return;
+    if (motionAllowed && motionVisible && !motionPaused && !motionFailed) {
+      void player.play().catch(() => setMotionFailed(true));
+    } else player.pause();
+  }, [motionAllowed, motionVisible, motionPaused, motionFailed]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [f, setF] = useState({ name: '', organization: '', type: '', city: '', email: '' });
   const [error, setError] = useState('');
@@ -83,9 +111,11 @@ export default function SkyWatchPage() {
         </nav>}
       </header>
 
-      <section className="relative isolate overflow-hidden border-b border-border">
+      <section ref={heroRef} className="relative isolate overflow-hidden border-b border-border">
         <img src={rooftop} alt="Illustrative rooftop weather station overlooking a Maryland community" width={1920} height={1088} fetchPriority="high" className="absolute inset-0 -z-20 h-full w-full object-cover object-right" />
+        {motionAllowed && !motionFailed && <video ref={motionRef} src={rooftopMotion.url} poster={rooftop} muted loop playsInline preload="none" aria-hidden="true" onError={() => setMotionFailed(true)} className="absolute inset-0 -z-20 h-full w-full object-cover object-right" />}
         <div className="clinical-site-hero-scrim absolute inset-0 -z-10" />
+        {motionAllowed && !motionFailed && <Button variant="outline" size="icon" className="absolute bottom-3 right-3 bg-background/60" aria-label={motionPaused ? 'Play background motion' : 'Pause background motion'} title={motionPaused ? 'Play background motion' : 'Pause background motion'} onClick={() => setMotionPaused(p => !p)}>{motionPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}</Button>}
         <div className="mx-auto max-w-6xl px-6 py-8 md:py-20">
           <Button asChild variant="link" className="mb-5 h-auto p-0 text-muted-foreground md:mb-8"><Link to="/"><ArrowLeft className="h-4 w-4" />Back to 1325.AI</Link></Button>
           <p className="text-sm font-semibold uppercase text-primary">Community Weather Intelligence</p>
