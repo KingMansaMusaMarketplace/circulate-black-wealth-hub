@@ -9,7 +9,8 @@ import { Label } from '@/components/ui/label';
 import video from '@/assets/videos/1325-skywatch-briefing.mp4.asset.json';
 import logo from '@/assets/1325-ai-logo.png';
 import rooftop from '@/assets/skywatch-maryland-rooftop.jpg';
-import rooftopMotion from '@/assets/videos/skywatch-rooftop-motion.mp4.asset.json';
+import rooftopMotion from '@/assets/videos/skywatch-rooftop-motion-compatible.mp4.asset.json';
+import rooftopMotionWebm from '@/assets/videos/skywatch-rooftop-motion.webm.asset.json';
 import communityScience from '@/assets/skywatch-community-science.jpg';
 
 const hostSchema = z.object({
@@ -58,7 +59,12 @@ export default function SkyWatchPage() {
     const player = motionRef.current;
     if (!player) return;
     if (motionAllowed && motionVisible && !motionPaused && !motionFailed) {
-      void player.play().catch(() => setMotionFailed(true));
+      void player.play().catch((error: unknown) => {
+        // A visibility pause can interrupt pending playback without breaking the media.
+        if (error instanceof DOMException && error.name === 'AbortError') return;
+        if (player.error) setMotionFailed(true);
+        else setMotionPaused(true);
+      });
     } else player.pause();
   }, [motionAllowed, motionVisible, motionPaused, motionFailed]);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -113,7 +119,10 @@ export default function SkyWatchPage() {
 
       <section ref={heroRef} className="relative isolate overflow-hidden border-b border-border">
         <img src={rooftop} alt="Illustrative rooftop weather station overlooking a Maryland community" width={1920} height={1088} fetchPriority="high" className="absolute inset-0 -z-20 h-full w-full object-cover object-right" />
-        {motionAllowed && !motionFailed && <video ref={motionRef} src={rooftopMotion.url} poster={rooftop} muted loop playsInline preload="none" aria-hidden="true" onError={() => setMotionFailed(true)} className="absolute inset-0 -z-20 h-full w-full object-cover object-right" />}
+        {motionAllowed && !motionFailed && <video ref={motionRef} poster={rooftop} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" onError={() => setMotionFailed(true)} className="absolute inset-0 -z-20 h-full w-full object-cover object-right">
+          <source src={rooftopMotionWebm.url} type="video/webm" />
+          <source src={rooftopMotion.url} type="video/mp4" />
+        </video>}
         <div className="clinical-site-hero-scrim absolute inset-0 -z-10" />
         {motionAllowed && !motionFailed && <Button variant="outline" size="icon" className="absolute bottom-3 right-3 bg-background/60" aria-label={motionPaused ? 'Play background motion' : 'Pause background motion'} title={motionPaused ? 'Play background motion' : 'Pause background motion'} onClick={() => setMotionPaused(p => !p)}>{motionPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}</Button>}
         <div className="mx-auto max-w-6xl px-6 py-8 md:py-20">
