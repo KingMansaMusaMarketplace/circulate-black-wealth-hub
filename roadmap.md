@@ -1,5 +1,9 @@
 # Roadmap
 
+## SkyWatch rooftop motion playback correction — October 31, 2026
+- [x] Add silent WebM and compatible MP4 versions of the existing clip; retain the photo and motion safeguards, and avoid treating interrupted playback as a broken video.
+- [ ] Verify advancing playback, looping and pause/resume in the actual SkyWatch page.
+
 ## SkyWatch rooftop motion — October 31, 2026
 - [x] Generate and add a 10.048-second 720p rooftop loop with original-photo fallback, manual pause, reduced-motion and visibility handling; page copy and briefing unchanged. Hosted MP4 downloaded and sampled frame inspected; automatic build OK and desktop/mobile fallback inspected.
 - [ ] Confirm on-page motion playback after publication — local Chromium cannot play the hosted MP4 even with intercepted bytes; original-photo error fallback verified, actual pause/resume remains unverified.
