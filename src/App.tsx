@@ -78,7 +78,7 @@ const RedeemBetaCodePage = lazy(() => import('./pages/RedeemBetaCodePage'));
 import {
   LazyAboutPage,
   LazyDirectoryPage,
-  LazyAlliesPage,
+  LazyAlliesPage, LazySkyWatchPage,
   LazyCompareSalesforcePage,
   LazyBlackOwnedIndexPage,
   LazyBlackOwnedCityPage,
@@ -795,6 +795,7 @@ function App() {
                               <Route path="/developers/showcase" element={<LazyComingSoonPage />} />
                               <Route path="/directory" element={<LazyDirectoryPage />} />
                               <Route path="/allies" element={<LazyAlliesPage />} />
+                              <Route path="/skywatch" element={<LazySkyWatchPage />} />
                               <Route path="/compare/salesforce" element={<LazyCompareSalesforcePage />} />
                               <Route path="/black-owned" element={<LazyBlackOwnedIndexPage />} />
                               <Route path="/black-owned-business-directory" element={<LazyBlackOwnedIndexPage />} />
@@ -1474,6 +1475,7 @@ function App() {
                         <Route path="/developers/showcase" element={<LazyComingSoonPage />} />
                         <Route path="/directory" element={<LazyDirectoryPage />} />
                         <Route path="/allies" element={<LazyAlliesPage />} />
+                        <Route path="/skywatch" element={<LazySkyWatchPage />} />
                         <Route path="/compare/salesforce" element={<LazyCompareSalesforcePage />} />
                         <Route path="/black-owned" element={<LazyBlackOwnedIndexPage />} />
                         <Route path="/black-owned-business-directory" element={<LazyBlackOwnedIndexPage />} />
