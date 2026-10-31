@@ -1,5 +1,9 @@
 # Roadmap
 
+## SkyWatch clearly visible scene motion — October 31, 2026
+- [ ] Replace the subtle rooftop clip with visible sensor rotation and a slow camera move; preserve the page, briefing and motion safeguards.
+- [ ] Inspect the replacement and verify on-page playback, pause/resume and reduced-motion fallback. Live publication remains the owner's action.
+
 ## SkyWatch rooftop motion playback correction — October 31, 2026
 - [x] Add silent WebM and compatible MP4 versions of the existing clip; retain the photo and motion safeguards, and avoid treating interrupted playback as a broken video.
 - [x] SkyWatch page playback advances, loops, pauses/resumes and respects reduced motion using the exact uploaded WebM bytes intercepted locally; screenshot inspected and automatic build OK. Live CDN playback after publication remains unverified.
