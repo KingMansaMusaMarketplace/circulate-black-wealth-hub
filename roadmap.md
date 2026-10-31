@@ -1,5 +1,9 @@
 # Roadmap
 
+## SkyWatch Clinical-style redesign — October 31, 2026
+- [x] Match the public Clinical theme with dedicated weather imagery, navigation, briefing, model, pilot and host sections; preserve email-interest behavior and proposed-program safeguards.
+- [x] Verified desktop/mobile layout, loaded images, section navigation, host form completion/return and no page errors or overflow; automatic build OK. Existing public video returns HTTP 200/video/mp4; localhost playback fails with media error 4, so actual playback remains unverified. No email sent and publication remains the owner's action.
+
 ## Maurice’s Clinical video corrections — October 29, 2026
 - [x] Replace the full changing walking scene at 312.792–319.292 seconds with fresh stable seated clinicians; smooth the earlier cut with a brief dissolve; approved voice preserved.
 - [x] Inspect corrected intervals and boundaries; full decode passed, duration is 420 seconds and decoded soundtrack SHA256 exactly matches the original; v4 saved separately and added to presentation collection. Website video unchanged; audible review unavailable and existing quiet ending retained.
