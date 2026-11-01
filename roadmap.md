@@ -1,7 +1,7 @@
 # Roadmap
 
 ## iPad Apple screenshots — November 1, 2026
-- [ ] Capture the same ten public app views in portrait iPad format at 2048 × 2732; inspect each image and deliver a checked ZIP. Browser-emulated iOS captures require comparison with the installed iPad app.
+- [x] Captured ten public app views at 2048 × 2732; all images inspected, dimensions and ZIP integrity checked. Browser-emulated iOS captures require comparison with the installed iPad app; existing floating controls overlap some content. Website unchanged.
 
 ## Updated Apple screenshots — November 1, 2026
 - [x] Expanded the package to ten distinct real app views at 1206 × 2622; all images visually inspected, dimensions and ZIP entries verified. New versioned ZIP preserves the original. Existing floating back/Kayla controls overlap some content; captures represent browser-emulated iOS, so compare with the actual iPhone app before submission. No website changes.
