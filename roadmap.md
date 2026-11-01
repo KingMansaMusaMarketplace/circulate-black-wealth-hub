@@ -1,5 +1,10 @@
 # Roadmap
 
+## 1325.AI thirty-second business launch film — November 1, 2026
+- [x] Thomas approved the four-scene script and Black-led realistic film with off-camera Kayla narration.
+- [ ] Confirm the previously approved Kayla voice before recording; no silent voice substitution.
+- [ ] Generate, assemble and inspect the thirty-second film; deliver in Files with review limitations.
+
 ## SkyWatch clearly visible scene motion — October 31, 2026
 - [x] Replace the subtle rooftop clip with a 10.027-second shot showing sensor rotation and a pronounced camera push-in; silent compatible WebM/MP4 added, page and safeguards unchanged.
 - [x] Inspected ten sampled frames and two on-page screenshots; exact uploaded WebM bytes advance from 0.53 to 4.95 seconds, pause/resume and reduced-motion fallback pass, no page errors, automatic build OK. Local CDN delivery fails, so playback tested with exact downloaded bytes; direct live playback after publication remains unverified.
