@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Updated Apple screenshots — November 1, 2026
+- [x] Expanded the package to ten distinct real app views at 1206 × 2622; all images visually inspected, dimensions and ZIP entries verified. New versioned ZIP preserves the original. Existing floating back/Kayla controls overlap some content; captures represent browser-emulated iOS, so compare with the actual iPhone app before submission. No website changes.
 - [x] Captured homepage, directory, Kayla welcome and homepage workforce at 1206 × 2622; signup excluded because the iOS route redirects, no private records or invented chat.
 - [x] All four captures visually inspected, dimensions checked, ZIP entries inspected and saved in Files. Optional native setup dismissed through its real button; browser iOS UI emulation is not Xcode/WKWebView validation. Existing floating Kayla control overlaps native Profile tab; website unchanged.
 
