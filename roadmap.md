@@ -1,8 +1,8 @@
 # Roadmap
 
 ## Updated Apple screenshots — November 1, 2026
-- [ ] Capture homepage, directory, Kayla and workforce at 1206 × 2622; exclude signup because the iOS route redirects, and exclude private records.
-- [ ] Inspect every capture and deliver the image set; browser native-UI emulation is not Xcode/WKWebView validation.
+- [x] Captured homepage, directory, Kayla welcome and homepage workforce at 1206 × 2622; signup excluded because the iOS route redirects, no private records or invented chat.
+- [x] All four captures visually inspected, dimensions checked, ZIP entries inspected and saved in Files. Optional native setup dismissed through its real button; browser iOS UI emulation is not Xcode/WKWebView validation. Existing floating Kayla control overlaps native Profile tab; website unchanged.
 
 ## 1325.AI thirty-second business launch film — November 1, 2026
 - [x] Thomas approved the four-scene script and Black-led realistic film with off-camera Kayla narration.
