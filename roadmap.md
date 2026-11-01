@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Updated Apple screenshots — November 1, 2026
+- [ ] Expand the Apple screenshot package to ten distinct real app views at 1206 × 2622; inspect all images and deliver a new ZIP without replacing the four-image original.
 - [x] Captured homepage, directory, Kayla welcome and homepage workforce at 1206 × 2622; signup excluded because the iOS route redirects, no private records or invented chat.
 - [x] All four captures visually inspected, dimensions checked, ZIP entries inspected and saved in Files. Optional native setup dismissed through its real button; browser iOS UI emulation is not Xcode/WKWebView validation. Existing floating Kayla control overlaps native Profile tab; website unchanged.
 
