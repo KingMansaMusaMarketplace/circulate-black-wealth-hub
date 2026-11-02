@@ -40,7 +40,7 @@ interface Result {
 const scoreColor = (score: number | null) => {
   if (score === null) return 'text-white/50';
   if (score >= 85) return 'text-emerald-400';
-  if (score >= 85) return 'text-[#FFB300]';
+  if (score >= 70) return 'text-[#FFB300]';
   return 'text-red-400';
 };
 
