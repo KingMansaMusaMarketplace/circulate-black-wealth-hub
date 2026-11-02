@@ -475,7 +475,7 @@ Rules:
 ${findings.join("\n\n")}
 [END LIVE LOOKUPS]${usedWeb ? `
 
-[SOURCES RULE — a live web search was used. End your answer with a short "**Sources:**" list of clickable markdown links, using ONLY URLs that appear in the web_search results above (never invent or guess a URL). Mention the date of the information when it matters (laws, rates, news). If the results did not answer the question, say so plainly instead of guessing.]` : ""}`;
+[SOURCES RULE — a live web search was used. End your answer with a short "**Sources:**" list of clickable markdown links, using ONLY URLs that appear in the web_search results above (never invent or guess a URL). Mention the date of the information when it matters (laws, rates, news). If the results did not answer the question, say so plainly instead of guessing. EXCEPTION: when the answer comes from 1325.AI's own platform facts (contact details, pages, plans, policies) and the web results are unrelated, do NOT add a Sources list or mention the search at all — never cite an unrelated link.]` : ""}`;
 
   return { block, calls };
 }
