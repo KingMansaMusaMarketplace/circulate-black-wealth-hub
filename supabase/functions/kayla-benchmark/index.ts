@@ -218,7 +218,7 @@ serve(async (req) => {
       const rows = (all || []) as any[];
       const avg = (k: string) =>
         Math.round(rows.reduce((s, r) => s + (Number(r[k]) || 0), 0) / Math.max(rows.length, 1));
-      const passed = rows.filter((r) => (r.score ?? 0) >= 70).length;
+      const passed = rows.filter((r) => (r.score ?? 0) >= 85).length;
       await supabase.from("kayla_benchmark_runs").update({
         finished_at: new Date().toISOString(),
         average_score: avg("score"),
@@ -270,7 +270,7 @@ serve(async (req) => {
           accuracy: g.accuracy,
           grounding: g.grounding,
           usefulness: g.usefulness,
-          grader_notes: g.notes,
+          grader_notes: score < 85 ? `NEEDS SHARPENING (below 85): ${g.notes}` : g.notes,
           tools_used: tools,
           model_used: model,
           latency_ms: latency,

@@ -13,9 +13,9 @@ export interface TeamMember {
 }
 
 export const TEAM: TeamMember[] = [
-  { id: "cashflow", name: "Cash-Flow Analyst", triggers: ["cash", "runway", "forecast", "burn", "revenue", "expenses", "money coming in", "profit"],
+  { id: "cashflow", name: "Cash-Flow Analyst", triggers: ["cash", "runway", "forecast", "burn", "revenue", "expenses", "money coming in", "profit", "payroll", "short on money", "tight"],
     table: "kayla_cashflow_forecasts", fields: ["forecast_period", "projected_revenue", "projected_expenses", "projected_net", "confidence_level", "ai_summary"] },
-  { id: "grants", name: "Grant-Finder", triggers: ["grant", "funding", "capital", "free money"],
+  { id: "grants", name: "Grant-Finder", triggers: ["grant", "funding", "capital", "free money", "sbir", "foundation", "rfp"],
     table: "kayla_grant_matches", fields: ["grant_name", "grant_provider", "amount_min", "amount_max", "deadline", "grant_url", "match_score"] },
   { id: "credit", name: "Credit Readiness Coach", triggers: ["credit", "loan", "sba", "lender", "borrow"] },
   { id: "investor", name: "Investor Readiness", triggers: ["investor", "pitch", "raise", "valuation", "equity"],
@@ -24,16 +24,16 @@ export const TEAM: TeamMember[] = [
     table: "kayla_review_drafts", fields: ["sentiment", "status", "draft_response"] },
   { id: "content", name: "Content Creator", triggers: ["post", "social", "instagram", "caption", "campaign", "marketing"],
     table: "kayla_social_posts" },
-  { id: "compliance", name: "Compliance Officer", triggers: ["compliance", "license", "permit", "regulation", "deadline"],
+  { id: "compliance", name: "Compliance Officer", triggers: ["compliance", "license", "permit", "regulation", "deadline", "zoning", "health inspection", "sales tax permit"],
     table: "kayla_compliance_reminders", fields: ["title", "due_date", "urgency", "description"], filter: { is_completed: false } },
-  { id: "legal", name: "Legal Templates", triggers: ["contract", "nda", "legal", "agreement", "terms"],
+  { id: "legal", name: "Legal Templates", triggers: ["contract", "nda", "legal", "agreement", "terms", "negotiat", "vendor", "b2b"],
     table: "kayla_legal_templates" },
   { id: "pricing", name: "Pricing Optimizer", triggers: ["price", "pricing", "discount", "margin", "charge"],
     table: "kayla_price_recommendations", fields: ["product_or_service", "current_price", "recommended_price", "confidence_score", "reasoning"] },
   { id: "inventory", name: "Inventory Manager", triggers: ["inventory", "stock", "sku", "reorder", "supplies"],
     table: "kayla_inventory_items", fields: ["item_name", "current_stock", "min_stock_level", "reorder_recommended"] },
   { id: "tax-risk", name: "Tax Risk Strategist", triggers: ["audit", "tax exposure", "nexus", "irs"] },
-  { id: "tax", name: "Tax Preparer", triggers: ["tax", "deduction", "1099", "quarterly"],
+  { id: "tax", name: "Tax Preparer", triggers: ["tax", "deduction", "1099", "quarterly", "tax credit", "write off", "write-off"],
     table: "kayla_tax_prep", fields: ["tax_year", "estimated_tax_liability", "deductions_found", "filing_deadline", "ai_summary"] },
 ];
 
@@ -45,6 +45,16 @@ export const HANDOFFS: Array<{ from: string; to: string; why: string }> = [
   { from: "compliance", to: "legal", why: "compliance needs often require a contract or policy template" },
   { from: "pricing", to: "inventory", why: "a price change affects how fast stock sells" },
   { from: "tax-risk", to: "tax", why: "tax risks must be reflected in the tax prep" },
+  { from: "grants", to: "tax", why: "grant money and qualifying spending can change taxes and unlock tax credits" },
+  { from: "grants", to: "compliance", why: "grants carry eligibility rules, registrations and reporting deadlines" },
+  { from: "credit", to: "cashflow", why: "a loan payment must fit the cash forecast" },
+  { from: "investor", to: "cashflow", why: "investors ask for runway and cash projections" },
+  { from: "investor", to: "legal", why: "raising money needs term sheets, SAFEs or NDAs" },
+  { from: "pricing", to: "cashflow", why: "a price change moves revenue and runway" },
+  { from: "content", to: "reviews", why: "campaigns should feature real customer praise" },
+  { from: "legal", to: "compliance", why: "contracts often create license or filing obligations" },
+  { from: "inventory", to: "cashflow", why: "reorders tie up cash" },
+  { from: "tax", to: "cashflow", why: "quarterly tax payments must be planned in the cash forecast" },
 ];
 
 const byId = (id: string) => TEAM.find((t) => t.id === id)!;
