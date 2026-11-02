@@ -151,10 +151,23 @@ const KaylaScoreboardPage: React.FC = () => {
         {latest && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             {[
-              { label: 'Overall score', value: latest.average_score },
-              { label: 'Correct facts', value: latest.accuracy_score },
-              { label: 'Nothing invented', value: latest.grounding_score },
-              { label: 'Questions passed', value: `${latest.passed}/${latest.cases_run}`, raw: true },
+              ...(() => {
+                // While a run is still grading, show live numbers from answers graded so far.
+                const live = !latest.finished_at && selectedRun === latest.id && results.length > 0;
+                const avg = (k: 'score' | 'accuracy' | 'grounding') =>
+                  Math.round(results.reduce((s, r: any) => s + (Number(r[k]) || 0), 0) / results.length);
+                const livePassed = results.filter((r: any) => (r.score ?? 0) >= 85).length;
+                return [
+                  { label: 'Overall score', value: live ? avg('score') : latest.average_score },
+                  { label: 'Correct facts', value: live ? avg('accuracy') : latest.accuracy_score },
+                  { label: 'Nothing invented', value: live ? avg('grounding') : latest.grounding_score },
+                  {
+                    label: live ? `Questions passed (${results.length} graded so far)` : 'Questions passed',
+                    value: `${live ? livePassed : latest.passed ?? 0}/${latest.cases_run}`,
+                    raw: true,
+                  },
+                ];
+              })(),
             ].map((s) => (
               <Card key={s.label} className="bg-white/10 border-white/20 p-5">
                 <p className="text-sm font-semibold uppercase tracking-wide text-white/80">{s.label}</p>
