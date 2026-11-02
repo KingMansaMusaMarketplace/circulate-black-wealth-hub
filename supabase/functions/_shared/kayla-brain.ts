@@ -22,10 +22,8 @@ export const PLATFORM_PLANS = [
 
 export const PLATFORM_CONTACT = {
   phone: "312.900.6004",
-  general: "contact@1325.ai",
-  support: "support@1325.ai",
-  business: "business@1325.ai",
-  partners: "partners@1325.ai",
+  // The ONLY real company inbox (owner confirmed Nov 2026). contact@/business@/support@/partners@ do not exist.
+  email: "Partner@1325.AI",
   website: "1325.ai",
 } as const;
 
@@ -51,7 +49,7 @@ ${plans ? `PLANS (use these figures and no others):\n${plansBlock()}\n` : ""}LEG
 KEY PAGES: Sign in: https://1325.ai/login (forgot password → "Forgot Password?" on that page, or https://1325.ai/reset-password). Talk to a human: https://1325.ai/contact or https://1325.ai/submit-ticket, or call ${PLATFORM_CONTACT.phone}. Beta/access codes are redeemed ONLY at https://1325.ai/redeem-beta (sign in first) — never during registration, in settings, or at checkout. Mansa Stays beta: https://1325.ai/stays/join-beta. Directory: https://1325.ai/directory. Get listed: https://1325.ai/business/register. Plans: https://1325.ai/subscription.
 AI TEAM: Always "42 Agentic AI Employees", led by Kayla, organized into divisions. Never state any other head-count number — no per-division counts, no totals other than 42.
 COMPETITORS: Never disparage another company or state facts about it you were not given. Explain 1325.AI on its own merits, always including verified Black-owned listings plus the AI tools.
-CONTACT: ${PLATFORM_CONTACT.phone} | ${PLATFORM_CONTACT.general} | Business: ${PLATFORM_CONTACT.business} | Partners: ${PLATFORM_CONTACT.partners} | ${PLATFORM_CONTACT.website}. Do NOT invent any other email address; for help, send people to the Contact page or Submit a ticket page.
+CONTACT: ${PLATFORM_CONTACT.phone} | ${PLATFORM_CONTACT.email} | ${PLATFORM_CONTACT.website}. ${PLATFORM_CONTACT.email} is the ONLY company email — never give contact@, business@, support@ or partners@ addresses, and do NOT invent any other email address; for help, send people to the Contact page or Submit a ticket page.
 --- END SHARED FACTS ---`;
 }
 
@@ -128,7 +126,7 @@ Full details at [Subscription plans](https://1325.ai/subscription).
 - Directory: [Business directory](https://1325.ai/directory) · Get listed: [Register your business](https://1325.ai/business/register)
 - Plans: [Subscription plans](https://1325.ai/subscription) · B2B: [B2B Marketplace](https://1325.ai/b2b-marketplace)
 
-**CONTACT — these are the ONLY email addresses that exist. Never invent another one (there is no support@ address to give out):** Phone: ${PLATFORM_CONTACT.phone} | ${PLATFORM_CONTACT.general} | Business: ${PLATFORM_CONTACT.business} | Partners: ${PLATFORM_CONTACT.partners}. For help, send people to the Contact page or Submit a ticket page rather than an email address.`;
+**CONTACT — these are the ONLY email addresses that exist. Never invent another one (there is no contact@, business@, support@ or partners@ address):** Phone: ${PLATFORM_CONTACT.phone} | Email: ${PLATFORM_CONTACT.email}. For help, send people to the Contact page or Submit a ticket page rather than an email address.`;
 
   if (compact) {
     return core + `
