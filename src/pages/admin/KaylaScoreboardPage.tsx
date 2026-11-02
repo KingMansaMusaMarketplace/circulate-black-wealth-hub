@@ -74,7 +74,15 @@ const KaylaScoreboardPage: React.FC = () => {
     setResults((data as Result[]) || []);
   }, []);
 
-  useEffect(() => { loadRuns(); }, [loadRuns]);
+  useEffect(() => {
+    loadRuns().then((rows) => {
+      const top: any = rows[0];
+      // Resume live refreshing if a recent test is still being graded (e.g. after a page reload).
+      if (top && !top.finished_at && Date.now() - new Date(top.started_at).getTime() < 60 * 60 * 1000) {
+        setRunning(true);
+      }
+    });
+  }, [loadRuns]);
 
   useEffect(() => {
     if (selectedRun) loadResults(selectedRun);
