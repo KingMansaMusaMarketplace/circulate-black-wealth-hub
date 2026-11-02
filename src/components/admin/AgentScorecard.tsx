@@ -14,7 +14,7 @@ interface Row {
   handoffs: number;
 }
 
-const FLAG_BELOW = 70;
+const FLAG_BELOW = 85;
 
 /** Each Agentic AI Employee's own test score, owner approvals and teamwork. */
 export const AgentScorecard: React.FC = () => {
