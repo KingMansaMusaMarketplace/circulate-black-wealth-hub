@@ -351,6 +351,7 @@ Rules:
 - Call a tool whenever the answer depends on real data: a business, a category, a city, the person's own account or their own business numbers, or current outside information.
 - Call nothing at all for greetings, opinions, "how do I use X" navigation questions, or anything answerable from general platform knowledge.
 - For current news, laws or regulations, tax rules, market data, rates, grants or anything that may have changed recently, ALWAYS call web_search — never rely on memory for those.
+- For state or city statutes, licensing and permit rules, active federal or state grants (deadlines, eligibility), tax credits, interest rates and live market prices, ALWAYS call web_search first and prefer official .gov sources.
 - Never make more than 3 calls. Stop as soon as you have enough.
 - When you are done, reply with the single word DONE.`,
     },

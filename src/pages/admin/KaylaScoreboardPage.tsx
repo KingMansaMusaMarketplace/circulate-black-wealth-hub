@@ -40,7 +40,7 @@ interface Result {
 const scoreColor = (score: number | null) => {
   if (score === null) return 'text-white/50';
   if (score >= 85) return 'text-emerald-400';
-  if (score >= 70) return 'text-[#FFB300]';
+  if (score >= 85) return 'text-[#FFB300]';
   return 'text-red-400';
 };
 
@@ -201,7 +201,7 @@ const KaylaScoreboardPage: React.FC = () => {
                   <div className="flex items-start justify-between gap-3">
                     <p className="font-bold text-base text-white">{r.question}</p>
                     <Badge className={`shrink-0 bg-white/15 text-base font-bold ${scoreColor(r.score)}`}>
-                      {(r.score ?? 0) >= 70
+                      {(r.score ?? 0) >= 85
                         ? <CheckCircle2 className="h-3 w-3 mr-1" />
                         : <AlertTriangle className="h-3 w-3 mr-1" />}
                       {r.score ?? '—'}
