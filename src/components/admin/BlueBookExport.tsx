@@ -861,7 +861,7 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
       // Add logo to PDF title page
       try {
         const logoImg = new Image();
-        logoImg.crossOrigin = 'Anonymous';
+        logoImg.crossOrigin = 'anonymous';
         await new Promise<void>((resolve, reject) => {
           logoImg.onload = () => resolve();
           logoImg.onerror = reject;
