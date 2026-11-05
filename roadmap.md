@@ -1,5 +1,10 @@
 # Roadmap
 
+## PayPal alongside Stripe — November 5, 2026
+- [x] Thomas approved adding separate PayPal while preserving Stripe, prices and Apple payment restrictions.
+- [ ] Connect PayPal Business securely; test credentials are required before payment implementation.
+- [ ] Add and verify PayPal subscription checkout and server-confirmed access without replacing Stripe.
+
 ## iPad Apple screenshots — November 1, 2026
 - [x] Captured ten public app views at 2048 × 2732; all images inspected, dimensions and ZIP integrity checked. Browser-emulated iOS captures require comparison with the installed iPad app; existing floating controls overlap some content. Website unchanged.
 
