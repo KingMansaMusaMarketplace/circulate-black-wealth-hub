@@ -1,10 +1,9 @@
 # Roadmap
 
-## PayPal alongside Stripe — November 5, 2026
+## PayPal addition cancelled — November 5, 2026
 - [x] Provide suggested username and business description for the owner's PayPal business profile; availability and publication remain the owner's choice.
-- [x] Thomas approved adding separate PayPal while preserving Stripe, prices and Apple payment restrictions.
-- [ ] Connect PayPal Business securely — blocked pending the owner's PayPal test Client ID and Secret; no compatible built-in connector is available for PayPal's client-credentials authentication.
-- [ ] Add and verify PayPal subscription checkout and server-confirmed access without replacing Stripe — waits on the secure PayPal connection; no payment code or entitlement changes made yet.
+- [x] Thomas cancelled adding PayPal; prior approval is withdrawn. Keep Stripe, prices and Apple payment restrictions unchanged.
+- [x] Cancel PayPal Business connection and subscription checkout work; no PayPal payment code or entitlement changes were made.
 
 ## iPad Apple screenshots — November 1, 2026
 - [x] Captured ten public app views at 2048 × 2732; all images inspected, dimensions and ZIP integrity checked. Browser-emulated iOS captures require comparison with the installed iPad app; existing floating controls overlap some content. Website unchanged.
