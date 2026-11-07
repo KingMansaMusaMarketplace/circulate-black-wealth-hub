@@ -7,6 +7,7 @@ import {
   Mail, Sparkles, Rocket, Gem, Trophy, Route, Megaphone, Gauge, Activity,
   Webhook, Key, ScanLine, CreditCard, Code2, Car, ListChecks, FileText,
   Video, AlertTriangle
+  FileSignature,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
