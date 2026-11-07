@@ -805,6 +805,7 @@ export default function HealthDemoPage() {
           <Button variant="clinicalHelp" aria-pressed={mod === 'ask-kayla' && tourStep === null} onClick={() => { setMod('ask-kayla'); setTourStep(null); setTourRevision(revision => revision + 1); setNavigationSearch(''); }}><MessageSquare />Ask Kayla</Button>
           <EnterpriseReadiness />
           <ClinicalSafetyPanel />
+          <a href="/health/app?view=pilot" className="rounded-md border border-mansagold px-3 py-1.5 text-xs font-semibold text-mansagold hover:bg-mansagold/10">Open Pilot Patients</a>
           <a href="/health/app" className="rounded-md bg-mansagold px-3 py-1.5 text-xs font-semibold text-mansablue hover:bg-mansagold-dark">Open live workspace</a>
         </div>
       </header>

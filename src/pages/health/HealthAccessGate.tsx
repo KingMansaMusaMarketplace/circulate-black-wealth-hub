@@ -14,6 +14,7 @@ import { readPreviewGrant, type PreviewViewer } from './preview-access';
 import { ClinicalVoiceProvider } from './ClinicalVoice';
 import { ClinicalHelpConversationProvider } from './ClinicalHelpConversation';
 import { ApprovedViewerContext } from './ApprovedViewer';
+import { consumeGatedDestination, rememberGatedDestination } from './gate-return';
 
 const KEY = 'hc_preview_access';
 const DEVICE_KEY = 'hc_preview_device';
@@ -119,6 +120,11 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
       }
       localStorage.setItem(KEY, fromUrl);
       url.searchParams.delete('access');
+      // Approval emails land on /health; return the visitor to the clinic screen they asked for on this device.
+      if (url.pathname === '/' || url.pathname === '/health') {
+        const destination = consumeGatedDestination(localStorage);
+        if (destination) { window.location.replace(destination); return; }
+      }
       // Keep emailed root links on the permanent gated route after hiding the token.
       // Reloads (including exit/cross-tab reloads) must never select the public homepage.
       if (url.pathname === '/') url.pathname = '/health';
@@ -159,6 +165,10 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
     window.addEventListener('online', consumePending);
     return () => { clearInterval(timer); window.removeEventListener('online', consumePending); };
   }, []);
+
+  useEffect(() => {
+    if (state === 'locked') rememberGatedDestination(window.location.pathname + window.location.search, localStorage);
+  }, [state]);
 
   useEffect(() => {
     if (state !== 'locked' || localStorage.getItem(PRIVATE_SESSION_ENDED) || !localStorage.getItem(KEY)) return;
@@ -348,7 +358,7 @@ function Teaser({ notice = "" }: { notice?: string }) {
             </div>
           ) : (
             <form onSubmit={submit} className="space-y-4">
-              <a href={`/auth?redirect=${encodeURIComponent(window.location.pathname)}`} className="flex items-center justify-center gap-2 w-full rounded-md border px-4 py-3 text-sm font-semibold" style={{ borderColor: '#FFB300', color: '#FFB300' }}>
+              <a href={`/auth?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`} className="flex items-center justify-center gap-2 w-full rounded-md border px-4 py-3 text-sm font-semibold" style={{ borderColor: '#FFB300', color: '#FFB300' }}>
                 <ShieldCheck className="h-4 w-4" /> Owner or administrator? Sign in here — no timer, no request needed
               </a>
               <h2 className="text-2xl font-semibold">Request access</h2>
