@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Loader2, Mail } from 'lucide-react';
+import { KeyRound, Loader2, Mail } from 'lucide-react';
+import { FunctionsHttpError } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
+import { readPreviewPass, signinCodeMessage } from '../preview-credentials';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -22,8 +24,57 @@ export function SwitchClinicAccount({ signedInEmail, approvedEmail }: { signedIn
   </Card></div>;
 }
 
+/** Password-free sign-in for approved guests: a 6-digit code goes only to the email of their current approved viewing. */
+function EmailCodeSignIn({ approvedEmail }: { approvedEmail: string }) {
+  const [stage, setStage] = useState<'idle' | 'sent'>('idle');
+  const [code, setCode] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  const call = async (body: Record<string, unknown>) => {
+    const pass = readPreviewPass();
+    if (!pass) throw new Error(signinCodeMessage('not_approved'));
+    const { data, error: failure } = await supabase.functions.invoke('health-access', { body: { ...body, ...pass } });
+    let result = data as Record<string, unknown> | null;
+    if (failure instanceof FunctionsHttpError) { try { result = await failure.context.json(); } catch { result = null; } }
+    else if (failure) throw new Error(signinCodeMessage('unavailable'));
+    if (!result?.ok) throw new Error(signinCodeMessage(result?.reason, result?.tries_left));
+    return result;
+  };
+  const send = async () => {
+    if (busy) return;
+    setBusy(true); setError('');
+    try { await call({ action: 'code_send' }); setStage('sent'); setCode(''); }
+    catch (e) { setError(e instanceof Error ? e.message : signinCodeMessage(null)); }
+    finally { setBusy(false); }
+  };
+  const verify = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (busy || !/^[0-9]{6}$/.test(code)) return;
+    setBusy(true); setError('');
+    try {
+      const result = await call({ action: 'code_verify', code });
+      const { error: otpError } = await supabase.auth.verifyOtp({ token_hash: String(result.token_hash), type: 'magiclink' });
+      if (otpError) throw new Error('The code was accepted but sign-in did not finish. Send yourself a new code.');
+    } catch (e) { setError(e instanceof Error ? e.message : signinCodeMessage(null)); }
+    finally { setBusy(false); }
+  };
+  return <div className="space-y-3 rounded-md border border-mansagold/40 p-3">
+    {stage === 'idle' ? <>
+      <p className="text-sm text-muted-foreground">No password? We'll email a 6-digit code to <strong className="text-foreground">{approvedEmail}</strong>.</p>
+      <Button type="button" disabled={busy} className="w-full bg-mansagold text-mansablue hover:bg-mansagold-dark" onClick={send}>{busy ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <KeyRound className="mr-2 h-4 w-4" />}Email me a sign-in code</Button>
+    </> : <form onSubmit={verify} className="space-y-3">
+      <p role="status" className="text-sm text-foreground">We sent a code to <strong>{approvedEmail}</strong>. Check your inbox (and Spam or Junk). It expires in 10 minutes.</p>
+      <div className="space-y-2"><Label htmlFor="clinical-code">6-digit code</Label><Input id="clinical-code" inputMode="numeric" autoComplete="one-time-code" maxLength={6} value={code} onChange={e => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))} disabled={busy} className="text-center text-lg tracking-[0.4em]" /></div>
+      <Button type="submit" disabled={busy || code.length !== 6} className="w-full bg-mansagold text-mansablue hover:bg-mansagold-dark">{busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Sign in with code</Button>
+      <Button type="button" variant="link" disabled={busy} className="h-auto p-0 text-sm text-mansagold" onClick={send}>Send a new code</Button>
+    </form>}
+    {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
+  </div>;
+}
+
 export function ClinicSignIn() {
   const approved = useApprovedViewer();
+  const canUseCode = Boolean(approved?.email) && Boolean(readPreviewPass());
   const [mode, setMode] = useState<'in' | 'up'>('in');
   const [email, setEmail] = useState(approved?.email ?? '');
   const [password, setPassword] = useState('');
@@ -63,6 +114,10 @@ export function ClinicSignIn() {
     <CardHeader><CardTitle>{confirmation ? 'Confirm your email' : mode === 'in' ? 'Sign in to 1325 Clinical EMR / EHR' : 'Create your clinic account'}</CardTitle></CardHeader>
     <CardContent className="space-y-4">
       {approved?.email && !confirmation && <p role="note" className="rounded-md border border-mansagold/40 bg-mansagold/10 p-3 text-sm text-foreground">Your viewing is approved for <strong>{approved.email}</strong>. Sign in with that same email.</p>}
+      {canUseCode && approved?.email && !confirmation && mode === 'in' && <>
+        <EmailCodeSignIn approvedEmail={approved.email} />
+        <div className="flex items-center gap-3 text-xs text-muted-foreground"><span className="h-px flex-1 bg-border" />or use your password<span className="h-px flex-1 bg-border" /></div>
+      </>}
       {confirmation ? <div role="status" className="space-y-4"><Mail className="h-6 w-6 text-mansagold" /><p className="text-sm text-muted-foreground">Check your email for a confirmation link. After confirming, sign in to register your sample clinic. No clinic has been created yet.</p><Button variant="outline" className="w-full" onClick={() => { setConfirmation(false); setMode('in'); }}>Return to sign in</Button></div> : <form onSubmit={submit} className="space-y-4">
         <div className="space-y-2"><Label htmlFor="clinical-email">Email</Label><Input id="clinical-email" type="email" autoComplete="email" required value={email} onChange={e => setEmail(e.target.value)} disabled={busy} /></div>
         <div className="space-y-2"><Label htmlFor="clinical-password">Password</Label><Input id="clinical-password" type="password" autoComplete={mode === 'up' ? 'new-password' : 'current-password'} required value={password} onChange={e => setPassword(e.target.value)} disabled={busy} /></div>

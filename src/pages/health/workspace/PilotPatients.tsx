@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { toast } from 'sonner';
-import { AlertTriangle, ArrowLeft, Eye, FlaskConical, History, LayoutDashboard, Plus, Users } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, Eye, FlaskConical, History, LayoutDashboard, Plus, RotateCcw, Users } from 'lucide-react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -17,7 +18,7 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } f
 import { db, Row, useRows } from './hc';
 import DataLoadErrors from './DataLoadErrors';
 import {
-  AUDIT_LABELS, RECORD_TYPE_LABELS, RECORD_TYPES, SEX_OPTIONS, splitList,
+  AUDIT_LABELS, RECORD_TYPE_LABELS, RECORD_TYPES, SAMPLE_BADGE_LABEL, SAMPLE_PATIENT_COUNT, SEX_OPTIONS, shouldLoadSamples, splitList,
   validateErrorReason, validatePilotPatient, validatePilotRecord, type PilotRecordType,
 } from '@/lib/clinical/pilot-records';
 import { vitalsSeries } from '@/lib/clinical/pilot-visit-notes';
@@ -55,6 +56,35 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null }: Props) {
   const active = patients.rows.filter((p) => !p.archived_at);
   const list = active.filter((p) => `${p.first_name} ${p.last_name}`.toLowerCase().includes(q.toLowerCase()));
   const selected = patients.rows.find((p) => p.id === openId);
+  const [seeding, setSeeding] = useState(false);
+  const [resetting, setResetting] = useState(false);
+  const seedTried = useRef(false);
+  useEffect(() => {
+    if (!shouldLoadSamples({ loading: patients.loading, error: patients.error, totalPatients: patients.rows.length, alreadyTried: seedTried.current })) return;
+    seedTried.current = true;
+    setSeeding(true);
+    void (async () => {
+      const { error } = await db.rpc('hc_pilot_seed_samples', { _clinic: clinicId });
+      if (error) toast.error('Sample patients could not be loaded. You can still add your own test patients.');
+      await patients.reload();
+      if (isOwner) await audit.reload();
+      setSeeding(false);
+    })();
+  }, [patients.loading, patients.error, patients.rows.length, clinicId, isOwner, patients, audit]);
+
+  const resetPilot = async () => {
+    if (resetting) return;
+    setResetting(true);
+    try {
+      const { data, error } = await db.rpc('hc_pilot_reset', { _clinic: clinicId });
+      if (error) throw new Error(error.message);
+      if (data !== SAMPLE_PATIENT_COUNT) throw new Error('The reset could not be confirmed. Refresh to check.');
+      setOpenId(null); setView('dashboard');
+      await patients.reload(); if (isOwner) await audit.reload();
+      toast.success(`Pilot reset. ${SAMPLE_PATIENT_COUNT} fresh sample patients are loaded.`);
+    } catch (e) { toast.error(e instanceof Error ? e.message : 'The pilot could not be reset.'); }
+    finally { setResetting(false); }
+  };
 
   if (selected) {
     return <PilotChart clinicId={clinicId} patient={selected} userId={userId}
@@ -77,7 +107,25 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null }: Props) {
             <n.i className="mr-1 h-4 w-4" />{n.l}
           </Button>
         ))}
+        {isOwner && (
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button size="sm" variant="outline" className="ml-auto" disabled={resetting || seeding}><RotateCcw className="mr-1 h-4 w-4" />{resetting ? 'Resetting…' : 'Reset my pilot'}</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Reset your pilot?</AlertDialogTitle>
+                <AlertDialogDescription>This erases every test patient, record, visit note and activity entry in this clinic, then loads {SAMPLE_PATIENT_COUNT} fresh sample patients. Use it to start each demo clean. It can't be undone.</AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={() => void resetPilot()}>Reset pilot</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
       </div>
+      {seeding && <p role="status" className="text-sm text-muted-foreground">Loading {SAMPLE_PATIENT_COUNT} made-up sample patients…</p>}
       {view === 'dashboard' && (
         <PilotDashboard clinicId={clinicId} isOwner={isOwner} patients={patients.rows} audit={isOwner ? audit.rows : null}
           onOpenPatient={setOpenId} onOpenLog={() => setView('chartlog')} />
@@ -101,7 +149,7 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null }: Props) {
                     <TableHeader><TableRow><TableHead>Test patient</TableHead><TableHead>Date of birth</TableHead><TableHead>Allergies</TableHead><TableHead>Conditions</TableHead></TableRow></TableHeader>
                     <TableBody>{list.map((p) => (
                       <TableRow key={p.id} className="cursor-pointer" onClick={() => setOpenId(p.id)}>
-                        <TableCell className="font-medium">{name(p)}<Badge variant="outline" className="ml-2"><FlaskConical className="mr-1 h-3 w-3" />Test</Badge></TableCell>
+                        <TableCell className="font-medium">{name(p)}<Badge variant="outline" className="ml-2"><FlaskConical className="mr-1 h-3 w-3" />{p.is_sample ? SAMPLE_BADGE_LABEL : 'Test'}</Badge></TableCell>
                         <TableCell>{p.date_of_birth ? format(parseISO(p.date_of_birth), 'MMM d, yyyy') : '—'}</TableCell>
                         <TableCell>{p.allergies?.length ? p.allergies.join(', ') : 'None recorded'}</TableCell>
                         <TableCell>{p.conditions?.length ? p.conditions.join(', ') : 'None recorded'}</TableCell>
@@ -213,7 +261,7 @@ function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; pat
       <Button variant="link" className="px-0" onClick={back}><ArrowLeft className="mr-1 h-4 w-4" />Back to Pilot Patients</Button>
       <TestOnlyNotice />
       <Card>
-        <CardHeader className="pb-3"><CardTitle className="flex flex-wrap items-center gap-2 text-xl">{name(patient)}<Badge variant="outline"><FlaskConical className="mr-1 h-3 w-3" />Test patient</Badge></CardTitle>
+        <CardHeader className="pb-3"><CardTitle className="flex flex-wrap items-center gap-2 text-xl">{name(patient)}<Badge variant="outline"><FlaskConical className="mr-1 h-3 w-3" />{patient.is_sample ? SAMPLE_BADGE_LABEL : 'Test patient'}</Badge></CardTitle>
           <p className="text-xs text-muted-foreground">Opening this chart was recorded in the clinic’s chart-opened log.</p></CardHeader>
         <CardContent className="grid gap-3 text-sm sm:grid-cols-4">
           <div><div className="text-xs uppercase text-muted-foreground">Date of birth</div>{patient.date_of_birth ? format(parseISO(patient.date_of_birth), 'MMM d, yyyy') : '—'}</div>

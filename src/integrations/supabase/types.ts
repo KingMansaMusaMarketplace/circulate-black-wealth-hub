@@ -10780,6 +10780,7 @@ export type Database = {
           date_of_birth: string | null
           first_name: string
           id: string
+          is_sample: boolean
           last_name: string
           phone: string | null
           sex: string | null
@@ -10797,6 +10798,7 @@ export type Database = {
           date_of_birth?: string | null
           first_name: string
           id?: string
+          is_sample?: boolean
           last_name: string
           phone?: string | null
           sex?: string | null
@@ -10814,6 +10816,7 @@ export type Database = {
           date_of_birth?: string | null
           first_name?: string
           id?: string
+          is_sample?: boolean
           last_name?: string
           phone?: string | null
           sex?: string | null
@@ -11186,6 +11189,47 @@ export type Database = {
             columns: ["document_id"]
             isOneToOne: false
             referencedRelation: "hc_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_signin_codes: {
+        Row: {
+          attempts: number
+          code_hash: string
+          consumed_at: string | null
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          request_id: string
+        }
+        Insert: {
+          attempts?: number
+          code_hash: string
+          consumed_at?: string | null
+          created_at?: string
+          email: string
+          expires_at: string
+          id?: string
+          request_id: string
+        }
+        Update: {
+          attempts?: number
+          code_hash?: string
+          consumed_at?: string | null
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          request_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_signin_codes_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "hc_access_requests"
             referencedColumns: ["id"]
           },
         ]
@@ -29526,6 +29570,8 @@ export type Database = {
         Args: { _patient: string }
         Returns: undefined
       }
+      hc_pilot_reset: { Args: { _clinic: string }; Returns: number }
+      hc_pilot_seed_samples: { Args: { _clinic: string }; Returns: number }
       hc_verify_preview_access: {
         Args: { p_device: string; p_end?: boolean; p_token: string }
         Returns: Json

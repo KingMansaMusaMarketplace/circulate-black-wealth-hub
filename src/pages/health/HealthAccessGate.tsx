@@ -14,9 +14,9 @@ import { ClinicalVoiceProvider } from './ClinicalVoice';
 import { ClinicalHelpConversationProvider } from './ClinicalHelpConversation';
 import { ApprovedViewerContext } from './ApprovedViewer';
 import { consumeGatedDestination, rememberGatedDestination } from './gate-return';
+import { PREVIEW_TOKEN_KEY, previewDeviceId } from './preview-credentials';
 
-const KEY = 'hc_preview_access';
-const DEVICE_KEY = 'hc_preview_device';
+const KEY = PREVIEW_TOKEN_KEY;
 const SESSION_KEY = 'hc_preview_session_end';
 const schema = z.object({
   full_name: z.string().trim().min(2, 'Enter your full name').max(120),
@@ -26,14 +26,7 @@ const schema = z.object({
   phone: z.string().trim().min(7, 'Enter your phone number').max(40),
 });
 
-function deviceId() {
-  let d = localStorage.getItem(DEVICE_KEY);
-  if (!d || !/^[a-f0-9]{32}$/.test(d)) {
-    d = Array.from(crypto.getRandomValues(new Uint8Array(16)), (b) => b.toString(16).padStart(2, '0')).join('');
-    localStorage.setItem(DEVICE_KEY, d);
-  }
-  return d;
-}
+const deviceId = () => previewDeviceId();
 
 type Reason = 'none' | 'expired' | 'device' | 'invalid';
 const MESSAGES: Record<Exclude<Reason, 'none'>, string> = {
