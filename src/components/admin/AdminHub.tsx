@@ -48,6 +48,7 @@ const sections: { group: string; items: HubItem[] }[] = [
     items: [
       { id: 'overview', label: 'Overview', icon: BarChart3, description: 'Platform analytics and key metrics' },
       { id: 'admin-health-clinical', label: '1325 Clinical EMR / EHR', icon: Activity, description: 'health.1325.ai', route: 'https://health.1325.ai/' },
+      { id: 'admin-clinical-pilot', label: '1325 Clinical Pilot', icon: Activity, description: 'Open Pilot Patients (test records only)', route: '/health/app?view=pilot' },
       { id: 'valuation', label: 'Valuation Metrics', icon: Gem, description: 'Company valuation and cap-table stats' },
       { id: 'growth', label: 'Growth Dashboard', icon: Rocket, description: 'Growth loops and viral metrics' },
       { id: 'admin-revenue', label: 'Platform Revenue', icon: DollarSign, description: 'Revenue by tier, MRR, and payouts', route: '/admin/revenue' },
