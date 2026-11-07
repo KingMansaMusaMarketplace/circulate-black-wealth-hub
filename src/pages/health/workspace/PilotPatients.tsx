@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { toast } from 'sonner';
-import { AlertTriangle, ArrowLeft, FlaskConical, History, Plus } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, Eye, FlaskConical, History, LayoutDashboard, Plus, Users } from 'lucide-react';
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -11,47 +12,78 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { db, fullName, Row, useRows } from './hc';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
+import { db, Row, useRows } from './hc';
 import DataLoadErrors from './DataLoadErrors';
 import {
   AUDIT_LABELS, RECORD_TYPE_LABELS, RECORD_TYPES, SEX_OPTIONS, splitList,
   validateErrorReason, validatePilotPatient, validatePilotRecord, type PilotRecordType,
 } from '@/lib/clinical/pilot-records';
+import { vitalsSeries } from '@/lib/clinical/pilot-visit-notes';
+import { PilotPrivacyShell, usePilotPrivacy } from './PilotPrivacy';
+import PilotDashboard from './PilotDashboard';
+import PilotChartLog from './PilotChartLog';
+import PilotVisitNotes from './PilotVisitNotes';
 
-type Props = { clinicId: string; isOwner?: boolean };
+type Props = { clinicId: string; isOwner?: boolean; userId?: string | null };
+type View = 'dashboard' | 'patients' | 'chartlog' | 'activity';
 
 const TestOnlyNotice = () => (
   <div role="note" className="flex gap-3 rounded-lg border border-mansagold/50 bg-mansagold/10 p-4 text-sm">
     <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-mansagold" />
-    <div><b className="text-foreground">Pilot · made-up test patients only.</b> <span className="text-muted-foreground">Entries are really saved so your team can test the whole system. Do not enter real people, real names, birthdays, phone numbers or Social Security numbers until the HIPAA agreements are signed and your attorney approves go-live.</span></div>
+    <div><b className="text-foreground">Pilot · made-up test patients only.</b> <span className="text-muted-foreground">Entries are really saved so your team can test the whole system. These screens use HIPAA-style safeguards, but the system is not HIPAA-compliant yet. Do not enter real people, real names, birthdays, phone numbers or Social Security numbers until the HIPAA agreements are signed and your attorney approves go-live.</span></div>
   </div>
 );
 
 const num = (v: string) => (v.trim() === '' ? null : Number(v));
 const todayIso = () => format(new Date(), 'yyyy-MM-dd');
 
-export default function PilotPatients({ clinicId, isOwner }: Props) {
+export default function PilotPatients(props: Props) {
+  return <PilotPrivacyShell><PilotPatientsInner {...props} /></PilotPrivacyShell>;
+}
+
+function PilotPatientsInner({ clinicId, isOwner, userId = null }: Props) {
   const patients = useRows('hc_pilot_patients', clinicId, { order: 'last_name', asc: true });
+  const audit = useRows(isOwner ? 'hc_pilot_audit' : 'hc_pilot_audit_none', isOwner ? clinicId : null, { order: 'created_at', asc: false });
+  const { name } = usePilotPrivacy();
   const [openId, setOpenId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
-  const [view, setView] = useState<'patients' | 'activity'>('patients');
+  const [view, setView] = useState<View>('dashboard');
   const [q, setQ] = useState('');
   const active = patients.rows.filter((p) => !p.archived_at);
-  const list = active.filter((p) => fullName(p).toLowerCase().includes(q.toLowerCase()));
+  const list = active.filter((p) => `${p.first_name} ${p.last_name}`.toLowerCase().includes(q.toLowerCase()));
   const selected = patients.rows.find((p) => p.id === openId);
 
-  if (selected) return <PilotChart clinicId={clinicId} patient={selected} back={() => { setOpenId(null); void patients.reload(); }} />;
+  if (selected) {
+    return <PilotChart clinicId={clinicId} patient={selected} userId={userId}
+      back={() => { setOpenId(null); void patients.reload(); if (isOwner) void audit.reload(); }} />;
+  }
+
+  const nav: { k: View; l: string; i: typeof Users; owner?: boolean }[] = [
+    { k: 'dashboard', l: 'Dashboard', i: LayoutDashboard },
+    { k: 'patients', l: 'Test patients', i: Users },
+    { k: 'chartlog', l: 'Chart-opened log', i: Eye, owner: true },
+    { k: 'activity', l: 'Full activity log', i: History, owner: true },
+  ];
 
   return (
     <div className="space-y-5">
       <TestOnlyNotice />
-      {isOwner && (
-        <div className="flex gap-2">
-          <Button size="sm" variant={view === 'patients' ? 'default' : 'outline'} onClick={() => setView('patients')}>Test patients</Button>
-          <Button size="sm" variant={view === 'activity' ? 'default' : 'outline'} onClick={() => setView('activity')}><History className="mr-1 h-4 w-4" />Activity log</Button>
-        </div>
+      <div className="flex flex-wrap gap-2" role="tablist" aria-label="Pilot Patients sections">
+        {nav.filter((n) => !n.owner || isOwner).map((n) => (
+          <Button key={n.k} role="tab" aria-selected={view === n.k} size="sm" variant={view === n.k ? 'default' : 'outline'} onClick={() => { setView(n.k); if (n.k !== 'patients' && isOwner) void audit.reload(); }}>
+            <n.i className="mr-1 h-4 w-4" />{n.l}
+          </Button>
+        ))}
+      </div>
+      {view === 'dashboard' && (
+        <PilotDashboard clinicId={clinicId} isOwner={isOwner} patients={patients.rows} audit={isOwner ? audit.rows : null}
+          onOpenPatient={setOpenId} onOpenLog={() => setView('chartlog')} />
       )}
-      {view === 'activity' && isOwner ? <ActivityLog clinicId={clinicId} patients={patients.rows} /> : (
+      {view === 'chartlog' && isOwner && <><DataLoadErrors sources={[audit]} /><PilotChartLog audit={audit.rows} patients={patients.rows} loading={audit.loading} /></>}
+      {view === 'activity' && isOwner && <ActivityLog audit={audit} patients={patients.rows} />}
+      {view === 'patients' && (
         <>
           {adding && <AddPatientForm clinicId={clinicId} onCancel={() => setAdding(false)} onSaved={async (id) => { setAdding(false); await patients.reload(); setOpenId(id); }} />}
           <Card>
@@ -68,7 +100,7 @@ export default function PilotPatients({ clinicId, isOwner }: Props) {
                     <TableHeader><TableRow><TableHead>Test patient</TableHead><TableHead>Date of birth</TableHead><TableHead>Allergies</TableHead><TableHead>Conditions</TableHead></TableRow></TableHeader>
                     <TableBody>{list.map((p) => (
                       <TableRow key={p.id} className="cursor-pointer" onClick={() => setOpenId(p.id)}>
-                        <TableCell className="font-medium">{fullName(p)}<Badge variant="outline" className="ml-2"><FlaskConical className="mr-1 h-3 w-3" />Test</Badge></TableCell>
+                        <TableCell className="font-medium">{name(p)}<Badge variant="outline" className="ml-2"><FlaskConical className="mr-1 h-3 w-3" />Test</Badge></TableCell>
                         <TableCell>{p.date_of_birth ? format(parseISO(p.date_of_birth), 'MMM d, yyyy') : '—'}</TableCell>
                         <TableCell>{p.allergies?.length ? p.allergies.join(', ') : 'None recorded'}</TableCell>
                         <TableCell>{p.conditions?.length ? p.conditions.join(', ') : 'None recorded'}</TableCell>
@@ -140,9 +172,19 @@ function AddPatientForm({ clinicId, onCancel, onSaved }: { clinicId: string; onC
   );
 }
 
-function PilotChart({ clinicId, patient, back }: { clinicId: string; patient: Row; back: () => void }) {
+const vitalsConfig = {
+  systolic: { label: 'BP top', color: 'hsl(var(--destructive))' },
+  diastolic: { label: 'BP bottom', color: 'hsl(var(--mansagold))' },
+  heartRate: { label: 'Heart rate', color: 'hsl(var(--primary))' },
+} satisfies ChartConfig;
+const weightConfig = { weight: { label: 'Weight (lb)', color: 'hsl(var(--mansagold))' } } satisfies ChartConfig;
+
+function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; patient: Row; back: () => void; userId: string | null }) {
   const records = useRows('hc_pilot_records', clinicId, { order: 'recorded_on', asc: false, eq: ['patient_id', patient.id] });
-  const [adding, setAdding] = useState(false);
+  const notes = useRows('hc_pilot_visit_notes', clinicId, { order: 'visit_date', asc: false, eq: ['patient_id', patient.id] });
+  const { name } = usePilotPrivacy();
+  const [adding, setAdding] = useState<PilotRecordType | null>(null);
+  const [tab, setTab] = useState('summary');
   const logged = useRef<string | null>(null);
   useEffect(() => {
     if (logged.current === patient.id) return;
@@ -152,32 +194,103 @@ function PilotChart({ clinicId, patient, back }: { clinicId: string; patient: Ro
 
   const byType = (t: PilotRecordType) => records.rows.filter((r) => r.record_type === t && r.status === 'active');
   const latestVitals = byType('vitals')[0];
+  const vitals = useMemo(() => vitalsSeries(records.rows).map((v) => ({ ...v, label: format(parseISO(v.date), 'M/d') })), [records.rows]);
+  const signedNotes = notes.rows.filter((n) => n.status === 'signed');
+  const addRecord = (t: PilotRecordType) => (adding === t
+    ? <AddRecordForm clinicId={clinicId} patientId={patient.id} initialType={t} onCancel={() => setAdding(null)} onSaved={async () => { setAdding(null); await records.reload(); }} />
+    : <Button onClick={() => setAdding(t)} className="bg-mansagold text-mansablue hover:bg-mansagold-dark"><Plus className="mr-1 h-4 w-4" />Add {RECORD_TYPE_LABELS[t].toLowerCase()}</Button>);
+  const recordList = (rows: Row[], empty: string) => (
+    <div className="space-y-3">
+      {records.loading ? <p role="status" className="text-sm text-muted-foreground">Loading…</p>
+        : rows.length === 0 ? <p className="text-sm text-muted-foreground">{empty}</p>
+        : rows.map((r) => <RecordItem key={r.id} record={r} onChanged={() => records.reload()} />)}
+    </div>
+  );
 
   return (
     <div className="space-y-5">
-      <Button variant="link" className="px-0" onClick={back}><ArrowLeft className="mr-1 h-4 w-4" />All test patients</Button>
+      <Button variant="link" className="px-0" onClick={back}><ArrowLeft className="mr-1 h-4 w-4" />Back to Pilot Patients</Button>
       <TestOnlyNotice />
       <Card>
-        <CardHeader><CardTitle className="flex flex-wrap items-center gap-2 text-xl">{fullName(patient)}<Badge variant="outline"><FlaskConical className="mr-1 h-3 w-3" />Test patient</Badge></CardTitle></CardHeader>
+        <CardHeader className="pb-3"><CardTitle className="flex flex-wrap items-center gap-2 text-xl">{name(patient)}<Badge variant="outline"><FlaskConical className="mr-1 h-3 w-3" />Test patient</Badge></CardTitle>
+          <p className="text-xs text-muted-foreground">Opening this chart was recorded in the clinic’s chart-opened log.</p></CardHeader>
         <CardContent className="grid gap-3 text-sm sm:grid-cols-4">
           <div><div className="text-xs uppercase text-muted-foreground">Date of birth</div>{patient.date_of_birth ? format(parseISO(patient.date_of_birth), 'MMM d, yyyy') : '—'}</div>
           <div><div className="text-xs uppercase text-muted-foreground">Sex</div><span className="capitalize">{patient.sex ?? '—'}</span></div>
           <div><div className="text-xs uppercase text-muted-foreground">Allergies</div>{patient.allergies?.length ? patient.allergies.join(', ') : 'None recorded'}</div>
           <div><div className="text-xs uppercase text-muted-foreground">Latest vitals</div>{latestVitals ? `${latestVitals.bp_sys ?? '—'}/${latestVitals.bp_dia ?? '—'} · HR ${latestVitals.heart_rate ?? '—'}` : 'None recorded'}</div>
-          <div className="sm:col-span-4"><div className="text-xs uppercase text-muted-foreground">Conditions</div>{patient.conditions?.length ? patient.conditions.join(', ') : 'None recorded'}</div>
         </CardContent>
       </Card>
-      {adding ? <AddRecordForm clinicId={clinicId} patientId={patient.id} onCancel={() => setAdding(false)} onSaved={async () => { setAdding(false); await records.reload(); }} />
-        : <Button onClick={() => setAdding(true)} className="bg-mansagold text-mansablue hover:bg-mansagold-dark"><Plus className="mr-1 h-4 w-4" />Add record</Button>}
-      <Card>
-        <CardHeader><CardTitle className="text-base">Chart records</CardTitle></CardHeader>
-        <CardContent className="space-y-3">
-          <DataLoadErrors sources={[records]} />
-          {records.loading ? <p role="status" className="text-sm text-muted-foreground">Loading records…</p>
-            : !records.error && records.rows.length === 0 ? <p className="text-sm text-muted-foreground">No records yet. Add a visit note, vital signs or a medicine.</p>
-            : records.rows.map((r) => <RecordItem key={r.id} record={r} onChanged={() => records.reload()} />)}
-        </CardContent>
-      </Card>
+      <DataLoadErrors sources={[records, notes]} />
+      <Tabs value={tab} onValueChange={(v) => { setTab(v); setAdding(null); }}>
+        <TabsList className="flex h-auto flex-wrap justify-start">
+          <TabsTrigger value="summary">Summary</TabsTrigger>
+          <TabsTrigger value="notes">Visit notes</TabsTrigger>
+          <TabsTrigger value="vitals">Vitals</TabsTrigger>
+          <TabsTrigger value="meds">Medicines</TabsTrigger>
+          <TabsTrigger value="problems">Allergies & problems</TabsTrigger>
+          <TabsTrigger value="labs">Labs</TabsTrigger>
+          <TabsTrigger value="all">All records</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="summary" className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <Card><CardHeader className="pb-2"><CardTitle className="text-base">Conditions</CardTitle></CardHeader>
+              <CardContent className="text-sm">{patient.conditions?.length ? patient.conditions.join(', ') : 'None recorded'}
+                {byType('problem').length > 0 && <ul className="mt-2 list-disc pl-5">{byType('problem').map((r) => <li key={r.id}>{r.title}</li>)}</ul>}</CardContent></Card>
+            <Card><CardHeader className="pb-2"><CardTitle className="text-base">Current medicines</CardTitle></CardHeader>
+              <CardContent className="text-sm">{byType('medication').length ? <ul className="list-disc pl-5">{byType('medication').map((r) => <li key={r.id}>{r.medication_name}{r.dose ? ` · ${r.dose}` : ''}</li>)}</ul> : 'None recorded'}</CardContent></Card>
+          </div>
+          <Card><CardHeader className="pb-2"><CardTitle className="text-base">Latest signed visit</CardTitle></CardHeader>
+            <CardContent className="text-sm">{signedNotes[0] ? (
+              <div className="space-y-1">
+                <p><b>{signedNotes[0].visit_reason}</b> · {format(parseISO(signedNotes[0].visit_date), 'MMM d, yyyy')}</p>
+                <p><span className="text-muted-foreground">Assessment:</span> {signedNotes[0].assessment}</p>
+                <p><span className="text-muted-foreground">Plan:</span> {signedNotes[0].plan}</p>
+                <Button size="sm" variant="link" className="px-0" onClick={() => setTab('notes')}>Open visit notes</Button>
+              </div>) : <>No signed visit notes yet. <Button size="sm" variant="link" className="px-1" onClick={() => setTab('notes')}>Write one</Button></>}</CardContent></Card>
+        </TabsContent>
+
+        <TabsContent value="notes"><PilotVisitNotes clinicId={clinicId} patientId={patient.id} userId={userId} onChanged={() => void notes.reload()} /></TabsContent>
+
+        <TabsContent value="vitals" className="space-y-4">
+          {vitals.length >= 2 ? (
+            <div className="grid gap-4 lg:grid-cols-2">
+              <Card><CardHeader className="pb-2"><CardTitle className="text-base">Blood pressure & heart rate</CardTitle></CardHeader><CardContent>
+                <ChartContainer config={vitalsConfig} className="aspect-auto h-56 w-full">
+                  <LineChart data={vitals} margin={{ left: -20, right: 8 }}>
+                    <CartesianGrid vertical={false} /><XAxis dataKey="label" tickLine={false} axisLine={false} /><YAxis tickLine={false} axisLine={false} domain={['auto', 'auto']} />
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <Line dataKey="systolic" stroke="var(--color-systolic)" strokeWidth={2} connectNulls />
+                    <Line dataKey="diastolic" stroke="var(--color-diastolic)" strokeWidth={2} connectNulls />
+                    <Line dataKey="heartRate" stroke="var(--color-heartRate)" strokeWidth={2} strokeDasharray="4 3" connectNulls />
+                  </LineChart>
+                </ChartContainer></CardContent></Card>
+              <Card><CardHeader className="pb-2"><CardTitle className="text-base">Weight</CardTitle></CardHeader><CardContent>
+                <ChartContainer config={weightConfig} className="aspect-auto h-56 w-full">
+                  <LineChart data={vitals} margin={{ left: -20, right: 8 }}>
+                    <CartesianGrid vertical={false} /><XAxis dataKey="label" tickLine={false} axisLine={false} /><YAxis tickLine={false} axisLine={false} domain={['auto', 'auto']} />
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <Line dataKey="weight" stroke="var(--color-weight)" strokeWidth={2} connectNulls />
+                  </LineChart>
+                </ChartContainer></CardContent></Card>
+            </div>
+          ) : <p className="text-sm text-muted-foreground">Trend graphs appear after two or more vital-sign entries.</p>}
+          {addRecord('vitals')}
+          {recordList(records.rows.filter((r) => r.record_type === 'vitals'), 'No vital signs yet.')}
+        </TabsContent>
+
+        <TabsContent value="meds" className="space-y-4">{addRecord('medication')}{recordList(records.rows.filter((r) => r.record_type === 'medication'), 'No medicines recorded.')}</TabsContent>
+        <TabsContent value="problems" className="space-y-4">
+          <div className="flex flex-wrap gap-2">{addRecord('allergy')}{adding !== 'allergy' && addRecord('problem')}</div>
+          {recordList(records.rows.filter((r) => r.record_type === 'allergy' || r.record_type === 'problem'), 'No allergies or problems recorded.')}
+        </TabsContent>
+        <TabsContent value="labs" className="space-y-4">{addRecord('lab_result')}{recordList(records.rows.filter((r) => r.record_type === 'lab_result'), 'No lab results recorded.')}</TabsContent>
+        <TabsContent value="all" className="space-y-4">
+          {addRecord('visit_note')}
+          {recordList(records.rows, 'No records yet.')}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
@@ -225,9 +338,9 @@ function RecordItem({ record: r, onChanged }: { record: Row; onChanged: () => Pr
   );
 }
 
-function AddRecordForm({ clinicId, patientId, onCancel, onSaved }: { clinicId: string; patientId: string; onCancel: () => void; onSaved: () => void | Promise<void> }) {
-  const [type, setType] = useState<PilotRecordType>('visit_note');
-  const [f, setF] = useState({ recorded_on: todayIso(), title: '', details: '', bp_sys: '', bp_dia: '', heart_rate: '', weight_lb: '', temperature_f: '', medication_name: '', dose: '' });
+function AddRecordForm({ clinicId, patientId, initialType, onCancel, onSaved }: { clinicId: string; patientId: string; initialType: PilotRecordType; onCancel: () => void; onSaved: () => void | Promise<void> }) {
+  const [type, setType] = useState<PilotRecordType>(initialType);
+  const [f, setF] = useState({ recorded_on: todayIso(), title: initialType === 'vitals' ? 'Vital signs' : '', details: '', bp_sys: '', bp_dia: '', heart_rate: '', weight_lb: '', temperature_f: '', medication_name: '', dose: '' });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const pending = useRef(false);
@@ -277,7 +390,7 @@ function AddRecordForm({ clinicId, patientId, onCancel, onSaved }: { clinicId: s
             <div className="space-y-1"><Label htmlFor="pr-dose">Dose</Label><Input id="pr-dose" value={f.dose} onChange={set('dose')} maxLength={140} placeholder="10 mg once daily" /></div>
           </div>
         )}
-        <div className="space-y-1"><Label htmlFor="pr-details">Details</Label><Textarea id="pr-details" value={f.details} onChange={set('details')} maxLength={5000} rows={5} placeholder="Notes for this made-up test patient" /></div>
+        <div className="space-y-1"><Label htmlFor="pr-details">Details</Label><Textarea id="pr-details" value={f.details} onChange={set('details')} maxLength={5000} rows={4} placeholder="Notes for this made-up test patient" /></div>
         {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
         <div className="flex gap-2">
           <Button onClick={save} disabled={saving} className="bg-mansagold text-mansablue hover:bg-mansagold-dark">{saving ? 'Saving…' : 'Save record'}</Button>
@@ -288,25 +401,25 @@ function AddRecordForm({ clinicId, patientId, onCancel, onSaved }: { clinicId: s
   );
 }
 
-function ActivityLog({ clinicId, patients }: { clinicId: string; patients: Row[] }) {
-  const log = useRows('hc_pilot_audit', clinicId, { order: 'created_at', asc: false });
+function ActivityLog({ audit, patients }: { audit: { rows: Row[]; loading: boolean; error: string; reload: () => Promise<unknown> }; patients: Row[] }) {
+  const { name } = usePilotPrivacy();
   const byId = Object.fromEntries(patients.map((p) => [p.id, p]));
   return (
     <Card>
-      <CardHeader><CardTitle className="text-base">Activity log · who added, changed or opened each chart</CardTitle></CardHeader>
+      <CardHeader><CardTitle className="text-base">Full activity log · who added, changed, signed or opened each chart</CardTitle></CardHeader>
       <CardContent>
-        <DataLoadErrors sources={[log]} />
-        {log.loading ? <p role="status" className="text-sm text-muted-foreground">Loading activity…</p>
-          : !log.error && log.rows.length === 0 ? <p className="text-sm text-muted-foreground">No activity yet.</p>
-          : log.rows.length > 0 && (
+        <DataLoadErrors sources={[audit]} />
+        {audit.loading ? <p role="status" className="text-sm text-muted-foreground">Loading activity…</p>
+          : !audit.error && audit.rows.length === 0 ? <p className="text-sm text-muted-foreground">No activity yet.</p>
+          : audit.rows.length > 0 && (
             <Table>
               <TableHeader><TableRow><TableHead>When</TableHead><TableHead>Who</TableHead><TableHead>What</TableHead><TableHead>Test patient</TableHead></TableRow></TableHeader>
-              <TableBody>{log.rows.slice(0, 300).map((a) => (
+              <TableBody>{audit.rows.slice(0, 300).map((a) => (
                 <TableRow key={a.id}>
                   <TableCell className="whitespace-nowrap">{format(parseISO(a.created_at), 'MMM d, h:mm a')}</TableCell>
                   <TableCell>{a.actor_email ?? '—'}</TableCell>
                   <TableCell>{AUDIT_LABELS[a.action] ?? a.action}</TableCell>
-                  <TableCell>{a.patient_id ? fullName(byId[a.patient_id]) : '—'}</TableCell>
+                  <TableCell>{a.patient_id ? name(byId[a.patient_id]) : '—'}</TableCell>
                 </TableRow>
               ))}</TableBody>
             </Table>

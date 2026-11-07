@@ -97,4 +97,9 @@ export const AUDIT_LABELS: Record<string, string> = {
   record_added: 'Added a record',
   record_marked_error: 'Marked a record as entered in error',
   chart_opened: 'Opened chart',
+  note_drafted: 'Started a visit note',
+  note_draft_updated: 'Changed a draft visit note',
+  note_signed: 'Signed and locked a visit note',
+  note_addendum_added: 'Added an addendum to a visit note',
+  note_marked_error: 'Marked a visit note as entered in error',
 };
