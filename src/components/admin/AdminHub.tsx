@@ -6,7 +6,7 @@ import {
   Archive, ClipboardList, Upload, Search as SearchIcon, Link2, Filter,
   Mail, Sparkles, Rocket, Gem, Trophy, Route, Megaphone, Gauge, Activity,
   Webhook, Key, ScanLine, CreditCard, Code2, Car, ListChecks, FileText,
-  Video, AlertTriangle
+  Video, AlertTriangle,
   FileSignature,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
