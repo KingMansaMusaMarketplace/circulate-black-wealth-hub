@@ -36,8 +36,8 @@ export function downsample(chunks: readonly Float32Array[], fromRate: number, to
 }
 
 /** 16-bit PCM mono WAV bytes. */
-export function encodeWav(samples: Float32Array, sampleRate = DICTATION_SAMPLE_RATE): Uint8Array {
-  const bytes = new Uint8Array(44 + samples.length * 2);
+export function encodeWav(samples: Float32Array, sampleRate = DICTATION_SAMPLE_RATE): Uint8Array<ArrayBuffer> {
+  const bytes = new Uint8Array(new ArrayBuffer(44 + samples.length * 2));
   const view = new DataView(bytes.buffer);
   const tag = (o: number, s: string) => { for (let i = 0; i < s.length; i++) view.setUint8(o + i, s.charCodeAt(i)); };
   tag(0, 'RIFF'); view.setUint32(4, 36 + samples.length * 2, true); tag(8, 'WAVE');
