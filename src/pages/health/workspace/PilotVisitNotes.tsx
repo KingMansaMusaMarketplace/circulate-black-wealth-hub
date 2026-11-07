@@ -1,7 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { toast } from 'sonner';
-import { FilePen, Lock, Plus } from 'lucide-react';
+import { FilePen, Lock, Mic, Plus } from 'lucide-react';
+import { DICTATION_REMINDER, appendDictation } from '@/lib/clinical/dictation';
+import DictationButton from './DictationButton';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -58,10 +60,12 @@ function NoteEditor({ clinicId, patientId, note, onCancel, onSaved }: { clinicId
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [confirmSign, setConfirmSign] = useState(false);
+  const [dictating, setDictating] = useState<string | null>(null);
   const pending = useRef(false);
 
   const save = async (sign: boolean) => {
     if (pending.current) return;
+    if (dictating) { setError('Finish talk-to-type first, then save.'); setConfirmSign(false); return; }
     const problem = validateVisitNote(f, { forSigning: sign });
     if (problem) { setError(problem); setConfirmSign(false); return; }
     pending.current = true; setSaving(true); setError('');
@@ -100,9 +104,20 @@ function NoteEditor({ clinicId, patientId, note, onCancel, onSaved }: { clinicId
           <div className="space-y-1"><Label htmlFor="vn-date">Visit date</Label><Input id="vn-date" type="date" value={f.visit_date} max={todayIso()} onChange={(e) => setF({ ...f, visit_date: e.target.value })} /></div>
           <div className="space-y-1 sm:col-span-2"><Label htmlFor="vn-reason">Reason for visit *</Label><Input id="vn-reason" value={f.visit_reason} maxLength={140} placeholder="Blood pressure follow-up" onChange={(e) => setF({ ...f, visit_reason: e.target.value })} /></div>
         </div>
+        <p className="flex items-center gap-2 rounded-md border border-mansagold/40 bg-mansagold/10 px-3 py-2 text-xs text-foreground"><Mic className="h-3.5 w-3.5 shrink-0 text-mansagold" />Talk to type: {DICTATION_REMINDER} Check every word before you sign. Recordings are not kept.</p>
         {NOTE_SECTIONS.map((s) => (
           <div key={s.key} className="space-y-1">
-            <Label htmlFor={`vn-${s.key}`}>{s.label}{s.key === 'assessment' || s.key === 'plan' ? ' (needed to sign)' : ''}</Label>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <Label htmlFor={`vn-${s.key}`}>{s.label}{s.key === 'assessment' || s.key === 'plan' ? ' (needed to sign)' : ''}</Label>
+              <DictationButton clinicId={clinicId} sectionLabel={s.label} disabled={saving || (dictating !== null && dictating !== s.key)}
+                onBusyChange={(busy) => setDictating((cur) => (busy ? s.key : cur === s.key ? null : cur))}
+                onError={(m) => toast.error(m)}
+                onText={(spoken) => setF((cur) => {
+                  const next = appendDictation(cur[s.key] ?? '', spoken);
+                  if (next.truncated) toast.warning(`${s.label} reached the 5,000-character limit, so the end was cut off.`);
+                  return { ...cur, [s.key]: next.text };
+                })} />
+            </div>
             <Textarea id={`vn-${s.key}`} rows={3} maxLength={5000} placeholder={s.hint} value={f[s.key] ?? ''} onChange={(e) => setF({ ...f, [s.key]: e.target.value })} />
           </div>
         ))}

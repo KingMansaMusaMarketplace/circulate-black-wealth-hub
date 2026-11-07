@@ -1,5 +1,11 @@
 # Roadmap
 
+## Pilot talk-to-type for visit notes — November 7, 2026
+- [x] Microphone button on each visit-note section; words added to the draft, never auto-saved or signed; 2-minute clips; test patients only.
+- [x] Private helper sends audio straight to 1325.AI's OpenAI organization (org ID confirmed), nothing stored or logged; strangers refused.
+- [ ] Signed-in walkthrough on a real phone/computer — not possible from here on this user-managed backend; owner to try.
+- [ ] Real patients only after OpenAI + Supabase BAAs are signed, OpenAI "Eyes Off" retention is on, and the attorney approves.
+
 ## Vendor BAA tracker and request emails — November 7, 2026
 - [x] Admin-only Vendor BAA Tracker page with 11 vendors; real patient data stays locked regardless of tracker state. Rule tests pass.
 - [x] Six draft BAA request emails (Supabase, OpenAI, Twilio, ElevenLabs, Resend, Lovable) in PDF and copy buttons on the page.
