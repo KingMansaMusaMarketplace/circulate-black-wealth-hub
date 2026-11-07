@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import logo1325 from '@/assets/1325-ai-logo.png';
 import { Helmet } from 'react-helmet-async';
 import { Link, useSearchParams } from 'react-router-dom';
-import { BrainCircuit, Calendar, ClipboardCheck, LayoutDashboard, Lock, LogOut, NotebookPen, Receipt, Users, UserCog } from 'lucide-react';
+import { BrainCircuit, Calendar, ClipboardCheck, FlaskConical, LayoutDashboard, Lock, LogOut, NotebookPen, Receipt, Users, UserCog } from 'lucide-react';
+import PilotPatients from './workspace/PilotPatients';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -54,6 +55,7 @@ const NAV = [
   { k: 'portal', l: 'Patient Communication', i: Users },
   { k: 'intake', l: 'Clinic Intake', i: Lock },
   { k: 'dashboard', l: 'Dashboard', i: LayoutDashboard },
+  { k: 'pilot-patients', l: 'Pilot Patients (test records)', i: FlaskConical },
   { k: 'patients', l: 'Patients', i: Users },
   { k: 'schedule', l: 'Schedule', i: Calendar },
   { k: 'prep', l: 'Pre-Visit Chart Prep', i: ClipboardCheck },
@@ -204,6 +206,7 @@ export default function HealthWorkspacePage() {
             {tab === 'national-exchange' && <NationalHealthExchange key={`${user.id}:${clinic.id}`} onBack={() => navigateTab('dashboard')} />}
             {tab === 'portal' && <PatientCommunication key={`${user.id}:${clinic.id}`} />}
             {tab === 'intake' && <ClinicIntake clinicId={clinic.id} clinicName={clinic.name} clinicRole={role} signedIn />}
+            {tab === 'pilot-patients' && <PilotPatients key={`${user.id}:${clinic.id}`} clinicId={clinic.id} isOwner={role === 'owner'} />}
             {tab === 'patients' && <Patients {...props} />}
             {tab === 'schedule' && <Schedule {...props} />}
             {tab === 'prep' && <ChartPrep key={`${user.id}:${clinic.id}`} />}
