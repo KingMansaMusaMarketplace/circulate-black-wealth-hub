@@ -460,3 +460,10 @@
 - [x] Saved pilot storage for made-up test patients + records + activity log (Pilot Patients tab)
 - [ ] Click through Pilot Patients signed in during an approved viewing (user action)
 - [ ] Real patient data: separate HIPAA database + signed BAAs + attorney go-live (blocked on vendors/attorney)
+
+## Clinical pilot screens — Nov 7, 2026
+- [x] Pilot Patients dashboard (tiles, 14-day activity graph, records by type, drafts to sign, recent chart opens)
+- [x] Tabbed patient chart (summary, visit notes, vitals trend graphs, medicines, allergies/problems, labs, all records)
+- [x] Structured visit notes: author-only drafts, sign & lock, addenda only, entered-in-error; database-enforced and self-tested
+- [x] Owner chart-opened log with staff/patient/date filters; masked names + 10-minute idle screen lock
+- [ ] Real patient data — blocked: signed vendor BAAs, attorney approval, separate secure database
