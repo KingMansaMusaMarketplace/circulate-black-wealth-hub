@@ -101,7 +101,9 @@ export function shouldLoadSamples(s: { loading: boolean; error: unknown; totalPa
 
 export const AUDIT_LABELS: Record<string, string> = {
   pilot_reset: 'Reset the pilot and reloaded the sample patients',
-  patient_created: 'Added test patient',
+  patient_created: 'Added patient',
+  go_live_unlocked: 'Unlocked real patients (go-live approval recorded)',
+  go_live_locked: 'Locked real patients again',
   patient_updated: 'Changed patient details',
   patient_archived: 'Archived test patient',
   record_added: 'Added a record',
