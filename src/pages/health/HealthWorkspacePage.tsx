@@ -17,7 +17,8 @@ import ChartPrep from './workspace/ChartPrep';
 import MedicalChronology from './workspace/MedicalChronology';
 import CareGuide from './workspace/CareGuide';
 import DocumentationCheck from './workspace/DocumentationCheck';
-import { ClinicSignIn, CreateSampleClinic } from './workspace/ClinicAccountForms';
+import { ClinicSignIn, CreateSampleClinic, SwitchClinicAccount } from './workspace/ClinicAccountForms';
+import { useApprovedViewer, isViewerEmailMismatch } from './ApprovedViewer';
 import { EndPrivateSessionButton } from './PrivateSession';
 import ExecutiveWalkthrough from './ExecutiveWalkthrough';
 import PracticeImpact from './workspace/PracticeImpact';
@@ -86,6 +87,7 @@ const Brand = () => (
 export default function HealthWorkspacePage() {
   const [facilityContext, setFacilityContext] = useState<FacilityContext>(DEFAULT_FACILITY_CONTEXT);
   const { user, loading, authInitialized } = useAuth();
+  const approvedViewer = useApprovedViewer();
   const [searchParams] = useSearchParams();
   const [clinic, setClinic] = useState<Row | null | undefined>(undefined);
   const [role, setRole] = useState('');
@@ -174,7 +176,7 @@ export default function HealthWorkspacePage() {
       <Banner />
       {shellHeader}
       {user && clinic && loadedFor === userId && <FacilitySelector value={facilityContext} onChange={setFacilityContext} clinicName={clinic.name} />}
-      {loading || !authInitialized ? <p role="status" className="p-8 text-muted-foreground">Checking sign-in…</p> : !user ? <ClinicSignIn /> : clinicError && clinic === undefined ? <section role="alert" className="mx-auto max-w-lg space-y-4 p-8"><h1 className="text-xl font-semibold">Clinic access could not be checked</h1><p className="text-sm text-muted-foreground">{clinicError}</p><Button variant="outline" onClick={() => { void loadClinic().catch(() => {}); }}>Retry clinic access</Button></section> : loadedFor !== userId || clinic === undefined ? <p role="status" className="p-8 text-muted-foreground">Loading your clinic…</p> : !clinic ? <CreateSampleClinic key={user.id} onDone={loadClinic} /> : (
+      {loading || !authInitialized ? <p role="status" className="p-8 text-muted-foreground">Checking sign-in…</p> : !user ? <ClinicSignIn /> : approvedViewer && isViewerEmailMismatch(user.email, approvedViewer.email) ? <SwitchClinicAccount signedInEmail={user.email ?? ''} approvedEmail={approvedViewer.email} /> : clinicError && clinic === undefined ? <section role="alert" className="mx-auto max-w-lg space-y-4 p-8"><h1 className="text-xl font-semibold">Clinic access could not be checked</h1><p className="text-sm text-muted-foreground">{clinicError}</p><Button variant="outline" onClick={() => { void loadClinic().catch(() => {}); }}>Retry clinic access</Button></section> : loadedFor !== userId || clinic === undefined ? <p role="status" className="p-8 text-muted-foreground">Loading your clinic…</p> : !clinic ? <CreateSampleClinic key={user.id} onDone={loadClinic} /> : (
         <div className="flex">
            <aside className="hidden w-60 shrink-0 flex-col border-r bg-card/80 p-3 md:flex">
             {NAV.map((n) => (
