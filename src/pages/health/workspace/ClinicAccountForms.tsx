@@ -7,10 +7,25 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { registerSampleClinic } from './clinic-registration';
+import { useApprovedViewer } from '../ApprovedViewer';
+
+/** Shown when the signed-in clinic account is not the email the current viewing was approved for. */
+export function SwitchClinicAccount({ signedInEmail, approvedEmail }: { signedInEmail: string; approvedEmail: string }) {
+  const [busy, setBusy] = useState(false);
+  return <div className="flex min-h-[70vh] items-center justify-center p-6"><Card className="w-full max-w-md">
+    <CardHeader><CardTitle>Switch to your approved email</CardTitle></CardHeader>
+    <CardContent className="space-y-4">
+      <p className="text-sm text-muted-foreground">You're signed in as <strong className="text-foreground">{signedInEmail}</strong>, but this viewing is approved for <strong className="text-foreground">{approvedEmail}</strong>.</p>
+      <p className="text-sm text-muted-foreground">Click below, then sign in with <strong className="text-foreground">{approvedEmail}</strong>. Your viewing stays open.</p>
+      <Button disabled={busy} className="w-full bg-mansagold text-mansablue hover:bg-mansagold-dark" onClick={async () => { setBusy(true); try { await supabase.auth.signOut(); } finally { setBusy(false); } }}>{busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Sign out and switch to {approvedEmail}</Button>
+    </CardContent>
+  </Card></div>;
+}
 
 export function ClinicSignIn() {
+  const approved = useApprovedViewer();
   const [mode, setMode] = useState<'in' | 'up'>('in');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(approved?.email ?? '');
   const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -31,6 +46,7 @@ export function ClinicSignIn() {
   return <div className="flex min-h-[70vh] items-center justify-center p-6"><Card className="w-full max-w-sm">
     <CardHeader><CardTitle>{confirmation ? 'Confirm your email' : mode === 'in' ? 'Sign in to 1325 Clinical EMR / EHR' : 'Create your clinic account'}</CardTitle></CardHeader>
     <CardContent className="space-y-4">
+      {approved?.email && !confirmation && <p role="note" className="rounded-md border border-mansagold/40 bg-mansagold/10 p-3 text-sm text-foreground">Your viewing is approved for <strong>{approved.email}</strong>. Sign in with that same email.</p>}
       {confirmation ? <div role="status" className="space-y-4"><Mail className="h-6 w-6 text-mansagold" /><p className="text-sm text-muted-foreground">Check your email for a confirmation link. After confirming, sign in to register your sample clinic. No clinic has been created yet.</p><Button variant="outline" className="w-full" onClick={() => { setConfirmation(false); setMode('in'); }}>Return to sign in</Button></div> : <form onSubmit={submit} className="space-y-4">
         <div className="space-y-2"><Label htmlFor="clinical-email">Email</Label><Input id="clinical-email" type="email" autoComplete="email" required value={email} onChange={e => setEmail(e.target.value)} disabled={busy} /></div>
         <div className="space-y-2"><Label htmlFor="clinical-password">Password</Label><Input id="clinical-password" type="password" autoComplete={mode === 'up' ? 'new-password' : 'current-password'} required value={password} onChange={e => setPassword(e.target.value)} disabled={busy} /></div>

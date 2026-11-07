@@ -13,6 +13,7 @@ import VisitorWatermark from './VisitorWatermark';
 import { readPreviewGrant, type PreviewViewer } from './preview-access';
 import { ClinicalVoiceProvider } from './ClinicalVoice';
 import { ClinicalHelpConversationProvider } from './ClinicalHelpConversation';
+import { ApprovedViewerContext } from './ApprovedViewer';
 
 const KEY = 'hc_preview_access';
 const DEVICE_KEY = 'hc_preview_device';
@@ -231,7 +232,9 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
     return <PrivateSessionContext.Provider value={endSession}>
       <ClinicalVoiceProvider remaining={remaining} extended={extended} isAdmin={isAdmin}>
       <ClinicalHelpConversationProvider>
+      <ApprovedViewerContext.Provider value={viewer}>
       {children}
+      </ApprovedViewerContext.Provider>
       </ClinicalHelpConversationProvider>
       <VisitorWatermark viewer={viewer} />
       {extended && !isAdmin && <div role="alertdialog" aria-label="Extra time granted" className="theme-clinical dark fixed inset-0 z-[10000] grid place-items-center bg-background/70 px-6">
