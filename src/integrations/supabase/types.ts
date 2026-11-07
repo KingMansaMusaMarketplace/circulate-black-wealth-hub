@@ -10688,6 +10688,7 @@ export type Database = {
           clinic_id: string
           created_at: string
           id: string
+          note_id: string | null
           patient_id: string | null
           record_id: string | null
         }
@@ -10698,6 +10699,7 @@ export type Database = {
           clinic_id: string
           created_at?: string
           id?: string
+          note_id?: string | null
           patient_id?: string | null
           record_id?: string | null
         }
@@ -10708,6 +10710,7 @@ export type Database = {
           clinic_id?: string
           created_at?: string
           id?: string
+          note_id?: string | null
           patient_id?: string | null
           record_id?: string | null
         }
@@ -10717,6 +10720,51 @@ export type Database = {
             columns: ["clinic_id"]
             isOneToOne: false
             referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_pilot_note_addenda: {
+        Row: {
+          author_email: string | null
+          body: string
+          clinic_id: string
+          created_at: string
+          created_by: string
+          id: string
+          note_id: string
+        }
+        Insert: {
+          author_email?: string | null
+          body: string
+          clinic_id: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          note_id: string
+        }
+        Update: {
+          author_email?: string | null
+          body?: string
+          clinic_id?: string
+          created_at?: string
+          created_by?: string
+          id?: string
+          note_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_pilot_note_addenda_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_pilot_note_addenda_note_id_fkey"
+            columns: ["note_id"]
+            isOneToOne: false
+            referencedRelation: "hc_pilot_visit_notes"
             referencedColumns: ["id"]
           },
         ]
@@ -10916,6 +10964,84 @@ export type Database = {
             columns: ["clinic_id"]
             isOneToOne: true
             referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_pilot_visit_notes: {
+        Row: {
+          assessment: string | null
+          author_email: string | null
+          clinic_id: string
+          created_at: string
+          created_by: string
+          error_reason: string | null
+          id: string
+          objective: string | null
+          patient_id: string
+          plan: string | null
+          signed_at: string | null
+          signed_by: string | null
+          signer_email: string | null
+          status: string
+          subjective: string | null
+          updated_at: string
+          visit_date: string
+          visit_reason: string
+        }
+        Insert: {
+          assessment?: string | null
+          author_email?: string | null
+          clinic_id: string
+          created_at?: string
+          created_by?: string
+          error_reason?: string | null
+          id?: string
+          objective?: string | null
+          patient_id: string
+          plan?: string | null
+          signed_at?: string | null
+          signed_by?: string | null
+          signer_email?: string | null
+          status?: string
+          subjective?: string | null
+          updated_at?: string
+          visit_date?: string
+          visit_reason: string
+        }
+        Update: {
+          assessment?: string | null
+          author_email?: string | null
+          clinic_id?: string
+          created_at?: string
+          created_by?: string
+          error_reason?: string | null
+          id?: string
+          objective?: string | null
+          patient_id?: string
+          plan?: string | null
+          signed_at?: string | null
+          signed_by?: string | null
+          signer_email?: string | null
+          status?: string
+          subjective?: string | null
+          updated_at?: string
+          visit_date?: string
+          visit_reason?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_pilot_visit_notes_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_pilot_visit_notes_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "hc_pilot_patients"
             referencedColumns: ["id"]
           },
         ]
