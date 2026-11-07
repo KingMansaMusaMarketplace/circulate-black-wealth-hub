@@ -90,7 +90,17 @@ export function validateErrorReason(reason: string): string | null {
   return reason.trim().length >= 3 ? null : 'Give a short reason (at least 3 characters).';
 }
 
+/** Every new pilot clinic opens with this many made-up sample patients (loaded by the database). */
+export const SAMPLE_PATIENT_COUNT = 3;
+export const SAMPLE_BADGE_LABEL = 'Sample test patient';
+
+/** Load samples once, only after a successful load shows the clinic has never had any patient (archived ones count). */
+export function shouldLoadSamples(s: { loading: boolean; error: unknown; totalPatients: number; alreadyTried: boolean }) {
+  return !s.loading && !s.error && s.totalPatients === 0 && !s.alreadyTried;
+}
+
 export const AUDIT_LABELS: Record<string, string> = {
+  pilot_reset: 'Reset the pilot and reloaded the sample patients',
   patient_created: 'Added test patient',
   patient_updated: 'Changed patient details',
   patient_archived: 'Archived test patient',
