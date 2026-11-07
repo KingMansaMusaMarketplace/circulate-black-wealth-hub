@@ -54,6 +54,14 @@ const ResetPasswordForm: React.FC = () => {
         try {
           const { data, error } = await supabase.auth.exchangeCodeForSession(code);
           if (error) {
+            // The client may already have used this code automatically on load.
+            const { data: { session: existing } } = await supabase.auth.getSession();
+            if (existing) {
+              setIsValidSession(true);
+              url.searchParams.delete('code');
+              window.history.replaceState({}, '', url.pathname);
+              return;
+            }
             console.error('[ResetPasswordForm] Code exchange failed:', error);
             toast.error('Invalid or expired reset link. Please request a new one.');
             navigate('/login');

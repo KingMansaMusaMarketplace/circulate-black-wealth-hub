@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { getCsrfToken, CSRF_HEADER_NAME } from '@/lib/security/csrf';
 import { clinicalRequestHeaders } from '@/pages/health/clinical-request';
+import { recoveryRedirectPath } from '@/lib/auth/recovery-redirect';
 
 // Use environment variables for Supabase configuration
 // This allows key rotation without code changes
@@ -89,6 +90,19 @@ const getStorage = () => {
     removeItem: (key: string) => { delete memoryStorage[key]; }
   };
 };
+
+// Password-reset links that fall back to the site root ("/?code=...") are moved
+// to the reset page before the router reads the address.
+if (typeof window !== 'undefined') {
+  try {
+    const ref = new URL(supabaseUrl).hostname.split('.')[0];
+    const verifierKey = `sb-${ref}-auth-token-code-verifier`;
+    let verifier: string | null = null;
+    try { verifier = localStorage.getItem(verifierKey) ?? sessionStorage.getItem(verifierKey); } catch {}
+    const next = recoveryRedirectPath(window.location.href, verifier);
+    if (next) window.history.replaceState(window.history.state, '', next);
+  } catch {}
+}
 
 // Create a single instance of the Supabase client
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
