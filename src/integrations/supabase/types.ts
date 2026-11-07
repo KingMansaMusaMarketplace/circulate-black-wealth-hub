@@ -29564,6 +29564,7 @@ export type Database = {
         Args: { _name: string; _specialty?: string }
         Returns: string
       }
+      hc_go_live_status: { Args: { _clinic: string }; Returns: Json }
       hc_is_member: { Args: { _clinic: string }; Returns: boolean }
       hc_is_owner: { Args: { _clinic: string }; Returns: boolean }
       hc_pilot_log_chart_view: {
