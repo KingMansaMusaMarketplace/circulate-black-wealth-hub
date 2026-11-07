@@ -10490,6 +10490,80 @@ export type Database = {
         }
         Relationships: []
       }
+      hc_go_live_unlocks: {
+        Row: {
+          approval_letter_ref: string
+          attorney_approved_on: string
+          attorney_name: string
+          clinic_agreement_ref: string
+          clinic_agreement_signed_on: string
+          clinic_id: string
+          consent_form_version: string
+          created_at: string
+          id: string
+          lock_reason: string | null
+          locked_at: string | null
+          locked_by: string | null
+          locked_by_email: string | null
+          lovable_ruling: string
+          risk_assessment_ref: string
+          unlocked_at: string
+          unlocked_by: string
+          unlocked_by_email: string | null
+          updated_at: string
+        }
+        Insert: {
+          approval_letter_ref: string
+          attorney_approved_on: string
+          attorney_name: string
+          clinic_agreement_ref: string
+          clinic_agreement_signed_on: string
+          clinic_id: string
+          consent_form_version: string
+          created_at?: string
+          id?: string
+          lock_reason?: string | null
+          locked_at?: string | null
+          locked_by?: string | null
+          locked_by_email?: string | null
+          lovable_ruling: string
+          risk_assessment_ref: string
+          unlocked_at?: string
+          unlocked_by: string
+          unlocked_by_email?: string | null
+          updated_at?: string
+        }
+        Update: {
+          approval_letter_ref?: string
+          attorney_approved_on?: string
+          attorney_name?: string
+          clinic_agreement_ref?: string
+          clinic_agreement_signed_on?: string
+          clinic_id?: string
+          consent_form_version?: string
+          created_at?: string
+          id?: string
+          lock_reason?: string | null
+          locked_at?: string | null
+          locked_by?: string | null
+          locked_by_email?: string | null
+          lovable_ruling?: string
+          risk_assessment_ref?: string
+          unlocked_at?: string
+          unlocked_by?: string
+          unlocked_by_email?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_go_live_unlocks_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       hc_medications: {
         Row: {
           clinic_id: string
@@ -10775,14 +10849,21 @@ export type Database = {
           archived_at: string | null
           clinic_id: string
           conditions: string[]
+          consent_signed_on: string | null
           created_at: string
           created_by: string
           date_of_birth: string | null
           first_name: string
           id: string
+          insurance_company: string | null
+          insurance_group: string | null
+          insurance_member_id: string | null
+          insurance_plan: string | null
+          is_real: boolean
           is_sample: boolean
           last_name: string
           phone: string | null
+          policy_holder: string | null
           sex: string | null
           test_patient_confirmed: boolean
           updated_at: string
@@ -10793,14 +10874,21 @@ export type Database = {
           archived_at?: string | null
           clinic_id: string
           conditions?: string[]
+          consent_signed_on?: string | null
           created_at?: string
           created_by?: string
           date_of_birth?: string | null
           first_name: string
           id?: string
+          insurance_company?: string | null
+          insurance_group?: string | null
+          insurance_member_id?: string | null
+          insurance_plan?: string | null
+          is_real?: boolean
           is_sample?: boolean
           last_name: string
           phone?: string | null
+          policy_holder?: string | null
           sex?: string | null
           test_patient_confirmed?: boolean
           updated_at?: string
@@ -10811,14 +10899,21 @@ export type Database = {
           archived_at?: string | null
           clinic_id?: string
           conditions?: string[]
+          consent_signed_on?: string | null
           created_at?: string
           created_by?: string
           date_of_birth?: string | null
           first_name?: string
           id?: string
+          insurance_company?: string | null
+          insurance_group?: string | null
+          insurance_member_id?: string | null
+          insurance_plan?: string | null
+          is_real?: boolean
           is_sample?: boolean
           last_name?: string
           phone?: string | null
+          policy_holder?: string | null
           sex?: string | null
           test_patient_confirmed?: boolean
           updated_at?: string
@@ -29564,7 +29659,25 @@ export type Database = {
         Args: { _name: string; _specialty?: string }
         Returns: string
       }
+      hc_go_live_lock: {
+        Args: { _clinic: string; _reason: string }
+        Returns: boolean
+      }
       hc_go_live_status: { Args: { _clinic: string }; Returns: Json }
+      hc_go_live_unlock: {
+        Args: {
+          _approval_letter_ref: string
+          _attorney_approved_on: string
+          _attorney_name: string
+          _clinic: string
+          _clinic_agreement_ref: string
+          _clinic_agreement_signed_on: string
+          _consent_form_version: string
+          _lovable_ruling: string
+          _risk_assessment_ref: string
+        }
+        Returns: string
+      }
       hc_is_member: { Args: { _clinic: string }; Returns: boolean }
       hc_is_owner: { Args: { _clinic: string }; Returns: boolean }
       hc_pilot_log_chart_view: {
@@ -29573,6 +29686,7 @@ export type Database = {
       }
       hc_pilot_reset: { Args: { _clinic: string }; Returns: number }
       hc_pilot_seed_samples: { Args: { _clinic: string }; Returns: number }
+      hc_real_patients_allowed: { Args: { _clinic: string }; Returns: boolean }
       hc_verify_preview_access: {
         Args: { p_device: string; p_end?: boolean; p_token: string }
         Returns: Json
