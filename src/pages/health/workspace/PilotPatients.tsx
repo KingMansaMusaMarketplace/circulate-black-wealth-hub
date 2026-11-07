@@ -45,7 +45,8 @@ export default function PilotPatients(props: Props) {
 
 function PilotPatientsInner({ clinicId, isOwner, userId = null }: Props) {
   const patients = useRows('hc_pilot_patients', clinicId, { order: 'last_name', asc: true });
-  const audit = useRows(isOwner ? 'hc_pilot_audit' : 'hc_pilot_audit_none', isOwner ? clinicId : null, { order: 'created_at', asc: false });
+  // Only clinic owners may read the activity log (database rule); members never request it.
+  const audit = useRows('hc_pilot_audit', isOwner ? clinicId : null, { order: 'created_at', asc: false });
   const { name } = usePilotPrivacy();
   const [openId, setOpenId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
@@ -183,7 +184,7 @@ function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; pat
   const records = useRows('hc_pilot_records', clinicId, { order: 'recorded_on', asc: false, eq: ['patient_id', patient.id] });
   const notes = useRows('hc_pilot_visit_notes', clinicId, { order: 'visit_date', asc: false, eq: ['patient_id', patient.id] });
   const { name } = usePilotPrivacy();
-  const [adding, setAdding] = useState<PilotRecordType | null>(null);
+  const [adding, setAdding] = useState<string | null>(null);
   const [tab, setTab] = useState('summary');
   const logged = useRef<string | null>(null);
   useEffect(() => {
@@ -196,9 +197,9 @@ function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; pat
   const latestVitals = byType('vitals')[0];
   const vitals = useMemo(() => vitalsSeries(records.rows).map((v) => ({ ...v, label: format(parseISO(v.date), 'M/d') })), [records.rows]);
   const signedNotes = notes.rows.filter((n) => n.status === 'signed');
-  const addRecord = (t: PilotRecordType) => (adding === t
+  const addRecord = (t: PilotRecordType, label = `Add ${RECORD_TYPE_LABELS[t].toLowerCase()}`, key: string = t) => (adding === key
     ? <AddRecordForm clinicId={clinicId} patientId={patient.id} initialType={t} onCancel={() => setAdding(null)} onSaved={async () => { setAdding(null); await records.reload(); }} />
-    : <Button onClick={() => setAdding(t)} className="bg-mansagold text-mansablue hover:bg-mansagold-dark"><Plus className="mr-1 h-4 w-4" />Add {RECORD_TYPE_LABELS[t].toLowerCase()}</Button>);
+    : <Button onClick={() => setAdding(key)} className="bg-mansagold text-mansablue hover:bg-mansagold-dark"><Plus className="mr-1 h-4 w-4" />{label}</Button>);
   const recordList = (rows: Row[], empty: string) => (
     <div className="space-y-3">
       {records.loading ? <p role="status" className="text-sm text-muted-foreground">Loading…</p>
@@ -287,7 +288,7 @@ function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; pat
         </TabsContent>
         <TabsContent value="labs" className="space-y-4">{addRecord('lab_result')}{recordList(records.rows.filter((r) => r.record_type === 'lab_result'), 'No lab results recorded.')}</TabsContent>
         <TabsContent value="all" className="space-y-4">
-          {addRecord('visit_note')}
+          {addRecord('problem', 'Add any record', 'all')}
           {recordList(records.rows, 'No records yet.')}
         </TabsContent>
       </Tabs>
