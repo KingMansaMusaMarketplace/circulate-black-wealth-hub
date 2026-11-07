@@ -10874,6 +10874,63 @@ export type Database = {
           },
         ]
       }
+      hc_vendor_baas: {
+        Row: {
+          attorney_approved: boolean
+          baa_category: string
+          created_at: string
+          id: string
+          notes: string | null
+          plan_and_cost: string | null
+          requested_on: string | null
+          service_used_for: string
+          signed_by: string | null
+          signed_on: string | null
+          sort_order: number
+          status: string
+          updated_at: string
+          updated_by: string | null
+          vendor_contact: string | null
+          vendor_name: string
+        }
+        Insert: {
+          attorney_approved?: boolean
+          baa_category?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          plan_and_cost?: string | null
+          requested_on?: string | null
+          service_used_for: string
+          signed_by?: string | null
+          signed_on?: string | null
+          sort_order?: number
+          status?: string
+          updated_at?: string
+          updated_by?: string | null
+          vendor_contact?: string | null
+          vendor_name: string
+        }
+        Update: {
+          attorney_approved?: boolean
+          baa_category?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          plan_and_cost?: string | null
+          requested_on?: string | null
+          service_used_for?: string
+          signed_by?: string | null
+          signed_on?: string | null
+          sort_order?: number
+          status?: string
+          updated_at?: string
+          updated_by?: string | null
+          vendor_contact?: string | null
+          vendor_name?: string
+        }
+        Relationships: []
+      }
       hc_visit_notes: {
         Row: {
           clinic_id: string
