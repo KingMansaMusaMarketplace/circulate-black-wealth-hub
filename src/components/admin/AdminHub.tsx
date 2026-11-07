@@ -6,7 +6,8 @@ import {
   Archive, ClipboardList, Upload, Search as SearchIcon, Link2, Filter,
   Mail, Sparkles, Rocket, Gem, Trophy, Route, Megaphone, Gauge, Activity,
   Webhook, Key, ScanLine, CreditCard, Code2, Car, ListChecks, FileText,
-  Video, AlertTriangle
+  Video, AlertTriangle,
+  FileSignature,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
@@ -148,6 +149,7 @@ const sections: { group: string; items: HubItem[] }[] = [
       { id: 'ai', label: 'AI Tools', icon: Bot, description: 'AI-powered admin features' },
       { id: 'admin-ai-workforce', label: 'AI Workforce', icon: Bot, description: 'The 42 Agentic AI Employees status', route: '/admin/ai-workforce' },
       { id: 'admin-kayla-scoreboard', label: 'Kayla Scoreboard', icon: Gauge, description: 'Test how smart Kayla and her team are', route: '/admin/kayla-scoreboard' },
+      { id: 'admin-vendor-baa', label: 'Vendor BAA Tracker', icon: FileSignature, description: 'Patient-data agreements with every vendor', route: '/admin/vendor-baa' },
       { id: 'kayla-cost', label: 'Kayla Cost Meter', icon: Gauge, description: 'Track Kayla AI usage costs' },
       { id: 'system-health', label: 'System Health', icon: Activity, description: 'Live system health' },
       { id: 'webhooks', label: 'Webhooks', icon: Webhook, description: 'Manage outbound webhooks' },

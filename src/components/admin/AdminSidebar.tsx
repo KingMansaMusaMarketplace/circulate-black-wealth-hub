@@ -5,7 +5,8 @@ import {
   MapPin, ShieldCheck, DollarSign, Download, Calendar, Lock, Database,
   Eye, Sliders, Bot, UserCog, ChevronDown, PanelLeft, Home, Award, Mail,
   Handshake, Rocket, Trophy, FileText, Code2, BookOpen, Gem, Car, CreditCard, ListChecks, ScanLine, Gauge, Megaphone, Webhook, Key, Activity, Route,
-  ClipboardList, Upload, Search as SearchIcon, Link2, Filter, Sparkles, Video, AlertTriangle
+  ClipboardList, Upload, Search as SearchIcon, Link2, Filter, Sparkles, Video, AlertTriangle,
+  FileSignature,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useAdminBadgeCounts } from '@/hooks/useAdminBadgeCounts';
@@ -143,6 +144,7 @@ const menuGroups: MenuGroup[] = [
       { id: 'ai', label: 'AI Tools', icon: Bot },
       { id: 'admin-ai-workforce', label: 'AI Workforce', icon: Bot, route: '/admin/ai-workforce' },
       { id: 'admin-kayla-scoreboard', label: 'Kayla Scoreboard', icon: Gauge, route: '/admin/kayla-scoreboard' },
+      { id: 'admin-vendor-baa', label: 'Vendor BAA Tracker', icon: FileSignature, route: '/admin/vendor-baa' },
       { id: 'kayla-cost', label: 'Kayla Cost Meter', icon: Gauge },
       { id: 'webhooks', label: 'Webhooks', icon: Webhook },
       { id: 'api-tokens', label: 'API Tokens', icon: Key },
