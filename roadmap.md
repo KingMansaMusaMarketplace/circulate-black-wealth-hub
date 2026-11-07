@@ -1,5 +1,11 @@
 # Roadmap
 
+## Vendor BAA tracker and request emails — November 7, 2026
+- [x] Admin-only Vendor BAA Tracker page with 11 vendors; real patient data stays locked regardless of tracker state. Rule tests pass.
+- [x] Six draft BAA request emails (Supabase, OpenAI, Twilio, ElevenLabs, Resend, Lovable) in PDF and copy buttons on the page.
+- [ ] Signed-in admin walkthrough of the page — not possible from here on this user-managed backend; owner to check.
+- [ ] Owner sends the emails; healthcare attorney reviews any returned agreement before signing.
+
 ## PayPal addition cancelled — November 5, 2026
 - [x] Provide suggested username and business description for the owner's PayPal business profile; availability and publication remain the owner's choice.
 - [x] Thomas cancelled adding PayPal; prior approval is withdrawn. Keep Stripe, prices and Apple payment restrictions unchanged.
