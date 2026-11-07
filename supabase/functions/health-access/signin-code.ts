@@ -1,5 +1,5 @@
 import { CLINICAL_OWNER_EMAIL } from './email-routing.ts';
-import { clinicalEmailTheme } from './confirmation.ts';
+import { clinicalEmailTheme, escapeHtml as esc } from './confirmation.ts';
 
 /** Emailed sign-in codes for approved clinical guests: 6 digits, 10 minutes, single use, 5 tries. */
 export const CODE_MINUTES = 10;
@@ -39,8 +39,6 @@ export function sendAllowed(recent: Date[], now: Date) {
   if (lastHour[0] && now.getTime() - lastHour[0].getTime() < RESEND_WAIT_SECONDS * 1000) return { ok: false as const, reason: 'wait' as const };
   return { ok: true as const };
 }
-
-const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] ?? c));
 
 export function signinCodeEmail(name: string, code: string) {
   const t = clinicalEmailTheme;

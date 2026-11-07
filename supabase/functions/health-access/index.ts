@@ -11,6 +11,8 @@ import { sendClinicalApproval } from './approval-email.ts';
 import { requestNotification } from './notification-result.ts';
 import { validateCsrf } from '../_shared/csrf-guard.ts';
 import { viewingMinutes } from './viewing-duration.ts';
+import { emailWasAccepted } from './confirmation.ts';
+import { CODE_MINUTES, MAX_ATTEMPTS, MAX_SENDS_PER_HOUR, hashSigninCode, isSigninCode, newSigninCode, sameHash, sendAllowed, signinCodeEmail } from './signin-code.ts';
 
 const cors = {
   ...corsHeaders,
@@ -41,6 +43,7 @@ const Request = z.object({
   nda: z.literal(true),
 });
 const Verify = z.object({ action: z.enum(["verify", "end"]), token: z.string().regex(/^[a-f0-9]{48}$/), device: z.string().regex(/^[a-f0-9]{32}$/), path: z.string().max(200).optional(), nda: z.literal(true).optional() });
+const SigninCode = z.object({ action: z.enum(["code_send", "code_verify"]), token: z.string().regex(/^[a-f0-9]{48}$/), device: z.string().regex(/^[a-f0-9]{32}$/), code: z.string().max(12).optional() }).strict();
 const WINDOW_DAYS = 7;
 const AdminDecision = z.object({ action: z.literal('admin_decision'), request_id: z.string().uuid(), decision: z.enum(['approve', 'deny', 'revoke', 'reopen', 'extend']), expected_status: z.enum(['pending', 'approved', 'expired']), confirmed: z.literal(true) }).strict();
 const EmailDecision = z.object({ action: z.enum(['email_preview', 'email_decide']), id: z.string().regex(/^[0-9a-f-]{36}$/), t: z.string().regex(/^[a-f0-9]{48}$/), d: z.enum(['approve', 'deny', 'revoke']) }).strict();
@@ -154,6 +157,45 @@ Deno.serve(async (req) => {
     const { data: isAdmin } = await db.rpc("has_role", { _user_id: u.user.id, _role: "admin" });
     if (!isAdmin) return json({ ok: false });
     return json({ ok: true, admin: true, name: typeof u.user.user_metadata?.full_name === "string" ? u.user.user_metadata.full_name : "Administrator", email: u.user.email ?? "" });
+  }
+
+  // Emailed sign-in codes: only for the email of the caller's currently valid approved viewing.
+  const sc = SigninCode.safeParse(body);
+  if (sc.success) {
+    const { data: grant, error: grantError } = await db.rpc("hc_verify_preview_access", { p_token: sc.data.token, p_device: sc.data.device, p_end: false });
+    if (grantError || !grant) return json({ ok: false, reason: 'unavailable' }, 503);
+    if (!grant.ok || !grant.request_id || typeof grant.email !== 'string') return json({ ok: false, reason: 'not_approved' }, 403);
+    const email = grant.email.trim().toLowerCase();
+    const requestId = grant.request_id as string;
+    const secret = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? '';
+    if (sc.data.action === 'code_send') {
+      const { data: recent } = await db.from('hc_signin_codes').select('created_at').eq('request_id', requestId).order('created_at', { ascending: false }).limit(MAX_SENDS_PER_HOUR);
+      const allowed = sendAllowed((recent ?? []).map((r) => new Date(r.created_at)), new Date());
+      if (!allowed.ok) return json({ ok: false, reason: allowed.reason }, 429);
+      const code = newSigninCode();
+      const { error: saveError } = await db.from('hc_signin_codes').insert({ request_id: requestId, email, code_hash: await hashSigninCode(secret, requestId, code), expires_at: new Date(Date.now() + CODE_MINUTES * 60000).toISOString() });
+      if (saveError) return json({ ok: false, reason: 'unavailable' }, 503);
+      const content = signinCodeEmail(typeof grant.name === 'string' ? grant.name : 'there', code);
+      let accepted = false;
+      try { accepted = emailWasAccepted(await resend.emails.send({ ...clinicalEmailRouting(email), ...content })); } catch { accepted = false; }
+      return json({ ok: accepted, reason: accepted ? undefined : 'not_sent', email }, accepted ? 200 : 502);
+    }
+    if (!isSigninCode(sc.data.code)) return json({ ok: false, reason: 'wrong' }, 400);
+    const { data: row } = await db.from('hc_signin_codes').select('id,code_hash,expires_at,attempts,consumed_at').eq('request_id', requestId).order('created_at', { ascending: false }).limit(1).maybeSingle();
+    if (!row || row.consumed_at || Date.parse(row.expires_at) <= Date.now()) return json({ ok: false, reason: 'expired' }, 400);
+    if (row.attempts >= MAX_ATTEMPTS) return json({ ok: false, reason: 'locked' }, 429);
+    if (!sameHash(row.code_hash, await hashSigninCode(secret, requestId, sc.data.code))) {
+      await db.from('hc_signin_codes').update({ attempts: row.attempts + 1 }).eq('id', row.id).eq('attempts', row.attempts);
+      return json({ ok: false, reason: row.attempts + 1 >= MAX_ATTEMPTS ? 'locked' : 'wrong', tries_left: Math.max(0, MAX_ATTEMPTS - row.attempts - 1) }, 400);
+    }
+    const { data: used } = await db.from('hc_signin_codes').update({ consumed_at: new Date().toISOString() }).eq('id', row.id).is('consumed_at', null).lt('attempts', MAX_ATTEMPTS).select('id').maybeSingle();
+    if (!used) return json({ ok: false, reason: 'expired' }, 400);
+    // Approved guests without an account get one for their approved email only.
+    await db.auth.admin.createUser({ email, email_confirm: true }).catch(() => null);
+    const { data: link, error: linkError } = await db.auth.admin.generateLink({ type: 'magiclink', email });
+    const tokenHash = link?.properties?.hashed_token;
+    if (linkError || !tokenHash) return json({ ok: false, reason: 'unavailable' }, 503);
+    return json({ ok: true, token_hash: tokenHash, email });
   }
 
   const v = Verify.safeParse(body);
