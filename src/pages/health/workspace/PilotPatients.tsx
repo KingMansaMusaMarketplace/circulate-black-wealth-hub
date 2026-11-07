@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { toast } from 'sonner';
-import { AlertTriangle, ArrowLeft, Eye, FlaskConical, History, LayoutDashboard, Plus, RotateCcw, Users } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, Eye, FlaskConical, History, LayoutDashboard, Lock, Plus, RotateCcw, Users } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -26,9 +26,10 @@ import { PilotPrivacyShell, usePilotPrivacy } from './PilotPrivacy';
 import PilotDashboard from './PilotDashboard';
 import PilotChartLog from './PilotChartLog';
 import PilotVisitNotes from './PilotVisitNotes';
+import PilotGoLive from './PilotGoLive';
 
 type Props = { clinicId: string; isOwner?: boolean; userId?: string | null };
-type View = 'dashboard' | 'patients' | 'chartlog' | 'activity';
+type View = 'dashboard' | 'patients' | 'chartlog' | 'activity' | 'golive';
 
 const TestOnlyNotice = () => (
   <div role="note" className="flex gap-3 rounded-lg border border-mansagold/50 bg-mansagold/10 p-4 text-sm">
@@ -96,6 +97,7 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null }: Props) {
     { k: 'patients', l: 'Test patients', i: Users },
     { k: 'chartlog', l: 'Chart-opened log', i: Eye, owner: true },
     { k: 'activity', l: 'Full activity log', i: History, owner: true },
+    { k: 'golive', l: 'Go-live setup (locked)', i: Lock },
   ];
 
   return (
@@ -132,6 +134,7 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null }: Props) {
       )}
       {view === 'chartlog' && isOwner && <><DataLoadErrors sources={[audit]} /><PilotChartLog audit={audit.rows} patients={patients.rows} loading={audit.loading} /></>}
       {view === 'activity' && isOwner && <ActivityLog audit={audit} patients={patients.rows} />}
+      {view === 'golive' && <PilotGoLive clinicId={clinicId} />}
       {view === 'patients' && (
         <>
           {adding && <AddPatientForm clinicId={clinicId} onCancel={() => setAdding(false)} onSaved={async (id) => { setAdding(false); await patients.reload(); setOpenId(id); }} />}
