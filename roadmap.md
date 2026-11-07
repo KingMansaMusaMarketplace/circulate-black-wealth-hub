@@ -455,3 +455,8 @@
 ## Clinical public website — Oct 20, 2026
 - [x] Home, Solutions, Features, Trust & Security pages; health.1325.ai front door
 - [ ] Publish (user action)
+
+## Clinical pilot patients — Nov 7, 2026
+- [x] Saved pilot storage for made-up test patients + records + activity log (Pilot Patients tab)
+- [ ] Click through Pilot Patients signed in during an approved viewing (user action)
+- [ ] Real patient data: separate HIPAA database + signed BAAs + attorney go-live (blocked on vendors/attorney)
