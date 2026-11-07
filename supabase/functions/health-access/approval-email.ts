@@ -7,7 +7,7 @@ export async function sendClinicalApproval(send: Sender, visitor: { full_name: s
   const duration = viewingMinutes(visitor) === 60 ? 'sixty' : 'forty';
   const paragraphs = [
     `Hello ${visitor.full_name},`, 'Thomas approved your request to view 1325 Clinical EMR / EHR.',
-    `Your link expires ${expires.toUTCString()}. You receive one ${duration}-minute viewing, starting when you first enter. Refreshing or returning does not restart the timer. After expiry or ending the session, request Thomas’s approval again. Your name, email and date appear in a confidential screen watermark. Use your approved device and do not forward your link. Private preview · sample data only. Do not enter patient information.`,
+    `Your link expires ${expires.toUTCString()}. You receive one ${duration}-minute viewing, starting when you first enter. Refreshing or returning does not restart the timer. After expiry or ending the session, request Thomas’s approval again. Use your approved device and do not forward your link. Private preview · sample data only. Do not enter patient information.`,
     `If this message reached Spam/Junk, mark it Not Junk and add ${CLINICAL_OWNER_EMAIL} to your contacts.`,
     `Thomas\n1325.AI\n${CLINICAL_OWNER_EMAIL}`,
     'Private and confidential. Do not copy, share or reproduce preview materials. U.S. Provisional Patent Application No. 63/969,202 — 46 claims pending.',
@@ -30,7 +30,7 @@ export async function sendClinicalApproval(send: Sender, visitor: { full_name: s
   <p style="margin:0 0 16px;font-size:14px;color:${theme.muted}">Private preview · sample data only. Do not enter patient information.</p>
   <p style="margin:0 0 16px;font-size:14px;color:${theme.muted}">Your viewing starts when you first enter. Refreshing or returning does not restart the timer. After expiry or ending the session, request Thomas’s approval again.</p>
   <p style="margin:0 0 16px;font-size:14px;color:${theme.muted}"><strong style="color:${theme.foreground}">Unused link expires:</strong><br>${esc(expiration)} (Chicago time)</p>
-  <p style="margin:0 0 24px;font-size:14px;color:${theme.muted}">Your name, email and date appear in a confidential screen watermark. Use your approved device and do not forward your link.</p>
+  <p style="margin:0 0 24px;font-size:14px;color:${theme.muted}">Use your approved device and do not forward your link.</p>
   <p style="margin:0 0 24px;font-size:12px;color:${theme.muted}">If the button does not open, use your private link:<br><a href="${esc(link)}" style="color:${theme.gold};overflow-wrap:anywhere;word-break:break-all">${esc(link)}</a></p>
   <p style="margin:0 0 24px;font-size:13px;color:${theme.muted}">${esc(paragraphs[3])}</p>
   <p style="margin:0;font-size:15px;color:${theme.foreground}"><strong>Thomas</strong><br>1325.AI<br><a href="mailto:${CLINICAL_OWNER_EMAIL}" style="color:${theme.gold};text-decoration:none">${CLINICAL_OWNER_EMAIL}</a></p>

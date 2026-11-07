@@ -266,7 +266,7 @@ function Features() {
 }
 
 function Security() {
-  const yes = ['Physician sign-off required before anything is final', 'Every AI statement links to its source', 'Owner-approved, watermarked, time-limited preview access', 'Missing information stays “Unknown” — never invented'];
+  const yes = ['Physician sign-off required before anything is final', 'Every AI statement links to its source', 'Owner-approved, time-limited preview access', 'Missing information stays “Unknown” — never invented'];
   const no = ['No real patient records in the preview', 'No prescriptions, orders or messages are sent', 'No medical advice or diagnosis from Kayla', 'Not a certified or complete records system yet'];
   return <>
     <Section>

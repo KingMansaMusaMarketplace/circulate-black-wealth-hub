@@ -19,11 +19,10 @@ beforeEach(() => {
 afterEach(() => { cleanup(); vi.useRealTimers(); });
 
 describe('unlimited server-verified owner access', () => {
-  it('refreshes the watermark identity when a different administrator is verified', async () => {
+  it('does not stamp the viewer name or email watermark over private screens', async () => {
     invoke.mockResolvedValue(verified); mount(); await screen.findByText('Private owner content');
-    invoke.mockResolvedValue({ data: { ...verified.data, name: 'Second Fictional Owner', email: 'second@example.invalid' }, error: null });
-    await waitFor(() => { window.dispatchEvent(new Event('focus')); expect(document.body.textContent).toContain('second@example.invalid'); });
     expect(document.body.textContent).not.toContain('owner@example.invalid');
+    expect(document.body.textContent).not.toContain('1325 CLINICAL · CONFIDENTIAL');
   });
   it('opens after administrator sign-in despite a previous visitor exit', async () => {
     localStorage.setItem('hc_preview_session_closed', 'true');
