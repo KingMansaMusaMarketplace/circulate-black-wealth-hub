@@ -60,7 +60,8 @@ const OsAccessRequests = React.lazy(() => import('@/components/admin/OsAccessReq
 const FoundingClinicsList = React.lazy(() => import('@/components/admin/FoundingClinicsList'));
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
-import { PlayCircle, Home, Activity, ExternalLink } from 'lucide-react';
+import { PlayCircle, Home, Activity, ExternalLink, Stethoscope } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const AdminDashboardPage: React.FC = () => {
   const { user } = useAuth();
@@ -239,6 +240,15 @@ const AdminDashboardPage: React.FC = () => {
                         <span className="text-left">1325 Clinical EMR / EHR — health.1325.ai</span>
                         <ExternalLink className="h-4 w-4 shrink-0" />
                       </a>
+                    </Button>
+                    <Button
+                      asChild
+                      className="mt-3 ml-0 md:ml-3 h-auto min-h-11 max-w-full justify-start whitespace-normal"
+                    >
+                      <Link to="/health/app?view=pilot">
+                        <Stethoscope className="h-4 w-4 shrink-0" />
+                        <span className="text-left">Open 1325 Clinical Pilot</span>
+                      </Link>
                     </Button>
                     <Button
                       asChild

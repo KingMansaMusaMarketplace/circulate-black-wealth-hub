@@ -125,8 +125,8 @@
   <url><loc>https://1325.ai/black-owned/city/wilmington-nc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/college-park-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/akron-oh</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://1325.ai/black-owned/city/el-paso-tx</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/lawrenceville-ga</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://1325.ai/black-owned/city/el-paso-tx</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/lexington-ky</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/gulfport-ms</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://1325.ai/black-owned/city/rock-hill-sc</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -2001,12 +2001,12 @@
   <url><loc>https://1325.ai/black-owned/in/college-park-ga/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/college-park-ga/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/college-park-ga/florists</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/el-paso-tx/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/el-paso-tx/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://1325.ai/black-owned/in/el-paso-tx/contractors</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/lawrenceville-ga/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/lawrenceville-ga/nail-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/lawrenceville-ga/auto-services</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/el-paso-tx/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/el-paso-tx/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1325.ai/black-owned/in/el-paso-tx/contractors</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/gulfport-ms/restaurants</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/rock-hill-sc/hair-salons</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1325.ai/black-owned/in/rock-hill-sc/barbershops</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
