@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input';
 import logo1325 from '@/assets/1325-ai-logo.png';
 import { closePrivateSession, EndPrivateSessionButton, PRIVATE_SESSION_ENDED, PrivateSessionContext } from './PrivateSession';
 import ProprietaryNotice from './ProprietaryNotice';
-import VisitorWatermark from './VisitorWatermark';
 import { readPreviewGrant, type PreviewViewer } from './preview-access';
 import { ClinicalVoiceProvider } from './ClinicalVoice';
 import { ClinicalHelpConversationProvider } from './ClinicalHelpConversation';
@@ -246,7 +245,6 @@ export default function HealthAccessGate({ children }: { children: React.ReactNo
       {children}
       </ApprovedViewerContext.Provider>
       </ClinicalHelpConversationProvider>
-      <VisitorWatermark viewer={viewer} />
       {extended && !isAdmin && <div role="alertdialog" aria-label="Extra time granted" className="theme-clinical dark fixed inset-0 z-[10000] grid place-items-center bg-background/70 px-6">
         <section className="max-w-sm rounded-xl border-2 border-primary bg-card p-6 text-center shadow-2xl space-y-4">
           <img src={logo1325} alt="1325.AI" className="mx-auto h-12 w-12 object-contain" />
@@ -362,7 +360,7 @@ function Teaser({ notice = "" }: { notice?: string }) {
                 <ShieldCheck className="h-4 w-4" /> Owner or administrator? Sign in here — no timer, no request needed
               </a>
               <h2 className="text-2xl font-semibold">Request access</h2>
-              <p className="text-sm opacity-75">For visitors. All fields are required. Approval allows one forty-minute viewing from first entry. Your name, email and date will appear on private screens as a confidentiality watermark.</p>
+              <p className="text-sm opacity-75">For visitors. All fields are required. Approval allows one forty-minute viewing from first entry.</p>
               {notice && <p className="text-sm rounded-md p-3" style={{ background: "rgba(255,179,0,0.15)", color: "#FFB300" }}>{notice}</p>}
               <Input required placeholder="Full name *" value={form.full_name} onChange={set('full_name')} maxLength={120} className="bg-white text-black" />
               <Input required placeholder="Clinic / hospital / organization *" value={form.organization} onChange={set('organization')} maxLength={160} className="bg-white text-black" />
