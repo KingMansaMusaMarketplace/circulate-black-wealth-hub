@@ -3,8 +3,8 @@ import { MemoryRouter } from 'react-router-dom';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ClinicSignIn, CreateSampleClinic } from '../pages/health/workspace/ClinicAccountForms';
 
-const { signUp, register } = vi.hoisted(() => ({ signUp: vi.fn(), register: vi.fn() }));
-vi.mock('@/integrations/supabase/client', () => ({ supabase: { auth: { signUp, signInWithPassword: vi.fn() } } }));
+const { signUp, register, resetPasswordForEmail } = vi.hoisted(() => ({ signUp: vi.fn(), register: vi.fn(), resetPasswordForEmail: vi.fn() }));
+vi.mock('@/integrations/supabase/client', () => ({ supabase: { auth: { signUp, signInWithPassword: vi.fn(), resetPasswordForEmail } } }));
 vi.mock('@/pages/health/workspace/clinic-registration', () => ({ registerSampleClinic: register }));
 afterEach(() => { cleanup(); vi.resetAllMocks(); });
 describe('clinic account journey', () => {
@@ -36,5 +36,13 @@ describe('clinic account journey', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Retry opening saved clinic' }));
     await waitFor(() => expect(onDone).toHaveBeenCalledTimes(2));
     expect(register).toHaveBeenCalledTimes(1);
+  });
+  it('sends a password reset link to the typed email from the clinic sign-in', async () => {
+    resetPasswordForEmail.mockResolvedValue({ error: null });
+    render(<MemoryRouter><ClinicSignIn /></MemoryRouter>);
+    fireEvent.change(screen.getByLabelText('Email'), { target: { value: 'thomas@1325.ai' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Forgot password?' }));
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('thomas@1325.ai'));
+    expect(resetPasswordForEmail).toHaveBeenCalledWith('thomas@1325.ai', expect.objectContaining({ redirectTo: expect.stringContaining('/reset-password') }));
   });
 });
