@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useRef, useState, type ChangeEvent } from 'react';
 import { CheckCircle2, FileText, Lock, ShieldAlert, Unlock } from 'lucide-react';
 import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -123,7 +123,7 @@ function UnlockForm({ clinicId, vendorsCleared, blocked, onDone }: { clinicId: s
   const [saving, setSaving] = useState(false);
   const [err, setErr] = useState('');
   const pending = useRef(false);
-  const set = (k: keyof UnlockInput) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setF({ ...f, [k]: e.target.value });
+  const set = (k: keyof UnlockInput) => (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setF({ ...f, [k]: e.target.value });
 
   const submit = async () => {
     if (pending.current) return;
@@ -226,7 +226,7 @@ function UnlockRecord({ server, clinicId, onDone }: { server: GoLiveServerStatus
       <CardHeader><CardTitle className="text-lg">Go-live approval on record</CardTitle></CardHeader>
       <CardContent className="space-y-3">
         <dl className="grid gap-2 text-sm sm:grid-cols-[180px_1fr]">
-          {rows.map(([k, v]) => (<><dt key={`${k}-t`} className="text-muted-foreground">{k}</dt><dd key={`${k}-d`} className="text-foreground">{v}</dd></>))}
+          {rows.map(([k, v]) => (<Fragment key={k}><dt className="text-muted-foreground">{k}</dt><dd className="text-foreground">{v}</dd></Fragment>))}
         </dl>
         {server.can_lock && (
           <div className="flex flex-wrap items-end gap-2 border-t pt-3">
