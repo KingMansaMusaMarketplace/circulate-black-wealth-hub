@@ -105,6 +105,7 @@ export default function HealthWorkspacePage() {
     else if (view === 'chronology') setTab('chronology');
     else if (view === 'care') setTab('care');
     else if (view === 'doccheck') setTab('doccheck');
+    else if (view === 'pilot') setTab('pilot-patients');
   }, [searchParams]);
 
   const [clinicError, setClinicError] = useState('');
