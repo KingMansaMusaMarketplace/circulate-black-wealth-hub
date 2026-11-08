@@ -27,7 +27,7 @@ export function validatePortalEmail(email: string): string | null {
   return null;
 }
 
-type Msg = { sender_kind: string; read_by_clinic_at?: string | null; read_by_patient_at?: string | null };
+type Msg = { sender_kind?: string | null; read_by_clinic_at?: string | null; read_by_patient_at?: string | null };
 /** Unread messages for one side: the clinic counts patient messages, the patient counts clinic replies. */
 export function unreadFor(side: 'clinic' | 'patient', messages: Msg[]): number {
   return messages.filter((m) => (side === 'clinic'

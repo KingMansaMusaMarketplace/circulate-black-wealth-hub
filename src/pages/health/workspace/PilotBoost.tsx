@@ -26,6 +26,11 @@ function clearSmartSession() {
   } catch { /* nothing stored */ }
 }
 
+function EgfrLine({ e }: { e: BoostInsights['egfr'] }) {
+  if (e.ok) return <p className="text-lg font-semibold">{e.egfr} <span className="text-sm font-normal text-muted-foreground">mL/min/1.73m² · {e.stage}</span></p>;
+  return <p className="text-muted-foreground">{e.reason}{e.both ? ` Female ${e.both.female}, male ${e.both.male}.` : ''}</p>;
+}
+
 export default function PilotBoost() {
   const [chart, setChart] = useState<Chart | null>(null);
   const [status, setStatus] = useState<'idle' | 'connecting' | 'loading' | 'error'>('idle');
@@ -96,8 +101,7 @@ export default function PilotBoost() {
           <Card className="border-mansagold/40"><CardHeader className="pb-2"><CardTitle className="flex items-center gap-2 text-base"><Rocket className="h-4 w-4 text-mansagold" />1325 BOOST add-ons</CardTitle></CardHeader>
             <CardContent className="space-y-4 text-sm">
               <div><b>Kidney function (race-free eGFR)</b>
-                {chart.insights.egfr.ok ? <p className="text-lg font-semibold">{chart.insights.egfr.egfr} <span className="text-sm font-normal text-muted-foreground">mL/min/1.73m² · {chart.insights.egfr.stage}</span></p>
-                  : <p className="text-muted-foreground">{chart.insights.egfr.reason}{chart.insights.egfr.both ? ` Female ${chart.insights.egfr.both.female}, male ${chart.insights.egfr.both.male}.` : ''}</p>}
+                <EgfrLine e={chart.insights.egfr} />
                 <p className="text-xs text-muted-foreground">{EGFR_NOTE}</p></div>
               <div><b>Medicine & allergy check</b>
                 {chart.insights.medicineWarnings.length ? <ul className="mt-1 list-disc space-y-1 pl-5 text-destructive">{chart.insights.medicineWarnings.map((w) => <li key={w}>{w}</li>)}</ul>
