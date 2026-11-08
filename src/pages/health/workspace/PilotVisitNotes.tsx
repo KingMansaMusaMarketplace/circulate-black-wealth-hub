@@ -24,7 +24,7 @@ import { db, Row, useRows } from './hc';
 import { supabase } from '@/integrations/supabase/client';
 import { REAL_DICTATION_OFF, dictationAllowed } from '@/lib/clinical/real-patient-chart';
 
-type Props = { clinicId: string; patientId: string; userId: string | null; onChanged?: () => void; real?: boolean; writable?: boolean; onFailed?: () => void };
+type Props = { clinicId: string; patientId: string; userId: string | null; onChanged?: () => void; real?: boolean; writable?: boolean; onFailed?: () => void; canSign?: boolean };
 
 /** Fresh password sign-in for the same account; the database checks it happened in the last 10 minutes before a real-patient note can be signed. */
 async function confirmPassword(password: string): Promise<string | null> {
@@ -39,7 +39,7 @@ const todayIso = () => format(new Date(), 'yyyy-MM-dd');
 const blank = (): VisitNoteInput => ({ visit_date: todayIso(), visit_reason: '', subjective: '', objective: '', assessment: '', plan: '' });
 const clean = (v?: string | null) => (v && v.trim() ? v.trim() : null);
 
-export default function PilotVisitNotes({ clinicId, patientId, userId, onChanged, real = false, writable = true, onFailed }: Props) {
+export default function PilotVisitNotes({ clinicId, patientId, userId, onChanged, real = false, writable = true, onFailed, canSign = true }: Props) {
   const notes = useRows('hc_pilot_visit_notes', clinicId, { order: 'visit_date', asc: false, eq: ['patient_id', patientId] });
   const addenda = useRows('hc_pilot_note_addenda', clinicId, { order: 'created_at', asc: true });
   const [editing, setEditing] = useState<Row | 'new' | null>(null);
@@ -48,7 +48,7 @@ export default function PilotVisitNotes({ clinicId, patientId, userId, onChanged
   return (
     <div className="space-y-4">
       {editing && writable ? (
-        <NoteEditor clinicId={clinicId} patientId={patientId} note={editing === 'new' ? null : editing} real={real} onFailed={onFailed}
+        <NoteEditor clinicId={clinicId} patientId={patientId} note={editing === 'new' ? null : editing} real={real} onFailed={onFailed} canSign={canSign}
           onCancel={() => setEditing(null)} onSaved={async () => { setEditing(null); await reload(); }} />
       ) : writable ? (
         <Button onClick={() => setEditing('new')} className="bg-mansagold text-mansablue hover:bg-mansagold-dark"><Plus className="mr-1 h-4 w-4" />New visit note</Button>
@@ -64,7 +64,7 @@ export default function PilotVisitNotes({ clinicId, patientId, userId, onChanged
   );
 }
 
-function NoteEditor({ clinicId, patientId, note, onCancel, onSaved, real = false, onFailed }: { clinicId: string; patientId: string; note: Row | null; onCancel: () => void; onSaved: () => void | Promise<void>; real?: boolean; onFailed?: () => void }) {
+function NoteEditor({ clinicId, patientId, note, onCancel, onSaved, real = false, onFailed, canSign = true }: { clinicId: string; patientId: string; note: Row | null; onCancel: () => void; onSaved: () => void | Promise<void>; real?: boolean; onFailed?: () => void; canSign?: boolean }) {
   const canDictate = dictationAllowed(real);
   const [password, setPassword] = useState('');
   const [signError, setSignError] = useState('');
@@ -144,7 +144,9 @@ function NoteEditor({ clinicId, patientId, note, onCancel, onSaved, real = false
         {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
         <div className="flex flex-wrap gap-2">
           <Button variant="outline" onClick={() => save(false)} disabled={saving}>{saving ? 'Saving…' : 'Save draft'}</Button>
-          <Button onClick={() => setConfirmSign(true)} disabled={saving} className="bg-mansagold text-mansablue hover:bg-mansagold-dark"><Lock className="mr-1 h-4 w-4" />Sign & lock</Button>
+          {canSign
+            ? <Button onClick={() => setConfirmSign(true)} disabled={saving} className="bg-mansagold text-mansablue hover:bg-mansagold-dark"><Lock className="mr-1 h-4 w-4" />Sign & lock</Button>
+            : <span className="self-center text-xs text-muted-foreground">Save as a draft. Only a doctor can sign and lock a visit note.</span>}
           <Button variant="ghost" onClick={onCancel} disabled={saving}>Cancel</Button>
         </div>
       </CardContent>

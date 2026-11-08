@@ -1418,3 +1418,15 @@
   background-image: linear-gradient(90deg, hsl(var(--mansablue-dark)), hsl(var(--mansablue)) 60%, hsl(var(--mansablue-dark)));
 }
 
+
+/* 1325 Clinical downtime chart printout: only the summary prints. */
+#hc-print-root { display: none; }
+@media print {
+  body.hc-print-chart > *:not(#hc-print-root) { display: none !important; }
+  body.hc-print-chart #hc-print-root { display: block; color: #000; background: #fff; font: 11pt/1.4 Georgia, serif; padding: 0.5in; }
+  #hc-print-root h1 { font-size: 16pt; margin: 8pt 0 4pt; }
+  #hc-print-root h2 { font-size: 12pt; margin: 10pt 0 2pt; border-bottom: 1px solid #999; }
+  #hc-print-root ul { padding-left: 18pt; list-style: disc; }
+  #hc-print-root .hc-print-confidential { color: #b00020; font-weight: 700; border: 2px solid #b00020; padding: 4pt 6pt; margin: 6pt 0; }
+  #hc-print-root .hc-print-footer { margin-top: 16pt; font-size: 9pt; color: #444; }
+}

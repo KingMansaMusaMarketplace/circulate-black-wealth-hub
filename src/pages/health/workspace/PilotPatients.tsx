@@ -31,8 +31,10 @@ import PilotDashboard from './PilotDashboard';
 import PilotChartLog from './PilotChartLog';
 import PilotVisitNotes from './PilotVisitNotes';
 import PilotGoLive from './PilotGoLive';
+import { EmergencyAccessCard, KidneyFunctionCard, LabOrdersPanel, PrescriptionsPanel, PrintChartButton, SocialNeedsPanel } from './PilotOrders';
+import { pilotPermissions, roleLabel } from '@/lib/clinical/pilot-roles';
 
-type Props = { clinicId: string; isOwner?: boolean; userId?: string | null };
+type Props = { clinicId: string; isOwner?: boolean; userId?: string | null; role?: string | null; clinicName?: string };
 type View = 'dashboard' | 'patients' | 'chartlog' | 'activity' | 'golive';
 
 const TestOnlyNotice = () => (
@@ -66,7 +68,9 @@ export default function PilotPatients(props: Props) {
   return <PilotPrivacyShell><PilotPatientsInner {...props} /></PilotPrivacyShell>;
 }
 
-function PilotPatientsInner({ clinicId, isOwner, userId = null }: Props) {
+function PilotPatientsInner({ clinicId, isOwner, userId = null, role = null, clinicName }: Props) {
+  const myRole = role ?? (isOwner ? 'owner' : null);
+  const perms = pilotPermissions(myRole);
   const patients = useRows('hc_pilot_patients', clinicId, { order: 'last_name', asc: true });
   // Only clinic owners may read the activity log (database rule); members never request it.
   const audit = useRows('hc_pilot_audit', isOwner ? clinicId : null, { order: 'created_at', asc: false });
@@ -109,7 +113,7 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null }: Props) {
   };
 
   if (selected) {
-    return <PilotChart clinicId={clinicId} patient={selected} userId={userId}
+    return <PilotChart clinicId={clinicId} patient={selected} userId={userId} role={myRole} clinicName={clinicName}
       back={() => { setOpenId(null); void patients.reload(); if (isOwner) void audit.reload(); }} />;
   }
 
@@ -162,7 +166,8 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null }: Props) {
           <Card>
             <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3 space-y-0">
               <Input placeholder="Search test patients" value={q} onChange={(e) => setQ(e.target.value)} className="max-w-xs" aria-label="Search test patients" />
-              {!adding && <Button onClick={() => setAdding(true)} className="bg-mansagold text-mansablue hover:bg-mansagold-dark"><Plus className="mr-1 h-4 w-4" />Add test patient</Button>}
+              <span className="text-xs text-muted-foreground">Your role: <b className="text-foreground">{roleLabel(myRole)}</b></span>
+              {!adding && perms.addPatients && <Button onClick={() => setAdding(true)} className="bg-mansagold text-mansablue hover:bg-mansagold-dark"><Plus className="mr-1 h-4 w-4" />Add test patient</Button>}
             </CardHeader>
             <CardContent>
               <DataLoadErrors sources={[patients]} />
@@ -254,9 +259,29 @@ const vitalsConfig = {
 } satisfies ChartConfig;
 const weightConfig = { weight: { label: 'Weight (lb)', color: 'hsl(var(--mansagold))' } } satisfies ChartConfig;
 
-function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; patient: Row; back: () => void; userId: string | null }) {
+function PilotChart({ clinicId, patient, back, userId, role, clinicName }: { clinicId: string; patient: Row; back: () => void; userId: string | null; role: string | null; clinicName?: string }) {
   const records = useRows('hc_pilot_records', clinicId, { order: 'recorded_on', asc: false, eq: ['patient_id', patient.id] });
   const notes = useRows('hc_pilot_visit_notes', clinicId, { order: 'visit_date', asc: false, eq: ['patient_id', patient.id] });
+  // Emergency "break the glass" access for front desk / billing (database-enforced, 30 minutes).
+  const [emergencyUntil, setEmergencyUntil] = useState<string | null>(null);
+  const basePerms = pilotPermissions(role);
+  useEffect(() => {
+    if (!basePerms.needsEmergencyAccess || !userId) return;
+    let live = true;
+    void (async () => {
+      const { data } = await db.from('hc_pilot_glass_breaks').select('expires_at').eq('patient_id', patient.id).eq('user_id', userId)
+        .gt('expires_at', new Date().toISOString()).order('expires_at', { ascending: false }).limit(1).maybeSingle();
+      if (live && data?.expires_at) setEmergencyUntil(String(data.expires_at));
+    })();
+    return () => { live = false; };
+  }, [basePerms.needsEmergencyAccess, patient.id, userId]);
+  useEffect(() => {
+    if (!emergencyUntil) return;
+    const ms = new Date(emergencyUntil).getTime() - Date.now();
+    const t = window.setTimeout(() => { setEmergencyUntil(null); void records.reload(); void notes.reload(); }, Math.max(ms, 0));
+    return () => window.clearTimeout(t);
+  }, [emergencyUntil]); // eslint-disable-line react-hooks/exhaustive-deps
+  const perms = pilotPermissions(role, !!emergencyUntil);
   const { name } = usePilotPrivacy();
   const real = patient.is_real === true;
   useRealPatientTimer(real);
@@ -294,14 +319,15 @@ function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; pat
   const allergyRecords = byType('allergy');
   const signedNotes = notes.rows.filter((n) => n.status === 'signed');
   const onWriteFailed = () => void checkGoLive();
-  const addRecord = (t: PilotRecordType, label = `Add ${RECORD_TYPE_LABELS[t].toLowerCase()}`, key: string = t) => (!writable ? null : adding === key
+  const canAdd = writable && perms.addRecords;
+  const addRecord = (t: PilotRecordType, label = `Add ${RECORD_TYPE_LABELS[t].toLowerCase()}`, key: string = t) => (!canAdd ? null : adding === key
     ? <AddRecordForm clinicId={clinicId} patientId={patient.id} real={real} initialType={t} onCancel={() => setAdding(null)} onFailed={onWriteFailed} onSaved={async () => { setAdding(null); await records.reload(); }} />
     : <Button onClick={() => setAdding(key)} className="bg-mansagold text-mansablue hover:bg-mansagold-dark"><Plus className="mr-1 h-4 w-4" />{label}</Button>);
   const recordList = (rows: Row[], empty: string) => (
     <div className="space-y-3">
       {records.loading ? <p role="status" className="text-sm text-muted-foreground">Loading…</p>
         : rows.length === 0 ? <p className="text-sm text-muted-foreground">{empty}</p>
-        : rows.map((r) => <RecordItem key={r.id} record={r} writable={writable} onFailed={onWriteFailed} onChanged={() => records.reload()} />)}
+        : rows.map((r) => <RecordItem key={r.id} record={r} writable={canAdd} onFailed={onWriteFailed} onChanged={() => records.reload()} />)}
     </div>
   );
 
@@ -313,7 +339,10 @@ function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; pat
         <CardHeader className="pb-3"><CardTitle className="flex flex-wrap items-center gap-2 text-xl">{name(patient)}{real
           ? <Badge variant="destructive"><ShieldCheck className="mr-1 h-3 w-3" />Real patient</Badge>
           : <Badge variant="outline"><FlaskConical className="mr-1 h-3 w-3" />{patient.is_sample ? SAMPLE_BADGE_LABEL : 'Test patient'}</Badge>}</CardTitle>
-          <p className="text-xs text-muted-foreground">Opening this chart was recorded in the clinic’s chart-opened log{real ? ' under real patients' : ''}.</p></CardHeader>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-xs text-muted-foreground">Opening this chart was recorded in the clinic’s chart-opened log{real ? ' under real patients' : ''}. Your role: {roleLabel(role)}{emergencyUntil ? ` · emergency access until ${format(new Date(emergencyUntil), 'h:mm a')}` : ''}.</p>
+            {perms.readChart && <PrintChartButton patient={patient} records={records.rows} notes={notes.rows} clinicName={clinicName} disabled={real} />}
+          </div></CardHeader>
         <CardContent className="grid gap-3 text-sm sm:grid-cols-4">
           <div><div className="text-xs uppercase text-muted-foreground">Date of birth</div>{patient.date_of_birth ? format(parseISO(patient.date_of_birth), 'MMM d, yyyy') : '—'}</div>
           <div><div className="text-xs uppercase text-muted-foreground">Sex</div><span className="capitalize">{patient.sex ?? '—'}</span></div>
@@ -329,17 +358,31 @@ function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; pat
           </>}
         </CardContent>
       </Card>
+      {!perms.readChart && (
+        <>
+          <EmergencyAccessCard patientId={patient.id} onGranted={(until) => { setEmergencyUntil(until); void records.reload(); void notes.reload(); }} />
+          <SocialNeedsPanel clinicId={clinicId} patient={patient} perms={perms} writable={writable} onFailed={onWriteFailed} canRead={false} />
+        </>
+      )}
+      {perms.readChart && <>
       <DataLoadErrors sources={[records, notes]} />
       <Tabs value={tab} onValueChange={(v) => { setTab(v); setAdding(null); }}>
         <TabsList className="flex h-auto flex-wrap justify-start">
           <TabsTrigger value="summary">Summary</TabsTrigger>
           <TabsTrigger value="notes">Visit notes</TabsTrigger>
+          <TabsTrigger value="rx">Prescriptions</TabsTrigger>
+          <TabsTrigger value="orders">Lab orders</TabsTrigger>
           <TabsTrigger value="vitals">Vitals</TabsTrigger>
           <TabsTrigger value="meds">Medicines</TabsTrigger>
           <TabsTrigger value="problems">Allergies & problems</TabsTrigger>
           <TabsTrigger value="labs">Lab results</TabsTrigger>
+          <TabsTrigger value="social">Social needs</TabsTrigger>
           <TabsTrigger value="all">All records</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="rx"><PrescriptionsPanel clinicId={clinicId} patient={patient} perms={perms} writable={writable} onFailed={onWriteFailed} records={records.rows} /></TabsContent>
+        <TabsContent value="orders"><LabOrdersPanel clinicId={clinicId} patient={patient} perms={perms} writable={writable} onFailed={onWriteFailed} real={real} onResulted={() => records.reload()} /></TabsContent>
+        <TabsContent value="social"><SocialNeedsPanel clinicId={clinicId} patient={patient} perms={perms} writable={writable} onFailed={onWriteFailed} canRead /></TabsContent>
 
         <TabsContent value="summary" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
@@ -367,7 +410,7 @@ function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; pat
               </div>) : <>No signed visit notes yet. {writable && <Button size="sm" variant="link" className="px-1" onClick={() => setTab('notes')}>Write one</Button>}</>}</CardContent></Card>
         </TabsContent>
 
-        <TabsContent value="notes"><PilotVisitNotes clinicId={clinicId} patientId={patient.id} userId={userId} real={real} writable={writable} onFailed={onWriteFailed} onChanged={() => void notes.reload()} /></TabsContent>
+        <TabsContent value="notes"><PilotVisitNotes clinicId={clinicId} patientId={patient.id} userId={userId} real={real} writable={writable && perms.draftNotes} canSign={perms.signNotes} onFailed={onWriteFailed} onChanged={() => void notes.reload()} /></TabsContent>
 
         <TabsContent value="vitals" className="space-y-4">
           {vitals.length >= 2 ? (
@@ -402,12 +445,13 @@ function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; pat
           {real && <p className="text-xs text-muted-foreground">Real-patient allergies need a severity. Choose “Unknown” if the patient isn’t sure.</p>}
           {recordList(records.rows.filter((r) => r.record_type === 'allergy' || r.record_type === 'problem'), 'No allergies or problems recorded.')}
         </TabsContent>
-        <TabsContent value="labs" className="space-y-4">{addRecord('lab_result')}{recordList(records.rows.filter((r) => r.record_type === 'lab_result'), 'No lab results recorded.')}</TabsContent>
+        <TabsContent value="labs" className="space-y-4"><KidneyFunctionCard patient={patient} records={records.rows} />{addRecord('lab_result')}{recordList(records.rows.filter((r) => r.record_type === 'lab_result'), 'No lab results recorded.')}</TabsContent>
         <TabsContent value="all" className="space-y-4">
           {addRecord('problem', 'Add any record', 'all')}
           {recordList(records.rows, 'No records yet.')}
         </TabsContent>
       </Tabs>
+      </>}
     </div>
   );
 }

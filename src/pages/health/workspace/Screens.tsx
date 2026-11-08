@@ -15,6 +15,7 @@ import { scheduleDay } from './schedule-date';
 import { registrationSource } from './registration-source';
 import SamplePatientChart from './SamplePatientChart';
 import ClinicalOperationsTiles from './ClinicalOperationsTiles';
+import { TEAM_ROLES, roleLabel } from '@/lib/clinical/pilot-roles';
 
 type P = { clinicId: string; patients: Row[]; reloadPatients?: () => void; isOwner?: boolean };
 
@@ -195,10 +196,19 @@ export function Team({ clinicId, isOwner }: P) {
     <Card><CardHeader><CardTitle className="text-base">Clinic team</CardTitle></CardHeader>
       <CardContent className="space-y-4"><DataLoadErrors sources={[rows]} />
         <p className="text-xs text-muted-foreground">Team roles are sample access permissions, not independently verified physician credentials.</p>
+        <ul className="grid gap-1 text-xs text-muted-foreground sm:grid-cols-2">
+          <li><b className="text-foreground">Doctor:</b> full chart, prescriptions, lab orders, signs notes.</li>
+          <li><b className="text-foreground">Nurse:</b> full chart, vitals and results, draft notes; can’t prescribe or sign.</li>
+          <li><b className="text-foreground">Front desk:</b> patient list and details, social-needs screening; medical records only through logged emergency access.</li>
+          <li><b className="text-foreground">Biller:</b> patient list and details (read only); medical records only through logged emergency access.</li>
+        </ul>
         {isOwner && (
           <div className="grid gap-2 sm:grid-cols-[1fr_140px_auto]">
             <Input placeholder="Team member's email (they must have a 1325.AI account)" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <StatusPicker value={role} options={['doctor', 'staff']} onChange={setRole} />
+            <Select value={role} onValueChange={setRole}>
+              <SelectTrigger className="h-9" aria-label="Team role"><SelectValue /></SelectTrigger>
+              <SelectContent>{TEAM_ROLES.map((r) => <SelectItem key={r} value={r}>{roleLabel(r)}</SelectItem>)}</SelectContent>
+            </Select>
             <Button disabled={saving} className="bg-mansagold text-mansablue hover:bg-mansagold-dark" onClick={async () => {
               if (pending.current) return; pending.current = true; setSaving(true);
               try {
@@ -212,7 +222,7 @@ export function Team({ clinicId, isOwner }: P) {
         )}
         <Table><TableHeader><TableRow><TableHead>Email</TableHead><TableHead>Role</TableHead><TableHead /></TableRow></TableHeader>
           <TableBody>{rows.rows.map((m) => (
-            <TableRow key={m.id}><TableCell>{m.email}</TableCell><TableCell className="capitalize">{m.role}</TableCell>
+            <TableRow key={m.id}><TableCell>{m.email}</TableCell><TableCell>{roleLabel(m.role)}</TableCell>
               <TableCell className="text-right">{isOwner && m.role !== 'owner' && <Button size="sm" variant="ghost" disabled={saving} onClick={async () => { if (pending.current) return; pending.current = true; setSaving(true); try { const { error } = await db.from('hc_members').delete().eq('id', m.id); if (error) throw error; await rows.reload(); } catch { toast.error('Team member could not be removed.'); } finally { pending.current = false; setSaving(false); } }}>Remove</Button>}</TableCell></TableRow>
           ))}</TableBody></Table>
       </CardContent></Card>
