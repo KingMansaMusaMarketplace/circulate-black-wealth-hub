@@ -5,13 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
-  BOOST_CLIENT_ID, BOOST_NOTICE, BOOST_SANDBOX_ISS, BOOST_SCOPE, activeConditions, activeMedicines, allergyNames, boostInsights, boostRedirectUri,
-  isSandboxServer, latestCreatinine, patientSummary, type BoostInsights,
+  BOOST_NOTICE, BOOST_SERVERS, EPIC_TEST_PATIENT_ID, sandboxKind, type BoostServer, activeConditions, activeMedicines, allergyNames, boostInsights, boostRedirectUri,
+  latestCreatinine, patientSummary, type BoostInsights,
 } from '@/lib/clinical/boost-smart';
 import { EGFR_NOTE } from '@/lib/clinical/fairness';
 import { RX_CHECKER_NOTICE } from '@/lib/clinical/prescriptions';
 
-type Chart = { name: string; birthDate: string | null; gender: string | null; conditions: string[]; medicines: string[]; allergies: string[]; creatinine: ReturnType<typeof latestCreatinine>; insights: BoostInsights };
+type Chart = { source: string; name: string; birthDate: string | null; gender: string | null; conditions: string[]; medicines: string[]; allergies: string[]; creatinine: ReturnType<typeof latestCreatinine>; insights: BoostInsights };
 
 const gold = 'bg-mansagold text-mansablue hover:bg-mansagold-dark';
 const isCallback = () => { const p = new URLSearchParams(window.location.search); return p.has('code') && p.has('state'); };
@@ -40,20 +40,22 @@ export default function PilotBoost() {
     setStatus('loading'); setError('');
     try {
       const client = await FHIR.oauth2.ready();
-      if (!isSandboxServer(client.state.serverUrl)) { clearSmartSession(); throw new Error('Only the public test sandbox is allowed in the pilot.'); }
-      const patient = await client.patient.read();
-      const id = client.patient.id;
+      const kind = sandboxKind(client.state.serverUrl);
+      if (!kind) { clearSmartSession(); throw new Error('Only the fixed test sandboxes are allowed in the pilot.'); }
+      const id = client.patient.id || (kind === 'epic' ? EPIC_TEST_PATIENT_ID : null);
+      if (!id) throw new Error('The sandbox did not pick a test patient. Connect again.');
+      const patient = await client.request(`Patient/${id}`) as Record<string, unknown>;
       const get = async (q: string) => { try { return (await client.request(q, { flat: true, pageLimit: 1 })) as Record<string, unknown>[]; } catch { return []; } };
       const [cond, meds, alg, cr] = await Promise.all([
         get(`Condition?patient=${id}&_count=100`), get(`MedicationRequest?patient=${id}&_count=100`),
-        get(`AllergyIntolerance?patient=${id}&_count=50`), get(`Observation?patient=${id}&code=http://loinc.org|2160-0&_sort=-date&_count=5`),
+        get(`AllergyIntolerance?patient=${id}&_count=50`), get(kind === 'epic' ? `Observation?patient=${id}&category=laboratory&code=http://loinc.org|2160-0` : `Observation?patient=${id}&code=http://loinc.org|2160-0&_sort=-date&_count=5`),
       ]);
       const s = patientSummary(patient);
       const conditions = [...new Set(activeConditions(cond))];
       const medicines = activeMedicines(meds);
       const allergies = [...new Set(allergyNames(alg))];
       const creatinine = latestCreatinine(cr);
-      setChart({ ...s, conditions, medicines, allergies, creatinine, insights: boostInsights({ birthDate: s.birthDate, gender: s.gender, medicines, allergies, creatinine }) });
+      setChart({ ...s, source: BOOST_SERVERS[kind].label, conditions, medicines, allergies, creatinine, insights: boostInsights({ birthDate: s.birthDate, gender: s.gender, medicines, allergies, creatinine }) });
       setStatus('idle');
     } catch (e) {
       setStatus('error'); setError(e instanceof Error ? e.message : 'The test chart could not be opened. Connect again.');
@@ -62,10 +64,11 @@ export default function PilotBoost() {
 
   useEffect(() => { if (isCallback() || hasSession()) void loadChart(); }, [loadChart]);
 
-  const connect = () => {
+  const connect = (server: BoostServer = 'smart') => {
     setStatus('connecting');
     clearSmartSession();
-    void FHIR.oauth2.authorize({ iss: BOOST_SANDBOX_ISS, clientId: BOOST_CLIENT_ID, scope: BOOST_SCOPE, redirectUri: boostRedirectUri(window.location.origin), pkceMode: 'ifSupported' });
+    const cfg = BOOST_SERVERS[server];
+    void FHIR.oauth2.authorize({ iss: cfg.iss, clientId: cfg.clientId, scope: cfg.scope, redirectUri: boostRedirectUri(window.location.origin), pkceMode: 'ifSupported' });
   };
   const disconnect = () => { clearSmartSession(); setChart(null); setStatus('idle'); };
 
@@ -77,18 +80,20 @@ export default function PilotBoost() {
         <CardContent className="space-y-3 text-sm">
           <p className="text-muted-foreground">This uses <b className="text-foreground">SMART on FHIR</b>, the standard “app launch” that Epic, Oracle Health (Cerner), athenahealth and other EHRs support. Click connect, pick a made-up patient and a made-up doctor on the sandbox screen, and you come back here with that patient’s chart plus 1325’s add-ons.</p>
           <div className="flex flex-wrap gap-2">
-            {!chart ? <Button className={gold} disabled={status === 'connecting' || status === 'loading'} onClick={connect}><PlugZap className="mr-1 h-4 w-4" />{status === 'connecting' ? 'Opening the sandbox…' : status === 'loading' ? 'Reading the test chart…' : 'Connect to test EHR sandbox'}</Button>
-              : <><Button variant="outline" onClick={connect}><PlugZap className="mr-1 h-4 w-4" />Pick another test patient</Button><Button variant="ghost" onClick={disconnect}><Unplug className="mr-1 h-4 w-4" />Disconnect</Button></>}
+            {!chart ? <>
+              <Button className={gold} disabled={status === 'connecting' || status === 'loading'} onClick={() => connect('epic')}><PlugZap className="mr-1 h-4 w-4" />{status === 'connecting' ? 'Opening the sandbox…' : status === 'loading' ? 'Reading the test chart…' : 'Connect to Epic test sandbox'}</Button>
+              <Button variant="outline" disabled={status === 'connecting' || status === 'loading'} onClick={() => connect('smart')}><PlugZap className="mr-1 h-4 w-4" />Public SMART sandbox (backup)</Button></>
+              : <><Button variant="outline" onClick={() => connect('epic')}><PlugZap className="mr-1 h-4 w-4" />Epic test patient</Button><Button variant="outline" onClick={() => connect('smart')}><PlugZap className="mr-1 h-4 w-4" />Pick another test patient</Button><Button variant="ghost" onClick={disconnect}><Unplug className="mr-1 h-4 w-4" />Disconnect</Button></>}
           </div>
           {error && <p role="alert" className="text-destructive">{error}</p>}
-          <p className="text-xs text-muted-foreground">Next step for Epic: register this app (free) at fhir.epic.com to get an Epic client ID. The same connection then works with Epic’s test sandbox. Real hospitals also need their own approval before go-live.</p>
+          <p className="text-xs text-muted-foreground">Epic sign-in uses Epic’s published sandbox test logins (for example FHIR / EpicFhir11!). Only Epic’s Non-Production test ID is used; real hospitals need their own approval before go-live.</p>
         </CardContent>
       </Card>
 
       {chart && (
         <div className="grid gap-4 lg:grid-cols-2">
           <Card className="lg:col-span-2">
-            <CardHeader className="pb-2"><CardTitle className="flex flex-wrap items-center gap-2 text-lg">{chart.name}<Badge variant="outline">Sandbox test patient</Badge></CardTitle>
+            <CardHeader className="pb-2"><CardTitle className="flex flex-wrap items-center gap-2 text-lg">{chart.name}<Badge variant="outline">{chart.source} · test patient</Badge></CardTitle>
               <p className="text-sm text-muted-foreground">Born {chart.birthDate ?? 'unknown'} · {chart.gender ?? 'sex not recorded'} · read from the outside EHR, nothing saved in 1325</p></CardHeader>
           </Card>
           <Card><CardHeader className="pb-2"><CardTitle className="text-base">From the outside EHR</CardTitle></CardHeader>
