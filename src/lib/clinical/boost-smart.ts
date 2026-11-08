@@ -43,7 +43,7 @@ export const activeConditions = (rs: Res[]) =>
 
 export const activeMedicines = (rs: Res[]) => [...new Set(
   rs.filter((r) => r.resourceType === 'MedicationRequest' && (!r.status || r.status === 'active'))
-    .map((r) => conceptText(r.medicationCodeableConcept ?? r.medicationReference?.display ? { text: r.medicationReference?.display } : r.medicationCodeableConcept)),
+    .map((r) => (r.medicationCodeableConcept ? conceptText(r.medicationCodeableConcept) : String(r.medicationReference?.display ?? 'Unnamed medicine'))),
 )];
 
 export const allergyNames = (rs: Res[]) =>
