@@ -15,6 +15,7 @@ import { scheduleDay } from './schedule-date';
 import { registrationSource } from './registration-source';
 import SamplePatientChart from './SamplePatientChart';
 import ClinicalOperationsTiles from './ClinicalOperationsTiles';
+import { TEAM_ROLES, roleLabel } from '@/lib/clinical/pilot-roles';
 
 type P = { clinicId: string; patients: Row[]; reloadPatients?: () => void; isOwner?: boolean };
 
