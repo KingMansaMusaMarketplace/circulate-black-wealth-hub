@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { toast } from 'sonner';
-import { AlertTriangle, ArrowLeft, Eye, FlaskConical, History, LayoutDashboard, Lock, Plus, RotateCcw, Users } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, Eye, FlaskConical, History, LayoutDashboard, Lock, Plus, ShieldCheck, RotateCcw, Users } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -97,7 +97,7 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null }: Props) {
     { k: 'patients', l: 'Test patients', i: Users },
     { k: 'chartlog', l: 'Chart-opened log', i: Eye, owner: true },
     { k: 'activity', l: 'Full activity log', i: History, owner: true },
-    { k: 'golive', l: 'Go-live setup (locked)', i: Lock },
+    { k: 'golive', l: 'Go-live setup', i: Lock },
   ];
 
   return (
@@ -112,7 +112,7 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null }: Props) {
         {isOwner && (
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button size="sm" variant="outline" className="ml-auto" disabled={resetting || seeding}><RotateCcw className="mr-1 h-4 w-4" />{resetting ? 'Resetting…' : 'Reset my pilot'}</Button>
+              <Button size="sm" variant="outline" className="ml-auto" disabled={resetting || seeding || patients.rows.some((p) => p.is_real)} title={patients.rows.some((p) => p.is_real) ? 'Reset is off once a clinic has real patients' : undefined}><RotateCcw className="mr-1 h-4 w-4" />{resetting ? 'Resetting…' : 'Reset my pilot'}</Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
@@ -134,7 +134,7 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null }: Props) {
       )}
       {view === 'chartlog' && isOwner && <><DataLoadErrors sources={[audit]} /><PilotChartLog audit={audit.rows} patients={patients.rows} loading={audit.loading} /></>}
       {view === 'activity' && isOwner && <ActivityLog audit={audit} patients={patients.rows} />}
-      {view === 'golive' && <PilotGoLive clinicId={clinicId} />}
+      {view === 'golive' && <PilotGoLive clinicId={clinicId} onPatientSaved={async (id) => { await patients.reload(); setOpenId(id); }} />}
       {view === 'patients' && (
         <>
           {adding && <AddPatientForm clinicId={clinicId} onCancel={() => setAdding(false)} onSaved={async (id) => { setAdding(false); await patients.reload(); setOpenId(id); }} />}
@@ -152,7 +152,9 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null }: Props) {
                     <TableHeader><TableRow><TableHead>Test patient</TableHead><TableHead>Date of birth</TableHead><TableHead>Allergies</TableHead><TableHead>Conditions</TableHead></TableRow></TableHeader>
                     <TableBody>{list.map((p) => (
                       <TableRow key={p.id} className="cursor-pointer" onClick={() => setOpenId(p.id)}>
-                        <TableCell className="font-medium">{name(p)}<Badge variant="outline" className="ml-2"><FlaskConical className="mr-1 h-3 w-3" />{p.is_sample ? SAMPLE_BADGE_LABEL : 'Test'}</Badge></TableCell>
+                        <TableCell className="font-medium">{name(p)}{p.is_real
+                          ? <Badge variant="destructive" className="ml-2"><ShieldCheck className="mr-1 h-3 w-3" />Real patient</Badge>
+                          : <Badge variant="outline" className="ml-2"><FlaskConical className="mr-1 h-3 w-3" />{p.is_sample ? SAMPLE_BADGE_LABEL : 'Test'}</Badge>}</TableCell>
                         <TableCell>{p.date_of_birth ? format(parseISO(p.date_of_birth), 'MMM d, yyyy') : '—'}</TableCell>
                         <TableCell>{p.allergies?.length ? p.allergies.join(', ') : 'None recorded'}</TableCell>
                         <TableCell>{p.conditions?.length ? p.conditions.join(', ') : 'None recorded'}</TableCell>
