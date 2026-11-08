@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { toast } from 'sonner';
-import { AlertTriangle, ArrowLeft, Eye, FlaskConical, History, LayoutDashboard, Lock, Plus, ShieldCheck, RotateCcw, Users } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, CalendarDays, Eye, FlaskConical, History, Inbox, LayoutDashboard, Lock, Plus, Receipt, Rocket, ShieldCheck, RotateCcw, Users } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -33,9 +33,14 @@ import PilotVisitNotes from './PilotVisitNotes';
 import PilotGoLive from './PilotGoLive';
 import { EmergencyAccessCard, KidneyFunctionCard, LabOrdersPanel, PrescriptionsPanel, PrintChartButton, SocialNeedsPanel } from './PilotOrders';
 import { pilotPermissions, roleLabel } from '@/lib/clinical/pilot-roles';
+import PilotSchedule, { UpcomingAppointments } from './PilotSchedule';
+import PilotBilling from './PilotBilling';
+import PilotBoost from './PilotBoost';
+import { PortalInbox, PortalTeamPanel } from './PilotPortal';
 
-type Props = { clinicId: string; isOwner?: boolean; userId?: string | null; role?: string | null; clinicName?: string };
-type View = 'dashboard' | 'patients' | 'chartlog' | 'activity' | 'golive';
+export type PilotView = 'dashboard' | 'patients' | 'schedule' | 'inbox' | 'billing' | 'boost' | 'chartlog' | 'activity' | 'golive';
+type View = PilotView;
+type Props = { clinicId: string; isOwner?: boolean; userId?: string | null; role?: string | null; clinicName?: string; initialView?: PilotView };
 
 const TestOnlyNotice = () => (
   <div role="note" className="flex gap-3 rounded-lg border border-mansagold/50 bg-mansagold/10 p-4 text-sm">
@@ -68,7 +73,7 @@ export default function PilotPatients(props: Props) {
   return <PilotPrivacyShell><PilotPatientsInner {...props} /></PilotPrivacyShell>;
 }
 
-function PilotPatientsInner({ clinicId, isOwner, userId = null, role = null, clinicName }: Props) {
+function PilotPatientsInner({ clinicId, isOwner, userId = null, role = null, clinicName, initialView }: Props) {
   const myRole = role ?? (isOwner ? 'owner' : null);
   const perms = pilotPermissions(myRole);
   const patients = useRows('hc_pilot_patients', clinicId, { order: 'last_name', asc: true });
@@ -77,7 +82,9 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null, role = null, cli
   const { name } = usePilotPrivacy();
   const [openId, setOpenId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
-  const [view, setView] = useState<View>('dashboard');
+  const [view, setView] = useState<View>(initialView ?? 'dashboard');
+  const [openTab, setOpenTab] = useState<string | undefined>(undefined);
+  const openPatient = (id: string, tab?: string) => { setOpenTab(tab); setOpenId(id); };
   const [q, setQ] = useState('');
   const active = patients.rows.filter((p) => !p.archived_at);
   const list = active.filter((p) => `${p.first_name} ${p.last_name}`.toLowerCase().includes(q.toLowerCase()));
@@ -113,13 +120,17 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null, role = null, cli
   };
 
   if (selected) {
-    return <PilotChart clinicId={clinicId} patient={selected} userId={userId} role={myRole} clinicName={clinicName}
-      back={() => { setOpenId(null); void patients.reload(); if (isOwner) void audit.reload(); }} />;
+    return <PilotChart clinicId={clinicId} patient={selected} userId={userId} role={myRole} clinicName={clinicName} initialTab={openTab}
+      back={() => { setOpenId(null); setOpenTab(undefined); void patients.reload(); if (isOwner) void audit.reload(); }} />;
   }
 
-  const nav: { k: View; l: string; i: typeof Users; owner?: boolean }[] = [
+  const nav: { k: View; l: string; i: typeof Users; owner?: boolean; show?: boolean }[] = [
     { k: 'dashboard', l: 'Dashboard', i: LayoutDashboard },
     { k: 'patients', l: 'Test patients', i: Users },
+    { k: 'schedule', l: 'Schedule', i: CalendarDays },
+    { k: 'inbox', l: 'Portal inbox', i: Inbox, show: perms.portalTeam },
+    { k: 'billing', l: 'Practice billing', i: Receipt, show: perms.workClaims },
+    { k: 'boost', l: 'BOOST (connect an EHR)', i: Rocket, show: perms.useBoost },
     { k: 'chartlog', l: 'Chart-opened log', i: Eye, owner: true },
     { k: 'activity', l: 'Full activity log', i: History, owner: true },
     { k: 'golive', l: 'Go-live setup', i: Lock },
@@ -129,7 +140,7 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null, role = null, cli
     <div className="space-y-5">
       <TestOnlyNotice />
       <div className="flex flex-wrap gap-2" role="tablist" aria-label="Pilot Patients sections">
-        {nav.filter((n) => !n.owner || isOwner).map((n) => (
+        {nav.filter((n) => (!n.owner || isOwner) && n.show !== false).map((n) => (
           <Button key={n.k} role="tab" aria-selected={view === n.k} size="sm" variant={view === n.k ? 'default' : 'outline'} onClick={() => { setView(n.k); if (n.k !== 'patients' && isOwner) void audit.reload(); }}>
             <n.i className="mr-1 h-4 w-4" />{n.l}
           </Button>
@@ -159,6 +170,10 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null, role = null, cli
       )}
       {view === 'chartlog' && isOwner && <><DataLoadErrors sources={[audit]} /><PilotChartLog audit={audit.rows} patients={patients.rows} loading={audit.loading} /></>}
       {view === 'activity' && isOwner && <ActivityLog audit={audit} patients={patients.rows} />}
+      {view === 'schedule' && <PilotSchedule clinicId={clinicId} patients={patients.rows} perms={perms} onOpenPatient={(id) => openPatient(id)} />}
+      {view === 'inbox' && <PortalInbox clinicId={clinicId} patients={patients.rows} perms={perms} onOpenPatient={(id) => openPatient(id, 'portal')} />}
+      {view === 'billing' && <PilotBilling clinicId={clinicId} patients={patients.rows} perms={perms} />}
+      {view === 'boost' && perms.useBoost && <PilotBoost />}
       {view === 'golive' && <PilotGoLive clinicId={clinicId} onPatientSaved={async (id) => { await patients.reload(); setOpenId(id); }} />}
       {view === 'patients' && (
         <>
@@ -259,7 +274,7 @@ const vitalsConfig = {
 } satisfies ChartConfig;
 const weightConfig = { weight: { label: 'Weight (lb)', color: 'hsl(var(--mansagold))' } } satisfies ChartConfig;
 
-function PilotChart({ clinicId, patient, back, userId, role, clinicName }: { clinicId: string; patient: Row; back: () => void; userId: string | null; role: string | null; clinicName?: string }) {
+function PilotChart({ clinicId, patient, back, userId, role, clinicName, initialTab }: { clinicId: string; patient: Row; back: () => void; userId: string | null; role: string | null; clinicName?: string; initialTab?: string }) {
   const records = useRows('hc_pilot_records', clinicId, { order: 'recorded_on', asc: false, eq: ['patient_id', patient.id] });
   const notes = useRows('hc_pilot_visit_notes', clinicId, { order: 'visit_date', asc: false, eq: ['patient_id', patient.id] });
   // Emergency "break the glass" access for front desk / billing (database-enforced, 30 minutes).
@@ -303,7 +318,7 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName }: { cli
   }, [checkGoLive, real]);
   const writable = chartWritable(real, realAllowed);
   const [adding, setAdding] = useState<string | null>(null);
-  const [tab, setTab] = useState('summary');
+  const [tab, setTab] = useState(initialTab ?? 'summary');
   const logged = useRef<string | null>(null);
   useEffect(() => {
     if (logged.current === patient.id) return;
@@ -362,6 +377,7 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName }: { cli
         <>
           <EmergencyAccessCard patientId={patient.id} onGranted={(until) => { setEmergencyUntil(until); void records.reload(); void notes.reload(); }} />
           <SocialNeedsPanel clinicId={clinicId} patient={patient} perms={perms} writable={writable} onFailed={onWriteFailed} canRead={false} />
+          {perms.portalTeam && <PortalTeamPanel clinicId={clinicId} patient={patient} perms={perms} />}
         </>
       )}
       {perms.readChart && <>
@@ -377,11 +393,13 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName }: { cli
           <TabsTrigger value="problems">Allergies & problems</TabsTrigger>
           <TabsTrigger value="labs">Lab results</TabsTrigger>
           <TabsTrigger value="social">Social needs</TabsTrigger>
+          {perms.portalTeam && <TabsTrigger value="portal">Patient portal</TabsTrigger>}
           <TabsTrigger value="all">All records</TabsTrigger>
         </TabsList>
 
         <TabsContent value="rx"><PrescriptionsPanel clinicId={clinicId} patient={patient} perms={perms} writable={writable} onFailed={onWriteFailed} records={records.rows} /></TabsContent>
         <TabsContent value="orders"><LabOrdersPanel clinicId={clinicId} patient={patient} perms={perms} writable={writable} onFailed={onWriteFailed} real={real} onResulted={() => records.reload()} /></TabsContent>
+        <TabsContent value="portal"><PortalTeamPanel clinicId={clinicId} patient={patient} perms={perms} /></TabsContent>
         <TabsContent value="social"><SocialNeedsPanel clinicId={clinicId} patient={patient} perms={perms} writable={writable} onFailed={onWriteFailed} canRead /></TabsContent>
 
         <TabsContent value="summary" className="space-y-4">
@@ -395,6 +413,8 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName }: { cli
               <CardContent className="text-sm">{allergyRecords.length ? <ul className="space-y-1">{allergyRecords.map((r) => (
                 <li key={r.id} className="flex flex-wrap items-center gap-2"><span>{r.title}</span>{r.allergy_severity && <Badge variant={severityVariant(r.allergy_severity)}>{ALLERGY_SEVERITY_LABELS[r.allergy_severity as AllergySeverity] ?? r.allergy_severity}</Badge>}{r.allergy_reaction && <span className="text-muted-foreground">· {r.allergy_reaction}</span>}</li>
               ))}</ul> : patient.allergies?.length ? patient.allergies.join(', ') : 'None recorded'}</CardContent></Card>
+            <Card><CardHeader className="pb-2"><CardTitle className="text-base">Upcoming appointments</CardTitle></CardHeader>
+              <CardContent><UpcomingAppointments clinicId={clinicId} patientId={patient.id} /></CardContent></Card>
             <Card><CardHeader className="pb-2"><CardTitle className="text-base">Latest lab results</CardTitle></CardHeader>
               <CardContent className="text-sm">{labs.length ? <ul className="space-y-1">{labs.slice(0, 6).map((r) => (
                 <li key={r.id} className="flex flex-wrap items-center gap-2"><span>{r.title}</span>{r.lab_value && <b>{r.lab_value}{r.lab_unit ? ` ${r.lab_unit}` : ''}</b>}{r.lab_flag && <Badge variant={flagVariant(r.lab_flag)}>{LAB_FLAG_LABELS[r.lab_flag as LabFlag] ?? r.lab_flag}</Badge>}<span className="text-xs text-muted-foreground">{format(parseISO(r.recorded_on), 'MMM d, yyyy')}</span></li>
