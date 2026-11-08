@@ -357,7 +357,7 @@ export function KidneyFunctionCard({ patient, records }: { patient: Row; records
   return (
     <Card><CardHeader className="pb-2"><CardTitle className="text-base">Kidney function (eGFR, race-free)</CardTitle></CardHeader>
       <CardContent className="space-y-1 text-sm">
-        {res.ok ? <>
+        {'egfr' in res ? <>
           <p><b className="text-lg">{res.egfr}</b> mL/min/1.73m² · {res.stage}</p>
           <p className="text-xs text-muted-foreground">From creatinine {res.creatinine} mg/dL on {fmt(res.date)}, age {res.age}.</p>
         </> : <>
