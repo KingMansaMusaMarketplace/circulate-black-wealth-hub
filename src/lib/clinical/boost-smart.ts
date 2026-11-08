@@ -12,12 +12,32 @@ export const BOOST_SANDBOX_ISS = 'https://launch.smarthealthit.org/v/r4/fhir';
 export const BOOST_CLIENT_ID = '1325-clinical-boost-pilot';
 export const BOOST_SCOPE = 'launch/patient openid fhirUser patient/*.read';
 export const BOOST_NOTICE =
-  'Test connection to the public SMART Health IT sandbox — made-up patients only, not Epic and not real people. 1325 reads the chart, shows its add-ons, and saves nothing. Nothing is written back.';
+  'Test connections to the public SMART Health IT sandbox or Epic’s test sandbox — made-up patients only, never real people or live hospitals. 1325 reads the chart, shows its add-ons, and saves nothing. Nothing is written back.';
 
 export const boostRedirectUri = (origin: string) => `${origin}/health/app?view=boost`;
 
-/** True when the address is the fixed sandbox (guards against any other server). */
-export const isSandboxServer = (url: string | undefined | null) => !!url && url.replace(/\/$/, '') === BOOST_SANDBOX_ISS;
+/** Epic on FHIR public test sandbox (fictional patients). Non-Production client ID only. */
+export const EPIC_SANDBOX_ISS = 'https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4';
+export const EPIC_NONPROD_CLIENT_ID = '5e1aa460-7a9c-43a8-af34-05522799ad8d';
+export const EPIC_SCOPE = 'openid fhirUser launch/patient patient/Patient.read patient/Condition.read patient/MedicationRequest.read patient/AllergyIntolerance.read patient/Observation.read';
+/** Epic's published sandbox test patient (Camila Lopez), used when Epic gives no patient context. */
+export const EPIC_TEST_PATIENT_ID = 'erXuFYUfucBZaryVksYEcMg3';
+
+export type BoostServer = 'smart' | 'epic';
+export const BOOST_SERVERS: Record<BoostServer, { iss: string; clientId: string; scope: string; label: string }> = {
+  smart: { iss: BOOST_SANDBOX_ISS, clientId: BOOST_CLIENT_ID, scope: BOOST_SCOPE, label: 'Public SMART sandbox' },
+  epic: { iss: EPIC_SANDBOX_ISS, clientId: EPIC_NONPROD_CLIENT_ID, scope: EPIC_SCOPE, label: 'Epic test sandbox' },
+};
+
+const norm = (u: string) => u.replace(/\/$/, '');
+/** Which allowed test server this is, or null (guards against any other server). */
+export const sandboxKind = (url: string | undefined | null): BoostServer | null => {
+  if (!url) return null;
+  const u = norm(url);
+  return (Object.keys(BOOST_SERVERS) as BoostServer[]).find((k) => BOOST_SERVERS[k].iss === u) ?? null;
+};
+/** True when the address is one of the fixed test sandboxes. */
+export const isSandboxServer = (url: string | undefined | null) => sandboxKind(url) !== null;
 
 /* ---------- Small FHIR readers (only the fields we show) ---------- */
 type Coding = { system?: string; code?: string; display?: string };
