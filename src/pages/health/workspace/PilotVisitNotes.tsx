@@ -21,13 +21,25 @@ import {
 } from '@/lib/clinical/pilot-visit-notes';
 import DataLoadErrors from './DataLoadErrors';
 import { db, Row, useRows } from './hc';
+import { supabase } from '@/integrations/supabase/client';
+import { REAL_DICTATION_OFF, dictationAllowed } from '@/lib/clinical/real-patient-chart';
 
-type Props = { clinicId: string; patientId: string; userId: string | null; onChanged?: () => void };
+type Props = { clinicId: string; patientId: string; userId: string | null; onChanged?: () => void; real?: boolean; writable?: boolean; onFailed?: () => void };
+
+/** Fresh password sign-in for the same account; the database checks it happened in the last 10 minutes before a real-patient note can be signed. */
+async function confirmPassword(password: string): Promise<string | null> {
+  if (!password) return 'Enter your password to sign.';
+  const { data } = await supabase.auth.getUser();
+  const email = data.user?.email;
+  if (!email) return 'Your sign-in has ended. Sign in again, then sign the note.';
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  return error ? 'That password didn’t match. Try again, or use “Forgot password?” on the sign-in screen.' : null;
+}
 const todayIso = () => format(new Date(), 'yyyy-MM-dd');
 const blank = (): VisitNoteInput => ({ visit_date: todayIso(), visit_reason: '', subjective: '', objective: '', assessment: '', plan: '' });
 const clean = (v?: string | null) => (v && v.trim() ? v.trim() : null);
 
-export default function PilotVisitNotes({ clinicId, patientId, userId, onChanged }: Props) {
+export default function PilotVisitNotes({ clinicId, patientId, userId, onChanged, real = false, writable = true, onFailed }: Props) {
   const notes = useRows('hc_pilot_visit_notes', clinicId, { order: 'visit_date', asc: false, eq: ['patient_id', patientId] });
   const addenda = useRows('hc_pilot_note_addenda', clinicId, { order: 'created_at', asc: true });
   const [editing, setEditing] = useState<Row | 'new' | null>(null);
@@ -35,24 +47,27 @@ export default function PilotVisitNotes({ clinicId, patientId, userId, onChanged
 
   return (
     <div className="space-y-4">
-      {editing ? (
-        <NoteEditor clinicId={clinicId} patientId={patientId} note={editing === 'new' ? null : editing}
+      {editing && writable ? (
+        <NoteEditor clinicId={clinicId} patientId={patientId} note={editing === 'new' ? null : editing} real={real} onFailed={onFailed}
           onCancel={() => setEditing(null)} onSaved={async () => { setEditing(null); await reload(); }} />
-      ) : (
+      ) : writable ? (
         <Button onClick={() => setEditing('new')} className="bg-mansagold text-mansablue hover:bg-mansagold-dark"><Plus className="mr-1 h-4 w-4" />New visit note</Button>
-      )}
+      ) : <p className="text-sm text-muted-foreground">This chart is read only right now. Signed notes stay visible; new notes and addenda are paused.</p>}
       <DataLoadErrors sources={[notes, addenda]} />
       {notes.loading ? <p role="status" className="text-sm text-muted-foreground">Loading visit notes…</p>
         : !notes.error && notes.rows.length === 0 ? <p className="text-sm text-muted-foreground">No visit notes yet. Start one with “New visit note”.</p>
         : notes.rows.map((n) => (
-          <NoteCard key={n.id} note={n} userId={userId} addenda={addenda.rows.filter((a) => a.note_id === n.id)}
+          <NoteCard key={n.id} note={n} userId={userId} addenda={addenda.rows.filter((a) => a.note_id === n.id)} writable={writable} onFailed={onFailed}
             onEdit={() => setEditing(n)} onChanged={reload} clinicId={clinicId} />
         ))}
     </div>
   );
 }
 
-function NoteEditor({ clinicId, patientId, note, onCancel, onSaved }: { clinicId: string; patientId: string; note: Row | null; onCancel: () => void; onSaved: () => void | Promise<void> }) {
+function NoteEditor({ clinicId, patientId, note, onCancel, onSaved, real = false, onFailed }: { clinicId: string; patientId: string; note: Row | null; onCancel: () => void; onSaved: () => void | Promise<void>; real?: boolean; onFailed?: () => void }) {
+  const canDictate = dictationAllowed(real);
+  const [password, setPassword] = useState('');
+  const [signError, setSignError] = useState('');
   const [f, setF] = useState<VisitNoteInput>(note ? {
     visit_date: note.visit_date, visit_reason: note.visit_reason, subjective: note.subjective ?? '',
     objective: note.objective ?? '', assessment: note.assessment ?? '', plan: note.plan ?? '',
@@ -68,7 +83,12 @@ function NoteEditor({ clinicId, patientId, note, onCancel, onSaved }: { clinicId
     if (dictating) { setError('Finish talk-to-type first, then save.'); setConfirmSign(false); return; }
     const problem = validateVisitNote(f, { forSigning: sign });
     if (problem) { setError(problem); setConfirmSign(false); return; }
-    pending.current = true; setSaving(true); setError('');
+    pending.current = true; setSaving(true); setError(''); setSignError('');
+    if (sign && real) {
+      const pw = await confirmPassword(password);
+      if (pw) { setSignError(pw); pending.current = false; setSaving(false); return; }
+      setPassword('');
+    }
     const payload = {
       visit_date: f.visit_date, visit_reason: f.visit_reason.trim(), subjective: clean(f.subjective),
       objective: clean(f.objective), assessment: clean(f.assessment), plan: clean(f.plan),
@@ -92,8 +112,8 @@ function NoteEditor({ clinicId, patientId, note, onCancel, onSaved }: { clinicId
         toast.success('Visit note signed and locked');
       } else toast.success('Draft saved');
       await onSaved();
-    } catch (e) { setError(e instanceof Error ? e.message : 'The note could not be saved.'); }
-    finally { pending.current = false; setSaving(false); setConfirmSign(false); }
+    } catch (e) { setError(e instanceof Error ? e.message : 'The note could not be saved.'); onFailed?.(); }
+    finally { pending.current = false; setSaving(false); setConfirmSign(false); setPassword(''); }
   };
 
   return (
@@ -104,19 +124,19 @@ function NoteEditor({ clinicId, patientId, note, onCancel, onSaved }: { clinicId
           <div className="space-y-1"><Label htmlFor="vn-date">Visit date</Label><Input id="vn-date" type="date" value={f.visit_date} max={todayIso()} onChange={(e) => setF({ ...f, visit_date: e.target.value })} /></div>
           <div className="space-y-1 sm:col-span-2"><Label htmlFor="vn-reason">Reason for visit *</Label><Input id="vn-reason" value={f.visit_reason} maxLength={140} placeholder="Blood pressure follow-up" onChange={(e) => setF({ ...f, visit_reason: e.target.value })} /></div>
         </div>
-        <p className="flex items-center gap-2 rounded-md border border-mansagold/40 bg-mansagold/10 px-3 py-2 text-xs text-foreground"><Mic className="h-3.5 w-3.5 shrink-0 text-mansagold" />Talk to type: {DICTATION_REMINDER} Check every word before you sign. Recordings are not kept.</p>
+        <p className="flex items-center gap-2 rounded-md border border-mansagold/40 bg-mansagold/10 px-3 py-2 text-xs text-foreground"><Mic className="h-3.5 w-3.5 shrink-0 text-mansagold" />{canDictate ? <>Talk to type: {DICTATION_REMINDER} Check every word before you sign. Recordings are not kept.</> : REAL_DICTATION_OFF}</p>
         {NOTE_SECTIONS.map((s) => (
           <div key={s.key} className="space-y-1">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <Label htmlFor={`vn-${s.key}`}>{s.label}{s.key === 'assessment' || s.key === 'plan' ? ' (needed to sign)' : ''}</Label>
-              <DictationButton clinicId={clinicId} sectionLabel={s.label} disabled={saving || (dictating !== null && dictating !== s.key)}
+              {canDictate && <DictationButton clinicId={clinicId} sectionLabel={s.label} disabled={saving || (dictating !== null && dictating !== s.key)}
                 onBusyChange={(busy) => setDictating((cur) => (busy ? s.key : cur === s.key ? null : cur))}
                 onError={(m) => toast.error(m)}
                 onText={(spoken) => setF((cur) => {
                   const next = appendDictation(cur[s.key] ?? '', spoken);
                   if (next.truncated) toast.warning(`${s.label} reached the 5,000-character limit, so the end was cut off.`);
                   return { ...cur, [s.key]: next.text };
-                })} />
+                })} />}
             </div>
             <Textarea id={`vn-${s.key}`} rows={3} maxLength={5000} placeholder={s.hint} value={f[s.key] ?? ''} onChange={(e) => setF({ ...f, [s.key]: e.target.value })} />
           </div>
@@ -128,12 +148,19 @@ function NoteEditor({ clinicId, patientId, note, onCancel, onSaved }: { clinicId
           <Button variant="ghost" onClick={onCancel} disabled={saving}>Cancel</Button>
         </div>
       </CardContent>
-      <AlertDialog open={confirmSign} onOpenChange={setConfirmSign}>
+      <AlertDialog open={confirmSign} onOpenChange={(o) => { setConfirmSign(o); if (!o) { setPassword(''); setSignError(''); } }}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Sign and lock this note?</AlertDialogTitle>
-            <AlertDialogDescription>Once signed, nobody can change this note — including you. Later changes go on as dated addenda. This is a pilot note for a made-up test patient.</AlertDialogDescription>
+            <AlertDialogDescription>Once signed, nobody can change this note — including you. Later changes go on as dated addenda. {real ? 'This is a real patient’s note, so enter your password to sign.' : 'This is a pilot note for a made-up test patient.'}</AlertDialogDescription>
           </AlertDialogHeader>
+          {real && (
+            <div className="space-y-1">
+              <Label htmlFor="vn-sign-pw">Your password</Label>
+              <Input id="vn-sign-pw" type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} disabled={saving} />
+              {signError && <p role="alert" className="text-sm text-destructive">{signError}</p>}
+            </div>
+          )}
           <AlertDialogFooter>
             <AlertDialogCancel disabled={saving}>Keep editing</AlertDialogCancel>
             <AlertDialogAction disabled={saving} onClick={(e) => { e.preventDefault(); void save(true); }}>{saving ? 'Signing…' : 'Sign & lock'}</AlertDialogAction>
@@ -144,7 +171,7 @@ function NoteEditor({ clinicId, patientId, note, onCancel, onSaved }: { clinicId
   );
 }
 
-function NoteCard({ note: n, userId, addenda, onEdit, onChanged, clinicId }: { note: Row; userId: string | null; addenda: Row[]; onEdit: () => void; onChanged: () => Promise<unknown>; clinicId: string }) {
+function NoteCard({ note: n, userId, addenda, onEdit, onChanged, clinicId, writable = true, onFailed }: { note: Row; userId: string | null; addenda: Row[]; onEdit: () => void; onChanged: () => Promise<unknown>; clinicId: string; writable?: boolean; onFailed?: () => void }) {
   const [mode, setMode] = useState<'none' | 'addendum' | 'error'>('none');
   const [text, setText] = useState('');
   const [saving, setSaving] = useState(false);
@@ -170,7 +197,7 @@ function NoteCard({ note: n, userId, addenda, onEdit, onChanged, clinicId }: { n
         toast.success('Note marked as entered in error');
       }
       setMode('none'); setText(''); await onChanged();
-    } catch (e) { toast.error(e instanceof Error ? e.message : 'Could not save.'); }
+    } catch (e) { toast.error(e instanceof Error ? e.message : 'Could not save.'); onFailed?.(); }
     finally { pending.current = false; setSaving(false); }
   };
 
@@ -189,7 +216,7 @@ function NoteCard({ note: n, userId, addenda, onEdit, onChanged, clinicId }: { n
             {n.signed_at && <> · signed {format(parseISO(n.signed_at), 'MMM d, yyyy h:mm a')} by {n.signer_email ?? 'author'}</>}
           </p>
         </div>
-        {canEditNote(n as { status: string; created_by: string }, userId) && <Button size="sm" variant="outline" onClick={onEdit}>Edit draft</Button>}
+        {writable && canEditNote(n as { status: string; created_by: string }, userId) && <Button size="sm" variant="outline" onClick={onEdit}>Edit draft</Button>}
       </div>
       <dl className="mt-3 grid gap-3 sm:grid-cols-2">
         {NOTE_SECTIONS.map((s) => (
@@ -211,7 +238,7 @@ function NoteCard({ note: n, userId, addenda, onEdit, onChanged, clinicId }: { n
           ))}
         </div>
       )}
-      {!errored && (mode === 'none' ? (
+      {!errored && writable && (mode === 'none' ? (
         <div className="mt-3 flex flex-wrap gap-2">
           {canAddAddendum(n as { status: string }) && <Button size="sm" variant="outline" onClick={() => setMode('addendum')}><Plus className="mr-1 h-3 w-3" />Add addendum</Button>}
           {canErr && <Button size="sm" variant="ghost" className="text-xs" onClick={() => setMode('error')}>{status === 'draft' ? 'Discard draft' : 'Mark as entered in error'}</Button>}

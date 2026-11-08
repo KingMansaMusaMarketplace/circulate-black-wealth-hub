@@ -22,7 +22,11 @@ import {
   validateErrorReason, validatePilotPatient, validatePilotRecord, type PilotRecordType,
 } from '@/lib/clinical/pilot-records';
 import { vitalsSeries } from '@/lib/clinical/pilot-visit-notes';
-import { PilotPrivacyShell, usePilotPrivacy } from './PilotPrivacy';
+import {
+  ALLERGY_SEVERITIES, ALLERGY_SEVERITY_LABELS, LAB_FLAGS, LAB_FLAG_LABELS, REAL_PATIENT_IDLE_LOCK_MINUTES,
+  chartWritable, isFlaggedLab, latestLabs, validateStopMedicine, type AllergySeverity, type LabFlag,
+} from '@/lib/clinical/real-patient-chart';
+import { PilotPrivacyShell, usePilotPrivacy, useRealPatientTimer } from './PilotPrivacy';
 import PilotDashboard from './PilotDashboard';
 import PilotChartLog from './PilotChartLog';
 import PilotVisitNotes from './PilotVisitNotes';
@@ -37,6 +41,23 @@ const TestOnlyNotice = () => (
     <div><b className="text-foreground">Pilot · made-up test patients only.</b> <span className="text-muted-foreground">Entries are really saved so your team can test the whole system. These screens use HIPAA-style safeguards, but the system is not HIPAA-compliant yet. Do not enter real people, real names, birthdays, phone numbers or Social Security numbers until the HIPAA agreements are signed and your attorney approves go-live.</span></div>
   </div>
 );
+
+const RealPatientNotice = ({ allowed }: { allowed: boolean | null }) => (
+  allowed === true ? (
+    <div role="note" className="flex gap-3 rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-sm">
+      <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-destructive" />
+      <div><b className="text-foreground">Real patient · protected health information.</b> <span className="text-muted-foreground">Go-live is unlocked for this clinic. Open this chart only for this patient’s care. The screen hides itself after {REAL_PATIENT_IDLE_LOCK_MINUTES} idle minutes, signing a note asks for your password, and nothing here can be deleted.</span></div>
+    </div>
+  ) : (
+    <div role="note" className="flex gap-3 rounded-lg border border-mansagold/50 bg-mansagold/10 p-4 text-sm">
+      <Lock className="mt-0.5 h-5 w-5 shrink-0 text-mansagold" />
+      <div><b className="text-foreground">{allowed === null ? 'Checking go-live status…' : 'Real patients are locked — read only.'}</b> <span className="text-muted-foreground">{allowed === null ? 'Adding entries is paused until the check finishes.' : 'You can read this chart, but nothing can be added, stopped or signed until an administrator unlocks go-live again.'}</span></div>
+    </div>
+  )
+);
+
+const flagVariant = (flag?: string | null) => (flag === 'critical' || flag === 'high' || flag === 'low' || flag === 'abnormal' ? 'destructive' : 'outline') as 'destructive' | 'outline';
+const severityVariant = (s?: string | null) => (s === 'severe' ? 'destructive' : s === 'moderate' ? 'default' : 'outline') as 'destructive' | 'default' | 'outline';
 
 const num = (v: string) => (v.trim() === '' ? null : Number(v));
 const todayIso = () => format(new Date(), 'yyyy-MM-dd');
@@ -237,6 +258,25 @@ function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; pat
   const records = useRows('hc_pilot_records', clinicId, { order: 'recorded_on', asc: false, eq: ['patient_id', patient.id] });
   const notes = useRows('hc_pilot_visit_notes', clinicId, { order: 'visit_date', asc: false, eq: ['patient_id', patient.id] });
   const { name } = usePilotPrivacy();
+  const real = patient.is_real === true;
+  useRealPatientTimer(real);
+  const [realAllowed, setRealAllowed] = useState<boolean | null>(real ? null : true);
+  const statusRequest = useRef(0);
+  const checkGoLive = React.useCallback(async () => {
+    if (!real) { setRealAllowed(true); return; }
+    const n = ++statusRequest.current;
+    const { data, error } = await db.rpc('hc_go_live_status', { _clinic: clinicId });
+    if (n !== statusRequest.current) return;
+    setRealAllowed(!error && data?.real_patients_allowed === true ? true : false);
+  }, [real, clinicId]);
+  useEffect(() => {
+    void checkGoLive();
+    if (!real) return;
+    // Recheck regularly so a lock made elsewhere turns this chart read-only without a refresh.
+    const t = window.setInterval(() => void checkGoLive(), 60_000);
+    return () => { window.clearInterval(t); ++statusRequest.current; };
+  }, [checkGoLive, real]);
+  const writable = chartWritable(real, realAllowed);
   const [adding, setAdding] = useState<string | null>(null);
   const [tab, setTab] = useState('summary');
   const logged = useRef<string | null>(null);
@@ -245,34 +285,48 @@ function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; pat
     logged.current = patient.id;
     void db.rpc('hc_pilot_log_chart_view', { _patient: patient.id });
   }, [patient.id]);
+  useEffect(() => { if (!writable) setAdding(null); }, [writable]);
 
   const byType = (t: PilotRecordType) => records.rows.filter((r) => r.record_type === t && r.status === 'active');
   const latestVitals = byType('vitals')[0];
   const vitals = useMemo(() => vitalsSeries(records.rows).map((v) => ({ ...v, label: format(parseISO(v.date), 'M/d') })), [records.rows]);
+  const labs = useMemo(() => latestLabs(records.rows), [records.rows]);
+  const allergyRecords = byType('allergy');
   const signedNotes = notes.rows.filter((n) => n.status === 'signed');
-  const addRecord = (t: PilotRecordType, label = `Add ${RECORD_TYPE_LABELS[t].toLowerCase()}`, key: string = t) => (adding === key
-    ? <AddRecordForm clinicId={clinicId} patientId={patient.id} initialType={t} onCancel={() => setAdding(null)} onSaved={async () => { setAdding(null); await records.reload(); }} />
+  const onWriteFailed = () => void checkGoLive();
+  const addRecord = (t: PilotRecordType, label = `Add ${RECORD_TYPE_LABELS[t].toLowerCase()}`, key: string = t) => (!writable ? null : adding === key
+    ? <AddRecordForm clinicId={clinicId} patientId={patient.id} real={real} initialType={t} onCancel={() => setAdding(null)} onFailed={onWriteFailed} onSaved={async () => { setAdding(null); await records.reload(); }} />
     : <Button onClick={() => setAdding(key)} className="bg-mansagold text-mansablue hover:bg-mansagold-dark"><Plus className="mr-1 h-4 w-4" />{label}</Button>);
   const recordList = (rows: Row[], empty: string) => (
     <div className="space-y-3">
       {records.loading ? <p role="status" className="text-sm text-muted-foreground">Loading…</p>
         : rows.length === 0 ? <p className="text-sm text-muted-foreground">{empty}</p>
-        : rows.map((r) => <RecordItem key={r.id} record={r} onChanged={() => records.reload()} />)}
+        : rows.map((r) => <RecordItem key={r.id} record={r} writable={writable} onFailed={onWriteFailed} onChanged={() => records.reload()} />)}
     </div>
   );
 
   return (
     <div className="space-y-5">
       <Button variant="link" className="px-0" onClick={back}><ArrowLeft className="mr-1 h-4 w-4" />Back to Pilot Patients</Button>
-      <TestOnlyNotice />
-      <Card>
-        <CardHeader className="pb-3"><CardTitle className="flex flex-wrap items-center gap-2 text-xl">{name(patient)}<Badge variant="outline"><FlaskConical className="mr-1 h-3 w-3" />{patient.is_sample ? SAMPLE_BADGE_LABEL : 'Test patient'}</Badge></CardTitle>
-          <p className="text-xs text-muted-foreground">Opening this chart was recorded in the clinic’s chart-opened log.</p></CardHeader>
+      {real ? <RealPatientNotice allowed={realAllowed} /> : <TestOnlyNotice />}
+      <Card className={real ? 'border-destructive/40' : undefined}>
+        <CardHeader className="pb-3"><CardTitle className="flex flex-wrap items-center gap-2 text-xl">{name(patient)}{real
+          ? <Badge variant="destructive"><ShieldCheck className="mr-1 h-3 w-3" />Real patient</Badge>
+          : <Badge variant="outline"><FlaskConical className="mr-1 h-3 w-3" />{patient.is_sample ? SAMPLE_BADGE_LABEL : 'Test patient'}</Badge>}</CardTitle>
+          <p className="text-xs text-muted-foreground">Opening this chart was recorded in the clinic’s chart-opened log{real ? ' under real patients' : ''}.</p></CardHeader>
         <CardContent className="grid gap-3 text-sm sm:grid-cols-4">
           <div><div className="text-xs uppercase text-muted-foreground">Date of birth</div>{patient.date_of_birth ? format(parseISO(patient.date_of_birth), 'MMM d, yyyy') : '—'}</div>
           <div><div className="text-xs uppercase text-muted-foreground">Sex</div><span className="capitalize">{patient.sex ?? '—'}</span></div>
-          <div><div className="text-xs uppercase text-muted-foreground">Allergies</div>{patient.allergies?.length ? patient.allergies.join(', ') : 'None recorded'}</div>
+          <div><div className="text-xs uppercase text-muted-foreground">Allergies</div>{allergyRecords.length
+            ? allergyRecords.map((r) => `${r.title}${r.allergy_severity ? ` (${ALLERGY_SEVERITY_LABELS[r.allergy_severity as AllergySeverity] ?? r.allergy_severity})` : ''}`).join(', ')
+            : patient.allergies?.length ? patient.allergies.join(', ') : 'None recorded'}</div>
           <div><div className="text-xs uppercase text-muted-foreground">Latest vitals</div>{latestVitals ? `${latestVitals.bp_sys ?? '—'}/${latestVitals.bp_dia ?? '—'} · HR ${latestVitals.heart_rate ?? '—'}` : 'None recorded'}</div>
+          {real && <>
+            <div><div className="text-xs uppercase text-muted-foreground">Insurance</div>{patient.insurance_company ? `${patient.insurance_company}${patient.insurance_plan ? ` · ${patient.insurance_plan}` : ''}` : '—'}</div>
+            <div><div className="text-xs uppercase text-muted-foreground">Member ID</div>{patient.insurance_member_id ?? '—'}</div>
+            <div><div className="text-xs uppercase text-muted-foreground">Consent signed</div>{patient.consent_signed_on ? format(parseISO(patient.consent_signed_on), 'MMM d, yyyy') : '—'}</div>
+            <div><div className="text-xs uppercase text-muted-foreground">Chart status</div>{writable ? 'Open for entries' : 'Read only'}</div>
+          </>}
         </CardContent>
       </Card>
       <DataLoadErrors sources={[records, notes]} />
@@ -283,7 +337,7 @@ function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; pat
           <TabsTrigger value="vitals">Vitals</TabsTrigger>
           <TabsTrigger value="meds">Medicines</TabsTrigger>
           <TabsTrigger value="problems">Allergies & problems</TabsTrigger>
-          <TabsTrigger value="labs">Labs</TabsTrigger>
+          <TabsTrigger value="labs">Lab results</TabsTrigger>
           <TabsTrigger value="all">All records</TabsTrigger>
         </TabsList>
 
@@ -293,7 +347,15 @@ function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; pat
               <CardContent className="text-sm">{patient.conditions?.length ? patient.conditions.join(', ') : 'None recorded'}
                 {byType('problem').length > 0 && <ul className="mt-2 list-disc pl-5">{byType('problem').map((r) => <li key={r.id}>{r.title}</li>)}</ul>}</CardContent></Card>
             <Card><CardHeader className="pb-2"><CardTitle className="text-base">Current medicines</CardTitle></CardHeader>
-              <CardContent className="text-sm">{byType('medication').length ? <ul className="list-disc pl-5">{byType('medication').map((r) => <li key={r.id}>{r.medication_name}{r.dose ? ` · ${r.dose}` : ''}</li>)}</ul> : 'None recorded'}</CardContent></Card>
+              <CardContent className="text-sm">{byType('medication').length ? <ul className="list-disc pl-5">{byType('medication').map((r) => <li key={r.id}>{r.medication_name}{r.dose ? ` · ${r.dose}` : ''}{r.med_frequency ? ` · ${r.med_frequency}` : ''}</li>)}</ul> : 'None recorded'}</CardContent></Card>
+            <Card><CardHeader className="pb-2"><CardTitle className="text-base">Allergies</CardTitle></CardHeader>
+              <CardContent className="text-sm">{allergyRecords.length ? <ul className="space-y-1">{allergyRecords.map((r) => (
+                <li key={r.id} className="flex flex-wrap items-center gap-2"><span>{r.title}</span>{r.allergy_severity && <Badge variant={severityVariant(r.allergy_severity)}>{ALLERGY_SEVERITY_LABELS[r.allergy_severity as AllergySeverity] ?? r.allergy_severity}</Badge>}{r.allergy_reaction && <span className="text-muted-foreground">· {r.allergy_reaction}</span>}</li>
+              ))}</ul> : patient.allergies?.length ? patient.allergies.join(', ') : 'None recorded'}</CardContent></Card>
+            <Card><CardHeader className="pb-2"><CardTitle className="text-base">Latest lab results</CardTitle></CardHeader>
+              <CardContent className="text-sm">{labs.length ? <ul className="space-y-1">{labs.slice(0, 6).map((r) => (
+                <li key={r.id} className="flex flex-wrap items-center gap-2"><span>{r.title}</span>{r.lab_value && <b>{r.lab_value}{r.lab_unit ? ` ${r.lab_unit}` : ''}</b>}{r.lab_flag && <Badge variant={flagVariant(r.lab_flag)}>{LAB_FLAG_LABELS[r.lab_flag as LabFlag] ?? r.lab_flag}</Badge>}<span className="text-xs text-muted-foreground">{format(parseISO(r.recorded_on), 'MMM d, yyyy')}</span></li>
+              ))}</ul> : 'None recorded'}</CardContent></Card>
           </div>
           <Card><CardHeader className="pb-2"><CardTitle className="text-base">Latest signed visit</CardTitle></CardHeader>
             <CardContent className="text-sm">{signedNotes[0] ? (
@@ -302,10 +364,10 @@ function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; pat
                 <p><span className="text-muted-foreground">Assessment:</span> {signedNotes[0].assessment}</p>
                 <p><span className="text-muted-foreground">Plan:</span> {signedNotes[0].plan}</p>
                 <Button size="sm" variant="link" className="px-0" onClick={() => setTab('notes')}>Open visit notes</Button>
-              </div>) : <>No signed visit notes yet. <Button size="sm" variant="link" className="px-1" onClick={() => setTab('notes')}>Write one</Button></>}</CardContent></Card>
+              </div>) : <>No signed visit notes yet. {writable && <Button size="sm" variant="link" className="px-1" onClick={() => setTab('notes')}>Write one</Button>}</>}</CardContent></Card>
         </TabsContent>
 
-        <TabsContent value="notes"><PilotVisitNotes clinicId={clinicId} patientId={patient.id} userId={userId} onChanged={() => void notes.reload()} /></TabsContent>
+        <TabsContent value="notes"><PilotVisitNotes clinicId={clinicId} patientId={patient.id} userId={userId} real={real} writable={writable} onFailed={onWriteFailed} onChanged={() => void notes.reload()} /></TabsContent>
 
         <TabsContent value="vitals" className="space-y-4">
           {vitals.length >= 2 ? (
@@ -337,6 +399,7 @@ function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; pat
         <TabsContent value="meds" className="space-y-4">{addRecord('medication')}{recordList(records.rows.filter((r) => r.record_type === 'medication'), 'No medicines recorded.')}</TabsContent>
         <TabsContent value="problems" className="space-y-4">
           <div className="flex flex-wrap gap-2">{addRecord('allergy')}{adding !== 'allergy' && addRecord('problem')}</div>
+          {real && <p className="text-xs text-muted-foreground">Real-patient allergies need a severity. Choose “Unknown” if the patient isn’t sure.</p>}
           {recordList(records.rows.filter((r) => r.record_type === 'allergy' || r.record_type === 'problem'), 'No allergies or problems recorded.')}
         </TabsContent>
         <TabsContent value="labs" className="space-y-4">{addRecord('lab_result')}{recordList(records.rows.filter((r) => r.record_type === 'lab_result'), 'No lab results recorded.')}</TabsContent>
@@ -349,12 +412,28 @@ function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; pat
   );
 }
 
-function RecordItem({ record: r, onChanged }: { record: Row; onChanged: () => Promise<unknown> }) {
+function RecordItem({ record: r, onChanged, writable = true, onFailed }: { record: Row; onChanged: () => Promise<unknown>; writable?: boolean; onFailed?: () => void }) {
   const [marking, setMarking] = useState(false);
+  const [stopping, setStopping] = useState(false);
+  const [stopDate, setStopDate] = useState(todayIso());
   const [reason, setReason] = useState('');
   const [saving, setSaving] = useState(false);
   const pending = useRef(false);
   const errored = r.status === 'entered_in_error';
+  const stopped = r.status === 'stopped';
+  const stopMedicine = async () => {
+    if (pending.current) return;
+    const problem = validateStopMedicine({ started_on: r.recorded_on, stopped_on: stopDate, reason });
+    if (problem) { toast.error(problem); return; }
+    pending.current = true; setSaving(true);
+    try {
+      const { data, error } = await db.from('hc_pilot_records').update({ status: 'stopped', stopped_on: stopDate, stop_reason: reason.trim() }).eq('id', r.id).eq('status', 'active').select('id, status');
+      if (error) throw new Error(error.message);
+      if (data?.[0]?.status !== 'stopped') throw new Error('The medicine changed before your update. Refresh and try again.');
+      toast.success('Medicine stopped'); setStopping(false); setReason(''); await onChanged();
+    } catch (e) { toast.error(e instanceof Error ? e.message : 'Medicine could not be stopped.'); onFailed?.(); }
+    finally { pending.current = false; setSaving(false); }
+  };
   const markError = async () => {
     if (pending.current) return;
     const problem = validateErrorReason(reason);
@@ -365,7 +444,7 @@ function RecordItem({ record: r, onChanged }: { record: Row; onChanged: () => Pr
       if (error) throw new Error(error.message);
       if (!data?.length) throw new Error('The record changed before your update. Refresh and try again.');
       toast.success('Record marked as entered in error'); setMarking(false); await onChanged();
-    } catch (e) { toast.error(e instanceof Error ? e.message : 'Record could not be updated.'); }
+    } catch (e) { toast.error(e instanceof Error ? e.message : 'Record could not be updated.'); onFailed?.(); }
     finally { pending.current = false; setSaving(false); }
   };
   return (
@@ -374,27 +453,45 @@ function RecordItem({ record: r, onChanged }: { record: Row; onChanged: () => Pr
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline">{RECORD_TYPE_LABELS[r.record_type as PilotRecordType] ?? r.record_type}</Badge>
           <span className={`font-medium ${errored ? 'line-through' : ''}`}>{r.title}</span>
+          {stopped && <Badge variant="secondary">Stopped</Badge>}
+          {r.record_type === 'lab_result' && r.lab_flag && <Badge variant={flagVariant(r.lab_flag)}>{LAB_FLAG_LABELS[r.lab_flag as LabFlag] ?? r.lab_flag}</Badge>}
+          {r.record_type === 'allergy' && r.allergy_severity && <Badge variant={severityVariant(r.allergy_severity)}>{ALLERGY_SEVERITY_LABELS[r.allergy_severity as AllergySeverity] ?? r.allergy_severity}</Badge>}
         </div>
         <span className="text-xs text-muted-foreground">{format(parseISO(r.recorded_on), 'MMM d, yyyy')} · {r.author_email ?? 'Team member'}</span>
       </div>
       {r.record_type === 'vitals' && <p className="mt-2 text-sm">BP {r.bp_sys ?? '—'}/{r.bp_dia ?? '—'} · Heart rate {r.heart_rate ?? '—'} · Weight {r.weight_lb ?? '—'} lb · Temp {r.temperature_f ?? '—'} °F</p>}
-      {r.record_type === 'medication' && <p className="mt-2 text-sm">{r.medication_name}{r.dose ? ` · ${r.dose}` : ''}</p>}
+      {r.record_type === 'medication' && <p className="mt-2 text-sm">{r.medication_name}{r.dose ? ` · ${r.dose}` : ''}{r.med_frequency ? ` · ${r.med_frequency}` : ''}{r.med_route ? ` · ${r.med_route}` : ''}</p>}
+      {r.record_type === 'allergy' && r.allergy_reaction && <p className="mt-2 text-sm">Reaction: {r.allergy_reaction}</p>}
+      {r.record_type === 'lab_result' && (r.lab_value || r.lab_ref_range) && (
+        <p className={`mt-2 text-sm ${isFlaggedLab(r.lab_flag) ? 'font-semibold text-destructive' : ''}`}>Result: {r.lab_value ?? '—'}{r.lab_unit ? ` ${r.lab_unit}` : ''}{r.lab_ref_range ? <span className="font-normal text-muted-foreground"> · normal range {r.lab_ref_range}</span> : null}</p>
+      )}
       {r.details && <p className="mt-2 whitespace-pre-wrap text-sm text-muted-foreground">{r.details}</p>}
+      {stopped && <p className="mt-2 text-xs text-muted-foreground">Stopped {r.stopped_on ? format(parseISO(r.stopped_on), 'MMM d, yyyy') : ''}: {r.stop_reason}</p>}
       {errored && <p className="mt-2 text-xs text-destructive">Entered in error: {r.error_reason}</p>}
-      {!errored && (marking ? (
+      {!errored && writable && (marking || stopping ? (
         <div className="mt-3 flex flex-wrap gap-2">
-          <Input value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Reason (e.g. wrong patient)" className="max-w-sm" maxLength={300} aria-label="Reason for marking in error" />
-          <Button size="sm" variant="destructive" onClick={markError} disabled={saving}>{saving ? 'Saving…' : 'Confirm'}</Button>
-          <Button size="sm" variant="ghost" onClick={() => setMarking(false)} disabled={saving}>Cancel</Button>
+          {stopping && <Input type="date" value={stopDate} min={r.recorded_on} max={todayIso()} onChange={(e) => setStopDate(e.target.value)} className="w-44" aria-label="Date stopped" />}
+          <Input value={reason} onChange={(e) => setReason(e.target.value)} placeholder={stopping ? 'Why stopped (e.g. side effects)' : 'Reason (e.g. wrong patient)'} className="max-w-sm" maxLength={300} aria-label={stopping ? 'Reason for stopping' : 'Reason for marking in error'} />
+          <Button size="sm" variant="destructive" onClick={stopping ? stopMedicine : markError} disabled={saving}>{saving ? 'Saving…' : stopping ? 'Stop medicine' : 'Confirm'}</Button>
+          <Button size="sm" variant="ghost" onClick={() => { setMarking(false); setStopping(false); setReason(''); }} disabled={saving}>Cancel</Button>
         </div>
-      ) : <Button size="sm" variant="ghost" className="mt-2 px-0 text-xs" onClick={() => setMarking(true)}>Mark as entered in error</Button>)}
+      ) : (
+        <div className="mt-2 flex flex-wrap gap-3">
+          {r.record_type === 'medication' && r.status === 'active' && <Button size="sm" variant="ghost" className="px-0 text-xs" onClick={() => setStopping(true)}>Stop this medicine</Button>}
+          <Button size="sm" variant="ghost" className="px-0 text-xs" onClick={() => setMarking(true)}>Mark as entered in error</Button>
+        </div>
+      ))}
     </article>
   );
 }
 
-function AddRecordForm({ clinicId, patientId, initialType, onCancel, onSaved }: { clinicId: string; patientId: string; initialType: PilotRecordType; onCancel: () => void; onSaved: () => void | Promise<void> }) {
+function AddRecordForm({ clinicId, patientId, initialType, onCancel, onSaved, real = false, onFailed }: { clinicId: string; patientId: string; initialType: PilotRecordType; onCancel: () => void; onSaved: () => void | Promise<void>; real?: boolean; onFailed?: () => void }) {
   const [type, setType] = useState<PilotRecordType>(initialType);
-  const [f, setF] = useState({ recorded_on: todayIso(), title: initialType === 'vitals' ? 'Vital signs' : '', details: '', bp_sys: '', bp_dia: '', heart_rate: '', weight_lb: '', temperature_f: '', medication_name: '', dose: '' });
+  const [f, setF] = useState({
+    recorded_on: todayIso(), title: initialType === 'vitals' ? 'Vital signs' : '', details: '', bp_sys: '', bp_dia: '', heart_rate: '', weight_lb: '', temperature_f: '',
+    medication_name: '', dose: '', med_frequency: '', med_route: '', allergy_reaction: '', allergy_severity: '', lab_value: '', lab_unit: '', lab_ref_range: '', lab_flag: '',
+  });
+  const opt = (v: string) => v.trim() || null;
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const pending = useRef(false);
@@ -405,9 +502,11 @@ function AddRecordForm({ clinicId, patientId, initialType, onCancel, onSaved }: 
     const input = {
       record_type: type, recorded_on: f.recorded_on, title: f.title, details: f.details.trim() || null,
       ...(type === 'vitals' ? { bp_sys: num(f.bp_sys), bp_dia: num(f.bp_dia), heart_rate: num(f.heart_rate), weight_lb: num(f.weight_lb), temperature_f: num(f.temperature_f) } : {}),
-      ...(type === 'medication' ? { medication_name: f.medication_name.trim() || null, dose: f.dose.trim() || null } : {}),
+      ...(type === 'medication' ? { medication_name: opt(f.medication_name), dose: opt(f.dose), med_frequency: opt(f.med_frequency), med_route: opt(f.med_route) } : {}),
+      ...(type === 'allergy' ? { allergy_reaction: opt(f.allergy_reaction), allergy_severity: opt(f.allergy_severity) } : {}),
+      ...(type === 'lab_result' ? { lab_value: opt(f.lab_value), lab_unit: opt(f.lab_unit), lab_ref_range: opt(f.lab_ref_range), lab_flag: opt(f.lab_flag) } : {}),
     };
-    const problem = validatePilotRecord(input);
+    const problem = validatePilotRecord(input, new Date(), { real });
     if (problem) { setError(problem); return; }
     pending.current = true; setSaving(true); setError('');
     try {
@@ -416,7 +515,7 @@ function AddRecordForm({ clinicId, patientId, initialType, onCancel, onSaved }: 
       if (!data?.id) throw new Error('The record could not be confirmed as saved. Refresh before trying again.');
       toast.success('Record saved');
       await onSaved();
-    } catch (e) { setError(e instanceof Error ? e.message : 'Record could not be saved.'); }
+    } catch (e) { setError(e instanceof Error ? e.message : 'Record could not be saved.'); onFailed?.(); }
     finally { pending.current = false; setSaving(false); }
   };
 
@@ -441,10 +540,30 @@ function AddRecordForm({ clinicId, patientId, initialType, onCancel, onSaved }: 
         {type === 'medication' && (
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-1"><Label htmlFor="pr-med">Medicine name *</Label><Input id="pr-med" value={f.medication_name} onChange={set('medication_name')} maxLength={140} /></div>
-            <div className="space-y-1"><Label htmlFor="pr-dose">Dose</Label><Input id="pr-dose" value={f.dose} onChange={set('dose')} maxLength={140} placeholder="10 mg once daily" /></div>
+            <div className="space-y-1"><Label htmlFor="pr-dose">Dose</Label><Input id="pr-dose" value={f.dose} onChange={set('dose')} maxLength={140} placeholder="10 mg" /></div>
+            <div className="space-y-1"><Label htmlFor="pr-freq">How often</Label><Input id="pr-freq" value={f.med_frequency} onChange={set('med_frequency')} maxLength={140} placeholder="Once daily" /></div>
+            <div className="space-y-1"><Label htmlFor="pr-route">How taken</Label><Input id="pr-route" value={f.med_route} onChange={set('med_route')} maxLength={60} placeholder="By mouth" /></div>
           </div>
         )}
-        <div className="space-y-1"><Label htmlFor="pr-details">Details</Label><Textarea id="pr-details" value={f.details} onChange={set('details')} maxLength={5000} rows={4} placeholder="Notes for this made-up test patient" /></div>
+        {type === 'allergy' && (
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="space-y-1"><Label>Severity{real ? ' *' : ''}</Label>
+              <Select value={f.allergy_severity} onValueChange={(v) => setF({ ...f, allergy_severity: v })}><SelectTrigger aria-label="Allergy severity"><SelectValue placeholder="Choose" /></SelectTrigger>
+                <SelectContent>{ALLERGY_SEVERITIES.map((s) => <SelectItem key={s} value={s}>{ALLERGY_SEVERITY_LABELS[s]}</SelectItem>)}</SelectContent></Select></div>
+            <div className="space-y-1"><Label htmlFor="pr-reaction">Reaction</Label><Input id="pr-reaction" value={f.allergy_reaction} onChange={set('allergy_reaction')} maxLength={200} placeholder="Hives, swelling" /></div>
+          </div>
+        )}
+        {type === 'lab_result' && (
+          <div className="grid gap-3 sm:grid-cols-4">
+            <div className="space-y-1"><Label htmlFor="pr-labval">Result{real ? ' *' : ''}</Label><Input id="pr-labval" value={f.lab_value} onChange={set('lab_value')} maxLength={60} placeholder="7.2" /></div>
+            <div className="space-y-1"><Label htmlFor="pr-labunit">Units</Label><Input id="pr-labunit" value={f.lab_unit} onChange={set('lab_unit')} maxLength={30} placeholder="%" /></div>
+            <div className="space-y-1"><Label htmlFor="pr-labrange">Normal range</Label><Input id="pr-labrange" value={f.lab_ref_range} onChange={set('lab_ref_range')} maxLength={60} placeholder="4.0–5.6" /></div>
+            <div className="space-y-1"><Label>Flag</Label>
+              <Select value={f.lab_flag} onValueChange={(v) => setF({ ...f, lab_flag: v })}><SelectTrigger aria-label="Lab result flag"><SelectValue placeholder="Choose" /></SelectTrigger>
+                <SelectContent>{LAB_FLAGS.map((s) => <SelectItem key={s} value={s}>{LAB_FLAG_LABELS[s]}</SelectItem>)}</SelectContent></Select></div>
+          </div>
+        )}
+        <div className="space-y-1"><Label htmlFor="pr-details">Details</Label><Textarea id="pr-details" value={f.details} onChange={set('details')} maxLength={5000} rows={4} placeholder={real ? 'Notes for this patient' : 'Notes for this made-up test patient'} /></div>
         {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
         <div className="flex gap-2">
           <Button onClick={save} disabled={saving} className="bg-mansagold text-mansablue hover:bg-mansagold-dark">{saving ? 'Saving…' : 'Save record'}</Button>

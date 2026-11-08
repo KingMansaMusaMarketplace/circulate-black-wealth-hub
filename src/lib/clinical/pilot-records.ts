@@ -3,6 +3,8 @@
 // Real patient data stays locked: this pilot accepts made-up test patients only
 // until vendor BAAs are signed and a healthcare attorney approves go-live.
 
+import { validateChartExtras } from './real-patient-chart';
+
 export const PILOT_DATA_MODE = 'test_patients_only' as const;
 
 export const RECORD_TYPES = ['visit_note', 'vitals', 'medication', 'allergy', 'problem', 'lab_result'] as const;
@@ -64,11 +66,19 @@ export interface PilotRecordInput {
   temperature_f?: number | null;
   medication_name?: string | null;
   dose?: string | null;
+  med_frequency?: string | null;
+  med_route?: string | null;
+  allergy_reaction?: string | null;
+  allergy_severity?: string | null;
+  lab_value?: string | null;
+  lab_unit?: string | null;
+  lab_ref_range?: string | null;
+  lab_flag?: string | null;
 }
 
 const outOfRange = (v: number | null | undefined, min: number, max: number) => v != null && (Number.isNaN(v) || v < min || v > max);
 
-export function validatePilotRecord(r: PilotRecordInput, today = new Date()): string | null {
+export function validatePilotRecord(r: PilotRecordInput, today = new Date(), opts: { real?: boolean } = {}): string | null {
   if (!(RECORD_TYPES as readonly string[]).includes(r.record_type)) return 'Choose a record type.';
   const title = r.title.trim();
   if (title.length < 2 || title.length > 140) return 'Title is required (140 characters max).';
@@ -76,7 +86,9 @@ export function validatePilotRecord(r: PilotRecordInput, today = new Date()): st
   const date = new Date(`${r.recorded_on}T00:00:00`);
   const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate() + 1);
   if (Number.isNaN(date.getTime()) || date > tomorrow || date < new Date('1900-01-01T00:00:00')) return 'Record date must not be in the future.';
-  if (containsSsn(title, r.details, r.medication_name, r.dose)) return 'Social Security numbers are not allowed.';
+  if (containsSsn(title, r.details, r.medication_name, r.dose, r.med_frequency, r.med_route, r.allergy_reaction, r.lab_value, r.lab_unit, r.lab_ref_range)) return 'Social Security numbers are not allowed.';
+  const extras = validateChartExtras(r, { real: opts.real === true });
+  if (extras) return extras;
   if (outOfRange(r.bp_sys, 50, 300)) return 'Systolic blood pressure must be 50–300.';
   if (outOfRange(r.bp_dia, 20, 200)) return 'Diastolic blood pressure must be 20–200.';
   if (outOfRange(r.heart_rate, 20, 250)) return 'Heart rate must be 20–250.';
@@ -108,6 +120,7 @@ export const AUDIT_LABELS: Record<string, string> = {
   patient_archived: 'Archived test patient',
   record_added: 'Added a record',
   record_marked_error: 'Marked a record as entered in error',
+  medicine_stopped: 'Stopped a medicine',
   chart_opened: 'Opened chart',
   note_drafted: 'Started a visit note',
   note_draft_updated: 'Changed a draft visit note',
