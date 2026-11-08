@@ -209,7 +209,7 @@ export default function HealthWorkspacePage() {
             {tab === 'national-exchange' && <NationalHealthExchange key={`${user.id}:${clinic.id}`} onBack={() => navigateTab('dashboard')} />}
             {tab === 'portal' && <PatientCommunication key={`${user.id}:${clinic.id}`} />}
             {tab === 'intake' && <ClinicIntake clinicId={clinic.id} clinicName={clinic.name} clinicRole={role} signedIn />}
-            {tab === 'pilot-patients' && <PilotPatients key={`${user.id}:${clinic.id}`} clinicId={clinic.id} isOwner={role === 'owner'} userId={user.id} />}
+            {tab === 'pilot-patients' && <PilotPatients key={`${user.id}:${clinic.id}`} clinicId={clinic.id} isOwner={role === 'owner'} userId={user.id} role={role} clinicName={clinic.name} />}
             {tab === 'patients' && <Patients {...props} />}
             {tab === 'schedule' && <Schedule {...props} />}
             {tab === 'prep' && <ChartPrep key={`${user.id}:${clinic.id}`} />}
