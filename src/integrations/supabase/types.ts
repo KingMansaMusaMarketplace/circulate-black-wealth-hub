@@ -10931,6 +10931,8 @@ export type Database = {
       }
       hc_pilot_records: {
         Row: {
+          allergy_reaction: string | null
+          allergy_severity: string | null
           author_email: string | null
           bp_dia: number | null
           bp_sys: number | null
@@ -10942,11 +10944,19 @@ export type Database = {
           error_reason: string | null
           heart_rate: number | null
           id: string
+          lab_flag: string | null
+          lab_ref_range: string | null
+          lab_unit: string | null
+          lab_value: string | null
+          med_frequency: string | null
+          med_route: string | null
           medication_name: string | null
           patient_id: string
           record_type: string
           recorded_on: string
           status: string
+          stop_reason: string | null
+          stopped_on: string | null
           temperature_f: number | null
           title: string
           updated_at: string
@@ -10954,6 +10964,8 @@ export type Database = {
           weight_lb: number | null
         }
         Insert: {
+          allergy_reaction?: string | null
+          allergy_severity?: string | null
           author_email?: string | null
           bp_dia?: number | null
           bp_sys?: number | null
@@ -10965,11 +10977,19 @@ export type Database = {
           error_reason?: string | null
           heart_rate?: number | null
           id?: string
+          lab_flag?: string | null
+          lab_ref_range?: string | null
+          lab_unit?: string | null
+          lab_value?: string | null
+          med_frequency?: string | null
+          med_route?: string | null
           medication_name?: string | null
           patient_id: string
           record_type: string
           recorded_on?: string
           status?: string
+          stop_reason?: string | null
+          stopped_on?: string | null
           temperature_f?: number | null
           title: string
           updated_at?: string
@@ -10977,6 +10997,8 @@ export type Database = {
           weight_lb?: number | null
         }
         Update: {
+          allergy_reaction?: string | null
+          allergy_severity?: string | null
           author_email?: string | null
           bp_dia?: number | null
           bp_sys?: number | null
@@ -10988,11 +11010,19 @@ export type Database = {
           error_reason?: string | null
           heart_rate?: number | null
           id?: string
+          lab_flag?: string | null
+          lab_ref_range?: string | null
+          lab_unit?: string | null
+          lab_value?: string | null
+          med_frequency?: string | null
+          med_route?: string | null
           medication_name?: string | null
           patient_id?: string
           record_type?: string
           recorded_on?: string
           status?: string
+          stop_reason?: string | null
+          stopped_on?: string | null
           temperature_f?: number | null
           title?: string
           updated_at?: string
