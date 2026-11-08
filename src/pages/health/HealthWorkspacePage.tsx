@@ -3,7 +3,8 @@ import logo1325 from '@/assets/1325-ai-logo.png';
 import { Helmet } from 'react-helmet-async';
 import { Link, useSearchParams } from 'react-router-dom';
 import { BrainCircuit, Calendar, ClipboardCheck, FlaskConical, LayoutDashboard, Lock, LogOut, NotebookPen, Receipt, Users, UserCog } from 'lucide-react';
-import PilotPatients from './workspace/PilotPatients';
+import PilotPatients, { type PilotView } from './workspace/PilotPatients';
+import PatientPortal from './workspace/PilotPortal';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -93,6 +94,9 @@ export default function HealthWorkspacePage() {
   const [role, setRole] = useState('');
   const [patients, setPatients] = useState<Row[]>([]);
   const [tab, setTab] = useState('review');
+  const [pilotView, setPilotView] = useState<PilotView | undefined>(undefined);
+  const [portalMode, setPortalMode] = useState(false);
+  const [portalCount, setPortalCount] = useState(0);
   const tourReturnTab = useRef<string | null>(null);
   const [tourRevision, setTourRevision] = useState(0);
   const navigateTab = (next: string) => {
@@ -108,6 +112,8 @@ export default function HealthWorkspacePage() {
     else if (view === 'care') setTab('care');
     else if (view === 'doccheck') setTab('doccheck');
     else if (view === 'pilot') setTab('pilot-patients');
+    else if (view === 'boost' || view === 'schedule' || view === 'billing' || view === 'inbox') { setPilotView(view); setTab('pilot-patients'); }
+    else if (view === 'portal') setPortalMode(true);
   }, [searchParams]);
 
   const [clinicError, setClinicError] = useState('');
@@ -158,11 +164,22 @@ export default function HealthWorkspacePage() {
     return () => { ++requestVersion.current; };
   }, [userId, loadClinic]);
   useEffect(() => { setPatients([]); void loadPatients(); return () => { ++patientVersion.current; }; }, [loadPatients]);
+  // Pilot patient portal: test-patient portals this account was invited to (server-checked).
+  useEffect(() => {
+    setPortalCount(0);
+    if (!userId) return;
+    let live = true;
+    void (async () => {
+      const { data, error } = await db.rpc('hc_portal_my_patients');
+      if (live && !error) setPortalCount((data ?? []).length);
+    })();
+    return () => { live = false; };
+  }, [userId]);
 
   const shellHeader = (
     <header className="flex min-h-14 flex-wrap items-center justify-between gap-2 py-2 border-b-2 border-mansagold theme-clinical-bar px-4 text-foreground shadow-lg">
       <Brand />
-      <div className="flex flex-wrap items-center gap-2">{user && clinic && loadedFor === userId && <Button variant="clinicalHelp" aria-pressed={tab === 'ask-kayla'} onClick={() => navigateTab('ask-kayla')}><BrainCircuit />Ask Kayla</Button>}<EnterpriseReadiness /><ClinicalSafetyPanel /><Button variant="ghost" size="sm" asChild><Link to="/health/intake">Clinic intake</Link></Button><Button variant="ghost" size="sm" asChild><Link to="/health/baa">Clinic BAA</Link></Button></div>
+      <div className="flex flex-wrap items-center gap-2">{user && clinic && loadedFor === userId && <Button variant="clinicalHelp" aria-pressed={tab === 'ask-kayla'} onClick={() => navigateTab('ask-kayla')}><BrainCircuit />Ask Kayla</Button>}<EnterpriseReadiness /><ClinicalSafetyPanel /><Button variant="ghost" size="sm" asChild><Link to="/health/intake">Clinic intake</Link></Button><Button variant="ghost" size="sm" asChild><Link to="/health/baa">Clinic BAA</Link></Button>{user && portalCount > 0 && <Button variant="ghost" size="sm" aria-pressed={portalMode} onClick={() => setPortalMode(!portalMode)}>{portalMode ? 'Back to clinic' : 'My patient portal'}</Button>}</div>
       {user && <div className="flex items-center gap-3 text-sm"><span className="hidden text-foreground/80 md:inline">{loadedFor === userId ? clinic?.name : ''}</span>
         <Button size="sm" variant="ghost" className="text-foreground hover:bg-foreground/10" onClick={() => supabase.auth.signOut()}><LogOut className="h-4 w-4" /></Button></div>}
     </header>
@@ -176,7 +193,7 @@ export default function HealthWorkspacePage() {
       <Banner />
       {shellHeader}
       {user && clinic && loadedFor === userId && <FacilitySelector value={facilityContext} onChange={setFacilityContext} clinicName={clinic.name} />}
-      {loading || !authInitialized ? <p role="status" className="p-8 text-muted-foreground">Checking sign-in…</p> : !user ? <ClinicSignIn /> : approvedViewer && isViewerEmailMismatch(user.email, approvedViewer.email) ? <SwitchClinicAccount signedInEmail={user.email ?? ''} approvedEmail={approvedViewer.email} /> : clinicError && clinic === undefined ? <section role="alert" className="mx-auto max-w-lg space-y-4 p-8"><h1 className="text-xl font-semibold">Clinic access could not be checked</h1><p className="text-sm text-muted-foreground">{clinicError}</p><Button variant="outline" onClick={() => { void loadClinic().catch(() => {}); }}>Retry clinic access</Button></section> : loadedFor !== userId || clinic === undefined ? <p role="status" className="p-8 text-muted-foreground">Loading your clinic…</p> : !clinic ? <CreateSampleClinic key={user.id} onDone={loadClinic} /> : (
+      {loading || !authInitialized ? <p role="status" className="p-8 text-muted-foreground">Checking sign-in…</p> : !user ? <ClinicSignIn /> : approvedViewer && isViewerEmailMismatch(user.email, approvedViewer.email) ? <SwitchClinicAccount signedInEmail={user.email ?? ''} approvedEmail={approvedViewer.email} /> : clinicError && clinic === undefined ? <section role="alert" className="mx-auto max-w-lg space-y-4 p-8"><h1 className="text-xl font-semibold">Clinic access could not be checked</h1><p className="text-sm text-muted-foreground">{clinicError}</p><Button variant="outline" onClick={() => { void loadClinic().catch(() => {}); }}>Retry clinic access</Button></section> : loadedFor !== userId || clinic === undefined ? <p role="status" className="p-8 text-muted-foreground">Loading your clinic…</p> : portalMode || (!clinic && portalCount > 0) ? <PatientPortal key={user.id} onBackToClinic={clinic ? () => setPortalMode(false) : undefined} /> : !clinic ? <CreateSampleClinic key={user.id} onDone={loadClinic} /> : (
         <div className="flex">
            <aside className="hidden w-60 shrink-0 flex-col border-r bg-card/80 p-3 md:flex">
             {NAV.map((n) => (
@@ -209,7 +226,7 @@ export default function HealthWorkspacePage() {
             {tab === 'national-exchange' && <NationalHealthExchange key={`${user.id}:${clinic.id}`} onBack={() => navigateTab('dashboard')} />}
             {tab === 'portal' && <PatientCommunication key={`${user.id}:${clinic.id}`} />}
             {tab === 'intake' && <ClinicIntake clinicId={clinic.id} clinicName={clinic.name} clinicRole={role} signedIn />}
-            {tab === 'pilot-patients' && <PilotPatients key={`${user.id}:${clinic.id}`} clinicId={clinic.id} isOwner={role === 'owner'} userId={user.id} role={role} clinicName={clinic.name} />}
+            {tab === 'pilot-patients' && <PilotPatients key={`${user.id}:${clinic.id}:${pilotView ?? ''}`} clinicId={clinic.id} isOwner={role === 'owner'} userId={user.id} role={role} clinicName={clinic.name} initialView={pilotView} />}
             {tab === 'patients' && <Patients {...props} />}
             {tab === 'schedule' && <Schedule {...props} />}
             {tab === 'prep' && <ChartPrep key={`${user.id}:${clinic.id}`} />}
