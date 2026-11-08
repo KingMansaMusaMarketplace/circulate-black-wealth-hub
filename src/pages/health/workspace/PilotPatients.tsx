@@ -31,8 +31,10 @@ import PilotDashboard from './PilotDashboard';
 import PilotChartLog from './PilotChartLog';
 import PilotVisitNotes from './PilotVisitNotes';
 import PilotGoLive from './PilotGoLive';
+import { EmergencyAccessCard, KidneyFunctionCard, LabOrdersPanel, PrescriptionsPanel, PrintChartButton, SocialNeedsPanel } from './PilotOrders';
+import { pilotPermissions, roleLabel } from '@/lib/clinical/pilot-roles';
 
-type Props = { clinicId: string; isOwner?: boolean; userId?: string | null };
+type Props = { clinicId: string; isOwner?: boolean; userId?: string | null; role?: string | null; clinicName?: string };
 type View = 'dashboard' | 'patients' | 'chartlog' | 'activity' | 'golive';
 
 const TestOnlyNotice = () => (
@@ -66,7 +68,9 @@ export default function PilotPatients(props: Props) {
   return <PilotPrivacyShell><PilotPatientsInner {...props} /></PilotPrivacyShell>;
 }
 
-function PilotPatientsInner({ clinicId, isOwner, userId = null }: Props) {
+function PilotPatientsInner({ clinicId, isOwner, userId = null, role = null, clinicName }: Props) {
+  const myRole = role ?? (isOwner ? 'owner' : null);
+  const perms = pilotPermissions(myRole);
   const patients = useRows('hc_pilot_patients', clinicId, { order: 'last_name', asc: true });
   // Only clinic owners may read the activity log (database rule); members never request it.
   const audit = useRows('hc_pilot_audit', isOwner ? clinicId : null, { order: 'created_at', asc: false });
@@ -109,7 +113,7 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null }: Props) {
   };
 
   if (selected) {
-    return <PilotChart clinicId={clinicId} patient={selected} userId={userId}
+    return <PilotChart clinicId={clinicId} patient={selected} userId={userId} role={myRole} clinicName={clinicName}
       back={() => { setOpenId(null); void patients.reload(); if (isOwner) void audit.reload(); }} />;
   }
 
@@ -162,7 +166,8 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null }: Props) {
           <Card>
             <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3 space-y-0">
               <Input placeholder="Search test patients" value={q} onChange={(e) => setQ(e.target.value)} className="max-w-xs" aria-label="Search test patients" />
-              {!adding && <Button onClick={() => setAdding(true)} className="bg-mansagold text-mansablue hover:bg-mansagold-dark"><Plus className="mr-1 h-4 w-4" />Add test patient</Button>}
+              <span className="text-xs text-muted-foreground">Your role: <b className="text-foreground">{roleLabel(myRole)}</b></span>
+              {!adding && perms.addPatients && <Button onClick={() => setAdding(true)} className="bg-mansagold text-mansablue hover:bg-mansagold-dark"><Plus className="mr-1 h-4 w-4" />Add test patient</Button>}
             </CardHeader>
             <CardContent>
               <DataLoadErrors sources={[patients]} />
@@ -254,9 +259,29 @@ const vitalsConfig = {
 } satisfies ChartConfig;
 const weightConfig = { weight: { label: 'Weight (lb)', color: 'hsl(var(--mansagold))' } } satisfies ChartConfig;
 
-function PilotChart({ clinicId, patient, back, userId }: { clinicId: string; patient: Row; back: () => void; userId: string | null }) {
+function PilotChart({ clinicId, patient, back, userId, role, clinicName }: { clinicId: string; patient: Row; back: () => void; userId: string | null; role: string | null; clinicName?: string }) {
   const records = useRows('hc_pilot_records', clinicId, { order: 'recorded_on', asc: false, eq: ['patient_id', patient.id] });
   const notes = useRows('hc_pilot_visit_notes', clinicId, { order: 'visit_date', asc: false, eq: ['patient_id', patient.id] });
+  // Emergency "break the glass" access for front desk / billing (database-enforced, 30 minutes).
+  const [emergencyUntil, setEmergencyUntil] = useState<string | null>(null);
+  const basePerms = pilotPermissions(role);
+  useEffect(() => {
+    if (!basePerms.needsEmergencyAccess || !userId) return;
+    let live = true;
+    void (async () => {
+      const { data } = await db.from('hc_pilot_glass_breaks').select('expires_at').eq('patient_id', patient.id).eq('user_id', userId)
+        .gt('expires_at', new Date().toISOString()).order('expires_at', { ascending: false }).limit(1).maybeSingle();
+      if (live && data?.expires_at) setEmergencyUntil(String(data.expires_at));
+    })();
+    return () => { live = false; };
+  }, [basePerms.needsEmergencyAccess, patient.id, userId]);
+  useEffect(() => {
+    if (!emergencyUntil) return;
+    const ms = new Date(emergencyUntil).getTime() - Date.now();
+    const t = window.setTimeout(() => { setEmergencyUntil(null); void records.reload(); void notes.reload(); }, Math.max(ms, 0));
+    return () => window.clearTimeout(t);
+  }, [emergencyUntil]); // eslint-disable-line react-hooks/exhaustive-deps
+  const perms = pilotPermissions(role, !!emergencyUntil);
   const { name } = usePilotPrivacy();
   const real = patient.is_real === true;
   useRealPatientTimer(real);
