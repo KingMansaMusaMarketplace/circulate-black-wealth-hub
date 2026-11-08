@@ -8,10 +8,14 @@
 - [x] Phase 1: social-needs screening + race-free kidney calculation (#9).
 - [x] Phase 1: printable downtime chart summary, test patients only (#8, partial). Offline mode still open.
 - [ ] Signed-in walkthrough of Phase 1 screens — not possible from here on this user-managed backend; owner to try after publishing.
-- [ ] Phase 2: appointment scheduling, then test-patient portal (#4).
-- [ ] Phase 2: practice billing (diagnosis codes, visit charge sheet, claim draft, never sent) (#5).
-- [ ] Phase 2: "BOOST" add-on — standard FHIR export and test launch in Epic's free practice sandbox (#10).
-- [ ] Paperwork tracker for outside approvals: ONC certification (#1), Surescripts/DEA, Quest/LabCorp, Carequality/TEFCA, clearinghouse, SOC 2 + penetration test (#6) — owner-driven contracts, cannot be built in the app.
+- [x] Phase 2: appointment scheduling (no double-booking, check-in/done/no-show/cancel, reschedule) (#4).
+- [x] Phase 2: test-patient portal — tester accounts linked by staff see their appointments, medicines, results, signed visit summaries and two-way messages; clinic portal inbox (#4).
+- [x] Phase 2: practice billing — claim per signed visit, typed ICD-10/CPT codes, totals, ready → marked sent → paid/denied, never transmitted (#5).
+- [x] Phase 2: BOOST — SMART on FHIR test launch against the public SMART Health IT sandbox with 1325 add-ons; nothing saved (#10).
+- [x] Admin Outside Approvals Tracker with 14 items (ONC, Surescripts, DEA EPCS, Quest, Labcorp, Carequality, TEFCA, clearinghouse, HIPAA risk assessment, pen test, SOC 2, HITRUST, Kenya DHA) (#1, #6).
+- [ ] Epic sandbox: owner registers the app free at fhir.epic.com to get an Epic client ID — needs the owner's Epic developer account.
+- [ ] Signed-in walkthrough of Phase 2 screens — not possible from here on this user-managed backend; owner and the 4 doctors to try after publishing.
+- [ ] The actual outside approvals (certification, network contracts, audits) — owner-driven contracts with outside organizations.
 
 ## Pilot talk-to-type for visit notes — November 7, 2026
 - [x] Microphone button on each visit-note section; words added to the draft, never auto-saved or signed; 2-minute clips; test patients only.
