@@ -471,7 +471,7 @@ export function EmergencyAccessCard({ patientId, onGranted }: { patientId: strin
 
 export function PrintChartButton({ patient, records, notes, clinicName, disabled }: { patient: Row; records: Row[]; notes: Row[]; clinicName?: string; disabled?: boolean }) {
   const [printing, setPrinting] = useState(false);
-  const rx = useRows('hc_pilot_prescriptions', printing ? patient.clinic_id : null, { order: 'prescribed_on', asc: false, eq: ['patient_id', patient.id] });
+  const rx = useRows('hc_pilot_prescriptions', patient.clinic_id, { order: 'prescribed_on', asc: false, eq: ['patient_id', patient.id] });
   const start = () => {
     setPrinting(true);
     document.body.classList.add('hc-print-chart');
