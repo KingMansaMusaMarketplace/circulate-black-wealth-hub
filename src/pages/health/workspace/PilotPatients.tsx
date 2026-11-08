@@ -319,14 +319,15 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName }: { cli
   const allergyRecords = byType('allergy');
   const signedNotes = notes.rows.filter((n) => n.status === 'signed');
   const onWriteFailed = () => void checkGoLive();
-  const addRecord = (t: PilotRecordType, label = `Add ${RECORD_TYPE_LABELS[t].toLowerCase()}`, key: string = t) => (!writable ? null : adding === key
+  const canAdd = writable && perms.addRecords;
+  const addRecord = (t: PilotRecordType, label = `Add ${RECORD_TYPE_LABELS[t].toLowerCase()}`, key: string = t) => (!canAdd ? null : adding === key
     ? <AddRecordForm clinicId={clinicId} patientId={patient.id} real={real} initialType={t} onCancel={() => setAdding(null)} onFailed={onWriteFailed} onSaved={async () => { setAdding(null); await records.reload(); }} />
     : <Button onClick={() => setAdding(key)} className="bg-mansagold text-mansablue hover:bg-mansagold-dark"><Plus className="mr-1 h-4 w-4" />{label}</Button>);
   const recordList = (rows: Row[], empty: string) => (
     <div className="space-y-3">
       {records.loading ? <p role="status" className="text-sm text-muted-foreground">Loading…</p>
         : rows.length === 0 ? <p className="text-sm text-muted-foreground">{empty}</p>
-        : rows.map((r) => <RecordItem key={r.id} record={r} writable={writable} onFailed={onWriteFailed} onChanged={() => records.reload()} />)}
+        : rows.map((r) => <RecordItem key={r.id} record={r} writable={canAdd} onFailed={onWriteFailed} onChanged={() => records.reload()} />)}
     </div>
   );
 
@@ -338,7 +339,10 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName }: { cli
         <CardHeader className="pb-3"><CardTitle className="flex flex-wrap items-center gap-2 text-xl">{name(patient)}{real
           ? <Badge variant="destructive"><ShieldCheck className="mr-1 h-3 w-3" />Real patient</Badge>
           : <Badge variant="outline"><FlaskConical className="mr-1 h-3 w-3" />{patient.is_sample ? SAMPLE_BADGE_LABEL : 'Test patient'}</Badge>}</CardTitle>
-          <p className="text-xs text-muted-foreground">Opening this chart was recorded in the clinic’s chart-opened log{real ? ' under real patients' : ''}.</p></CardHeader>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-xs text-muted-foreground">Opening this chart was recorded in the clinic’s chart-opened log{real ? ' under real patients' : ''}. Your role: {roleLabel(role)}{emergencyUntil ? ` · emergency access until ${format(new Date(emergencyUntil), 'h:mm a')}` : ''}.</p>
+            {perms.readChart && <PrintChartButton patient={patient} records={records.rows} notes={notes.rows} clinicName={clinicName} disabled={real} />}
+          </div></CardHeader>
         <CardContent className="grid gap-3 text-sm sm:grid-cols-4">
           <div><div className="text-xs uppercase text-muted-foreground">Date of birth</div>{patient.date_of_birth ? format(parseISO(patient.date_of_birth), 'MMM d, yyyy') : '—'}</div>
           <div><div className="text-xs uppercase text-muted-foreground">Sex</div><span className="capitalize">{patient.sex ?? '—'}</span></div>
