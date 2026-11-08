@@ -1,12 +1,13 @@
 # Roadmap
 
 ## Board's 10 world-class EMR gaps for the 4-doctor pilot — November 8, 2026
-- [ ] Board Check approval and answers (one shared clinic or separate; staff roles needed) — waiting on Thomas.
-- [ ] Phase 1 (test patients): staff roles + emergency "break the glass" access (#7).
-- [ ] Phase 1: practice prescriptions with allergy/interaction warnings, printable, never sent to pharmacies (#2).
-- [ ] Phase 1: lab orders → pending → results with abnormal flags, entered by hand (#3).
-- [ ] Phase 1: social-needs screening + race-free kidney calculation (#9).
-- [ ] Phase 1: printable downtime chart summary (#8, partial).
+- [x] Board Check answered: each doctor gets a separate clinic; nurses, front desk and billers will use it too.
+- [x] Phase 1 (test patients): staff roles + emergency "break the glass" access (#7).
+- [x] Phase 1: practice prescriptions with allergy/interaction warnings, renew/stop, never sent to pharmacies (#2).
+- [x] Phase 1: lab orders → waiting → collected → result, entered by hand (#3).
+- [x] Phase 1: social-needs screening + race-free kidney calculation (#9).
+- [x] Phase 1: printable downtime chart summary, test patients only (#8, partial). Offline mode still open.
+- [ ] Signed-in walkthrough of Phase 1 screens — not possible from here on this user-managed backend; owner to try after publishing.
 - [ ] Phase 2: appointment scheduling, then test-patient portal (#4).
 - [ ] Phase 2: practice billing (diagnosis codes, visit charge sheet, claim draft, never sent) (#5).
 - [ ] Phase 2: "BOOST" add-on — standard FHIR export and test launch in Epic's free practice sandbox (#10).
