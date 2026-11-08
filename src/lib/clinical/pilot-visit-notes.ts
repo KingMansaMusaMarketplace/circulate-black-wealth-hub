@@ -135,7 +135,12 @@ export function vitalsSeries(records: AnyRow[]) {
     }));
 }
 
-export interface ChartLogFilter { person?: string; patientId?: string; from?: string; to?: string }
+export interface ChartLogFilter {
+  person?: string; patientId?: string; from?: string; to?: string;
+  /** Show only real-patient or only test-patient chart openings (needs isReal). */
+  kind?: 'all' | 'real' | 'test';
+  isReal?: (patientId: string) => boolean;
+}
 
 /** Chart-opened entries only, filtered by staff email, patient and date range (inclusive). */
 export function filterChartLog(audit: AnyRow[], f: ChartLogFilter): AnyRow[] {
@@ -146,6 +151,10 @@ export function filterChartLog(audit: AnyRow[], f: ChartLogFilter): AnyRow[] {
     if (a.action !== 'chart_opened') return false;
     if (person && !String(a.actor_email ?? '').toLowerCase().includes(person)) return false;
     if (f.patientId && a.patient_id !== f.patientId) return false;
+    if (f.kind && f.kind !== 'all' && f.isReal) {
+      const real = f.isReal(String(a.patient_id));
+      if ((f.kind === 'real') !== real) return false;
+    }
     const t = new Date(a.created_at);
     if (from && t < from) return false;
     if (to && t > to) return false;
