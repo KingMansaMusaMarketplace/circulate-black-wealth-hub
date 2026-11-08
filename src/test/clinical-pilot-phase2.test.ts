@@ -95,7 +95,9 @@ describe('roles for phase 2', () => {
 describe('BOOST sandbox', () => {
   it('only accepts the fixed public sandbox', () => {
     expect(isSandboxServer(BOOST_SANDBOX_ISS)).toBe(true);
-    expect(isSandboxServer('https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4')).toBe(false);
+    expect(isSandboxServer('https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4')).toBe(true);
+    expect(isSandboxServer('https://evil.example.com/fhir')).toBe(false);
+    expect(isSandboxServer('https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/x')).toBe(false);
   });
   it('computes race-free eGFR from the newest creatinine and flags interactions once', () => {
     const cr = latestCreatinine([
