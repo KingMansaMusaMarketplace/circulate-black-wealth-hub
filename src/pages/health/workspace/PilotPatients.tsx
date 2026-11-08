@@ -358,17 +358,31 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName }: { cli
           </>}
         </CardContent>
       </Card>
+      {!perms.readChart && (
+        <>
+          <EmergencyAccessCard patientId={patient.id} onGranted={(until) => { setEmergencyUntil(until); void records.reload(); void notes.reload(); }} />
+          <SocialNeedsPanel clinicId={clinicId} patient={patient} perms={perms} writable={writable} onFailed={onWriteFailed} canRead={false} />
+        </>
+      )}
+      {perms.readChart && <>
       <DataLoadErrors sources={[records, notes]} />
       <Tabs value={tab} onValueChange={(v) => { setTab(v); setAdding(null); }}>
         <TabsList className="flex h-auto flex-wrap justify-start">
           <TabsTrigger value="summary">Summary</TabsTrigger>
           <TabsTrigger value="notes">Visit notes</TabsTrigger>
+          <TabsTrigger value="rx">Prescriptions</TabsTrigger>
+          <TabsTrigger value="orders">Lab orders</TabsTrigger>
           <TabsTrigger value="vitals">Vitals</TabsTrigger>
           <TabsTrigger value="meds">Medicines</TabsTrigger>
           <TabsTrigger value="problems">Allergies & problems</TabsTrigger>
           <TabsTrigger value="labs">Lab results</TabsTrigger>
+          <TabsTrigger value="social">Social needs</TabsTrigger>
           <TabsTrigger value="all">All records</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="rx"><PrescriptionsPanel clinicId={clinicId} patient={patient} perms={perms} writable={writable} onFailed={onWriteFailed} records={records.rows} /></TabsContent>
+        <TabsContent value="orders"><LabOrdersPanel clinicId={clinicId} patient={patient} perms={perms} writable={writable} onFailed={onWriteFailed} real={real} onResulted={() => records.reload()} /></TabsContent>
+        <TabsContent value="social"><SocialNeedsPanel clinicId={clinicId} patient={patient} perms={perms} writable={writable} onFailed={onWriteFailed} canRead /></TabsContent>
 
         <TabsContent value="summary" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
@@ -396,7 +410,7 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName }: { cli
               </div>) : <>No signed visit notes yet. {writable && <Button size="sm" variant="link" className="px-1" onClick={() => setTab('notes')}>Write one</Button>}</>}</CardContent></Card>
         </TabsContent>
 
-        <TabsContent value="notes"><PilotVisitNotes clinicId={clinicId} patientId={patient.id} userId={userId} real={real} writable={writable} onFailed={onWriteFailed} onChanged={() => void notes.reload()} /></TabsContent>
+        <TabsContent value="notes"><PilotVisitNotes clinicId={clinicId} patientId={patient.id} userId={userId} real={real} writable={writable && perms.draftNotes} canSign={perms.signNotes} onFailed={onWriteFailed} onChanged={() => void notes.reload()} /></TabsContent>
 
         <TabsContent value="vitals" className="space-y-4">
           {vitals.length >= 2 ? (
@@ -431,12 +445,13 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName }: { cli
           {real && <p className="text-xs text-muted-foreground">Real-patient allergies need a severity. Choose “Unknown” if the patient isn’t sure.</p>}
           {recordList(records.rows.filter((r) => r.record_type === 'allergy' || r.record_type === 'problem'), 'No allergies or problems recorded.')}
         </TabsContent>
-        <TabsContent value="labs" className="space-y-4">{addRecord('lab_result')}{recordList(records.rows.filter((r) => r.record_type === 'lab_result'), 'No lab results recorded.')}</TabsContent>
+        <TabsContent value="labs" className="space-y-4"><KidneyFunctionCard patient={patient} records={records.rows} />{addRecord('lab_result')}{recordList(records.rows.filter((r) => r.record_type === 'lab_result'), 'No lab results recorded.')}</TabsContent>
         <TabsContent value="all" className="space-y-4">
           {addRecord('problem', 'Add any record', 'all')}
           {recordList(records.rows, 'No records yet.')}
         </TabsContent>
       </Tabs>
+      </>}
     </div>
   );
 }
