@@ -73,12 +73,12 @@ export function boostInsights(input: { birthDate: string | null; gender: string 
   input.medicines.forEach((m, i) => {
     const others = input.medicines.filter((_, j) => j !== i);
     for (const w of prescriptionWarnings(m, input.allergies, others)) {
-      const key = `${m}: ${w}`;
-      // Each pair interaction appears for both medicines; keep the first one only.
-      const pairKey = w.startsWith('Interaction') ? w : key;
-      if (seen.has(pairKey)) continue;
-      seen.add(pairKey);
-      medicineWarnings.push(w.startsWith('Interaction') ? w : `${m} — ${w}`);
+      // Pair warnings (interaction / duplicate) show up for both medicines; keep one.
+      const pair = w.match(/^Interaction with (.+?): /) ?? w.match(/^Duplicate: the patient already has (.+?) on /);
+      const key = pair ? `${w.split(' ')[0]}|${[m.trim().toLowerCase(), pair[1].trim().toLowerCase()].sort().join('|')}` : `${m}|${w}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      medicineWarnings.push(`${m} — ${w}`);
     }
   });
   return { egfr, medicineWarnings: medicineWarnings.slice(0, 30) };
