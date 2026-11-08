@@ -485,9 +485,13 @@ function RecordItem({ record: r, onChanged, writable = true, onFailed }: { recor
   );
 }
 
-function AddRecordForm({ clinicId, patientId, initialType, onCancel, onSaved }: { clinicId: string; patientId: string; initialType: PilotRecordType; onCancel: () => void; onSaved: () => void | Promise<void> }) {
+function AddRecordForm({ clinicId, patientId, initialType, onCancel, onSaved, real = false, onFailed }: { clinicId: string; patientId: string; initialType: PilotRecordType; onCancel: () => void; onSaved: () => void | Promise<void>; real?: boolean; onFailed?: () => void }) {
   const [type, setType] = useState<PilotRecordType>(initialType);
-  const [f, setF] = useState({ recorded_on: todayIso(), title: initialType === 'vitals' ? 'Vital signs' : '', details: '', bp_sys: '', bp_dia: '', heart_rate: '', weight_lb: '', temperature_f: '', medication_name: '', dose: '' });
+  const [f, setF] = useState({
+    recorded_on: todayIso(), title: initialType === 'vitals' ? 'Vital signs' : '', details: '', bp_sys: '', bp_dia: '', heart_rate: '', weight_lb: '', temperature_f: '',
+    medication_name: '', dose: '', med_frequency: '', med_route: '', allergy_reaction: '', allergy_severity: '', lab_value: '', lab_unit: '', lab_ref_range: '', lab_flag: '',
+  });
+  const opt = (v: string) => v.trim() || null;
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const pending = useRef(false);
@@ -498,9 +502,11 @@ function AddRecordForm({ clinicId, patientId, initialType, onCancel, onSaved }: 
     const input = {
       record_type: type, recorded_on: f.recorded_on, title: f.title, details: f.details.trim() || null,
       ...(type === 'vitals' ? { bp_sys: num(f.bp_sys), bp_dia: num(f.bp_dia), heart_rate: num(f.heart_rate), weight_lb: num(f.weight_lb), temperature_f: num(f.temperature_f) } : {}),
-      ...(type === 'medication' ? { medication_name: f.medication_name.trim() || null, dose: f.dose.trim() || null } : {}),
+      ...(type === 'medication' ? { medication_name: opt(f.medication_name), dose: opt(f.dose), med_frequency: opt(f.med_frequency), med_route: opt(f.med_route) } : {}),
+      ...(type === 'allergy' ? { allergy_reaction: opt(f.allergy_reaction), allergy_severity: opt(f.allergy_severity) } : {}),
+      ...(type === 'lab_result' ? { lab_value: opt(f.lab_value), lab_unit: opt(f.lab_unit), lab_ref_range: opt(f.lab_ref_range), lab_flag: opt(f.lab_flag) } : {}),
     };
-    const problem = validatePilotRecord(input);
+    const problem = validatePilotRecord(input, new Date(), { real });
     if (problem) { setError(problem); return; }
     pending.current = true; setSaving(true); setError('');
     try {
@@ -509,7 +515,7 @@ function AddRecordForm({ clinicId, patientId, initialType, onCancel, onSaved }: 
       if (!data?.id) throw new Error('The record could not be confirmed as saved. Refresh before trying again.');
       toast.success('Record saved');
       await onSaved();
-    } catch (e) { setError(e instanceof Error ? e.message : 'Record could not be saved.'); }
+    } catch (e) { setError(e instanceof Error ? e.message : 'Record could not be saved.'); onFailed?.(); }
     finally { pending.current = false; setSaving(false); }
   };
 
@@ -534,10 +540,30 @@ function AddRecordForm({ clinicId, patientId, initialType, onCancel, onSaved }: 
         {type === 'medication' && (
           <div className="grid gap-3 sm:grid-cols-2">
             <div className="space-y-1"><Label htmlFor="pr-med">Medicine name *</Label><Input id="pr-med" value={f.medication_name} onChange={set('medication_name')} maxLength={140} /></div>
-            <div className="space-y-1"><Label htmlFor="pr-dose">Dose</Label><Input id="pr-dose" value={f.dose} onChange={set('dose')} maxLength={140} placeholder="10 mg once daily" /></div>
+            <div className="space-y-1"><Label htmlFor="pr-dose">Dose</Label><Input id="pr-dose" value={f.dose} onChange={set('dose')} maxLength={140} placeholder="10 mg" /></div>
+            <div className="space-y-1"><Label htmlFor="pr-freq">How often</Label><Input id="pr-freq" value={f.med_frequency} onChange={set('med_frequency')} maxLength={140} placeholder="Once daily" /></div>
+            <div className="space-y-1"><Label htmlFor="pr-route">How taken</Label><Input id="pr-route" value={f.med_route} onChange={set('med_route')} maxLength={60} placeholder="By mouth" /></div>
           </div>
         )}
-        <div className="space-y-1"><Label htmlFor="pr-details">Details</Label><Textarea id="pr-details" value={f.details} onChange={set('details')} maxLength={5000} rows={4} placeholder="Notes for this made-up test patient" /></div>
+        {type === 'allergy' && (
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="space-y-1"><Label>Severity{real ? ' *' : ''}</Label>
+              <Select value={f.allergy_severity} onValueChange={(v) => setF({ ...f, allergy_severity: v })}><SelectTrigger aria-label="Allergy severity"><SelectValue placeholder="Choose" /></SelectTrigger>
+                <SelectContent>{ALLERGY_SEVERITIES.map((s) => <SelectItem key={s} value={s}>{ALLERGY_SEVERITY_LABELS[s]}</SelectItem>)}</SelectContent></Select></div>
+            <div className="space-y-1"><Label htmlFor="pr-reaction">Reaction</Label><Input id="pr-reaction" value={f.allergy_reaction} onChange={set('allergy_reaction')} maxLength={200} placeholder="Hives, swelling" /></div>
+          </div>
+        )}
+        {type === 'lab_result' && (
+          <div className="grid gap-3 sm:grid-cols-4">
+            <div className="space-y-1"><Label htmlFor="pr-labval">Result{real ? ' *' : ''}</Label><Input id="pr-labval" value={f.lab_value} onChange={set('lab_value')} maxLength={60} placeholder="7.2" /></div>
+            <div className="space-y-1"><Label htmlFor="pr-labunit">Units</Label><Input id="pr-labunit" value={f.lab_unit} onChange={set('lab_unit')} maxLength={30} placeholder="%" /></div>
+            <div className="space-y-1"><Label htmlFor="pr-labrange">Normal range</Label><Input id="pr-labrange" value={f.lab_ref_range} onChange={set('lab_ref_range')} maxLength={60} placeholder="4.0–5.6" /></div>
+            <div className="space-y-1"><Label>Flag</Label>
+              <Select value={f.lab_flag} onValueChange={(v) => setF({ ...f, lab_flag: v })}><SelectTrigger aria-label="Lab result flag"><SelectValue placeholder="Choose" /></SelectTrigger>
+                <SelectContent>{LAB_FLAGS.map((s) => <SelectItem key={s} value={s}>{LAB_FLAG_LABELS[s]}</SelectItem>)}</SelectContent></Select></div>
+          </div>
+        )}
+        <div className="space-y-1"><Label htmlFor="pr-details">Details</Label><Textarea id="pr-details" value={f.details} onChange={set('details')} maxLength={5000} rows={4} placeholder={real ? 'Notes for this patient' : 'Notes for this made-up test patient'} /></div>
         {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
         <div className="flex gap-2">
           <Button onClick={save} disabled={saving} className="bg-mansagold text-mansablue hover:bg-mansagold-dark">{saving ? 'Saving…' : 'Save record'}</Button>
