@@ -27,7 +27,7 @@ function clearSmartSession() {
 }
 
 function EgfrLine({ e }: { e: BoostInsights['egfr'] }) {
-  if (e.ok) return <p className="text-lg font-semibold">{e.egfr} <span className="text-sm font-normal text-muted-foreground">mL/min/1.73m² · {e.stage}</span></p>;
+  if ('egfr' in e) return <p className="text-lg font-semibold">{e.egfr} <span className="text-sm font-normal text-muted-foreground">mL/min/1.73m² · {e.stage}</span></p>;
   return <p className="text-muted-foreground">{e.reason}{e.both ? ` Female ${e.both.female}, male ${e.both.male}.` : ''}</p>;
 }
 
