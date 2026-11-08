@@ -473,3 +473,4 @@
 - [x] Structured visit notes: author-only drafts, sign & lock, addenda only, entered-in-error; database-enforced and self-tested
 - [x] Owner chart-opened log with staff/patient/date filters; masked names + 10-minute idle screen lock
 - [ ] Real patient data — blocked: signed vendor BAAs, attorney approval, separate secure database
+- [x] Real-patient chart (after go-live unlock): vitals, medicines (frequency/route/stop with reason), allergies (severity required), lab results (value/units/range/flag), signed notes; 5-minute idle lock, password to sign, no talk-to-type, read-only while locked, real/test chart-open log filter
