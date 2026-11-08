@@ -10349,6 +10349,63 @@ export type Database = {
         }
         Relationships: []
       }
+      hc_compliance_milestones: {
+        Row: {
+          area: string
+          created_at: string
+          estimated_cost: string | null
+          id: string
+          item_key: string
+          next_step: string | null
+          notes: string | null
+          owner_name: string | null
+          sort_order: number
+          status: string
+          target_date: string | null
+          title: string
+          updated_at: string
+          updated_by: string | null
+          who_issues: string | null
+          why_it_matters: string
+        }
+        Insert: {
+          area: string
+          created_at?: string
+          estimated_cost?: string | null
+          id?: string
+          item_key: string
+          next_step?: string | null
+          notes?: string | null
+          owner_name?: string | null
+          sort_order?: number
+          status?: string
+          target_date?: string | null
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+          who_issues?: string | null
+          why_it_matters: string
+        }
+        Update: {
+          area?: string
+          created_at?: string
+          estimated_cost?: string | null
+          id?: string
+          item_key?: string
+          next_step?: string | null
+          notes?: string | null
+          owner_name?: string | null
+          sort_order?: number
+          status?: string
+          target_date?: string | null
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+          who_issues?: string | null
+          why_it_matters?: string
+        }
+        Relationships: []
+      }
       hc_documents: {
         Row: {
           clinic_id: string
@@ -10754,6 +10811,78 @@ export type Database = {
           },
         ]
       }
+      hc_pilot_appointments: {
+        Row: {
+          checked_in_at: string | null
+          clinic_id: string
+          created_at: string
+          created_by: string
+          created_by_email: string | null
+          duration_min: number
+          id: string
+          patient_id: string
+          provider_email: string | null
+          provider_id: string
+          reason: string | null
+          starts_at: string
+          status: string
+          status_reason: string | null
+          updated_at: string
+          visit_type: string
+        }
+        Insert: {
+          checked_in_at?: string | null
+          clinic_id: string
+          created_at?: string
+          created_by?: string
+          created_by_email?: string | null
+          duration_min?: number
+          id?: string
+          patient_id: string
+          provider_email?: string | null
+          provider_id: string
+          reason?: string | null
+          starts_at: string
+          status?: string
+          status_reason?: string | null
+          updated_at?: string
+          visit_type?: string
+        }
+        Update: {
+          checked_in_at?: string | null
+          clinic_id?: string
+          created_at?: string
+          created_by?: string
+          created_by_email?: string | null
+          duration_min?: number
+          id?: string
+          patient_id?: string
+          provider_email?: string | null
+          provider_id?: string
+          reason?: string | null
+          starts_at?: string
+          status?: string
+          status_reason?: string | null
+          updated_at?: string
+          visit_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_pilot_appointments_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_pilot_appointments_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "hc_pilot_patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       hc_pilot_audit: {
         Row: {
           action: string
@@ -10794,6 +10923,100 @@ export type Database = {
             columns: ["clinic_id"]
             isOneToOne: false
             referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_pilot_claims: {
+        Row: {
+          clinic_id: string
+          closed_at: string | null
+          created_at: string
+          created_by: string
+          created_by_email: string | null
+          denial_reason: string | null
+          diagnosis_codes: string[]
+          id: string
+          lines: Json
+          member_id: string | null
+          paid_cents: number | null
+          patient_id: string
+          payer_name: string
+          service_date: string
+          status: string
+          submitted_at: string | null
+          total_cents: number
+          updated_at: string
+          updated_by: string | null
+          visit_note_id: string
+          void_reason: string | null
+        }
+        Insert: {
+          clinic_id: string
+          closed_at?: string | null
+          created_at?: string
+          created_by?: string
+          created_by_email?: string | null
+          denial_reason?: string | null
+          diagnosis_codes?: string[]
+          id?: string
+          lines?: Json
+          member_id?: string | null
+          paid_cents?: number | null
+          patient_id: string
+          payer_name?: string
+          service_date: string
+          status?: string
+          submitted_at?: string | null
+          total_cents?: number
+          updated_at?: string
+          updated_by?: string | null
+          visit_note_id: string
+          void_reason?: string | null
+        }
+        Update: {
+          clinic_id?: string
+          closed_at?: string | null
+          created_at?: string
+          created_by?: string
+          created_by_email?: string | null
+          denial_reason?: string | null
+          diagnosis_codes?: string[]
+          id?: string
+          lines?: Json
+          member_id?: string | null
+          paid_cents?: number | null
+          patient_id?: string
+          payer_name?: string
+          service_date?: string
+          status?: string
+          submitted_at?: string | null
+          total_cents?: number
+          updated_at?: string
+          updated_by?: string | null
+          visit_note_id?: string
+          void_reason?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_pilot_claims_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_pilot_claims_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "hc_pilot_patients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_pilot_claims_visit_note_id_fkey"
+            columns: ["visit_note_id"]
+            isOneToOne: false
+            referencedRelation: "hc_pilot_visit_notes"
             referencedColumns: ["id"]
           },
         ]
@@ -11049,6 +11272,114 @@ export type Database = {
             columns: ["clinic_id"]
             isOneToOne: false
             referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_pilot_portal_links: {
+        Row: {
+          active: boolean
+          clinic_id: string
+          created_at: string
+          email: string
+          id: string
+          invited_by: string
+          patient_id: string
+          revoked_at: string | null
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          clinic_id: string
+          created_at?: string
+          email: string
+          id?: string
+          invited_by: string
+          patient_id: string
+          revoked_at?: string | null
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          clinic_id?: string
+          created_at?: string
+          email?: string
+          id?: string
+          invited_by?: string
+          patient_id?: string
+          revoked_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_pilot_portal_links_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_pilot_portal_links_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "hc_pilot_patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_pilot_portal_messages: {
+        Row: {
+          body: string
+          clinic_id: string
+          created_at: string
+          id: string
+          patient_id: string
+          read_by_clinic_at: string | null
+          read_by_patient_at: string | null
+          sender_email: string | null
+          sender_id: string
+          sender_kind: string
+          topic: string
+        }
+        Insert: {
+          body: string
+          clinic_id: string
+          created_at?: string
+          id?: string
+          patient_id: string
+          read_by_clinic_at?: string | null
+          read_by_patient_at?: string | null
+          sender_email?: string | null
+          sender_id?: string
+          sender_kind: string
+          topic?: string
+        }
+        Update: {
+          body?: string
+          clinic_id?: string
+          created_at?: string
+          id?: string
+          patient_id?: string
+          read_by_clinic_at?: string | null
+          read_by_patient_at?: string | null
+          sender_email?: string | null
+          sender_id?: string
+          sender_kind?: string
+          topic?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_pilot_portal_messages_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_pilot_portal_messages_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "hc_pilot_patients"
             referencedColumns: ["id"]
           },
         ]
@@ -30016,6 +30347,18 @@ export type Database = {
       hc_is_member: { Args: { _clinic: string }; Returns: boolean }
       hc_is_owner: { Args: { _clinic: string }; Returns: boolean }
       hc_member_role: { Args: { _clinic: string }; Returns: string }
+      hc_pilot_billable_visits: {
+        Args: { _clinic: string }
+        Returns: {
+          assessment: string
+          has_claim: boolean
+          note_id: string
+          patient_id: string
+          signer_email: string
+          visit_date: string
+          visit_reason: string
+        }[]
+      }
       hc_pilot_break_glass: {
         Args: { _patient: string; _reason: string }
         Returns: string
@@ -30024,8 +30367,28 @@ export type Database = {
         Args: { _patient: string }
         Returns: undefined
       }
+      hc_pilot_portal_invite: {
+        Args: { _email: string; _patient: string }
+        Returns: string
+      }
+      hc_pilot_portal_mark_read: {
+        Args: { _patient: string; _side: string }
+        Returns: number
+      }
+      hc_pilot_portal_revoke: { Args: { _link: string }; Returns: boolean }
       hc_pilot_reset: { Args: { _clinic: string }; Returns: number }
       hc_pilot_seed_samples: { Args: { _clinic: string }; Returns: number }
+      hc_portal_my_patients: {
+        Args: never
+        Returns: {
+          clinic_id: string
+          clinic_name: string
+          first_name: string
+          last_name: string
+          patient_id: string
+        }[]
+      }
+      hc_portal_patient: { Args: { _patient: string }; Returns: boolean }
       hc_real_patients_allowed: { Args: { _clinic: string }; Returns: boolean }
       hc_verify_preview_access: {
         Args: { p_device: string; p_end?: boolean; p_token: string }
