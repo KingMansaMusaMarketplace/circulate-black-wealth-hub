@@ -146,6 +146,7 @@ const menuGroups: MenuGroup[] = [
       { id: 'admin-ai-workforce', label: 'AI Workforce', icon: Bot, route: '/admin/ai-workforce' },
       { id: 'admin-kayla-scoreboard', label: 'Kayla Scoreboard', icon: Gauge, route: '/admin/kayla-scoreboard' },
       { id: 'admin-vendor-baa', label: 'Vendor BAA Tracker', icon: FileSignature, route: '/admin/vendor-baa' },
+      { id: 'admin-clinical-approvals', label: 'Outside Approvals Tracker', icon: FileSignature, route: '/admin/clinical-approvals' },
       { id: 'kayla-cost', label: 'Kayla Cost Meter', icon: Gauge },
       { id: 'webhooks', label: 'Webhooks', icon: Webhook },
       { id: 'api-tokens', label: 'API Tokens', icon: Key },
