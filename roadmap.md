@@ -1,5 +1,17 @@
 # Roadmap
 
+## Board's 10 world-class EMR gaps for the 4-doctor pilot — November 8, 2026
+- [ ] Board Check approval and answers (one shared clinic or separate; staff roles needed) — waiting on Thomas.
+- [ ] Phase 1 (test patients): staff roles + emergency "break the glass" access (#7).
+- [ ] Phase 1: practice prescriptions with allergy/interaction warnings, printable, never sent to pharmacies (#2).
+- [ ] Phase 1: lab orders → pending → results with abnormal flags, entered by hand (#3).
+- [ ] Phase 1: social-needs screening + race-free kidney calculation (#9).
+- [ ] Phase 1: printable downtime chart summary (#8, partial).
+- [ ] Phase 2: appointment scheduling, then test-patient portal (#4).
+- [ ] Phase 2: practice billing (diagnosis codes, visit charge sheet, claim draft, never sent) (#5).
+- [ ] Phase 2: "BOOST" add-on — standard FHIR export and test launch in Epic's free practice sandbox (#10).
+- [ ] Paperwork tracker for outside approvals: ONC certification (#1), Surescripts/DEA, Quest/LabCorp, Carequality/TEFCA, clearinghouse, SOC 2 + penetration test (#6) — owner-driven contracts, cannot be built in the app.
+
 ## Pilot talk-to-type for visit notes — November 7, 2026
 - [x] Microphone button on each visit-note section; words added to the draft, never auto-saved or signed; 2-minute clips; test patients only.
 - [x] Private helper sends audio straight to 1325.AI's OpenAI organization (org ID confirmed), nothing stored or logged; strangers refused.
