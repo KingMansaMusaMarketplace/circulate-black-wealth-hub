@@ -26,6 +26,11 @@ export interface PilotPermissions {
   cancelLabs: boolean;
   screenSocialNeeds: boolean;
   needsEmergencyAccess: boolean;
+  /** Phase 2 */
+  bookAppointments: boolean;
+  workClaims: boolean;
+  portalTeam: boolean;
+  useBoost: boolean;
 }
 
 const CLINICAL = new Set(['owner', 'doctor', 'nurse']);
@@ -49,6 +54,10 @@ export function pilotPermissions(role: string | null | undefined, emergency = fa
     cancelLabs: prescriber,
     screenSocialNeeds: clinical || r === 'front_desk',
     needsEmergencyAccess: member && !clinical,
+    bookAppointments: clinical || r === 'front_desk',
+    workClaims: prescriber || r === 'biller',
+    portalTeam: clinical || r === 'front_desk',
+    useBoost: clinical,
   };
 }
 
