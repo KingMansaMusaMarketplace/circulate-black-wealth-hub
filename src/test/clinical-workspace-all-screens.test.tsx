@@ -63,7 +63,7 @@ describe('Clinical workspace screens', () => {
     const failed: string[] = [];
     for (const label of SCREENS) {
       try {
-        const btn = screen.getAllByRole('button', { name: label, exact: true })[0];
+        const btn = screen.getAllByRole('button', { name: label })[0];
         fireEvent.click(btn);
         await waitFor(() => expect(screen.getByRole('heading', { level: 1, name: label })).toBeTruthy());
       } catch (e) { failed.push(`${label}: ${(e as Error).message.split('\n')[0]}`); }
