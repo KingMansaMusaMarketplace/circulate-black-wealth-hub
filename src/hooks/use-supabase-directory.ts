@@ -1,3 +1,4 @@
+import { displayPhone, displayWebsite } from '@/lib/directory/contact-sanitize';
 
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { useQuery, useQueryClient, keepPreviousData } from '@tanstack/react-query';
@@ -53,9 +54,9 @@ const mapSupabaseToFrontend = (business: SupabaseBusiness): Business => {
     state: business.state || '',
     country: business.country || '',
     zipCode: business.zip_code || '',
-    phone: business.phone || '',
+    phone: displayPhone(business.phone),
     email: '',
-    website: business.website || '',
+    website: displayWebsite(business.website),
     logoUrl: logoUrl,
     bannerUrl: bannerUrl,
     averageRating: Number(business.average_rating) || 0,

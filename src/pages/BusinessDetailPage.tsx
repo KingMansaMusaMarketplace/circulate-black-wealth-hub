@@ -1,3 +1,4 @@
+import { displayPhone, displayWebsite } from '@/lib/directory/contact-sanitize';
 import React, { useState, useEffect, useMemo, memo, lazy, Suspense } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -197,9 +198,9 @@ const BusinessDetailPage = () => {
         state: row.state || '',
         country: row.country || '',
         zip_code: row.zip_code || '',
-        phone: row.phone || '',
+        phone: displayPhone(row.phone),
         email: row.email || '',
-        website: row.website || '',
+        website: displayWebsite(row.website),
         logo_url: row.logo_url || '',
         banner_url: row.banner_url || '',
         is_verified: row.is_verified || false,
