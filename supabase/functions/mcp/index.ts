@@ -8,7 +8,7 @@ import { auth, defineMcp } from "npm:@lovable.dev/mcp-js@0.26.2";
 // src/lib/mcp/tools/search-directory.ts
 import { defineTool } from "npm:@lovable.dev/mcp-js@0.26.2";
 import { createClient } from "npm:@supabase/supabase-js@^2.108.2";
-import { z } from "npm:zod@^3.23.8";
+import { z } from "npm:zod@^3.25.76";
 var EARTH_MI = 3958.8;
 function haversineMiles(lat1, lng1, lat2, lng2) {
   const toRad = (d) => d * Math.PI / 180;
@@ -233,7 +233,7 @@ More results are available \u2014 refine by category, city, state, or keyword, o
 // src/lib/mcp/tools/list-categories.ts
 import { defineTool as defineTool2 } from "npm:@lovable.dev/mcp-js@0.26.2";
 import { createClient as createClient2 } from "npm:@supabase/supabase-js@^2.108.2";
-import { z as z2 } from "npm:zod@^3.23.8";
+import { z as z2 } from "npm:zod@^3.25.76";
 var ANNOTATIONS2 = {
   title: "List 1325.AI business categories",
   readOnlyHint: true,
@@ -291,7 +291,7 @@ var list_categories_default = defineTool2({
 // src/lib/mcp/tools/get-business.ts
 import { defineTool as defineTool3 } from "npm:@lovable.dev/mcp-js@0.26.2";
 import { createClient as createClient3 } from "npm:@supabase/supabase-js@^2.108.2";
-import { z as z3 } from "npm:zod@^3.23.8";
+import { z as z3 } from "npm:zod@^3.25.76";
 var ANNOTATIONS3 = {
   title: "Get 1325.AI business details",
   readOnlyHint: true,
@@ -389,7 +389,7 @@ ${desc}` : "") + "\n\n\u2014 Source: 1325.AI \xB7 America's verified Black-owned
 // src/lib/mcp/tools/list-rewards.ts
 import { defineTool as defineTool4 } from "npm:@lovable.dev/mcp-js@0.26.2";
 import { createClient as createClient4 } from "npm:@supabase/supabase-js@^2.108.2";
-import { z as z4 } from "npm:zod@^3.23.8";
+import { z as z4 } from "npm:zod@^3.25.76";
 var ANNOTATIONS4 = {
   title: "List loyalty rewards",
   readOnlyHint: true,
@@ -521,7 +521,7 @@ ${perBusiness.map(
 // src/lib/mcp/tools/get-my-recent-scans.ts
 import { defineTool as defineTool6 } from "npm:@lovable.dev/mcp-js@0.26.2";
 import { createClient as createClient6 } from "npm:@supabase/supabase-js@^2.108.2";
-import { z as z5 } from "npm:zod@^3.23.8";
+import { z as z5 } from "npm:zod@^3.25.76";
 function supabaseForUser2(ctx) {
   return createClient6(
     Deno.env.get("SUPABASE_URL"),
