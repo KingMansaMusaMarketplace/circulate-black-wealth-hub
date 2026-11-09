@@ -13,8 +13,8 @@ vi.mock('@/integrations/supabase/client', () => {
     const result = () => ({ data: table === 'hc_members' && single ? { role: 'owner', hc_clinics: CLINIC } : single ? null : [], error: null, count: 0 });
     const proxy: unknown = new Proxy(function () {}, {
       get(_t, prop) {
-        if (prop === 'then') { if (table === 'hc_members') console.log('THEN', single, JSON.stringify(result()).slice(0,80)); } if (prop === 'then') return (ok: (v: unknown) => unknown, bad?: (e: unknown) => unknown) => Promise.resolve(result()).then(ok, bad);
-        if (prop === 'maybeSingle' || prop === 'single') { single = true; if (table === 'hc_members') console.log('SINGLE', new Error().stack?.split('\n').slice(2,5).join(' / ')); }
+        if (prop === 'then') return (ok: (v: unknown) => unknown, bad?: (e: unknown) => unknown) => Promise.resolve(result()).then(ok, bad);
+        if (prop === 'maybeSingle' || prop === 'single') single = true;
         return () => proxy;
       },
       apply() { return proxy; },
