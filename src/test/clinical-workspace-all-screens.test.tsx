@@ -14,7 +14,7 @@ vi.mock('@/integrations/supabase/client', () => {
     const proxy: unknown = new Proxy(function () {}, {
       get(_t, prop) {
         if (prop === 'then') return (ok: (v: unknown) => unknown, bad?: (e: unknown) => unknown) => Promise.resolve(result()).then(ok, bad);
-        if (prop === 'maybeSingle' || prop === 'single') single = true;
+        if (prop === 'maybeSingle' || prop === 'single') { single = true; if (table === 'hc_members') console.log('SINGLE', new Error().stack?.split('\n').slice(2,5).join(' / ')); }
         return () => proxy;
       },
       apply() { return proxy; },
