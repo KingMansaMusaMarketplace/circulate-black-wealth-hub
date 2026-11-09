@@ -7,7 +7,7 @@ import { useVoiceConnection } from '@/components/voice';
 import { VoiceTranscript } from '@/components/voice';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import meetKaylaVideo from '@/assets/meet-kayla-upgraded.mp4.asset.json';
+import meetKaylaVideo from '@/assets/videos/stream/meet-kayla-stream.mp4.asset.json';
 
 // CRITICAL iOS: Completely skip mounting Kayla on iOS.
 // The WKWebView crashes when the WebRTC voice stack initializes,

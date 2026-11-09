@@ -20,6 +20,7 @@ import physicianCare from '@/assets/clinical-physician-care.jpg';
 import ClinicalSiteBack from './ClinicalSiteBack';
 import DelegationLoop from './DelegationLoop';
 import ClinicalVideo from './ClinicalVideo';
+import briefingStream from '@/assets/videos/stream/clinical-briefing-v5-stream.mp4.asset.json';
 import demoVideo from '@/assets/clinical-product-demo-sharp.mp4.asset.json';
 import demoPoster from '@/assets/clinical-demo-poster.jpg';
 import briefingPoster from '@/assets/clinical-briefing-poster.jpg';
@@ -146,7 +147,7 @@ function Home() {
     </section>
     <Section>
       <Heading eyebrow="Executive briefing · 7 minutes" title="Watch Kayla walk through 1325 Clinical." />
-      <ClinicalVideo src="/__l5e/assets-v1/e7890108-2fec-4f79-a656-f7662971c33f/kayla-1325-clinical-briefing-v5.mp4" poster={briefingPoster} title="1325 Clinical executive briefing" label="AI-generated people & presenter · sample records only" />
+      <ClinicalVideo src={briefingStream.url} poster={briefingPoster} title="1325 Clinical executive briefing" label="AI-generated people & presenter · sample records only" />
     </Section>
     <Section>
       <Heading eyebrow="The problem" title="Physicians have become the clerks." intro="Records systems moved clerical work onto doctors (Dr. Join Y. Luh, Doximity Op-Med, Oct 8 2026; not affiliated or endorsed)." />

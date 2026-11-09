@@ -15,7 +15,7 @@ import heroLoop from '@/assets/videos/flagship-hero-loop.mp4.asset.json';
 import community from '@/assets/demo-soul-food.jpg';
 import clinical from '@/assets/clinical-solutions-practice.jpg';
 import founder from '@/assets/team/Thomas_D_Bowling_headshot.jpg';
-import film from '@/assets/meet-kayla-upgraded.mp4.asset.json';
+import film from '@/assets/videos/stream/meet-kayla-stream.mp4.asset.json';
 import '@/components/homepage/flagship.css';
 
 const pillars = [

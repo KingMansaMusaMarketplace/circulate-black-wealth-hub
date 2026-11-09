@@ -2,8 +2,8 @@ import { assetUrl } from '@/utils/assetUrl';
 import { Helmet } from "react-helmet-async";
 import { useSearchParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import holidayVideo from "@/assets/tour/tour-holiday.mp4.asset.json";
-import everydayVideo from "@/assets/tour/tour.mp4.asset.json";
+import holidayVideo from "@/assets/videos/stream/tour-holiday-stream.mp4.asset.json";
+import everydayVideo from "@/assets/videos/stream/tour-everyday-stream.mp4.asset.json";
 
 const START = Date.parse("2026-10-01T05:00:00Z");
 const END = Date.parse("2027-01-01T06:00:00Z");

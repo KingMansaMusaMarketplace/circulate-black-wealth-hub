@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import video from '@/assets/videos/1325-skywatch-briefing.mp4.asset.json';
+import video from '@/assets/videos/stream/skywatch-briefing-stream.mp4.asset.json';
 import logo from '@/assets/1325-ai-logo.png';
 import rooftop from '@/assets/skywatch-maryland-rooftop.jpg';
 import rooftopMotion from '@/assets/videos/skywatch-visible-motion-v2-compatible.mp4.asset.json';

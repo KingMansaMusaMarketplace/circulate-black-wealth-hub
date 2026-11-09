@@ -7,7 +7,7 @@ import { Check, Sparkles, Zap, Crown, Building2, ArrowRight, Star } from 'lucide
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import ScrollReveal from '@/components/animations/ScrollReveal';
-import deepDiveVideo from '@/assets/ultimate-deep-dive-extended.mp4.asset.json';
+import deepDiveVideo from '@/assets/videos/stream/ultimate-deep-dive-stream.mp4.asset.json';
 
 const PricingSection = () => {
   const [isAnnual, setIsAnnual] = useState(true);
