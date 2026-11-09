@@ -88,7 +88,7 @@ export default function ClinicalMarketplacePage() {
   return <div className="theme-clinical dark min-h-screen bg-background text-foreground">
     <Helmet>
       <title>Planned Clinical Subscriptions & Private Preview | 1325.AI</title>
-      <meta name="description" content="Explore planned 1325 Clinical EMR / EHR subscriptions: Core $299 and Plus $499 per clinician/month, administrative staff included. Not yet available. Country-specific prices to be announced; fictional-data preview only." />
+      <meta name="description" content="Explore planned 1325 Clinical EMR / EHR subscriptions: standard list $799 Core and $1,199 Plus per clinician/month, with a Founding Clinic Cohort rate of $299 and $499 locked for 3 years; administrative staff included. Not yet available. Country-specific prices to be announced; fictional-data preview only." />
       <meta property="og:title" content="1325 Clinical EMR / EHR — Planned Subscriptions & Preview" />
       <meta property="og:description" content="Planned Core and Plus subscriptions with administrative staff included. Not yet available. Private preview · sample data only." />
       <meta property="og:type" content="website" /><meta name="twitter:card" content="summary" />

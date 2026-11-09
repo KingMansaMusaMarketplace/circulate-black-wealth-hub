@@ -8,6 +8,15 @@ describe('approved future clinical subscription rules', () => {
   it('prices Plus at $499 per clinician monthly', () => {
     expect(clinicalSubscriptionPlans.find(plan => plan.id === 'plus')?.monthlyPerClinician).toBe(499);
   });
+  it('lists Core at a $799 standard enterprise price', () => {
+    expect(clinicalSubscriptionPlans.find(plan => plan.id === 'core')?.listMonthlyPerClinician).toBe(799);
+  });
+  it('lists Plus at a $1,199 standard enterprise price', () => {
+    expect(clinicalSubscriptionPlans.find(plan => plan.id === 'plus')?.listMonthlyPerClinician).toBe(1199);
+  });
+  it('locks the Founding Clinic Cohort rate for 3 years', () => {
+    expect(clinicalSubscriptionPolicy.foundingRateLockYears).toBe(3);
+  });
   it('totals five Core clinicians at $1,495 monthly', () => {
     expect(clinicalMonthlyTotal('core', 5)).toBe(1495);
   });
