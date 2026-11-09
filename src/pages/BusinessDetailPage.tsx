@@ -1,3 +1,4 @@
+import { displayPhone, displayWebsite } from '@/lib/directory/contact-sanitize';
 import React, { useState, useEffect, useMemo, memo, lazy, Suspense } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
