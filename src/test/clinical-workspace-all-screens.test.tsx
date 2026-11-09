@@ -10,7 +10,7 @@ const CLINIC = { id: '11111111-1111-4111-8111-111111111111', name: 'Smoke Test C
 vi.mock('@/integrations/supabase/client', () => {
   const chain = (table: string): unknown => {
     let single = false;
-    const result = () => ({ data: table === 'hc_members' ? { role: 'owner', hc_clinics: CLINIC } : single ? null : [], error: null, count: 0 });
+    const result = () => ({ data: table === 'hc_members' && single ? { role: 'owner', hc_clinics: CLINIC } : single ? null : [], error: null, count: 0 });
     const proxy: unknown = new Proxy(function () {}, {
       get(_t, prop) {
         if (prop === 'then') return (ok: (v: unknown) => unknown, bad?: (e: unknown) => unknown) => Promise.resolve(result()).then(ok, bad);
