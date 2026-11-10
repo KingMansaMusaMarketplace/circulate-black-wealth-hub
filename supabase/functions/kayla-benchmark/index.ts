@@ -13,8 +13,40 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-csrf-token",
 };
 
-import { buildKaylaSystemPrompt, classifyQuery, fetchAIWithRetry } from "../_shared/kayla-brain.ts";
+import { buildKaylaSystemPrompt, buildClinicalProductHelpPrompt, classifyQuery, fetchAIWithRetry, loadApprovedImprovements } from "../_shared/kayla-brain.ts";
 import { gatherLiveGrounding } from "../_shared/kayla-grounding.ts";
+import { buildClinicalHelpCatalogue } from "../_shared/clinical-product-catalog.ts";
+import { canonicalQuestion, compileHelpQuestion } from "../_shared/clinical-help-intake.ts";
+import { createResponsesCall } from "../_shared/clinical-help-responses.ts";
+
+// Clinical questions go through the same closed question filter, catalogue,
+// prompt and model as the doctor-facing product guide (health-kayla-help).
+// A phrasing the filter cannot understand is recorded as blocked, because a
+// doctor asking it would also be turned away. No pause is written from here,
+// so a scoreboard failure can never switch off the live doctor guide.
+const CLINICAL_HELP_MODEL = "openai/gpt-6-astra";
+async function answerClinicalQuestion(
+  supabase: any,
+  question: string,
+  key: string,
+): Promise<{ answer: string; model: string; tools: string }> {
+  const selection = compileHelpQuestion(question);
+  if (!selection) {
+    return { answer: "[blocked: the Clinical product guide could not understand this question, so a doctor asking it would be turned away]", model: CLINICAL_HELP_MODEL, tools: "clinical-intake:blocked" };
+  }
+  const lessons = await loadApprovedImprovements(supabase);
+  const call = createResponsesCall(
+    new Request("https://kayla-benchmark.local/clinical"),
+    { baseURL: "https://ai.gateway.lovable.dev/v1", apiKey: key, model: CLINICAL_HELP_MODEL },
+    [{ role: "user", content: canonicalQuestion(selection) }],
+    buildClinicalProductHelpPrompt(buildClinicalHelpCatalogue("workspace"), lessons),
+  );
+  let answer = "";
+  try { answer = await call.result.text; } catch (e) { answer = `[error: ${(e as Error).message}]`; }
+  const failure = call.failure();
+  if (failure && !answer.trim()) answer = `[no answer: gateway ${failure.status} ${failure.message}]`;
+  return { answer, model: CLINICAL_HELP_MODEL, tools: `clinical-catalogue:${selection.topics.join("+")}:${selection.intent}` };
+}
 
 const GATEWAY = "https://ai.gateway.lovable.dev/v1/chat/completions";
 
@@ -185,7 +217,7 @@ serve(async (req) => {
 
     const { data: cases } = await supabase
       .from("kayla_benchmark_cases")
-      .select("id, question, expected_facts, must_not_say, agent_name")
+      .select("id, question, expected_facts, must_not_say, agent_name, category")
       .eq("is_active", true)
       .limit(limit);
 
@@ -251,7 +283,9 @@ serve(async (req) => {
         const started = Date.now();
         let answer = "", model = "", tools = "";
         try {
-          const res = await answerQuestion(supabase, c.question, key, c.agent_name);
+          const res = c.category === "clinical"
+            ? await answerClinicalQuestion(supabase, c.question, key)
+            : await answerQuestion(supabase, c.question, key, c.agent_name);
           answer = res.answer; model = res.model; tools = res.tools;
         } catch (e) {
           answer = `[error: ${(e as Error).message}]`;
