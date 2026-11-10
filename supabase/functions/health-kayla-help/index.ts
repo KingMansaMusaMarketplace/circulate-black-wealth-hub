@@ -37,7 +37,7 @@ Deno.serve(async req => {
   if (pauseError) return json('Kayla availability could not be verified. Contact Thomas@1325.ai.', 503);
   if (pause?.setting_value?.paused) return json(pause.setting_value.message ?? 'Kayla AI is paused pending administrator action.', pause.setting_value.status === 402 ? 402 : 403);
   const lessons = await loadApprovedImprovements(service);
-  const catalogue = PRODUCT_HELP.map(t => ({ feature: t.feature, answer: t.answer, steps: t.steps, boundary: t.boundary, status: t.status, destination: t[body.surface as 'demo' | 'workspace'] ?? 'Not a separate screen in this view' }));
+  const catalogue = PRODUCT_HELP.map(t => ({ feature: t.feature, answer: t.answer, steps: t.steps, details: topicDepth(t.id).details, relatedScreens: topicDepth(t.id).related.map(id => PRODUCT_HELP.find(x => x.id === id)?.feature).filter(Boolean), boundary: t.boundary, status: t.status, destination: t[body.surface as 'demo' | 'workspace'] ?? 'Not a separate screen in this view' }));
   const accessAbort = new AbortController();
   const modelRequest = new Request(req.url, { headers: req.headers, signal: AbortSignal.any([req.signal, accessAbort.signal]) });
   const call = createResponsesCall(modelRequest, { baseURL: 'https://ai.gateway.lovable.dev/v1', apiKey, model: 'openai/gpt-6-astra', onBlocked: async failure => {
