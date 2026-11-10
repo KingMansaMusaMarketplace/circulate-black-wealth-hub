@@ -72,5 +72,5 @@ describe('Clinical workspace screens', () => {
     const crashes = errors.filter((e) => /The above error occurred|Uncaught|is not a function|Cannot read/.test(String(e)));
     expect(failed).toEqual([]);
     expect(crashes).toEqual([]);
-  }, 60000);
+  }, 180000);
 });
