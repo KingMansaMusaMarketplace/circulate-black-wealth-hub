@@ -1,12 +1,13 @@
-// Speaks an Ask Kayla answer in Kayla's own video voice (HeyGen).
-// Only answers Kayla wrote for this viewer (signed receipt) can be spoken: nobody can send
-// their own text. Only signed-in members of the clinic with a current approved viewing.
+// Speaks an Ask Kayla answer, or the morning huddle, in Kayla's own video voice (HeyGen).
+// Only answers Kayla wrote for this viewer (signed receipt) or the huddle this service builds
+// itself from counts (never names) can be spoken: nobody can send their own text. Only signed-in members of the clinic with a current approved viewing.
 // Nothing is stored and the words are never logged; the browser falls back to the device voice on any failure.
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import { corsHeaders as sdkCorsHeaders } from 'npm:@supabase/supabase-js@2/cors';
 import { authorizeClinicalPreview } from '../_shared/clinical-preview-auth.ts';
 import { helpReceiptKey, verifyReply } from '../_shared/clinical-help-history.ts';
-import { HEYGEN_SPEECH_URL, KAYLA_VOICE_ID, MAX_PARTS, makeRateLimiter, parseVoiceRequest, safeAudioUrl, speechFor, speechParts, speechPayload } from './rules.ts';
+import { huddleCounts, huddleScript, localDay } from '../_shared/clinical-huddle.ts';
+import { HEYGEN_SPEECH_URL, KAYLA_VOICE_ID, MAX_PARTS, makeRateLimiter, parseHuddleRequest, parseVoiceRequest, safeAudioUrl, speechFor, speechParts, speechPayload, type VoiceRequest } from './rules.ts';
 
 const corsHeaders = { ...sdkCorsHeaders, 'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token, x-hc-preview-token, x-hc-preview-device' };
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
@@ -26,7 +27,8 @@ Deno.serve(async (req) => {
     if (raw.length > 40000) return json({ error: 'That answer is too long to read aloud.' }, 413);
     let body: unknown;
     try { body = JSON.parse(raw); } catch { return json({ error: 'Invalid request.' }, 400); }
-    const request = parseVoiceRequest(body);
+    const huddle = parseHuddleRequest(body);
+    const request = huddle ?? parseVoiceRequest(body);
     if (!request) return json({ error: 'Only Kayla answers can be read aloud.' }, 400);
 
     const caller = createClient(url, anon, { global: { headers: { Authorization: auth } }, auth: { persistSession: false } });
@@ -37,9 +39,23 @@ Deno.serve(async (req) => {
     const { data: member } = await caller.from('hc_members').select('role').eq('clinic_id', request.clinicId).eq('user_id', userData.user.id).maybeSingle();
     if (!member) return json({ error: "Kayla's voice is only for members of this clinic." }, 403);
 
-    const key = helpReceiptKey(serviceKey, userData.user.id, req.headers.get('x-hc-preview-token'), req.headers.get('x-hc-preview-device'));
-    if (!await verifyReply(key, request.selection, request.receipt)) return json({ error: 'Only Kayla answers can be read aloud.' }, 403);
-    const words = speechFor((request.receipt as { text: string }).text);
+    let words: string | null;
+    if (huddle) {
+      // Counts only, read with the caller's own access so the huddle matches what they may see.
+      const day = localDay(huddle.tzOffset);
+      const [appts, labs, notes] = await Promise.all([
+        caller.from('hc_pilot_appointments').select('status').eq('clinic_id', huddle.clinicId).gte('starts_at', day.start.toISOString()).lt('starts_at', day.end.toISOString()),
+        caller.from('hc_pilot_lab_orders').select('priority').eq('clinic_id', huddle.clinicId).in('status', ['ordered', 'collected']),
+        caller.from('hc_pilot_visit_notes').select('status').eq('clinic_id', huddle.clinicId).eq('status', 'draft'),
+      ]);
+      if (appts.error || labs.error || notes.error) return json({ error: 'The huddle could not be prepared.' }, 502);
+      words = huddleScript(huddleCounts(appts.data ?? [], labs.data ?? [], notes.data ?? []), undefined, day.hour);
+    } else {
+      const key = helpReceiptKey(serviceKey, userData.user.id, req.headers.get('x-hc-preview-token'), req.headers.get('x-hc-preview-device'));
+      const answer = request as VoiceRequest;
+      if (!await verifyReply(key, answer.selection, answer.receipt)) return json({ error: 'Only Kayla answers can be read aloud.' }, 403);
+      words = speechFor((answer.receipt as { text: string }).text);
+    }
     if (!words) return json({ error: 'That answer is too long for Kayla’s voice.' }, 413);
     const parts = speechParts(words);
     if (request.part >= parts.length || parts.length > MAX_PARTS) return json({ error: 'That answer is too long for Kayla’s voice.' }, 413);
@@ -62,9 +78,9 @@ Deno.serve(async (req) => {
     const result = await response.json().catch(() => null);
     const audioUrl = safeAudioUrl(result?.data?.audio_url);
     const seconds = Number(result?.data?.duration) || 0;
-    console.log('kayla voice', { part: request.part, parts: parts.length, chars: piece.length, seconds: Math.round(seconds), engine: result?.data?.engine });
+    console.log('kayla voice', { kind: huddle ? 'huddle' : 'answer', part: request.part, parts: parts.length, chars: piece.length, seconds: Math.round(seconds), engine: result?.data?.engine });
     if (!audioUrl) return json({ error: "Kayla's voice is unavailable right now." }, 502);
-    return json({ audio_url: audioUrl, seconds, part: request.part, parts: parts.length });
+    return json({ audio_url: audioUrl, seconds, part: request.part, parts: parts.length, ...(huddle ? { text: words } : {}) });
   } catch (error) {
     console.error('kayla voice error', error instanceof Error ? error.name : 'unknown');
     return json({ error: "Kayla's voice is unavailable right now." }, 500);
