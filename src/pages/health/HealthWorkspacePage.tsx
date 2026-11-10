@@ -215,7 +215,7 @@ export default function HealthWorkspacePage() {
             <h1 className="mb-6 text-2xl font-semibold">{current.l}</h1>
             {tab !== 'ask-kayla' && <ExecutiveWalkthrough key={`${user.id}:${clinic.id}:${tourRevision}`} onStep={(next) => { if (tourReturnTab.current === null) tourReturnTab.current = tab; setTab(next); }} onEnd={() => { if (tourReturnTab.current !== null) setTab(tourReturnTab.current); tourReturnTab.current = null; }} />}
             {tab === 'dashboard' && <Dashboard {...props} go={navigateTab} />}
-            {tab === 'ask-kayla' && <AskKayla key={`${user.id}:${clinic.id}:${tourRevision}`} surface="workspace" onNavigate={(next) => { if (NAV.some(item => item.k === next)) navigateTab(next); }} />}
+            {tab === 'ask-kayla' && <AskKayla key={`${user.id}:${clinic.id}:${tourRevision}`} surface="workspace" clinicId={clinic.id} onNavigate={(next) => { if (NAV.some(item => item.k === next)) navigateTab(next); }} />}
             {tab === 'doctor-day' && <DoctorDay key={`${user.id}:${clinic.id}`} clinicId={clinic.id} clinicRole={role} />}
             {tab === 'delegation' && <DelegationDesk key={`${user.id}:${clinic.id}`} />}
             {tab === 'sample-chart' && <SamplePatientChart key={`${user.id}:${clinic.id}`} />}

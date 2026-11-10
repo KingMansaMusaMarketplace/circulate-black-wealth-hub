@@ -1,5 +1,5 @@
 import { assertEquals } from 'https://deno.land/std@0.224.0/assert/mod.ts';
-import { MAX_SECONDS, SAMPLE_RATE, checkWav, makeRateLimiter, openAiHeaders } from './rules.ts';
+import { MAX_SECONDS, QUESTION_MAX_SECONDS, SAMPLE_RATE, checkWav, makeRateLimiter, openAiHeaders, parsePurpose } from './rules.ts';
 
 function wav(seconds: number, rate = SAMPLE_RATE): Uint8Array {
   const samples = Math.round(seconds * rate);
@@ -35,4 +35,16 @@ Deno.test('refuses to call OpenAI without the BAA organization ID', () => {
   assertEquals(openAiHeaders('k', null), null);
   assertEquals(openAiHeaders('k', 'org_wrongformat'), null);
   assertEquals(openAiHeaders('k', 'org-czqhan7Np7MxI9Hh6CXcd4ei', 'proj_abc')?.['OpenAI-Organization'], 'org-czqhan7Np7MxI9Hh6CXcd4ei');
+});
+
+Deno.test('spoken Ask Kayla questions are limited to 30 seconds; notes keep 2 minutes', () => {
+  assertEquals(QUESTION_MAX_SECONDS, 30);
+  assertEquals(checkWav(wav(25), 'question').ok, true);
+  assertEquals(checkWav(wav(40), 'question').ok, false);
+  assertEquals(checkWav(wav(40), 'note').ok, true);
+});
+Deno.test('only an exact "question" purpose gets the question limit', () => {
+  assertEquals(parsePurpose('question'), 'question');
+  assertEquals(parsePurpose('QUESTION'), 'note');
+  assertEquals(parsePurpose(null), 'note');
 });
