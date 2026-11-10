@@ -15,13 +15,10 @@ import { useClinicalHelpConversation } from './ClinicalHelpConversation';
 import DictationButton from './workspace/DictationButton';
 import { KAYLA_MIC_REMINDER, KAYLA_QUESTION_MAX_CHARS, KAYLA_QUESTION_MAX_SECONDS, appendDictation } from '@/lib/clinical/dictation';
 
+import { spokenText } from '../../../supabase/functions/_shared/clinical-spoken-text';
+import { SILENT_AUDIO, kaylaVoiceUrl } from './kayla-voice';
 /** Plain words for the speaker: no markdown symbols or web addresses; brand said the approved way. */
-export const spokenText = (text: string) => text
-  .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
-  .replace(/https?:\/\/\S+/g, '')
-  .replace(/1325\.AI/gi, 'thirteen twenty-five dot A I')
-  .replace(/[*#`>_|]/g, '')
-  .replace(/^\s*[-•]\s+/gm, '');
+export { spokenText };
 
 /** Prefer a natural-sounding female US English voice built into the device, when one exists. */
 const kaylaBrowserVoice = () => {
@@ -61,14 +58,31 @@ export default function AskKayla({ surface, onNavigate, clinicId }: { surface: H
     if (busy) return;
     const selection = compileHelpQuestion(text, chat?.previousTopics());
     if (!selection) { setInput(''); setLocalError('This question was not sent. Ask only about product features, without names, patient details or other personal information. You can choose a feature below.'); return; }
-    if (autoRead) primeSpeech();
+    if (autoRead) { primeSpeech(); primeAudio(); }
     setLocalError(''); setInput(''); setSelectedId(selection.topics[0]); chat?.ask(selection, surface);
   };
   const followup = (intent: HelpIntent) => { const topics = chat?.previousTopics().length ? chat.previousTopics() : [selectedId]; setSelectedId(topics[0]); setLocalError(''); chat?.ask({ topics, intent }, surface); };
-  const readAnswer = (id: string, text: string, toggle = true) => {
-    if (!window.speechSynthesis) { setLocalError('Spoken answers are unavailable in this browser. The written answer remains available.'); return; }
-    window.speechSynthesis.cancel(); stopVoice.current?.();
-    if (toggle && speaking === id) { setSpeaking(null); return; }
+  // Kayla's own video voice (workspace only); the device voice is the automatic fallback.
+  const kaylaAudio = useRef<HTMLAudioElement | null>(null);
+  const readToken = useRef(0);
+  const [voiceLoading, setVoiceLoading] = useState<string | null>(null);
+  const audioElement = () => { if (!kaylaAudio.current && typeof Audio !== 'undefined') kaylaAudio.current = new Audio(); return kaylaAudio.current; };
+  /** Called during a tap: phones only allow later audio from an element that first played inside a tap. */
+  const primeAudio = () => {
+    if (!canSpeak) return;
+    const a = audioElement(); if (!a || (a.src && !a.paused)) return;
+    a.muted = true; a.src = SILENT_AUDIO;
+    void Promise.resolve(a.play()).catch(() => undefined).finally(() => { a.pause(); a.muted = false; });
+  };
+  const stopSpeaking = () => {
+    readToken.current++; setVoiceLoading(null);
+    window.speechSynthesis?.cancel();
+    const a = kaylaAudio.current; if (a) { a.onended = null; a.onerror = null; a.pause(); }
+  };
+  const stopSpeakingRef = useRef(stopSpeaking); stopSpeakingRef.current = stopSpeaking;
+  const readWithDevice = (id: string, text: string) => {
+    if (!window.speechSynthesis) { setSpeaking(null); setLocalError('Spoken answers are unavailable in this browser. The written answer remains available.'); return; }
+    window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(spokenText(text));
     utterance.lang = 'en-US';
     const voiceChoice = kaylaBrowserVoice();
@@ -76,13 +90,36 @@ export default function AskKayla({ surface, onNavigate, clinicId }: { surface: H
     utterance.onend = () => setSpeaking(null); utterance.onerror = () => setSpeaking(null);
     setSpeaking(id); window.speechSynthesis.speak(utterance);
   };
+  const readAnswer = (id: string, text: string, toggle = true) => {
+    stopSpeaking(); stopVoice.current?.();
+    if (toggle && speaking === id) { setSpeaking(null); return; }
+    const proof = canSpeak && clinicId ? chat?.voiceProof?.(id) : null;
+    if (!proof || !clinicId) { readWithDevice(id, text); return; }
+    if (toggle) primeAudio();
+    const token = readToken.current;
+    const fallback = () => { if (token !== readToken.current) return; setVoiceLoading(null); readWithDevice(id, text); };
+    setSpeaking(id); setVoiceLoading(id);
+    kaylaVoiceUrl(clinicId, proof).then(url => {
+      if (token !== readToken.current) return;
+      const a = audioElement(); if (!a) { fallback(); return; }
+      setVoiceLoading(null);
+      a.muted = false;
+      a.onended = () => { if (token === readToken.current) setSpeaking(null); };
+      a.onerror = fallback;
+      a.src = url;
+      return Promise.resolve(a.play()).catch(fallback);
+    }).catch(fallback);
+  };
+  // One audio lane: if a narration clip starts, Kayla's spoken answer stops.
+  useEffect(() => { if (voice?.playing) { stopSpeakingRef.current(); setSpeaking(null); } }, [voice?.playing]);
+  useEffect(() => () => { stopSpeakingRef.current(); if (kaylaAudio.current) kaylaAudio.current.src = ''; }, []);
   // "Read answers aloud": once on, every new finished answer is spoken automatically.
   const [autoRead, setAutoRead] = useState(false);
   const lastRead = useRef<string | null>(null);
   const latest = chat?.messages.at(-1);
   const latestReady = !busy && latest?.role === 'assistant' && latest.parts.some(p => p.type === 'data-receipt') ? latest : null;
-  const enableAutoRead = () => { lastRead.current = latestReady?.id ?? lastRead.current; setAutoRead(true); primeSpeech(); };
-  const toggleAutoRead = () => { if (autoRead) { setAutoRead(false); window.speechSynthesis?.cancel(); setSpeaking(null); } else enableAutoRead(); };
+  const enableAutoRead = () => { lastRead.current = latestReady?.id ?? lastRead.current; setAutoRead(true); primeSpeech(); primeAudio(); };
+  const toggleAutoRead = () => { if (autoRead) { setAutoRead(false); stopSpeaking(); setSpeaking(null); } else enableAutoRead(); };
   useEffect(() => {
     if (!autoRead || !latestReady || lastRead.current === latestReady.id) return;
     lastRead.current = latestReady.id;
@@ -94,7 +131,7 @@ export default function AskKayla({ surface, onNavigate, clinicId }: { surface: H
   return <section aria-label="Ask Kayla product conversation" className="mx-auto min-w-0 max-w-4xl space-y-4">
     <header className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
       <div className="flex min-w-0 items-center gap-3"><img src={logo} alt="1325.AI" className="h-12 w-12 shrink-0 object-contain" /><div><h2 ref={heading} className="text-xl font-semibold">Ask Kayla</h2><p className="text-sm text-muted-foreground">1325 Clinical EMR / EHR · Product specialist</p></div></div>
-      <div className="flex items-center gap-2"><Button variant={autoRead ? 'default' : 'outline'} size="sm" aria-pressed={autoRead} title={autoRead ? 'Stop reading answers aloud' : 'Kayla reads each answer aloud'} onClick={toggleAutoRead}>{autoRead ? <Volume2 /> : <VolumeX />}{autoRead ? 'Reading answers aloud' : 'Read answers aloud'}</Button><Badge variant="outline">No saved history</Badge><Button variant="ghost" size="icon" title="Clear conversation" aria-label="Clear conversation" onClick={() => { chat?.clear(); setInput(''); setLocalError(''); setSpeaking(null); }}><RotateCcw /></Button></div>
+      <div className="flex items-center gap-2"><Button variant={autoRead ? 'default' : 'outline'} size="sm" aria-pressed={autoRead} title={autoRead ? 'Stop reading answers aloud' : 'Kayla reads each answer aloud'} onClick={toggleAutoRead}>{autoRead ? <Volume2 /> : <VolumeX />}{autoRead ? 'Reading answers aloud' : 'Read answers aloud'}</Button><Badge variant="outline">No saved history</Badge><Button variant="ghost" size="icon" title="Clear conversation" aria-label="Clear conversation" onClick={() => { stopSpeaking(); chat?.clear(); setInput(''); setLocalError(''); setSpeaking(null); }}><RotateCcw /></Button></div>
     </header>
     <Conversation className="h-[min(52vh,560px)] min-h-[280px]" aria-label="Conversation with Kayla">
       <ConversationContent className="gap-6 px-1 py-4">
