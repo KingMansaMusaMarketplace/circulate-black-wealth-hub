@@ -41,7 +41,12 @@ const Request = z.object({
   work_email: z.string().trim().email().max(255),
   phone: z.string().trim().min(7).max(40),
   nda: z.literal(true),
-});
+  source: z.literal("pilot").optional(),
+  specialty: z.string().trim().min(2).max(80).optional(),
+  practice_location: z.string().trim().min(2).max(120).optional(),
+  npi: z.string().trim().regex(/^[0-9]{10}$/).optional().or(z.literal("")),
+  test_only: z.literal(true).optional(),
+}).refine(d => d.source !== "pilot" || (d.test_only === true && !!d.specialty && !!d.practice_location), { message: "pilot" });
 const Verify = z.object({ action: z.enum(["verify", "end"]), token: z.string().regex(/^[a-f0-9]{48}$/), device: z.string().regex(/^[a-f0-9]{32}$/), path: z.string().max(200).optional(), nda: z.literal(true).optional() });
 const SigninCode = z.object({ action: z.enum(["code_send", "code_verify"]), token: z.string().regex(/^[a-f0-9]{48}$/), device: z.string().regex(/^[a-f0-9]{32}$/), code: z.string().max(12).optional() }).strict();
 const WINDOW_DAYS = 7;
@@ -229,6 +234,7 @@ Deno.serve(async (req) => {
   const { data: r, error } = await db.from("hc_access_requests").insert({
     full_name: p.data.full_name, organization: p.data.organization, role: p.data.role,
     work_email: email, phone: p.data.phone || null, user_agent: ua,
+    ...(p.data.source === "pilot" ? { request_source: "pilot", specialty: p.data.specialty, practice_location: p.data.practice_location, npi: p.data.npi || null, test_only_attested_at: new Date().toISOString() } : {}),
   }).select("id, decision_token").single();
   if (error || !r) return json({ error: "Could not save your request." }, 500);
 
@@ -238,7 +244,7 @@ Deno.serve(async (req) => {
   });
   const notificationAccepted = await requestNotification(() => resend.emails.send({
     ...clinicalEmailRouting(),
-    subject: `New 1325 Clinical EMR / EHR access request: ${p.data.full_name} — ${p.data.organization}`,
+    subject: `${p.data.source === "pilot" ? "PILOT DOCTOR — " : ""}New 1325 Clinical EMR / EHR access request: ${p.data.full_name} — ${p.data.organization}`,
     ...requestEmail,
   }));
   return json({ ok: true, notification_accepted: notificationAccepted });

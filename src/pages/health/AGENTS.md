@@ -16,3 +16,4 @@
 - AI Elements supplies conversation primitives; disabled attachments and shared icon sizing block hidden uploads.
 - Workspace screen rules live in src/pages/health/workspace/AGENTS.md; read it before changing files there.
 - Pilot (saved test-patient) rules live in src/lib/clinical/AGENTS.md; read it before changing pilot screens.
+- Public /health/pilot (and /pilot redirect) files Pilot Doctor requests through the same health-access request path with request_source 'pilot' and a server+trigger-required test-patients-only attestation; the tag only labels emails and the admin list and never skips owner approval or changes viewing limits.

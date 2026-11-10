@@ -14,6 +14,7 @@ type Req = {
   status: string; created_at: string; decided_at: string | null; nda_accepted_at: string | null; expires_at: string | null; viewing_duration_minutes?: number;
   first_entered_at: string | null; viewing_expires_at: string | null; revoked_at: string | null;
   device_id: string | null; user_agent: string | null;
+  request_source?: string | null; specialty?: string | null; practice_location?: string | null; npi?: string | null;
 };
 type View = { id: string; request_id: string; path: string | null; user_agent: string | null; created_at: string };
 
@@ -61,7 +62,7 @@ const ClinicalAccessMonitor: React.FC = () => {
     setLoading(true);
     try {
     const [a, b] = await Promise.all([
-      supabase.from('hc_access_requests').select('id,full_name,organization,role,work_email,phone,status,created_at,decided_at,nda_accepted_at,expires_at,first_entered_at,viewing_expires_at,revoked_at,device_id,user_agent,viewing_duration_minutes').order('created_at', { ascending: false }).limit(500),
+      supabase.from('hc_access_requests').select('id,full_name,organization,role,work_email,phone,status,created_at,decided_at,nda_accepted_at,expires_at,first_entered_at,viewing_expires_at,revoked_at,device_id,user_agent,viewing_duration_minutes,request_source,specialty,practice_location,npi').order('created_at', { ascending: false }).limit(500),
       supabase.from('hc_access_views').select('id,request_id,path,user_agent,created_at').order('created_at', { ascending: true }).limit(1000),
     ]);
     const error = a.error || b.error;
@@ -79,8 +80,9 @@ const ClinicalAccessMonitor: React.FC = () => {
   }, [load]);
   useEffect(() => { const t = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(t); }, []);
 
+  const [pilotOnly, setPilotOnly] = useState(false);
   const byReq = useMemo(() => { const m: Record<string, View[]> = {}; views.forEach(v => (m[v.request_id] ||= []).push(v)); return m; }, [views]);
-  const list = reqs.filter(r => !q || `${r.full_name} ${r.work_email} ${r.organization}`.toLowerCase().includes(q.toLowerCase()));
+  const list = reqs.filter(r => !pilotOnly || r.request_source === 'pilot').filter(r => !q || `${r.full_name} ${r.work_email} ${r.organization}`.toLowerCase().includes(q.toLowerCase()));
   const count = (s: string) => reqs.filter(r => visitState(r, now) === s).length;
   const totalMs = reqs.reduce((t, r) => t + (timeOnSite(r, now) ?? 0), 0);
 
@@ -125,7 +127,7 @@ const ClinicalAccessMonitor: React.FC = () => {
           <Card key={l as string} className="bg-slate-900 border-white/10"><CardContent className="p-4"><p className="text-xs text-slate-400">{l}</p><p className="text-xl font-bold text-mansagold">{v}</p></CardContent></Card>
         ))}
       </div>
-      <Input placeholder="Search name, email or organization" value={q} onChange={e => setQ(e.target.value)} />
+      <div className="flex gap-2 flex-wrap items-center"><Input className="flex-1 min-w-[200px]" placeholder="Search name, email or organization" value={q} onChange={e => setQ(e.target.value)} /><Button variant={pilotOnly ? 'default' : 'outline'} aria-pressed={pilotOnly} onClick={() => setPilotOnly(v => !v)}>Pilot Doctors ({reqs.filter(r => r.request_source === 'pilot').length})</Button></div>
       {notice && <p role="status" className={notice.warning ? 'text-destructive' : 'text-foreground'}>{notice.text}</p>}
       {err && <p role="alert" className="text-destructive">Could not refresh visitors: {err}. Displayed information may be out of date.</p>}
       {loading && !err && <p className="text-slate-400">Loading…</p>}
@@ -138,11 +140,12 @@ const ClinicalAccessMonitor: React.FC = () => {
             <CardHeader className="pb-2">
               <CardTitle className="text-white text-base flex flex-wrap items-center gap-2">
                 {r.full_name} <span className="text-slate-400 font-normal text-sm">{r.role} · {r.organization}</span>
+                {r.request_source === 'pilot' && <Badge className="bg-mansagold text-black">Pilot Doctor</Badge>}
                 <Badge className={st === 'Waiting for you' ? 'bg-mansagold text-black' : st === 'Viewing now' ? 'bg-green-600' : st === 'Approved, not opened yet' ? 'bg-blue-100 text-blue-950 border border-blue-300 text-sm font-semibold px-3 py-1' : 'bg-slate-700'}>{st}{left > 0 ? ` · ${mins(left)} left` : ''}</Badge>
               </CardTitle>
             </CardHeader>
             <CardContent className="text-sm text-slate-300 grid md:grid-cols-3 gap-2">
-              <div>Email: {r.work_email}<br />Phone: {r.phone || '—'}</div>
+              <div>Email: {r.work_email}<br />Phone: {r.phone || '—'}{r.request_source === 'pilot' && <><br />Specialty: {r.specialty || '—'}<br />Location: {r.practice_location || '—'}<br />NPI: {r.npi || 'Not provided'}</>}</div>
               <div>Requested: {fmt(r.created_at)}<br />Agreement accepted: {r.nda_accepted_at ? fmt(r.nda_accepted_at) : 'Awaiting visitor acceptance'}<br />Viewing limit: {viewingMinutes(r)} minutes<br />Decided: {fmt(r.decided_at)}</div>
               <div>First entered: {fmt(r.first_entered_at)}<br />Time on site: {t == null ? 'Never entered' : mins(t)}<br />Device: {device(r.user_agent)}{r.device_id ? ' (locked to one device)' : ''}</div>
               <div className="md:col-span-3">
