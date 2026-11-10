@@ -4,7 +4,7 @@ import { createUIMessageStream, createUIMessageStreamResponse } from 'npm:ai@6.0
 import { authorizeClinicalPreview } from '../_shared/clinical-preview-auth.ts';
 import { buildClinicalHelpCatalogue } from '../_shared/clinical-product-catalog.ts';
 import { buildClinicalProductHelpPrompt, loadApprovedImprovements } from '../_shared/kayla-brain.ts';
-import { readHelpHistory, sealReply } from '../_shared/clinical-help-history.ts';
+import { helpReceiptKey, readHelpHistory, sealReply } from '../_shared/clinical-help-history.ts';
 import { createResponsesCall } from '../_shared/clinical-help-responses.ts';
 import { withLovableAiGatewayRunIdHeader } from '../_shared/clinical-help-run-id.ts';
 
@@ -28,7 +28,7 @@ Deno.serve(async req => {
   let body;
   try { body = JSON.parse(raw); } catch { return json('Invalid product request.', 400); }
   if (!body || Object.keys(body).sort().join(',') !== 'surface,turns' || !['demo','workspace'].includes(body.surface)) return json('Only product topic selections are accepted. Patient text is blocked.', 400);
-  const key = `${serviceKey}:${data.user.id}:${req.headers.get('x-hc-preview-token') ?? 'admin'}:${req.headers.get('x-hc-preview-device') ?? ''}`;
+  const key = helpReceiptKey(serviceKey, data.user.id, req.headers.get('x-hc-preview-token'), req.headers.get('x-hc-preview-device'));
   let history;
   try { history = await readHelpHistory(body.turns, key); } catch (e) { return json(e instanceof Error ? e.message : 'Invalid product history', 400); }
   const apiKey = Deno.env.get('LOVABLE_API_KEY');

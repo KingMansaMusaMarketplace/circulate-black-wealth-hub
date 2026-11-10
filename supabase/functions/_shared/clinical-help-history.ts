@@ -7,6 +7,18 @@ async function signature(key: string, selection: HelpSelection, text: string): P
   return Array.from(new Uint8Array(await crypto.subtle.sign('HMAC', cryptoKey, data)), v => v.toString(16).padStart(2, '0')).join('');
 }
 export async function sealReply(key: string, selection: HelpSelection, text: string) { return { text, proof: await signature(key, selection, text) }; }
+/** One formula for the signing key, so receipts are bound to the same viewer, approval and device everywhere. */
+export const helpReceiptKey = (serviceKey: string, userId: string, previewToken: string | null, device: string | null) => `${serviceKey}:${userId}:${previewToken ?? 'admin'}:${device ?? ''}`;
+/** True only for an answer Kayla wrote for this viewer and this question (constant-time comparison). */
+export async function verifyReply(key: string, selection: unknown, reply: unknown): Promise<boolean> {
+  if (!validSelection(selection) || !reply || typeof reply !== 'object') return false;
+  const r = reply as Record<string, unknown>;
+  if (Object.keys(r).sort().join(',') !== 'proof,text' || typeof r.text !== 'string' || r.text.length > 30000 || typeof r.proof !== 'string' || !/^[a-f0-9]{64}$/.test(r.proof)) return false;
+  const expected = await signature(key, selection as HelpSelection, r.text);
+  let mismatch = 0;
+  for (let j = 0; j < 64; j++) mismatch |= expected.charCodeAt(j) ^ r.proof.charCodeAt(j);
+  return mismatch === 0;
+}
 export async function readHelpHistory(value: unknown, key: string) {
   if (!Array.isArray(value) || !value.length || value.length > 40) throw new Error('Invalid product conversation');
   const messages: { role: 'user' | 'assistant'; content: string }[] = [];
