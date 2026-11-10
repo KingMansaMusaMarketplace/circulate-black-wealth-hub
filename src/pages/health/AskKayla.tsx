@@ -16,7 +16,9 @@ import DictationButton from './workspace/DictationButton';
 import { KAYLA_MIC_REMINDER, KAYLA_QUESTION_MAX_CHARS, KAYLA_QUESTION_MAX_SECONDS, appendDictation } from '@/lib/clinical/dictation';
 
 import { spokenText } from '../../../supabase/functions/_shared/clinical-spoken-text';
-import { SILENT_AUDIO, kaylaVoiceUrl } from './kayla-voice';
+import { SILENT_AUDIO, kaylaVoicePart } from './kayla-voice';
+
+const KAYLA_VOICE_PROBLEM = "Kayla's voice couldn't start just now. Her written answer is above — press the speaker to try again.";
 /** Plain words for the speaker: no markdown symbols or web addresses; brand said the approved way. */
 export { spokenText };
 
@@ -100,19 +102,37 @@ export default function AskKayla({ surface, onNavigate, clinicId }: { surface: H
     if (!proof || !clinicId) { readWithDevice(id, text); return; }
     if (toggle) primeAudio();
     const token = readToken.current;
-    const fallback = () => { if (token !== readToken.current) return; setVoiceLoading(null); readWithDevice(id, text); };
-    setSpeaking(id); setVoiceLoading(id);
-    kaylaVoiceUrl(clinicId, proof).then(url => {
-      if (token !== readToken.current) return;
-      const a = audioElement(); if (!a) { fallback(); return; }
-      setVoiceLoading(null);
+    const live = () => token === readToken.current;
+    // In the clinic workspace only Kayla's own voice speaks; if it cannot start, say so instead of a computer voice.
+    const fail = () => { if (!live()) return; setVoiceLoading(null); setSpeaking(null); setLocalError(KAYLA_VOICE_PROBLEM); };
+    const playPiece = (url: string) => new Promise<void>((resolve, reject) => {
+      const a = audioElement(); if (!a) { reject(new Error('No audio')); return; }
       primeMark.current++; a.muted = false;
-      a.onended = () => { if (token === readToken.current) setSpeaking(null); };
-      a.onerror = fallback;
+      a.onended = () => resolve(); a.onerror = () => reject(new Error('Audio failed'));
       a.src = url;
-      return Promise.resolve(a.play()).catch(fallback);
-    }).catch(fallback);
+      Promise.resolve(a.play()).catch(reject);
+    });
+    const piece = (n: number) => kaylaVoicePart(clinicId, proof, n);
+    setLocalError(''); setSpeaking(id); setVoiceLoading(id);
+    void (async () => {
+      try {
+        let current = await piece(0);
+        const total = current.parts;
+        for (let n = 0; n < total; n++) {
+          if (!live()) return;
+          // Prepare the next piece while this one plays, so Kayla keeps talking without a long pause.
+          const next = n + 1 < total ? piece(n + 1) : null;
+          next?.catch(() => undefined);
+          setVoiceLoading(null);
+          await playPiece(current.url);
+          if (!next || !live()) break;
+          current = await next.catch(() => piece(n + 1));
+        }
+        if (live()) setSpeaking(null);
+      } catch { fail(); }
+    })();
   };
+  const stopAll = () => { stopSpeaking(); setSpeaking(null); };
   // One audio lane: if a narration clip starts, Kayla's spoken answer stops.
   useEffect(() => { if (voice?.playing) { stopSpeakingRef.current(); setSpeaking(null); } }, [voice?.playing]);
   useEffect(() => () => { stopSpeakingRef.current(); if (kaylaAudio.current) kaylaAudio.current.src = ''; }, []);
@@ -134,7 +154,7 @@ export default function AskKayla({ surface, onNavigate, clinicId }: { surface: H
   return <section aria-label="Ask Kayla product conversation" className="mx-auto min-w-0 max-w-4xl space-y-4">
     <header className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
       <div className="flex min-w-0 items-center gap-3"><img src={logo} alt="1325.AI" className="h-12 w-12 shrink-0 object-contain" /><div><h2 ref={heading} className="text-xl font-semibold">Ask Kayla</h2><p className="text-sm text-muted-foreground">1325 Clinical EMR / EHR · Product specialist</p></div></div>
-      <div className="flex items-center gap-2"><Button variant={autoRead ? 'default' : 'outline'} size="sm" aria-pressed={autoRead} title={autoRead ? 'Stop reading answers aloud' : 'Kayla reads each answer aloud'} onClick={toggleAutoRead}>{autoRead ? <Volume2 /> : <VolumeX />}{autoRead ? 'Reading answers aloud' : 'Read answers aloud'}</Button><Badge variant="outline">No saved history</Badge><Button variant="ghost" size="icon" title="Clear conversation" aria-label="Clear conversation" onClick={() => { stopSpeaking(); chat?.clear(); setInput(''); setLocalError(''); setSpeaking(null); }}><RotateCcw /></Button></div>
+      <div className="flex flex-wrap items-center gap-2">{(speaking || voiceLoading) && <Button variant="destructive" size="sm" title="Stop Kayla talking" onClick={stopAll}><Square />Stop Kayla</Button>}<Button variant={autoRead ? 'default' : 'outline'} size="sm" aria-pressed={autoRead} title={autoRead ? 'Stop reading answers aloud' : 'Kayla reads each answer aloud'} onClick={toggleAutoRead}>{autoRead ? <Volume2 /> : <VolumeX />}{autoRead ? 'Reading answers aloud' : 'Read answers aloud'}</Button><Badge variant="outline">No saved history</Badge><Button variant="ghost" size="icon" title="Clear conversation" aria-label="Clear conversation" onClick={() => { stopSpeaking(); chat?.clear(); setInput(''); setLocalError(''); setSpeaking(null); }}><RotateCcw /></Button></div>
     </header>
     <Conversation className="h-[min(52vh,560px)] min-h-[280px]" aria-label="Conversation with Kayla">
       <ConversationContent className="gap-6 px-1 py-4">
