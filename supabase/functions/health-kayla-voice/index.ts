@@ -7,7 +7,7 @@ import { corsHeaders as sdkCorsHeaders } from 'npm:@supabase/supabase-js@2/cors'
 import { authorizeClinicalPreview } from '../_shared/clinical-preview-auth.ts';
 import { helpReceiptKey, verifyReply } from '../_shared/clinical-help-history.ts';
 import { huddleCounts, huddleScript, localDay } from '../_shared/clinical-huddle.ts';
-import { HEYGEN_SPEECH_URL, KAYLA_VOICE_ID, MAX_PARTS, makeRateLimiter, parseHuddleRequest, parseVoiceRequest, safeAudioUrl, speechFor, speechParts, speechPayload } from './rules.ts';
+import { HEYGEN_SPEECH_URL, KAYLA_VOICE_ID, MAX_PARTS, makeRateLimiter, parseHuddleRequest, parseVoiceRequest, safeAudioUrl, speechFor, speechParts, speechPayload, type VoiceRequest } from './rules.ts';
 
 const corsHeaders = { ...sdkCorsHeaders, 'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token, x-hc-preview-token, x-hc-preview-device' };
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
@@ -52,7 +52,7 @@ Deno.serve(async (req) => {
       words = huddleScript(huddleCounts(appts.data ?? [], labs.data ?? [], notes.data ?? []), undefined, day.hour);
     } else {
       const key = helpReceiptKey(serviceKey, userData.user.id, req.headers.get('x-hc-preview-token'), req.headers.get('x-hc-preview-device'));
-      const answer = request as ReturnType<typeof parseVoiceRequest> & object;
+      const answer = request as VoiceRequest;
       if (!await verifyReply(key, answer.selection, answer.receipt)) return json({ error: 'Only Kayla answers can be read aloud.' }, 403);
       words = speechFor((answer.receipt as { text: string }).text);
     }
