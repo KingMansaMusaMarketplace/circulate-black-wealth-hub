@@ -2,7 +2,8 @@ import React, { useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { format, parseISO } from 'date-fns';
 import { toast } from 'sonner';
-import { AlertTriangle, FlaskConical, HeartHandshake, Pill, Printer, RefreshCw, Siren } from 'lucide-react';
+import { AlertTriangle, FlaskConical, HeartHandshake, Pill, Printer, RefreshCw, Siren, Square, Volume2 } from 'lucide-react';
+import { labReadBack, prescriptionReadBack, speakOnDevice } from '@/lib/clinical/kayla-workspace-voice';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -36,6 +37,17 @@ const Notice = ({ children }: { children: React.ReactNode }) => (
 );
 
 type ChartCtx = { clinicId: string; patient: Row; perms: PilotPermissions; writable: boolean; onFailed?: () => void };
+
+/** Kayla reads the order back aloud on this device (nothing is sent) before the doctor saves. */
+function ReadBackButton({ text }: { text: () => string }) {
+  const [on, setOn] = useState(false);
+  const stop = useRef<() => void>(() => {});
+  React.useEffect(() => () => stop.current(), []);
+  return <Button type="button" variant="outline" onClick={() => {
+    if (on) { stop.current(); setOn(false); return; }
+    setOn(true); stop.current = speakOnDevice(text(), { onEnd: () => setOn(false) });
+  }}>{on ? <Square className="mr-1 h-4 w-4" /> : <Volume2 className="mr-1 h-4 w-4" />}{on ? 'Stop read-back' : 'Kayla read-back'}</Button>;
+}
 
 /* ---------------- Prescriptions ---------------- */
 
@@ -138,6 +150,7 @@ function PrescriptionForm({ clinicId, patientId, renewing, allergies, current, o
         <p className="text-xs text-muted-foreground">{RX_CHECKER_NOTICE}</p>
         {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
         <div className="flex gap-2">
+          <ReadBackButton text={() => prescriptionReadBack(f, warnings, allergies)} />
           <Button onClick={save} disabled={saving} className={gold}>{saving ? 'Saving…' : renewing ? 'Save renewal' : 'Save prescription'}</Button>
           <Button variant="ghost" onClick={onCancel} disabled={saving}>Cancel</Button>
         </div>
@@ -259,7 +272,7 @@ function LabOrderForm({ clinicId, patientId, onCancel, onSaved, onFailed }: { cl
           <div className="space-y-1 sm:col-span-3"><Label htmlFor="lo-reason">Reason</Label><Input id="lo-reason" value={reason} onChange={(e) => setReason(e.target.value)} maxLength={300} placeholder="Diabetes follow-up" /></div>
         </div>
         {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
-        <div className="flex gap-2"><Button onClick={save} disabled={saving} className={gold}>{saving ? 'Saving…' : 'Save order'}</Button><Button variant="ghost" onClick={onCancel} disabled={saving}>Cancel</Button></div>
+        <div className="flex gap-2"><ReadBackButton text={() => labReadBack(test, LAB_PRIORITY_LABELS[priority], reason)} /><Button onClick={save} disabled={saving} className={gold}>{saving ? 'Saving…' : 'Save order'}</Button><Button variant="ghost" onClick={onCancel} disabled={saving}>Cancel</Button></div>
       </CardContent>
     </Card>
   );
