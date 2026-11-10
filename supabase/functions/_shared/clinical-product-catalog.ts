@@ -57,6 +57,10 @@ export const PRODUCT_HELP: readonly HelpTopic[] = [
   item('compliance', 'Privacy & readiness', 'Compliance', 'What does the compliance screen prove?', 'It presents planned safeguards and a path to live use, not verified clearance. Approval requires reviewed agreements, exact vendor coverage and independently verified safeguards.', ['Inspect the planned compliance example.', 'Review Enterprise Readiness.', 'Take unanswered coverage questions to Thomas and independent advisers.'], 'This is not legal advice, HIPAA certification or permission to process patient records.', 'compliance', undefined, 'readiness', 'Planned / locked'),
 ];
 export function topicDepth(id: string) { return PRODUCT_DEPTH[id] ?? { details: [], related: [] }; }
+// One catalogue payload for the live product guide and the scoreboard, so graded answers match what doctors see.
+export function buildClinicalHelpCatalogue(surface: HelpSurface): string {
+  return JSON.stringify(PRODUCT_HELP.map(t => ({ feature: t.feature, answer: t.answer, steps: t.steps, details: topicDepth(t.id).details, relatedScreens: topicDepth(t.id).related.map(id => PRODUCT_HELP.find(x => x.id === id)?.feature).filter(Boolean), boundary: t.boundary, status: t.status, destination: t[surface] ?? 'Not a separate screen in this view' })));
+}
 export const HELP_CATEGORIES = [...new Set(PRODUCT_HELP.map(topic => topic.category))];
 export function resolveHelpTarget(id: string, surface: HelpSurface) { return PRODUCT_HELP.find(topic => topic.id === id)?.[surface]; }
 export const HELP_POLICY = { acceptsPatientText: false, microphoneInput: false, performsClinicalActions: false, persistsQuestions: false } as const;
