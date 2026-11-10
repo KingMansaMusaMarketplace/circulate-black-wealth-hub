@@ -8,12 +8,16 @@ import {
 } from '@/lib/clinical/dictation';
 
 type Recorder = { stream: MediaStream; context: AudioContext; source: MediaStreamAudioSourceNode; node: ScriptProcessorNode; chunks: Float32Array[] };
-type Props = { clinicId: string; sectionLabel: string; disabled?: boolean; onText: (text: string) => void; onBusyChange?: (busy: boolean) => void; onError: (message: string) => void };
+type Props = {
+  clinicId: string; sectionLabel: string; disabled?: boolean; onText: (text: string) => void; onBusyChange?: (busy: boolean) => void; onError: (message: string) => void;
+  /** 'question' = spoken Ask Kayla question (30-second limit on the server too). */
+  purpose?: 'note' | 'question'; maxSeconds?: number; idleLabel?: string;
+};
 
 const clock = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
 /** Microphone button for one visit-note section. Pilot test patients only. */
-export default function DictationButton({ clinicId, sectionLabel, disabled, onText, onBusyChange, onError }: Props) {
+export default function DictationButton({ clinicId, sectionLabel, disabled, onText, onBusyChange, onError, purpose = 'note', maxSeconds = DICTATION_MAX_SECONDS, idleLabel = 'Talk to type' }: Props) {
   const [state, setState] = useState<'idle' | 'starting' | 'recording' | 'sending'>('idle');
   const [seconds, setSeconds] = useState(0);
   const rec = useRef<Recorder | null>(null);
@@ -54,6 +58,7 @@ export default function DictationButton({ clinicId, sectionLabel, disabled, onTe
       if (!data.session) throw Object.assign(new Error(dictationErrorMessage(401)), { handled: true });
       const body = new FormData();
       body.append('clinic_id', clinicId);
+      body.append('purpose', purpose);
       body.append('file', new Blob([encodeWav(samples)], { type: 'audio/wav' }), 'dictation.wav');
       const res = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/health-pilot-dictation`, {
         method: 'POST', body, signal: controller.signal,
@@ -91,7 +96,7 @@ export default function DictationButton({ clinicId, sectionLabel, disabled, onTe
       timer.current = window.setInterval(() => {
         const s = (Date.now() - began) / 1000;
         setSeconds(s);
-        if (s >= DICTATION_MAX_SECONDS) stop();
+        if (s >= maxSeconds) stop();
       }, 250);
     } catch (e) {
       stream?.getTracks().forEach((t) => t.stop());
@@ -103,11 +108,11 @@ export default function DictationButton({ clinicId, sectionLabel, disabled, onTe
 
   if (state === 'recording') {
     return <Button type="button" size="sm" variant="destructive" onClick={stop} aria-label={`Stop recording ${sectionLabel}`}>
-      <Square className="mr-1 h-3 w-3" />Stop · {clock(seconds)} / {clock(DICTATION_MAX_SECONDS)}
+      <Square className="mr-1 h-3 w-3" />Stop · {clock(seconds)} / {clock(maxSeconds)}
     </Button>;
   }
-  return <Button type="button" size="sm" variant="outline" disabled={disabled || state !== 'idle'} onClick={() => void start()} aria-label={`Talk to type ${sectionLabel}`}>
+  return <Button type="button" size="sm" variant="outline" disabled={disabled || state !== 'idle'} onClick={() => void start()} aria-label={`${idleLabel} ${sectionLabel}`}>
     {state === 'idle' ? <Mic className="mr-1 h-3 w-3" /> : <Loader2 className="mr-1 h-3 w-3 animate-spin" />}
-    {state === 'sending' ? 'Turning words into text…' : state === 'starting' ? 'Starting microphone…' : 'Talk to type'}
+    {state === 'sending' ? 'Turning words into text…' : state === 'starting' ? 'Starting microphone…' : idleLabel}
   </Button>;
 }
