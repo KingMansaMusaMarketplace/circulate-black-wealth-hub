@@ -30,6 +30,8 @@ Deno.serve(async (req) => {
     try { body = JSON.parse(raw); } catch { return json({ error: 'Invalid request.' }, 400); }
     const huddle = parseHuddleRequest(body);
     const readBack = huddle ? null : parseReadBackRequest(body, MAX_PARTS);
+    // An order with unusual characters is read on the doctor's device instead of being sent.
+    if (!huddle && !readBack && body && typeof body === 'object' && 'readback' in body) return json({ error: 'Read-back uses this device’s voice for this order.', device_only: true }, 400);
     const request = huddle ?? readBack ?? parseVoiceRequest(body);
     if (!request) return json({ error: 'Only Kayla answers can be read aloud.' }, 400);
 

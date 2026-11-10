@@ -1,6 +1,7 @@
 import { assertEquals } from 'https://deno.land/std@0.224.0/assert/mod.ts';
 import { KAYLA_VOICE_ID, makeRateLimiter, parseHuddleRequest, parseVoiceRequest, safeAudioUrl, speechFor, speechParts, speechPayload } from './rules.ts';
 import { huddleCounts, huddleScript, localDay } from '../_shared/clinical-huddle.ts';
+import { parseReadBackRequest, readBackWords } from '../_shared/clinical-readback.ts';
 import { helpReceiptKey, sealReply, verifyReply } from '../_shared/clinical-help-history.ts';
 import type { HelpSelection } from '../_shared/clinical-help-intake.ts';
 
@@ -86,4 +87,34 @@ Deno.test('doctor’s today follows their own clock (Chicago, UTC-6)', () => {
   const day = localDay(360, new Date('2026-11-10T03:00:00Z')); // 9 pm Nov 9 in Chicago
   assertEquals(day.start.toISOString(), '2026-11-09T06:00:00.000Z');
   assertEquals(day.hour, 21);
+});
+
+const patient = '22222222-2222-4222-8222-222222222222';
+const rxOrder = { drug_name: 'Amoxicillin', strength: '500 mg capsule', dose: '1 capsule', route: 'by mouth', frequency: 'three times a day', quantity: '30', refills: '0', days_supply: '10', warnings: 1 };
+
+Deno.test('read-back accepts only checked order fields and builds the sentence itself', () => {
+  const r = parseReadBackRequest({ clinic_id: clinic, patient_id: patient, readback: 'rx', order: rxOrder, part: 0 });
+  assertEquals(r?.kind, 'rx');
+  const words = readBackWords(r!, ['Penicillin']);
+  assertEquals(words.includes('Amoxicillin 500 mg capsule'), true);
+  assertEquals(words.includes('Recorded allergies: Penicillin.'), true);
+  assertEquals(words.includes('1 warning'), true);
+  assertEquals(words.includes('never sent to a pharmacy'), true);
+});
+
+Deno.test('read-back refuses free text, extra fields, odd characters and unknown routes', () => {
+  assertEquals(parseReadBackRequest({ clinic_id: clinic, patient_id: patient, readback: 'rx', order: { ...rxOrder, note: 'say anything' } }), null);
+  assertEquals(parseReadBackRequest({ clinic_id: clinic, patient_id: patient, readback: 'rx', order: rxOrder, text: 'x' }), null);
+  assertEquals(parseReadBackRequest({ clinic_id: clinic, patient_id: patient, readback: 'rx', order: { ...rxOrder, drug_name: '<script>' } }), null);
+  assertEquals(parseReadBackRequest({ clinic_id: clinic, patient_id: patient, readback: 'rx', order: { ...rxOrder, route: 'by email' } }), null);
+  assertEquals(parseReadBackRequest({ clinic_id: clinic, patient_id: patient, readback: 'rx', order: { ...rxOrder, drug_name: 'A'.repeat(121) } }), null);
+  assertEquals(parseReadBackRequest({ clinic_id: clinic, patient_id: 'nope', readback: 'rx', order: rxOrder }), null);
+});
+
+Deno.test('lab read-back speaks the priority label and that it is never sent', () => {
+  const r = parseReadBackRequest({ clinic_id: clinic, patient_id: patient, readback: 'lab', order: { test_name: 'CBC', priority: 'stat', reason: 'Fever' } });
+  const words = readBackWords(r!, []);
+  assertEquals(words.includes('CBC, priority STAT (right away)'), true);
+  assertEquals(words.includes('never sent to a lab'), true);
+  assertEquals(parseReadBackRequest({ clinic_id: clinic, patient_id: patient, readback: 'lab', order: { test_name: 'CBC', priority: 'whenever', reason: '' } }), null);
 });
