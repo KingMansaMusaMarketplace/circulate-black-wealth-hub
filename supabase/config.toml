@@ -6,6 +6,8 @@ project_id = "agoclnqfyinwjxdmjnns"
 
   [functions.health-pilot-dictation]
     verify_jwt = false
+  [functions.health-kayla-voice]
+    verify_jwt = false
   [functions.admin-abandoned-checkouts]
     verify_jwt = false
   [functions.admin-send-temp-password]
