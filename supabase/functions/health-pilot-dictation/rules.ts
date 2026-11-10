@@ -1,15 +1,26 @@
 // Pure checks for pilot talk-to-type. Mirrors src/lib/clinical/dictation.ts limits.
 export const SAMPLE_RATE = 16000;
 export const MAX_SECONDS = 120;
+/** Spoken Ask Kayla questions are short product questions, never dictated cases. */
+export const QUESTION_MAX_SECONDS = 30;
 export const MIN_SECONDS = 0.5;
 export const MAX_BYTES = 44 + (MAX_SECONDS + 1) * SAMPLE_RATE * 2;
 /** Recordings per signed-in person per 10 minutes. */
 export const RATE_LIMIT = 30;
 export const RATE_WINDOW_MS = 10 * 60 * 1000;
 
+export type DictationPurpose = 'note' | 'question';
+/** Anything other than an exact "question" is treated as a visit-note recording. */
+export const parsePurpose = (value: unknown): DictationPurpose => value === 'question' ? 'question' : 'note';
+export const maxSecondsFor = (purpose: DictationPurpose) => purpose === 'question' ? QUESTION_MAX_SECONDS : MAX_SECONDS;
+const tooLong = (purpose: DictationPurpose) => purpose === 'question'
+  ? 'That question was too long. Keep each spoken question under 30 seconds.'
+  : 'That recording was too long. Keep each recording under 2 minutes.';
+
 /** Accept only the 16 kHz mono 16-bit WAV the pilot screen produces, within the time limits. */
-export function checkWav(bytes: Uint8Array): { ok: true; seconds: number } | { ok: false; error: string } {
-  if (bytes.length > MAX_BYTES) return { ok: false, error: 'That recording was too long. Keep each recording under 2 minutes.' };
+export function checkWav(bytes: Uint8Array, purpose: DictationPurpose = 'note'): { ok: true; seconds: number } | { ok: false; error: string } {
+  const limit = maxSecondsFor(purpose);
+  if (bytes.length > 44 + (limit + 1) * SAMPLE_RATE * 2) return { ok: false, error: tooLong(purpose) };
   if (bytes.length < 44) return { ok: false, error: "We didn't hear anything. Please record again." };
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
   const tag = (o: number) => String.fromCharCode(bytes[o], bytes[o + 1], bytes[o + 2], bytes[o + 3]);
@@ -21,7 +32,7 @@ export function checkWav(bytes: Uint8Array): { ok: true; seconds: number } | { o
   const dataBytes = Math.min(view.getUint32(40, true), bytes.length - 44);
   const seconds = dataBytes / (SAMPLE_RATE * 2);
   if (seconds < MIN_SECONDS) return { ok: false, error: "We didn't hear anything. Please record again." };
-  if (seconds > MAX_SECONDS + 1) return { ok: false, error: 'That recording was too long. Keep each recording under 2 minutes.' };
+  if (seconds > limit + 1) return { ok: false, error: tooLong(purpose) };
   return { ok: true, seconds };
 }
 
