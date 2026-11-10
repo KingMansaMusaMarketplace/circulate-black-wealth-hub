@@ -10125,11 +10125,16 @@ export type Database = {
           full_name: string
           id: string
           nda_accepted_at: string | null
+          npi: string | null
           organization: string
           phone: string | null
+          practice_location: string | null
+          request_source: string
           revoked_at: string | null
           role: string
+          specialty: string | null
           status: string
+          test_only_attested_at: string | null
           user_agent: string | null
           viewing_duration_minutes: number
           viewing_expires_at: string | null
@@ -10146,11 +10151,16 @@ export type Database = {
           full_name: string
           id?: string
           nda_accepted_at?: string | null
+          npi?: string | null
           organization: string
           phone?: string | null
+          practice_location?: string | null
+          request_source?: string
           revoked_at?: string | null
           role: string
+          specialty?: string | null
           status?: string
+          test_only_attested_at?: string | null
           user_agent?: string | null
           viewing_duration_minutes?: number
           viewing_expires_at?: string | null
@@ -10167,11 +10177,16 @@ export type Database = {
           full_name?: string
           id?: string
           nda_accepted_at?: string | null
+          npi?: string | null
           organization?: string
           phone?: string | null
+          practice_location?: string | null
+          request_source?: string
           revoked_at?: string | null
           role?: string
+          specialty?: string | null
           status?: string
+          test_only_attested_at?: string | null
           user_agent?: string | null
           viewing_duration_minutes?: number
           viewing_expires_at?: string | null
