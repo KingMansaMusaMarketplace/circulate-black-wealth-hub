@@ -4,6 +4,7 @@ import { format, parseISO } from 'date-fns';
 import { toast } from 'sonner';
 import { AlertTriangle, FlaskConical, HeartHandshake, Pill, Printer, RefreshCw, Siren, Square, Volume2 } from 'lucide-react';
 import { labReadBack, prescriptionReadBack, speakOnDevice } from '@/lib/clinical/kayla-workspace-voice';
+import { DeviceVoiceOnly, SILENT_AUDIO, kaylaReadBackPart, type ReadBackOrder } from '../kayla-voice';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -38,15 +39,63 @@ const Notice = ({ children }: { children: React.ReactNode }) => (
 
 type ChartCtx = { clinicId: string; patient: Row; perms: PilotPermissions; writable: boolean; onFailed?: () => void };
 
-/** Kayla reads the order back aloud on this device (nothing is sent) before the doctor saves. */
-function ReadBackButton({ text }: { text: () => string }) {
-  const [on, setOn] = useState(false);
-  const stop = useRef<() => void>(() => {});
-  React.useEffect(() => () => stop.current(), []);
-  return <Button type="button" variant="outline" onClick={() => {
-    if (on) { stop.current(); setOn(false); return; }
-    setOn(true); stop.current = speakOnDevice(text(), { onEnd: () => setOn(false) });
-  }}>{on ? <Square className="mr-1 h-4 w-4" /> : <Volume2 className="mr-1 h-4 w-4" />}{on ? 'Stop read-back' : 'Kayla read-back'}</Button>;
+export const READBACK_VOICE_PROBLEM = "Kayla's voice couldn't start just now. Please press Kayla read-back again in a moment.";
+
+/** Kayla reads the order back before the doctor saves. Made-up test patients: Kayla's own voice, with
+ * the sentence built by her voice service from the checked order fields. Real patients (or a clinic
+ * cleared for real patients): this device's voice, so chart words never leave the browser. */
+export function ReadBackButton({ clinicId, patientId, real, order, text }: { clinicId: string; patientId: string; real: boolean; order: () => ReadBackOrder; text: () => string }) {
+  const [state, setState] = useState<'idle' | 'loading' | 'speaking'>('idle');
+  const [problem, setProblem] = useState('');
+  const stopDevice = useRef<() => void>(() => {});
+  const audio = useRef<HTMLAudioElement | null>(null);
+  const token = useRef(0);
+  const element = () => { if (!audio.current && typeof Audio !== 'undefined') audio.current = new Audio(); return audio.current; };
+  const halt = () => { token.current++; stopDevice.current(); const a = audio.current; if (a) { a.onended = null; a.onerror = null; a.pause(); } };
+  React.useEffect(() => () => { halt(); if (audio.current) audio.current.src = ''; }, []);
+  const onDevice = () => { setState('speaking'); stopDevice.current = speakOnDevice(text(), { onEnd: () => setState('idle') }); };
+  const start = () => {
+    halt(); setProblem('');
+    if (real) { onDevice(); return; }
+    const mine = token.current, live = () => mine === token.current;
+    const request = order();
+    // Phones only allow later audio from an element that first played during a tap.
+    const a = element();
+    if (a) { a.muted = true; a.src = SILENT_AUDIO; void Promise.resolve(a.play()).catch(() => undefined).finally(() => { if (live() && a.src === SILENT_AUDIO) { a.pause(); a.muted = false; } }); }
+    const playPiece = (url: string) => new Promise<void>((resolve, reject) => {
+      const el = element(); if (!el) { reject(new Error('No audio')); return; }
+      el.muted = false; el.onended = () => resolve(); el.onerror = () => reject(new Error('Audio failed'));
+      el.src = url; Promise.resolve(el.play()).catch(reject);
+    });
+    setState('loading');
+    void (async () => {
+      try {
+        let current = await kaylaReadBackPart(clinicId, patientId, request, 0);
+        for (let n = 0; n < current.parts; n++) {
+          if (!live()) return;
+          const total = current.parts;
+          const next = n + 1 < total ? kaylaReadBackPart(clinicId, patientId, request, n + 1) : null;
+          next?.catch(() => undefined);
+          setState('speaking');
+          await playPiece(current.url);
+          if (!next || !live()) break;
+          current = { ...(await next), parts: total };
+        }
+        if (live()) setState('idle');
+      } catch (e) {
+        if (!live()) return;
+        if (e instanceof DeviceVoiceOnly) { onDevice(); return; }
+        setState('idle'); setProblem(READBACK_VOICE_PROBLEM);
+      }
+    })();
+  };
+  return <span className="inline-flex flex-col gap-1">
+    <Button type="button" variant="outline" onClick={() => { if (state === 'idle') start(); else { halt(); setState('idle'); } }}>
+      {state === 'idle' ? <Volume2 className="mr-1 h-4 w-4" /> : <Square className="mr-1 h-4 w-4" />}
+      {state === 'idle' ? 'Kayla read-back' : state === 'loading' ? 'Kayla is getting ready… (stop)' : 'Stop read-back'}
+    </Button>
+    {problem && <span role="alert" className="text-xs text-destructive">{problem}</span>}
+  </span>;
 }
 
 /* ---------------- Prescriptions ---------------- */
@@ -69,7 +118,7 @@ export function PrescriptionsPanel({ clinicId, patient, perms, writable, onFaile
     <div className="space-y-4">
       <Notice>{RX_NOT_SENT_NOTICE}</Notice>
       {canWrite && (form
-        ? <PrescriptionForm clinicId={clinicId} patientId={patient.id} renewing={form === 'new' ? null : form} allergies={allergies}
+        ? <PrescriptionForm clinicId={clinicId} patientId={patient.id} real={patient.is_real === true} renewing={form === 'new' ? null : form} allergies={allergies}
             current={form === 'new' ? current : current.filter((c) => c !== form.drug_name)} onCancel={() => setForm(null)} onFailed={onFailed}
             onSaved={async () => { setForm(null); await reload(); }} />
         : <Button onClick={() => setForm('new')} className={gold}><Pill className="mr-1 h-4 w-4" />Write prescription</Button>)}
@@ -82,8 +131,8 @@ export function PrescriptionsPanel({ clinicId, patient, perms, writable, onFaile
   );
 }
 
-function PrescriptionForm({ clinicId, patientId, renewing, allergies, current, onCancel, onSaved, onFailed }: {
-  clinicId: string; patientId: string; renewing: Row | null; allergies: string[]; current: string[];
+function PrescriptionForm({ clinicId, patientId, real, renewing, allergies, current, onCancel, onSaved, onFailed }: {
+  clinicId: string; patientId: string; real: boolean; renewing: Row | null; allergies: string[]; current: string[];
   onCancel: () => void; onSaved: () => void | Promise<void>; onFailed?: () => void;
 }) {
   const [f, setF] = useState({
@@ -150,7 +199,8 @@ function PrescriptionForm({ clinicId, patientId, renewing, allergies, current, o
         <p className="text-xs text-muted-foreground">{RX_CHECKER_NOTICE}</p>
         {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
         <div className="flex gap-2">
-          <ReadBackButton text={() => prescriptionReadBack(f, warnings, allergies)} />
+          <ReadBackButton clinicId={clinicId} patientId={patientId} real={real} text={() => prescriptionReadBack(f, warnings, allergies)}
+            order={() => ({ readback: 'rx', order: { drug_name: f.drug_name, strength: f.strength || null, dose: f.dose, route: f.route, frequency: f.frequency, quantity: f.quantity, refills: f.refills, days_supply: f.days_supply, warnings: warnings.length } })} />
           <Button onClick={save} disabled={saving} className={gold}>{saving ? 'Saving…' : renewing ? 'Save renewal' : 'Save prescription'}</Button>
           <Button variant="ghost" onClick={onCancel} disabled={saving}>Cancel</Button>
         </div>
@@ -224,7 +274,7 @@ export function LabOrdersPanel({ clinicId, patient, perms, writable, onFailed, r
     <div className="space-y-4">
       <Notice>{LAB_NOT_SENT_NOTICE}</Notice>
       {perms.orderLabs && writable && (ordering
-        ? <LabOrderForm clinicId={clinicId} patientId={patient.id} onCancel={() => setOrdering(false)} onFailed={onFailed} onSaved={async () => { setOrdering(false); await orders.reload(); }} />
+        ? <LabOrderForm clinicId={clinicId} patientId={patient.id} real={real} onCancel={() => setOrdering(false)} onFailed={onFailed} onSaved={async () => { setOrdering(false); await orders.reload(); }} />
         : <Button onClick={() => setOrdering(true)} className={gold}><FlaskConical className="mr-1 h-4 w-4" />Order a lab test</Button>)}
       {!perms.orderLabs && perms.collectAndResultLabs && <p className="text-xs text-muted-foreground">Doctors order tests. You can mark samples collected and enter results.</p>}
       <DataLoadErrors sources={[orders]} />
@@ -240,7 +290,7 @@ export function LabOrdersPanel({ clinicId, patient, perms, writable, onFailed, r
   );
 }
 
-function LabOrderForm({ clinicId, patientId, onCancel, onSaved, onFailed }: { clinicId: string; patientId: string; onCancel: () => void; onSaved: () => void | Promise<void>; onFailed?: () => void }) {
+function LabOrderForm({ clinicId, patientId, real, onCancel, onSaved, onFailed }: { clinicId: string; patientId: string; real: boolean; onCancel: () => void; onSaved: () => void | Promise<void>; onFailed?: () => void }) {
   const [test, setTest] = useState('');
   const [priority, setPriority] = useState<LabPriority>('routine');
   const [reason, setReason] = useState('');
@@ -272,7 +322,7 @@ function LabOrderForm({ clinicId, patientId, onCancel, onSaved, onFailed }: { cl
           <div className="space-y-1 sm:col-span-3"><Label htmlFor="lo-reason">Reason</Label><Input id="lo-reason" value={reason} onChange={(e) => setReason(e.target.value)} maxLength={300} placeholder="Diabetes follow-up" /></div>
         </div>
         {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
-        <div className="flex gap-2"><ReadBackButton text={() => labReadBack(test, LAB_PRIORITY_LABELS[priority], reason)} /><Button onClick={save} disabled={saving} className={gold}>{saving ? 'Saving…' : 'Save order'}</Button><Button variant="ghost" onClick={onCancel} disabled={saving}>Cancel</Button></div>
+        <div className="flex gap-2"><ReadBackButton clinicId={clinicId} patientId={patientId} real={real} text={() => labReadBack(test, LAB_PRIORITY_LABELS[priority], reason)} order={() => ({ readback: 'lab', order: { test_name: test, priority, reason } })} /><Button onClick={save} disabled={saving} className={gold}>{saving ? 'Saving…' : 'Save order'}</Button><Button variant="ghost" onClick={onCancel} disabled={saving}>Cancel</Button></div>
       </CardContent>
     </Card>
   );
