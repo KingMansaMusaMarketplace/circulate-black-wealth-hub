@@ -5,10 +5,13 @@ import { supabase } from '@/integrations/supabase/client';
 import { clinicalRequestHeaders } from './clinical-request';
 import { canonicalQuestion, type HelpSelection } from '../../../supabase/functions/_shared/clinical-help-intake';
 import type { HelpTurn } from '../../../supabase/functions/_shared/clinical-help-history';
+import type { KaylaVoiceProof } from './kayla-voice';
 
 export type HelpMessage = UIMessage<unknown, { receipt: { text: string; proof: string } }>;
 function useConversation() {
   const turns = useRef<HelpTurn[]>([]);
+  // Signed answer per message, so read-aloud can prove to the voice service that Kayla wrote it.
+  const proofs = useRef(new Map<string, KaylaVoiceProof>());
   const pending = useRef(false);
   const alive = useRef(true);
   const account = useRef<string | undefined>();
@@ -42,7 +45,7 @@ function useConversation() {
       if (!alive.current || isAbort || isError) return;
       const receipt = message.parts.find(p => p.type === 'data-receipt');
       const last = turns.current[turns.current.length - 1];
-      if (receipt?.type === 'data-receipt' && last) last.reply = receipt.data;
+      if (receipt?.type === 'data-receipt' && last) { last.reply = receipt.data; proofs.current.set(message.id, { selection: last.selection, receipt: receipt.data }); }
       else setProblem('This answer was not confirmed. Clear the conversation before continuing.');
     },
   });
@@ -53,7 +56,7 @@ function useConversation() {
     resetting.current = true; setResetBusy(true); pending.current = true;
     window.speechSynthesis?.cancel();
     try {
-      await stopRef.current(); turns.current = []; chat.setMessages([]); chat.clearError(); setProblem('');
+      await stopRef.current(); turns.current = []; proofs.current.clear(); chat.setMessages([]); chat.clearError(); setProblem('');
     } finally { pending.current = false; resetting.current = false; if (alive.current) setResetBusy(false); }
   };
   const clearRef = useRef(clear); clearRef.current = clear;
@@ -66,7 +69,7 @@ function useConversation() {
       }
       account.current = session?.user.id;
     });
-    return () => { alive.current = false; resetting.current = true; void stopRef.current(); turns.current = []; data.subscription.unsubscribe(); window.speechSynthesis?.cancel(); };
+    return () => { alive.current = false; resetting.current = true; void stopRef.current(); turns.current = []; proofs.current.clear(); data.subscription.unsubscribe(); window.speechSynthesis?.cancel(); };
   }, [chat.setMessages]);
   const ask = (selection: HelpSelection, view: 'demo' | 'workspace') => {
     if (pending.current) return;
@@ -79,7 +82,7 @@ function useConversation() {
     turns.current.push({ selection });
     void chat.sendMessage({ text: canonicalQuestion(selection) }).catch(e => { pending.current = false; setProblem(e instanceof Error ? e.message : 'Request failed'); });
   };
-  return { ...chat, status: resetBusy ? 'submitted' as const : chat.status, ask, clear, problem, previousTopics: () => turns.current[turns.current.length - 1]?.selection.topics ?? [] };
+  return { ...chat, status: resetBusy ? 'submitted' as const : chat.status, ask, clear, problem, voiceProof: (messageId: string) => proofs.current.get(messageId) ?? null, previousTopics: () => turns.current[turns.current.length - 1]?.selection.topics ?? [] };
 }
 const Context = createContext<ReturnType<typeof useConversation> | null>(null);
 export function ClinicalHelpConversationProvider({ children }: { children: ReactNode }) {
