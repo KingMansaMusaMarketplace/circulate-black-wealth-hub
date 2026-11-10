@@ -17,6 +17,7 @@ import { KAYLA_MIC_REMINDER, KAYLA_QUESTION_MAX_CHARS, KAYLA_QUESTION_MAX_SECOND
 
 import { spokenText } from '../../../supabase/functions/_shared/clinical-spoken-text';
 import { SILENT_AUDIO, kaylaVoicePart } from './kayla-voice';
+import { voiceCommand } from '@/lib/clinical/kayla-workspace-voice';
 
 const KAYLA_VOICE_PROBLEM = "Kayla's voice couldn't start just now. Her written answer is above — press the speaker to try again.";
 /** Plain words for the speaker: no markdown symbols or web addresses; brand said the approved way. */
@@ -175,8 +176,11 @@ export default function AskKayla({ surface, onNavigate, clinicId }: { surface: H
             onBusyChange={setListening}
             onError={message => setLocalError(message)}
             // Spoken words only fill the box; the doctor reads them and presses send, and the same product-only check applies.
-            onText={text => { setLocalError(''); if (!autoRead) enableAutoRead(); setInput(prev => appendDictation(prev, text, KAYLA_QUESTION_MAX_CHARS).text); form.current?.querySelector('textarea')?.focus({ preventScroll: true }); }} />}
-          <span className="text-xs text-muted-foreground">{canSpeak ? KAYLA_MIC_REMINDER : 'Product questions only · No patient information'}</span>
+            onText={text => { setLocalError('');
+              // Hands-free: "Kayla, open schedule" jumps straight to that screen (screen names only, nothing sent).
+              const screen = voiceCommand(text);
+              if (screen) { setInput(''); onNavigate(screen); return; } if (!autoRead) enableAutoRead(); setInput(prev => appendDictation(prev, text, KAYLA_QUESTION_MAX_CHARS).text); form.current?.querySelector('textarea')?.focus({ preventScroll: true }); }} />}
+          <span className="text-xs text-muted-foreground">{canSpeak ? `${KAYLA_MIC_REMINDER} Hands-free: say "Kayla, open schedule" (or labs, notes, billing).` : 'Product questions only · No patient information'}</span>
         </div>
         <PromptInputSubmit variant="clinicalHelp" status={chat?.status} onStop={() => { void chat?.stop(); }} disabled={!chat || listening || (!busy && !input.trim())} aria-label={busy ? 'Stop answer' : 'Ask Kayla'} />
       </PromptInputFooter>

@@ -43,6 +43,7 @@ import FacilitySelector from './FacilitySelector';
 import { DEFAULT_FACILITY_CONTEXT, type FacilityContext } from './workspace/facility-context';
 import ProprietaryNotice from './ProprietaryNotice';
 import AskKayla from './AskKayla';
+import MorningHuddle from './workspace/MorningHuddle';
 
 const NAV = [
   { k: 'ask-kayla', l: 'Ask Kayla', i: BrainCircuit },
@@ -214,6 +215,7 @@ export default function HealthWorkspacePage() {
             <StartHere current={tab} onGo={navigateTab} />
             <h1 className="mb-6 text-2xl font-semibold">{current.l}</h1>
             {tab !== 'ask-kayla' && <ExecutiveWalkthrough key={`${user.id}:${clinic.id}:${tourRevision}`} onStep={(next) => { if (tourReturnTab.current === null) tourReturnTab.current = tab; setTab(next); }} onEnd={() => { if (tourReturnTab.current !== null) setTab(tourReturnTab.current); tourReturnTab.current = null; }} />}
+            {(tab === 'dashboard' || tab === 'doctor-day') && <MorningHuddle key={`${user.id}:${clinic.id}`} clinicId={clinic.id} />}
             {tab === 'dashboard' && <Dashboard {...props} go={navigateTab} />}
             {tab === 'ask-kayla' && <AskKayla key={`${user.id}:${clinic.id}:${tourRevision}`} surface="workspace" clinicId={clinic.id} onNavigate={(next) => { if (NAV.some(item => item.k === next)) navigateTab(next); }} />}
             {tab === 'doctor-day' && <DoctorDay key={`${user.id}:${clinic.id}`} clinicId={clinic.id} clinicRole={role} />}
