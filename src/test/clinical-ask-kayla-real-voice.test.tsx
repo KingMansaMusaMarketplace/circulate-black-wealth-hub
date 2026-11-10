@@ -1,5 +1,6 @@
-// Ask Kayla read-aloud in Kayla's own video voice: only Kayla's signed answers are sent,
-// each answer is made into audio once, and the device voice takes over on any failure.
+// Ask Kayla read-aloud in Kayla's own video voice: only Kayla's signed answers are sent, answers are
+// spoken piece by piece, each piece is made into audio once, a failure never switches to a computer
+// voice in the clinic workspace, and the Stop Kayla button silences her.
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
@@ -16,15 +17,18 @@ vi.mock('@/pages/health/ClinicalHelpConversation', () => ({ useClinicalHelpConve
 const AUDIO = 'https://resource2.heygen.ai/text_to_speech/kayla.mp3';
 const played: string[] = [];
 const spoken: string[] = [];
+const players: Array<{ onended: (() => void) | null; paused: boolean }> = [];
 const fetchMock = vi.fn();
 const clinic = '11111111-1111-4111-8111-111111111111';
 const view = (surface: 'workspace' | 'demo' = 'workspace') => <MemoryRouter><AskKayla surface={surface} clinicId={surface === 'workspace' ? clinic : undefined} onNavigate={vi.fn()} /></MemoryRouter>;
 const readButton = () => screen.getByRole('button', { name: 'Read this answer aloud' });
+const reply = (body: object, status = 200) => new Response(JSON.stringify(body), { status });
 
 beforeEach(() => {
-  played.length = 0; spoken.length = 0; forgetKaylaVoice(); fetchMock.mockReset();
+  played.length = 0; spoken.length = 0; players.length = 0; forgetKaylaVoice(); fetchMock.mockReset();
   state.messages = [{ id: 'a1', role: 'assistant', parts: [{ type: 'text', text: 'Press Speak to dictate a note.' }, { type: 'data-receipt' }] }];
   class FakeAudio { src = ''; muted = false; paused = true; onended: (() => void) | null = null; onerror: (() => void) | null = null;
+    constructor() { players.push(this); }
     play() { if (!this.muted && this.src.startsWith('https://')) played.push(this.src); this.paused = false; return Promise.resolve(); }
     pause() { this.paused = true; } }
   vi.stubGlobal('Audio', FakeAudio);
@@ -36,20 +40,37 @@ beforeEach(() => {
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
 
 describe("Ask Kayla speaks in Kayla's video voice", () => {
-  it('sends only the clinic, the question choice and the signed answer, then plays Kayla’s audio', async () => {
-    fetchMock.mockResolvedValue(new Response(JSON.stringify({ audio_url: AUDIO, seconds: 3 }), { status: 200 }));
+  it('sends only the clinic, the question choice, the signed answer and a piece number, then plays Kayla’s audio', async () => {
+    fetchMock.mockResolvedValue(reply({ audio_url: AUDIO, seconds: 3, parts: 1 }));
     render(view());
     fireEvent.click(readButton());
     await waitFor(() => expect(played).toEqual([AUDIO]));
     const [url, init] = fetchMock.mock.calls[0];
     expect(String(url)).toMatch(/\/functions\/v1\/health-kayla-voice$/);
-    expect(Object.keys(JSON.parse(init.body)).sort()).toEqual(['clinic_id', 'receipt', 'selection']);
+    expect(Object.keys(JSON.parse(init.body)).sort()).toEqual(['clinic_id', 'part', 'receipt', 'selection']);
     expect(JSON.parse(init.body).receipt).toEqual(proof.receipt);
+    expect(JSON.parse(init.body).part).toBe(0);
+    expect(spoken).toEqual([]);
+  });
+
+  it('plays a long answer piece by piece, in order, all in Kayla’s voice', async () => {
+    fetchMock.mockImplementation(async (_url: string, init: { body: string }) => {
+      const part = JSON.parse(init.body).part;
+      return reply({ audio_url: `${AUDIO}?part=${part}`, parts: 3 });
+    });
+    render(view());
+    fireEvent.click(readButton());
+    await waitFor(() => expect(played).toEqual([`${AUDIO}?part=0`]));
+    players[0].onended?.();
+    await waitFor(() => expect(played).toEqual([`${AUDIO}?part=0`, `${AUDIO}?part=1`]));
+    players[0].onended?.();
+    await waitFor(() => expect(played).toEqual([`${AUDIO}?part=0`, `${AUDIO}?part=1`, `${AUDIO}?part=2`]));
+    expect(fetchMock).toHaveBeenCalledTimes(3);
     expect(spoken).toEqual([]);
   });
 
   it('makes each answer into audio only once; replaying is free', async () => {
-    fetchMock.mockResolvedValue(new Response(JSON.stringify({ audio_url: AUDIO, seconds: 3 }), { status: 200 }));
+    fetchMock.mockResolvedValue(reply({ audio_url: AUDIO, seconds: 3, parts: 1 }));
     render(view());
     fireEvent.click(readButton());
     await waitFor(() => expect(played).toHaveLength(1));
@@ -59,12 +80,23 @@ describe("Ask Kayla speaks in Kayla's video voice", () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
-  it('falls back to the device voice when Kayla’s voice is unavailable', async () => {
-    fetchMock.mockResolvedValue(new Response(JSON.stringify({ error: 'unavailable' }), { status: 502 }));
+  it('never switches to a computer voice in the clinic workspace when Kayla’s voice fails', async () => {
+    fetchMock.mockResolvedValue(reply({ error: 'unavailable' }, 502));
     render(view());
     fireEvent.click(readButton());
-    await waitFor(() => expect(spoken).toEqual(['Press Speak to dictate a note.']));
+    expect(await screen.findByRole('alert')).toHaveTextContent("Kayla's voice couldn't start");
+    expect(spoken).toEqual([]);
     expect(played).toEqual([]);
+  });
+
+  it('the Stop Kayla button silences her right away', async () => {
+    fetchMock.mockResolvedValue(reply({ audio_url: AUDIO, parts: 1 }));
+    render(view());
+    fireEvent.click(readButton());
+    await waitFor(() => expect(played).toEqual([AUDIO]));
+    fireEvent.click(screen.getByRole('button', { name: /Stop Kayla/ }));
+    expect(players[0].paused).toBe(true);
+    expect(screen.queryByRole('button', { name: /Stop Kayla/ })).toBeNull();
   });
 
   it('the public demo keeps the device voice and never calls the voice service', () => {
