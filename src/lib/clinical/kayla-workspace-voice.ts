@@ -1,39 +1,9 @@
 // Kayla's workspace voice helpers: morning huddle, order read-back, hands-free screen commands
-// and team attribution. Huddle and read-back are spoken by the device's own voice so no
-// chart words ever leave the browser (the HeyGen voice only reads signed product answers).
+// and team attribution. The huddle (counts only) is spoken in Kayla's own voice, built by the
+// voice service itself; order read-backs stay on the device voice so chart words never leave the browser.
 
-/** Kayla speaks for the whole Agentic team: one voice, introducing the coordinator whose work it is. */
-export const TEAM_VOICE = {
-  schedule: 'our scheduling coordinator',
-  labs: 'our lab coordinator',
-  notes: 'our documentation specialist',
-  pharmacy: 'our medication safety coordinator',
-} as const;
-
-export const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
-
-export type HuddleCounts = { visitsToday: number; checkedIn: number; openLabs: number; urgentLabs: number; draftNotes: number };
-
-/** 45-second morning briefing built from counts only (never patient names). */
-export function huddleScript(c: HuddleCounts, doctorName?: string, now = new Date()): string {
-  const hour = now.getHours();
-  const greet = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-  const who = doctorName?.trim() ? `, ${doctorName.trim()}` : '';
-  const parts = [`${greet}${who}. Here is your huddle from Kayla and the team.`];
-  parts.push(c.visitsToday
-    ? `${cap(TEAM_VOICE.schedule)} shows ${plural(c.visitsToday, 'visit')} on today's schedule${c.checkedIn ? `, and ${plural(c.checkedIn, 'patient')} already checked in` : ''}.`
-    : `${cap(TEAM_VOICE.schedule)} shows no visits booked for today.`);
-  parts.push(c.openLabs
-    ? `${cap(TEAM_VOICE.labs)} has ${plural(c.openLabs, 'lab order')} waiting${c.urgentLabs ? `, including ${c.urgentLabs} marked urgent or stat` : ''}.`
-    : 'There are no lab orders waiting.');
-  parts.push(c.draftNotes
-    ? `${cap(TEAM_VOICE.notes)} has ${plural(c.draftNotes, 'visit note')} still in draft, ready for your review and signature.`
-    : 'All visit notes are signed.');
-  parts.push('These are made-up test patients for the pilot. Have a great day.');
-  return parts.join(' ');
-}
-
-const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+import { TEAM_VOICE, plural } from '../../../supabase/functions/_shared/clinical-huddle';
+export { TEAM_VOICE, plural, huddleScript, huddleCounts, type HuddleCounts } from '../../../supabase/functions/_shared/clinical-huddle';
 
 export type RxReadBack = { drug_name: string; strength?: string | null; dose: string; route: string; frequency: string; quantity?: string; refills?: string; days_supply?: string };
 
