@@ -6,14 +6,49 @@ export const KAYLA_VOICE_ID = 'MyQI9BPZq1P9pJ3RS1q7';
 export const HEYGEN_SPEECH_URL = 'https://api.heygen.com/v3/voices/speech';
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-export type VoiceRequest = { clinicId: string; selection: unknown; receipt: unknown };
-/** Exactly clinic_id + selection + receipt; nothing else (no free text) is accepted. */
+/** Kayla starts talking after a short first piece (~5 s to prepare) while later pieces are prepared during playback. */
+export const FIRST_PART_CHARS = 280;
+export const PART_CHARS = 900;
+export const MAX_PARTS = 16;
+
+export type VoiceRequest = { clinicId: string; selection: unknown; receipt: unknown; part: number };
+/** Exactly clinic_id + selection + receipt (+ optional piece number); nothing else (no free text) is accepted. */
 export function parseVoiceRequest(body: unknown): VoiceRequest | null {
   if (!body || typeof body !== 'object' || Array.isArray(body)) return null;
   const b = body as Record<string, unknown>;
-  if (Object.keys(b).sort().join(',') !== 'clinic_id,receipt,selection') return null;
+  const keys = Object.keys(b).sort().join(',');
+  if (keys !== 'clinic_id,receipt,selection' && keys !== 'clinic_id,part,receipt,selection') return null;
   if (typeof b.clinic_id !== 'string' || !UUID.test(b.clinic_id)) return null;
-  return { clinicId: b.clinic_id, selection: b.selection, receipt: b.receipt };
+  const part = b.part === undefined ? 0 : b.part;
+  if (typeof part !== 'number' || !Number.isInteger(part) || part < 0 || part >= MAX_PARTS) return null;
+  return { clinicId: b.clinic_id, selection: b.selection, receipt: b.receipt, part };
+}
+
+/** Splits the spoken words into pieces at sentence ends: a short first piece, then longer ones. */
+export function speechParts(words: string, first = FIRST_PART_CHARS, rest = PART_CHARS): string[] {
+  // Headings and list lines without an ending get a full stop so Kayla pauses after them.
+  const sentences = words.split(/\n+/).map((l) => l.trim()).filter(Boolean)
+    .map((l) => /[.!?:;,]$/.test(l) ? l : `${l}.`)
+    .flatMap((l) => l.split(/(?<=[.!?:;])\s+/)).map((s) => s.trim()).filter(Boolean);
+  const units: string[] = [];
+  for (const sentence of sentences) {
+    let s = sentence;
+    while (s.length > rest) {
+      let cut = s.lastIndexOf(' ', rest);
+      if (cut < rest / 2) cut = rest;
+      units.push(s.slice(0, cut).trim()); s = s.slice(cut).trim();
+    }
+    if (s) units.push(s);
+  }
+  const parts: string[] = [];
+  let current = '';
+  for (const unit of units) {
+    const limit = parts.length === 0 ? first : rest;
+    if (current && current.length + 1 + unit.length > limit) { parts.push(current); current = unit; }
+    else current = current ? `${current} ${unit}` : unit;
+  }
+  if (current) parts.push(current);
+  return parts;
 }
 
 /** Spoken words for a verified answer, or null when too long or empty (the browser then uses the device voice). */
@@ -36,7 +71,8 @@ export function safeAudioUrl(value: unknown): string | null {
   } catch { return null; }
 }
 
-export const RATE_LIMIT = 20;
+/** Counted per spoken piece (an average answer is 3–4 pieces). */
+export const RATE_LIMIT = 150;
 export const RATE_WINDOW_MS = 10 * 60 * 1000;
 export function makeRateLimiter(limit = RATE_LIMIT, windowMs = RATE_WINDOW_MS) {
   const hits = new Map<string, number[]>();

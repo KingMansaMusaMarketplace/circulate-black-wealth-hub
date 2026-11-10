@@ -6,7 +6,7 @@ import { createClient } from 'npm:@supabase/supabase-js@2';
 import { corsHeaders as sdkCorsHeaders } from 'npm:@supabase/supabase-js@2/cors';
 import { authorizeClinicalPreview } from '../_shared/clinical-preview-auth.ts';
 import { helpReceiptKey, verifyReply } from '../_shared/clinical-help-history.ts';
-import { HEYGEN_SPEECH_URL, KAYLA_VOICE_ID, makeRateLimiter, parseVoiceRequest, safeAudioUrl, speechFor, speechPayload } from './rules.ts';
+import { HEYGEN_SPEECH_URL, KAYLA_VOICE_ID, MAX_PARTS, makeRateLimiter, parseVoiceRequest, safeAudioUrl, speechFor, speechParts, speechPayload } from './rules.ts';
 
 const corsHeaders = { ...sdkCorsHeaders, 'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token, x-hc-preview-token, x-hc-preview-device' };
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
@@ -41,13 +41,16 @@ Deno.serve(async (req) => {
     if (!await verifyReply(key, request.selection, request.receipt)) return json({ error: 'Only Kayla answers can be read aloud.' }, 403);
     const words = speechFor((request.receipt as { text: string }).text);
     if (!words) return json({ error: 'That answer is too long for Kayla’s voice.' }, 413);
+    const parts = speechParts(words);
+    if (request.part >= parts.length || parts.length > MAX_PARTS) return json({ error: 'That answer is too long for Kayla’s voice.' }, 413);
+    const piece = parts[request.part];
     if (!allow(userData.user.id)) return json({ error: 'Too many spoken answers in a short time.' }, 429);
 
     const voiceId = Deno.env.get('KAYLA_CLINICAL_VOICE_ID') || KAYLA_VOICE_ID;
     const response = await fetch(HEYGEN_SPEECH_URL, {
       method: 'POST',
       headers: { 'X-Api-Key': apiKey, 'Content-Type': 'application/json' },
-      body: JSON.stringify(speechPayload(words, voiceId)),
+      body: JSON.stringify(speechPayload(piece, voiceId)),
       signal: AbortSignal.any([req.signal, AbortSignal.timeout(45000)]),
     });
     if (!response.ok) {
@@ -59,9 +62,9 @@ Deno.serve(async (req) => {
     const result = await response.json().catch(() => null);
     const audioUrl = safeAudioUrl(result?.data?.audio_url);
     const seconds = Number(result?.data?.duration) || 0;
-    console.log('kayla voice', { chars: words.length, seconds: Math.round(seconds), engine: result?.data?.engine });
+    console.log('kayla voice', { part: request.part, parts: parts.length, chars: piece.length, seconds: Math.round(seconds), engine: result?.data?.engine });
     if (!audioUrl) return json({ error: "Kayla's voice is unavailable right now." }, 502);
-    return json({ audio_url: audioUrl, seconds });
+    return json({ audio_url: audioUrl, seconds, part: request.part, parts: parts.length });
   } catch (error) {
     console.error('kayla voice error', error instanceof Error ? error.name : 'unknown');
     return json({ error: "Kayla's voice is unavailable right now." }, 500);
