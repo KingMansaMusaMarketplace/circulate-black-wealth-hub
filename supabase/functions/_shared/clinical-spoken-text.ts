@@ -2,8 +2,8 @@
 // addresses, and the brand and product acronyms said the way Kayla says them in her videos.
 // Shared by the browser (device voice) and the Kayla voice service, so both say the same words.
 
-/** Longest answer (in spoken characters) sent to Kayla's recorded voice; longer answers use the device voice. */
-export const KAYLA_VOICE_MAX_CHARS = 4000;
+/** Longest answer (in spoken characters) Kayla's recorded voice will read; it is spoken in short pieces. */
+export const KAYLA_VOICE_MAX_CHARS = 9000;
 
 export const spokenText = (text: string) => text
   .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
