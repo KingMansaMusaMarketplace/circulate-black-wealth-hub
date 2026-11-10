@@ -19,7 +19,7 @@ describe('clinical product guidance boundaries', () => {
   });
   it('covers every demo and clinic navigation destination without invented tabs', () => {
     const demo = ['doctor-day','sample-chart','medication-review','data-explorer','dashboard','inbox','patients','labs','rx','video','portal','cme','rpm','careplans','voice','referrals','auth','billing','reliability','evaluation','revenue','impact','specialties','quality','interop','audit','compliance'];
-    const workspace = ['doctor-day','sample-chart','medication-review','data-explorer','connections','portal','intake','dashboard','patients','schedule','prep','chronology','review','notes','care','doccheck','auth','impact','specialties','billing','reliability','evaluation','quality','team'];
+    const workspace = ['doctor-day','sample-chart','medication-review','data-explorer','connections','portal','intake','dashboard','patients','schedule','prep','chronology','review','notes','care','doccheck','auth','impact','specialties','billing','reliability','evaluation','quality','team','delegation','pilot-patients','national-exchange','idsr'];
     expect(new Set(PRODUCT_HELP.map(item => item.demo).filter(value => value && !value.startsWith('/')))).toEqual(new Set(demo));
     expect(new Set(PRODUCT_HELP.map(item => item.workspace).filter(value => value && !value.startsWith('/')))).toEqual(new Set(workspace));
   });
@@ -64,6 +64,16 @@ describe('product-only conversation intake', () => {
     const selection = compileHelpQuestion('Please tell me about 1325 Clinical and about the features');
     expect(selection).toEqual({ topics: ['overview'], intent: 'explain' });
     expect(canonicalQuestion(selection ?? { topics: [], intent: 'explain' })).toBe('Explain in detail: 1325 Clinical EMR / EHR.');
+  });
+  it('routes common doctor phrasings to the right screen', () => {
+    expect(compileHelpQuestion('How do I dictate a note?')?.topics).toContain('notes');
+    expect(compileHelpQuestion('What is the delegation desk?')?.topics).toContain('delegation');
+    expect(compileHelpQuestion('How do I join the pilot?')?.topics).toContain('pilot-program');
+    expect(compileHelpQuestion('What is Kenya IDSR?')?.topics).toContain('idsr');
+  });
+  it('every workspace menu screen has a Kayla topic', () => {
+    const menu = ['doctor-day','delegation','sample-chart','medication-review','data-explorer','idsr','connections','national-exchange','portal','intake','dashboard','pilot-patients','patients','schedule','prep','chronology','review','notes','care','doccheck','auth','impact','specialties','billing','reliability','evaluation','quality'];
+    for (const k of menu) expect(PRODUCT_HELP.some(t => t.workspace === k), k).toBe(true);
   });
   it('recognizes natural product workflows and contextual follow-ups', () => {
     expect(compileHelpQuestion('How does chart preparation work?')?.topics).toContain('prep');
