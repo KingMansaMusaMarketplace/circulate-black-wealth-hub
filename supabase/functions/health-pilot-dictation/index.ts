@@ -5,7 +5,7 @@
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import { corsHeaders as sdkCorsHeaders } from 'npm:@supabase/supabase-js@2/cors';
 import { authorizeClinicalPreview } from '../_shared/clinical-preview-auth.ts';
-import { MAX_BYTES, checkWav, makeRateLimiter, openAiHeaders } from './rules.ts';
+import { MAX_BYTES, checkWav, makeRateLimiter, openAiHeaders, parsePurpose } from './rules.ts';
 
 const corsHeaders = { ...sdkCorsHeaders, 'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token, x-hc-preview-token, x-hc-preview-device' };
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
@@ -13,6 +13,9 @@ const allow = makeRateLimiter();
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const MODEL = 'gpt-transcribe';
 const HINT = 'Doctor dictating a clinic visit note for a made-up test patient. Medical terms, medicine names, doses and vital signs.';
+// Spoken Ask Kayla question: the words go back to the question box and pass the same
+// product-only check as typed questions before anything reaches Kayla.
+const QUESTION_HINT = 'A doctor asking Kayla a short question about 1325 Clinical EMR / EHR features, such as Doctor Day, Delegation Desk, chart prep, AI note-taking, billing or prior authorization.';
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
@@ -36,23 +39,24 @@ Deno.serve(async (req) => {
     const form = await req.formData().catch(() => null);
     const clinicId = form?.get('clinic_id');
     const file = form?.get('file');
+    const purpose = parsePurpose(form?.get('purpose'));
     if (typeof clinicId !== 'string' || !UUID.test(clinicId) || !(file instanceof File)) return json({ error: 'The recording did not arrive. Please try again.' }, 400);
     const { data: member } = await caller.from('hc_members').select('role').eq('clinic_id', clinicId).eq('user_id', userData.user.id).maybeSingle();
     if (!member) return json({ error: 'Talk-to-type is only for members of this pilot clinic.' }, 403);
     if (!allow(userData.user.id)) return json({ error: 'Too many recordings in a short time. Wait a minute and try again.' }, 429);
 
     const bytes = new Uint8Array(await file.arrayBuffer());
-    const wav = checkWav(bytes);
+    const wav = checkWav(bytes, purpose);
     if (!wav.ok) return json({ error: wav.error }, 400);
 
     const upstream = new FormData();
     upstream.append('file', new Blob([bytes], { type: 'audio/wav' }), 'dictation.wav');
     upstream.append('model', MODEL);
     upstream.append('language', 'en');
-    upstream.append('prompt', HINT);
+    upstream.append('prompt', purpose === 'question' ? QUESTION_HINT : HINT);
     const response = await fetch('https://api.openai.com/v1/audio/transcriptions', { method: 'POST', headers, body: upstream });
     // Status and organization only — never the words.
-    console.log('pilot dictation', { status: response.status, seconds: Math.round(wav.seconds), org: response.headers.get('openai-organization') });
+    console.log('pilot dictation', { purpose, status: response.status, seconds: Math.round(wav.seconds), org: response.headers.get('openai-organization') });
     if (!response.ok) {
       await response.body?.cancel();
       if (response.status === 429 || response.status >= 500) return json({ error: 'The voice service is busy. Wait a moment and try again.' }, 503);

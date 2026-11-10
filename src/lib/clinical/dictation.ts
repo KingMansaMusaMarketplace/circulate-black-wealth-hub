@@ -15,6 +15,11 @@ export const DICTATION_MIN_SECONDS = 0.5;
 /** Same limit as each visit note section. */
 export const NOTE_SECTION_MAX = 5000;
 export const DICTATION_REMINDER = "Test patients only. Don't say real names.";
+/** Longest spoken Ask Kayla question; mirrors QUESTION_MAX_SECONDS on the server. */
+export const KAYLA_QUESTION_MAX_SECONDS = 30;
+/** Ask Kayla question box limit; spoken words are cut to fit it. */
+export const KAYLA_QUESTION_MAX_CHARS = 600;
+export const KAYLA_MIC_REMINDER = "Ask about features only. Don't say patient names or details.";
 
 /** Average neighbouring samples down to the target rate (mono). */
 export function downsample(chunks: readonly Float32Array[], fromRate: number, toRate = DICTATION_SAMPLE_RATE): Float32Array {
