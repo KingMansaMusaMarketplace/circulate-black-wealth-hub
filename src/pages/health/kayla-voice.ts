@@ -34,6 +34,7 @@ async function post(payload: Record<string, unknown>): Promise<KaylaVoicePiece &
       body: JSON.stringify(payload),
     });
     const body = await response.json().catch(() => ({}));
+    if (body?.device_only === true) throw new DeviceVoiceOnly();
     if (!response.ok || typeof body.audio_url !== 'string') throw new Error(typeof body.error === 'string' ? body.error : `Voice request failed (${response.status})`);
     return { url: body.audio_url, parts: Math.max(1, Number(body.parts) || 1), ...(typeof body.text === 'string' ? { text: body.text } : {}) };
   } finally { clearTimeout(timer); }
@@ -55,6 +56,19 @@ export function kaylaVoicePart(clinicId: string, proof: KaylaVoiceProof, part: n
  * clinic's test-patient counts; the browser sends only the clinic, its clock offset and a piece number. */
 export function kaylaHuddlePart(clinicId: string, part: number): Promise<KaylaVoicePiece & { text?: string }> {
   return post({ clinic_id: clinicId, huddle: true, tz_offset: new Date().getTimezoneOffset(), part });
+}
+
+/** The voice service said this chart must use the device voice (a real patient, or a clinic cleared for real patients). */
+export class DeviceVoiceOnly extends Error { constructor() { super('Device voice only'); this.name = 'DeviceVoiceOnly'; } }
+
+export type ReadBackOrder =
+  | { readback: 'rx'; order: { drug_name: string; strength: string | null; dose: string; route: string; frequency: string; quantity: string; refills: string; days_supply: string; warnings: number } }
+  | { readback: 'lab'; order: { test_name: string; priority: string; reason: string } };
+
+/** One piece of an order read-back in Kayla's voice. The service builds the sentence itself from these
+ * checked order fields and the test patient's own allergies; it refuses real patients. */
+export function kaylaReadBackPart(clinicId: string, patientId: string, request: ReadBackOrder, part: number): Promise<KaylaVoicePiece & { text?: string }> {
+  return post({ clinic_id: clinicId, patient_id: patientId, readback: request.readback, order: request.order, part });
 }
 
 /** For tests: forget audio made in this viewing. */
