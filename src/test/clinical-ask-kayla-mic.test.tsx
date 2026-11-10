@@ -1,7 +1,7 @@
 // Spoken Ask Kayla questions: microphone only in the clinic workspace, words fill the box
 // (never auto-send), and the real-patient-detail rule still blocks sending.
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import AskKayla from '@/pages/health/AskKayla';
 import { KAYLA_QUESTION_MAX_SECONDS } from '@/lib/clinical/dictation';
@@ -39,22 +39,22 @@ describe('Ask Kayla microphone', () => {
     expect(micProps.at(-1)).toMatchObject({ purpose: 'question', maxSeconds: 30 });
   });
 
-  it('puts spoken words in the question box without sending them', () => {
+  it('puts spoken words in the question box without sending them', async () => {
     renderWorkspace();
     spoken.text = 'How do I dictate a note?';
     fireEvent.click(screen.getByRole('button', { name: 'Speak your question to Kayla' }));
     expect((screen.getByRole('textbox', { name: 'Your product question' }) as HTMLTextAreaElement).value).toBe('How do I dictate a note?');
     expect(ask).not.toHaveBeenCalled();
     fireEvent.click(screen.getByRole('button', { name: 'Ask Kayla' }));
-    expect(ask).toHaveBeenCalledWith({ topics: ['notes'], intent: 'steps' }, 'workspace');
+    await waitFor(() => expect(ask).toHaveBeenCalledWith({ topics: ['notes'], intent: 'steps' }, 'workspace'));
   });
 
-  it('still refuses to send spoken patient details', () => {
+  it('still refuses to send spoken patient details', async () => {
     renderWorkspace();
     spoken.text = 'My patient Jane Smith has chest pain';
     fireEvent.click(screen.getByRole('button', { name: 'Speak your question to Kayla' }));
     fireEvent.click(screen.getByRole('button', { name: 'Ask Kayla' }));
     expect(ask).not.toHaveBeenCalled();
-    expect(screen.getByRole('alert').textContent).toContain('This question was not sent');
+    await waitFor(() => expect(screen.getByRole('alert').textContent).toContain('This question was not sent'));
   });
 });
