@@ -12,10 +12,15 @@ import { useClinicalVoice } from './ClinicalVoice';
 import { PRODUCT_HELP, resolveHelpTarget, type HelpSurface } from './product-help';
 import { compileHelpQuestion, type HelpIntent } from '../../../supabase/functions/_shared/clinical-help-intake';
 import { useClinicalHelpConversation } from './ClinicalHelpConversation';
+import DictationButton from './workspace/DictationButton';
+import { KAYLA_MIC_REMINDER, KAYLA_QUESTION_MAX_CHARS, KAYLA_QUESTION_MAX_SECONDS, appendDictation } from '@/lib/clinical/dictation';
 
-export default function AskKayla({ surface, onNavigate }: { surface: HelpSurface; onNavigate: (tab: string) => void }) {
+/** clinicId turns on the spoken-question microphone (private clinic workspace only). */
+export default function AskKayla({ surface, onNavigate, clinicId }: { surface: HelpSurface; onNavigate: (tab: string) => void; clinicId?: string }) {
   const chat = useClinicalHelpConversation();
   const [input, setInput] = useState('');
+  const [listening, setListening] = useState(false);
+  const canSpeak = surface === 'workspace' && !!clinicId && !!chat;
   const [localError, setLocalError] = useState('');
   const [selectedId, setSelectedId] = useState(() => chat?.previousTopics()[0] ?? 'overview');
   const [speaking, setSpeaking] = useState<string | null>(null);
@@ -65,8 +70,18 @@ export default function AskKayla({ surface, onNavigate }: { surface: HelpSurface
     {(localError || chat?.problem) && <p role="alert" className="text-sm text-destructive">{localError || chat?.problem}</p>}
     {!chat && <p role="alert" className="text-sm text-destructive">A current approved private session is required.</p>}
     <div ref={form}><PromptInput attachmentsDisabled maxFiles={0} onSubmit={({ text }) => submit(text)}>
-      <PromptInputTextarea aria-label="Your product question" placeholder="Please tell me about 1325 Clinical EMR / EHR and its features" value={input} onChange={e => setInput(e.target.value)} maxLength={600} disabled={busy || !chat} autoComplete="off" />
-      <PromptInputFooter className="justify-between"><span className="text-xs text-muted-foreground">Product questions only · No patient information</span><PromptInputSubmit variant="clinicalHelp" status={chat?.status} onStop={() => { void chat?.stop(); }} disabled={!chat || (!busy && !input.trim())} aria-label={busy ? 'Stop answer' : 'Ask Kayla'} /></PromptInputFooter>
+      <PromptInputTextarea aria-label="Your product question" placeholder="Please tell me about 1325 Clinical EMR / EHR and its features" value={input} onChange={e => setInput(e.target.value)} maxLength={KAYLA_QUESTION_MAX_CHARS} disabled={busy || !chat || listening} autoComplete="off" />
+      <PromptInputFooter className="flex-wrap justify-between gap-2">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
+          {canSpeak && clinicId && <DictationButton clinicId={clinicId} purpose="question" maxSeconds={KAYLA_QUESTION_MAX_SECONDS} idleLabel="Speak" sectionLabel="your question to Kayla" disabled={busy}
+            onBusyChange={setListening}
+            onError={message => setLocalError(message)}
+            // Spoken words only fill the box; the doctor reads them and presses send, and the same product-only check applies.
+            onText={text => { setLocalError(''); setInput(prev => appendDictation(prev, text, KAYLA_QUESTION_MAX_CHARS).text); form.current?.querySelector('textarea')?.focus({ preventScroll: true }); }} />}
+          <span className="text-xs text-muted-foreground">{canSpeak ? KAYLA_MIC_REMINDER : 'Product questions only · No patient information'}</span>
+        </div>
+        <PromptInputSubmit variant="clinicalHelp" status={chat?.status} onStop={() => { void chat?.stop(); }} disabled={!chat || listening || (!busy && !input.trim())} aria-label={busy ? 'Stop answer' : 'Ask Kayla'} />
+      </PromptInputFooter>
     </PromptInput></div>
     <div className="flex flex-wrap gap-2" aria-label="Follow-up questions">{([['steps','Walk me through it'],['limits','What is available today?'],['team','How does the team help?']] as const).map(([intent,label]) => <Button key={intent} variant="outline" disabled={busy || !chat} className="h-auto whitespace-normal py-2" onClick={() => followup(intent)}>{label}</Button>)}</div>
     <details className="border-t border-border pt-4"><summary className="cursor-pointer text-sm font-semibold text-primary">Browse all product features</summary><nav aria-label="Product features" className="mt-3 flex flex-wrap gap-2">{PRODUCT_HELP.map(topic => <Button key={topic.id} variant="ghost" disabled={busy || !chat} className="h-auto whitespace-normal text-left" onClick={() => { setSelectedId(topic.id); chat?.ask({ topics: [topic.id], intent: 'explain' }, surface); }}>{topic.feature}</Button>)}</nav></details>
