@@ -1,5 +1,5 @@
 import { assertEquals } from 'https://deno.land/std@0.224.0/assert/mod.ts';
-import { KAYLA_VOICE_ID, makeRateLimiter, parseVoiceRequest, safeAudioUrl, speechFor, speechPayload } from './rules.ts';
+import { KAYLA_VOICE_ID, makeRateLimiter, parseVoiceRequest, safeAudioUrl, speechFor, speechParts, speechPayload } from './rules.ts';
 import { helpReceiptKey, sealReply, verifyReply } from '../_shared/clinical-help-history.ts';
 import type { HelpSelection } from '../_shared/clinical-help-intake.ts';
 
@@ -29,7 +29,7 @@ Deno.test('only an answer Kayla signed for this viewer can be spoken', async () 
 
 Deno.test('says the brand the approved way and refuses very long answers', () => {
   assertEquals(speechFor('Welcome to **1325.AI**'), 'Welcome to thirteen twenty-five dot A I');
-  assertEquals(speechFor('x'.repeat(4001)), null);
+  assertEquals(speechFor('x'.repeat(9001)), null);
   assertEquals(speechFor('   '), null);
 });
 
@@ -39,9 +39,27 @@ Deno.test('passes back only HeyGen audio addresses', () => {
   assertEquals(safeAudioUrl('http://resource2.heygen.ai/a.mp3'), null);
 });
 
-Deno.test('limits each person to 20 spoken answers per 10 minutes', () => {
+Deno.test('limits each person to 150 spoken pieces per 10 minutes', () => {
   const allow = makeRateLimiter();
-  for (let i = 0; i < 20; i++) assertEquals(allow('doc', 1000 + i), true);
+  for (let i = 0; i < 150; i++) assertEquals(allow('doc', 1000 + i), true);
   assertEquals(allow('doc', 2000), false);
   assertEquals(allow('other', 2000), true);
+});
+
+Deno.test('accepts a piece number, but only a sensible one', () => {
+  assertEquals(parseVoiceRequest({ clinic_id: clinic, selection, receipt: {}, part: 2 })?.part, 2);
+  assertEquals(parseVoiceRequest({ clinic_id: clinic, selection, receipt: {} })?.part, 0);
+  assertEquals(parseVoiceRequest({ clinic_id: clinic, selection, receipt: {}, part: -1 }), null);
+  assertEquals(parseVoiceRequest({ clinic_id: clinic, selection, receipt: {}, part: 1.5 }), null);
+  assertEquals(parseVoiceRequest({ clinic_id: clinic, selection, receipt: {}, part: '1' }), null);
+});
+
+Deno.test('starts with a short first piece so Kayla begins talking quickly, and keeps every word', () => {
+  const words = speechFor(`## Medical Chronology\n\n${'Kayla explains how the timeline works for reviewers today. '.repeat(40)}`)!;
+  const parts = speechParts(words);
+  assertEquals(parts[0].startsWith('Medical Chronology.'), true);
+  assertEquals(parts[0].length <= 280, true);
+  assertEquals(parts.slice(1).every((p) => p.length <= 900), true);
+  assertEquals(parts.length > 2, true);
+  assertEquals(parts.join(' ').replace(/\s+/g, ' ').replace('Medical Chronology. ', 'Medical Chronology '), words.replace(/\s+/g, ' ').trim());
 });
