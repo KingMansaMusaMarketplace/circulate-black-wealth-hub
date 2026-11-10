@@ -2,7 +2,7 @@ import { createClient } from 'npm:@supabase/supabase-js@2';
 import { corsHeaders } from 'npm:@supabase/supabase-js@2/cors';
 import { createUIMessageStream, createUIMessageStreamResponse } from 'npm:ai@6.0.309';
 import { authorizeClinicalPreview } from '../_shared/clinical-preview-auth.ts';
-import { PRODUCT_HELP } from '../_shared/clinical-product-catalog.ts';
+import { PRODUCT_HELP, topicDepth } from '../_shared/clinical-product-catalog.ts';
 import { buildClinicalProductHelpPrompt, loadApprovedImprovements } from '../_shared/kayla-brain.ts';
 import { readHelpHistory, sealReply } from '../_shared/clinical-help-history.ts';
 import { createResponsesCall } from '../_shared/clinical-help-responses.ts';

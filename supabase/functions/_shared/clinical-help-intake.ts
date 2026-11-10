@@ -11,6 +11,12 @@ const aliases: Record<string, string[]> = {
   team: ['employees', 'agentic', 'team', 'agents'], explorer: ['dataminer', 'explorer', 'search'],
   signoff: ['sign', 'signing', 'signed', 'export', 'pdf', 'report'], account: ['login', 'signin', 'account'],
   access: ['approval', 'access', 'timer', 'minutes', 'extension'], readiness: ['ready', 'readiness', 'hipaa'],
+  delegation: ['delegation', 'delegate', 'desk', 'tasks'], 'pilot-program': ['pilot', 'tester', 'testing', 'join', 'signup', 'feedback', 'bug'],
+  'pilot-patients': ['test', 'records', 'invented', 'made'], idsr: ['idsr', 'kenya', 'surveillance', 'disease'],
+  'national-exchange': ['national', 'exchange', 'hie'], workspace: ['department', 'location', 'saved', 'workspace', 'primary', 'care'],
+  ask: ['ask', 'kayla', 'questions'],
+}; const _extra: Record<string, string[]> = {
+  _notes: ['scribe', 'soap', 'dictate', 'transcribe'],
 };
 const grammar = words('please tell me about what can does do how is are the a an in on of to for with and or it its this that these those you your we our us i my would could should may will be become work works working use using used know knowing explain exactly more detail detailed details all whole everything full features functionality help show find open go get give need want like have has today currently available unavailable live locked planned fictional sample data only versus vs compare comparison different differences difference next then also step steps by why when where which who do not dont cant cannot yes no thanks thank thankyou hello hi kayla doctor doctors nurse nurses staff visitor visitors overview workflows workflow capabilities options screen screens page pages tab tabs button buttons navigation walkthrough guide guides limitations limits status privacy safety sound voice audio speaking talk talking communicate communication answer answers questions question overview employees agentic agents team platform emr clinical system');
 const vocabulary = new Set([...grammar, 'walk', 'through', ...PRODUCT_HELP.flatMap(t => words(`${t.feature} ${t.question}`)), ...Object.values(aliases).flat()]);
