@@ -61,7 +61,7 @@ export default function AskKayla({ surface, onNavigate, clinicId }: { surface: H
     if (autoRead) { primeSpeech(); primeAudio(); }
     setLocalError(''); setInput(''); setSelectedId(selection.topics[0]); chat?.ask(selection, surface);
   };
-  const followup = (intent: HelpIntent) => { const topics = chat?.previousTopics().length ? chat.previousTopics() : [selectedId]; setSelectedId(topics[0]); setLocalError(''); chat?.ask({ topics, intent }, surface); };
+  const followup = (intent: HelpIntent) => { if (autoRead) { primeSpeech(); primeAudio(); } const topics = chat?.previousTopics().length ? chat.previousTopics() : [selectedId]; setSelectedId(topics[0]); setLocalError(''); chat?.ask({ topics, intent }, surface); };
   // Kayla's own video voice (workspace only); the device voice is the automatic fallback.
   const kaylaAudio = useRef<HTMLAudioElement | null>(null);
   const readToken = useRef(0);
@@ -71,9 +71,12 @@ export default function AskKayla({ surface, onNavigate, clinicId }: { surface: H
   const primeAudio = () => {
     if (!canSpeak) return;
     const a = audioElement(); if (!a || (a.src && !a.paused)) return;
+    const mark = ++primeMark.current;
     a.muted = true; a.src = SILENT_AUDIO;
-    void Promise.resolve(a.play()).catch(() => undefined).finally(() => { a.pause(); a.muted = false; });
+    // Only undo the silent clip if Kayla's real answer has not started on this element meanwhile.
+    void Promise.resolve(a.play()).catch(() => undefined).finally(() => { if (primeMark.current === mark) { a.pause(); a.muted = false; } });
   };
+  const primeMark = useRef(0);
   const stopSpeaking = () => {
     readToken.current++; setVoiceLoading(null);
     window.speechSynthesis?.cancel();
@@ -103,7 +106,7 @@ export default function AskKayla({ surface, onNavigate, clinicId }: { surface: H
       if (token !== readToken.current) return;
       const a = audioElement(); if (!a) { fallback(); return; }
       setVoiceLoading(null);
-      a.muted = false;
+      primeMark.current++; a.muted = false;
       a.onended = () => { if (token === readToken.current) setSpeaking(null); };
       a.onerror = fallback;
       a.src = url;
@@ -138,7 +141,7 @@ export default function AskKayla({ surface, onNavigate, clinicId }: { surface: H
         {!chat?.messages.length && <Message from="assistant"><MessageContent><MessageResponse>{"I'm Kayla, your Agentic AI product guide for **1325 Clinical EMR / EHR**. What would you like to know about its features or workflows?\n\nI can explain how the sample platform works, what is locked, and how the **42 Agentic AI Employees** fit into the broader 1325.AI team. I don't provide medical advice or accept patient information."}</MessageResponse></MessageContent></Message>}
         {chat?.messages.map(message => <Message key={message.id} from={message.role}><MessageContent className={message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-transparent'}>
           {message.parts.map((part, index) => part.type === 'text' ? <MessageResponse key={index}>{part.text}</MessageResponse> : null)}
-        </MessageContent>{message.role === 'assistant' && message.parts.some(p => p.type === 'data-receipt') && <Button variant="ghost" size="icon" title={speaking === message.id ? 'Stop spoken answer' : 'Read this answer aloud'} aria-label={speaking === message.id ? 'Stop spoken answer' : 'Read this answer aloud'} onClick={() => readAnswer(message.id, message.parts.filter(p => p.type === 'text').map(p => p.text).join('\n'))}>{speaking === message.id ? <Square /> : <Volume2 />}</Button>}</Message>)}
+        </MessageContent>{message.role === 'assistant' && message.parts.some(p => p.type === 'data-receipt') && <Button variant="ghost" size="icon" title={speaking === message.id ? 'Stop spoken answer' : 'Read this answer aloud'} aria-label={speaking === message.id ? 'Stop spoken answer' : 'Read this answer aloud'} onClick={() => readAnswer(message.id, message.parts.filter(p => p.type === 'text').map(p => p.text).join('\n'))}>{speaking === message.id ? <Square /> : <Volume2 />}</Button>}{voiceLoading === message.id && <Shimmer className="text-xs">Kayla is getting ready to speak…</Shimmer>}</Message>)}
         {chat?.status === 'submitted' && <Shimmer>Kayla is preparing your answer…</Shimmer>}
       </ConversationContent><ConversationScrollButton aria-label="Latest answer" />
     </Conversation>
