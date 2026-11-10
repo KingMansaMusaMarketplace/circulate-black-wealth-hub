@@ -1,9 +1,10 @@
 import { assertEquals } from 'https://deno.land/std@0.224.0/assert/mod.ts';
 import { KAYLA_VOICE_ID, makeRateLimiter, parseVoiceRequest, safeAudioUrl, speechFor, speechPayload } from './rules.ts';
 import { helpReceiptKey, sealReply, verifyReply } from '../_shared/clinical-help-history.ts';
+import type { HelpSelection } from '../_shared/clinical-help-intake.ts';
 
 const clinic = '11111111-1111-4111-8111-111111111111';
-const selection = { topics: ['notes'], intent: 'explain' };
+const selection: HelpSelection = { topics: ['notes'], intent: 'explain' };
 
 Deno.test('uses Kayla’s video voice (Authoritative Consultant)', () => {
   assertEquals(KAYLA_VOICE_ID, 'MyQI9BPZq1P9pJ3RS1q7');
