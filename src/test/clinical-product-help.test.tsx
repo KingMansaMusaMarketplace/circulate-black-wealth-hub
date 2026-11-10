@@ -24,7 +24,7 @@ describe('clinical product guidance boundaries', () => {
     expect(new Set(PRODUCT_HELP.map(item => item.workspace).filter(value => value && !value.startsWith('/')))).toEqual(new Set(workspace));
   });
   it('does not accept patient questions, microphone input, execute actions or persist questions', () => {
-    expect(HELP_POLICY).toEqual({ acceptsPatientText: false, microphoneInput: false, performsClinicalActions: false, persistsQuestions: false });
+    expect(HELP_POLICY).toEqual({ acceptsPatientText: false, microphoneInput: 'workspace-question-box', microphoneAutoSends: false, performsClinicalActions: false, persistsQuestions: false });
     render(<MemoryRouter><AskKayla surface="demo" onNavigate={vi.fn()} /></MemoryRouter>);
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'My patient Jane has chest pain' } });
     ask.mockClear();
