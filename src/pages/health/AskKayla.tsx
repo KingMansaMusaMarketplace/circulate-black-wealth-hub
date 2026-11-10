@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, RotateCcw, Volume2, Square } from 'lucide-react';
+import { ArrowRight, RotateCcw, Volume2, VolumeX, Square } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Conversation, ConversationContent, ConversationScrollButton } from '@/components/ai-elements/conversation';
@@ -14,6 +14,27 @@ import { compileHelpQuestion, type HelpIntent } from '../../../supabase/function
 import { useClinicalHelpConversation } from './ClinicalHelpConversation';
 import DictationButton from './workspace/DictationButton';
 import { KAYLA_MIC_REMINDER, KAYLA_QUESTION_MAX_CHARS, KAYLA_QUESTION_MAX_SECONDS, appendDictation } from '@/lib/clinical/dictation';
+
+/** Plain words for the speaker: no markdown symbols or web addresses; brand said the approved way. */
+export const spokenText = (text: string) => text
+  .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+  .replace(/https?:\/\/\S+/g, '')
+  .replace(/1325\.AI/gi, 'thirteen twenty-five dot A I')
+  .replace(/[*#`>_|]/g, '')
+  .replace(/^\s*[-•]\s+/gm, '');
+
+/** Prefer a natural-sounding female US English voice built into the device, when one exists. */
+const kaylaBrowserVoice = () => {
+  const voices = window.speechSynthesis?.getVoices?.() ?? [];
+  const english = voices.filter(v => v.lang?.toLowerCase().startsWith('en-us'));
+  return ['Samantha', 'Ava', 'Allison', 'Aria', 'Jenny', 'Google US English', 'Female'].map(name => english.find(v => v.name.includes(name))).find(Boolean) ?? english[0] ?? null;
+};
+
+/** Phones (especially iPhone) only allow speech that starts from a tap; a silent utterance during the tap unlocks later answers. */
+const primeSpeech = () => {
+  if (!window.speechSynthesis || typeof SpeechSynthesisUtterance === 'undefined') return;
+  const silent = new SpeechSynthesisUtterance(' '); silent.volume = 0; window.speechSynthesis.speak(silent);
+};
 
 /** clinicId turns on the spoken-question microphone (private clinic workspace only). */
 export default function AskKayla({ surface, onNavigate, clinicId }: { surface: HelpSurface; onNavigate: (tab: string) => void; clinicId?: string }) {
@@ -40,23 +61,40 @@ export default function AskKayla({ surface, onNavigate, clinicId }: { surface: H
     if (busy) return;
     const selection = compileHelpQuestion(text, chat?.previousTopics());
     if (!selection) { setInput(''); setLocalError('This question was not sent. Ask only about product features, without names, patient details or other personal information. You can choose a feature below.'); return; }
+    if (autoRead) primeSpeech();
     setLocalError(''); setInput(''); setSelectedId(selection.topics[0]); chat?.ask(selection, surface);
   };
   const followup = (intent: HelpIntent) => { const topics = chat?.previousTopics().length ? chat.previousTopics() : [selectedId]; setSelectedId(topics[0]); setLocalError(''); chat?.ask({ topics, intent }, surface); };
-  const readAnswer = (id: string, text: string) => {
+  const readAnswer = (id: string, text: string, toggle = true) => {
     if (!window.speechSynthesis) { setLocalError('Spoken answers are unavailable in this browser. The written answer remains available.'); return; }
     window.speechSynthesis.cancel(); stopVoice.current?.();
-    if (speaking === id) { setSpeaking(null); return; }
-    const utterance = new SpeechSynthesisUtterance(text.replace(/1325\.AI/gi, 'thirteen twenty-five dot A I').replace(/[*#`]/g, ''));
-    utterance.lang = 'en-US'; utterance.onend = () => setSpeaking(null); utterance.onerror = () => setSpeaking(null);
+    if (toggle && speaking === id) { setSpeaking(null); return; }
+    const utterance = new SpeechSynthesisUtterance(spokenText(text));
+    utterance.lang = 'en-US';
+    const voiceChoice = kaylaBrowserVoice();
+    if (voiceChoice) utterance.voice = voiceChoice;
+    utterance.onend = () => setSpeaking(null); utterance.onerror = () => setSpeaking(null);
     setSpeaking(id); window.speechSynthesis.speak(utterance);
   };
+  // "Read answers aloud": once on, every new finished answer is spoken automatically.
+  const [autoRead, setAutoRead] = useState(false);
+  const lastRead = useRef<string | null>(null);
+  const latest = chat?.messages.at(-1);
+  const latestReady = !busy && latest?.role === 'assistant' && latest.parts.some(p => p.type === 'data-receipt') ? latest : null;
+  const enableAutoRead = () => { lastRead.current = latestReady?.id ?? lastRead.current; setAutoRead(true); primeSpeech(); };
+  const toggleAutoRead = () => { if (autoRead) { setAutoRead(false); window.speechSynthesis?.cancel(); setSpeaking(null); } else enableAutoRead(); };
+  useEffect(() => {
+    if (!autoRead || !latestReady || lastRead.current === latestReady.id) return;
+    lastRead.current = latestReady.id;
+    readAnswer(latestReady.id, latestReady.parts.filter(p => p.type === 'text').map(p => (p as { text: string }).text).join('\n'), false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoRead, latestReady?.id]);
   const selected = PRODUCT_HELP.find(t => t.id === selectedId) ?? PRODUCT_HELP[0];
   const target = resolveHelpTarget(selectedId, surface);
   return <section aria-label="Ask Kayla product conversation" className="mx-auto min-w-0 max-w-4xl space-y-4">
     <header className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
       <div className="flex min-w-0 items-center gap-3"><img src={logo} alt="1325.AI" className="h-12 w-12 shrink-0 object-contain" /><div><h2 ref={heading} className="text-xl font-semibold">Ask Kayla</h2><p className="text-sm text-muted-foreground">1325 Clinical EMR / EHR · Product specialist</p></div></div>
-      <div className="flex items-center gap-2"><Badge variant="outline">No saved history</Badge><Button variant="ghost" size="icon" title="Clear conversation" aria-label="Clear conversation" onClick={() => { chat?.clear(); setInput(''); setLocalError(''); setSpeaking(null); }}><RotateCcw /></Button></div>
+      <div className="flex items-center gap-2"><Button variant={autoRead ? 'default' : 'outline'} size="sm" aria-pressed={autoRead} title={autoRead ? 'Stop reading answers aloud' : 'Kayla reads each answer aloud'} onClick={toggleAutoRead}>{autoRead ? <Volume2 /> : <VolumeX />}{autoRead ? 'Reading answers aloud' : 'Read answers aloud'}</Button><Badge variant="outline">No saved history</Badge><Button variant="ghost" size="icon" title="Clear conversation" aria-label="Clear conversation" onClick={() => { chat?.clear(); setInput(''); setLocalError(''); setSpeaking(null); }}><RotateCcw /></Button></div>
     </header>
     <Conversation className="h-[min(52vh,560px)] min-h-[280px]" aria-label="Conversation with Kayla">
       <ConversationContent className="gap-6 px-1 py-4">
@@ -77,7 +115,7 @@ export default function AskKayla({ surface, onNavigate, clinicId }: { surface: H
             onBusyChange={setListening}
             onError={message => setLocalError(message)}
             // Spoken words only fill the box; the doctor reads them and presses send, and the same product-only check applies.
-            onText={text => { setLocalError(''); setInput(prev => appendDictation(prev, text, KAYLA_QUESTION_MAX_CHARS).text); form.current?.querySelector('textarea')?.focus({ preventScroll: true }); }} />}
+            onText={text => { setLocalError(''); if (!autoRead) enableAutoRead(); setInput(prev => appendDictation(prev, text, KAYLA_QUESTION_MAX_CHARS).text); form.current?.querySelector('textarea')?.focus({ preventScroll: true }); }} />}
           <span className="text-xs text-muted-foreground">{canSpeak ? KAYLA_MIC_REMINDER : 'Product questions only · No patient information'}</span>
         </div>
         <PromptInputSubmit variant="clinicalHelp" status={chat?.status} onStop={() => { void chat?.stop(); }} disabled={!chat || listening || (!busy && !input.trim())} aria-label={busy ? 'Stop answer' : 'Ask Kayla'} />
