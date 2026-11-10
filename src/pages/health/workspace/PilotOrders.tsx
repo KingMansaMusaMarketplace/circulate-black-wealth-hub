@@ -44,7 +44,7 @@ export const READBACK_VOICE_PROBLEM = "Kayla's voice couldn't start just now. Pl
 /** Kayla reads the order back before the doctor saves. Made-up test patients: Kayla's own voice, with
  * the sentence built by her voice service from the checked order fields. Real patients (or a clinic
  * cleared for real patients): this device's voice, so chart words never leave the browser. */
-function ReadBackButton({ clinicId, patientId, real, order, text }: { clinicId: string; patientId: string; real: boolean; order: () => ReadBackOrder; text: () => string }) {
+export function ReadBackButton({ clinicId, patientId, real, order, text }: { clinicId: string; patientId: string; real: boolean; order: () => ReadBackOrder; text: () => string }) {
   const [state, setState] = useState<'idle' | 'loading' | 'speaking'>('idle');
   const [problem, setProblem] = useState('');
   const stopDevice = useRef<() => void>(() => {});
