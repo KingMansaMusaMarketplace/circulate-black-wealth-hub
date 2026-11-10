@@ -1,29 +1,11 @@
 // Kayla's workspace voice helpers: morning huddle, order read-back, hands-free screen commands
 // and team attribution. The huddle (counts only) is spoken in Kayla's own voice, built by the
-// voice service itself; order read-backs stay on the device voice so chart words never leave the browser.
+// voice service itself; order read-backs use Kayla's voice for made-up test patients only (built by the
+// service from checked order fields), and the device voice for real patients.
 
-import { TEAM_VOICE, plural } from '../../../supabase/functions/_shared/clinical-huddle';
 export { TEAM_VOICE, plural, huddleScript, huddleCounts, type HuddleCounts } from '../../../supabase/functions/_shared/clinical-huddle';
 
-export type RxReadBack = { drug_name: string; strength?: string | null; dose: string; route: string; frequency: string; quantity?: string; refills?: string; days_supply?: string };
-
-/** Verbal read-back of a practice prescription before the doctor saves it. */
-export function prescriptionReadBack(rx: RxReadBack, warnings: string[], allergies: string[]): string {
-  const drug = [rx.drug_name.trim(), rx.strength?.trim()].filter(Boolean).join(' ');
-  const parts = [`Read-back from ${TEAM_VOICE.pharmacy}. Confirming: ${drug || 'no medicine entered'}.`];
-  if (rx.dose.trim()) parts.push(`Dose: ${rx.dose.trim()}, ${rx.route}.`);
-  if (rx.frequency.trim()) parts.push(`How often: ${rx.frequency.trim()}.`);
-  if (rx.quantity?.trim()) parts.push(`Quantity ${rx.quantity.trim()}, ${plural(Number(rx.refills || 0), 'refill')}${rx.days_supply?.trim() ? `, ${rx.days_supply.trim()} days supply` : ''}.`);
-  parts.push(allergies.length ? `Recorded allergies: ${allergies.join(', ')}.` : 'No allergies are recorded on this chart.');
-  parts.push(warnings.length ? `Caution: the safety check found ${plural(warnings.length, 'warning')}. Please review before saving.` : 'The starter safety check found no warnings.');
-  parts.push('Please confirm on screen before saving. This practice prescription is never sent to a pharmacy.');
-  return parts.join(' ');
-}
-
-export function labReadBack(test: string, priorityLabel: string, reason: string): string {
-  return [`Read-back from ${TEAM_VOICE.labs}. Confirming: ${test.trim() || 'no test entered'}, priority ${priorityLabel}.`,
-    reason.trim() ? `Reason: ${reason.trim()}.` : '', 'Please confirm on screen before saving. This practice order is never sent to a lab.'].filter(Boolean).join(' ');
-}
+export { prescriptionReadBack, labReadBack, type RxReadBack } from '../../../supabase/functions/_shared/clinical-readback';
 
 /** Hands-free screen commands, e.g. "Kayla, open schedule". Returns a workspace screen key, or null. */
 const COMMANDS: [RegExp, string][] = [
