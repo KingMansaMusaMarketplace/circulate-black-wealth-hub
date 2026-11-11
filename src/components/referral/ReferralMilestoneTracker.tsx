@@ -30,10 +30,10 @@ export const ReferralMilestoneTracker: React.FC<ReferralMilestoneTrackerProps> =
   showAll = false,
 }) => {
   const { milestones, nextMilestone, unclaimedMilestones, claimMilestoneReward, claimingMilestone } = useReferralCampaigns();
+  const [expanded, setExpanded] = React.useState(false);
 
   if (!milestones || milestones.length === 0) return null;
 
-  const [expanded, setExpanded] = React.useState(false);
   const displayMilestones = showAll || expanded ? milestones : milestones.slice(0, 4);
 
   const MilestoneCard: React.FC<{ milestone: Milestone; index: number }> = ({ milestone, index }) => {
