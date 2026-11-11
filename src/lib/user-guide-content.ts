@@ -185,7 +185,7 @@ export const CORE_FEATURES: GuideSection[] = [
           'Some businesses offer bonus points during special promotions'
         ],
         relatedLinks: [
-          { label: 'QR Scanner', path: '/qr-scanner' }
+          { label: 'QR Scanner', path: '/scanner' }
         ]
       },
       {

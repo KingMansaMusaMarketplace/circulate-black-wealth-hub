@@ -86,12 +86,12 @@ export const generateBreadcrumbs = {
   
   sponsor: (): BreadcrumbItem[] => [
     { name: 'Home', url: '/' },
-    { name: 'Become a Sponsor', url: '/sponsor' },
+    { name: 'Become a Sponsor', url: '/sponsors' },
   ],
   
   ambassador: (): BreadcrumbItem[] => [
     { name: 'Home', url: '/' },
-    { name: 'Ambassador Program', url: '/ambassador' },
+    { name: 'Ambassador Program', url: '/mansa-ambassadors' },
   ],
 };
 

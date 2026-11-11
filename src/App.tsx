@@ -831,6 +831,7 @@ function App() {
                               
                               {/* F */}
                               <Route path="/faq" element={<LazyFAQPage />} />
+                              <Route path="/feature-guide" element={<LazyFeatureGuidePage />} />
                               <Route path="/features" element={<LazyFeaturesPage />} />
                               <Route path="/founders-wall" element={<LazyFoundersWallPage />} />
                               {/* test routes removed */}
@@ -1217,6 +1218,8 @@ function App() {
                               
                               {/* T */}
                               <Route path="/terms" element={<LazyTermsOfServicePage />} />
+                              <Route path="/user-guide" element={<LazyUserGuidePage />} />
+                              <Route path="/signup/customer" element={<LazySignupPage />} />
                               
                               {/* V */}
                               <Route path="/verify/:certificateNumber" element={<LazyVerifyCertificatePage />} />

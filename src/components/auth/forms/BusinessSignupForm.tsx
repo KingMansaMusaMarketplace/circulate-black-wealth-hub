@@ -284,7 +284,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
                       <Button
                         type="button"
                         variant="outline"
-                        onClick={() => navigate('/forgot-password')}
+                        onClick={() => navigate('/password-reset')}
                       >
                         Forgot password?
                       </Button>

@@ -54,7 +54,7 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     ],
     action: {
       text: 'Try QR Scanner',
-      href: '/qr-scanner'
+      href: '/scanner'
     }
   },
   {
