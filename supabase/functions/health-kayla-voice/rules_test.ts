@@ -1,4 +1,4 @@
-import { assertEquals } from 'https://deno.land/std@0.224.0/assert/mod.ts';
+import { assert, assertEquals } from 'https://deno.land/std@0.224.0/assert/mod.ts';
 import { KAYLA_VOICE_ID, makeRateLimiter, parseHuddleRequest, parseVoiceRequest, safeAudioUrl, speechFor, speechParts, speechPayload } from './rules.ts';
 import { huddleCounts, huddleScript, localDay } from '../_shared/clinical-huddle.ts';
 import { parseReadBackRequest, readBackWords } from '../_shared/clinical-readback.ts';
