@@ -21,7 +21,7 @@ const players: Array<{ onended: (() => void) | null; paused: boolean }> = [];
 const fetchMock = vi.fn();
 const clinic = '11111111-1111-4111-8111-111111111111';
 const view = (surface: 'workspace' | 'demo' = 'workspace') => <MemoryRouter><AskKayla surface={surface} clinicId={surface === 'workspace' ? clinic : undefined} onNavigate={vi.fn()} /></MemoryRouter>;
-const readButton = () => screen.getByRole('button', { name: 'Read this answer aloud' });
+const readButton = () => screen.getByRole('button', { name: /Read aloud|Repeat answer/ });
 const reply = (body: object, status = 200) => new Response(JSON.stringify(body), { status });
 
 beforeEach(() => {
@@ -74,7 +74,7 @@ describe("Ask Kayla speaks in Kayla's video voice", () => {
     render(view());
     fireEvent.click(readButton());
     await waitFor(() => expect(played).toHaveLength(1));
-    fireEvent.click(screen.getByRole('button', { name: 'Stop spoken answer' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Stop reading' }));
     fireEvent.click(readButton());
     await waitFor(() => expect(played).toHaveLength(2));
     expect(fetchMock).toHaveBeenCalledTimes(1);
@@ -87,6 +87,25 @@ describe("Ask Kayla speaks in Kayla's video voice", () => {
     expect(await screen.findByRole('alert')).toHaveTextContent("Kayla's voice couldn't start");
     expect(spoken).toEqual([]);
     expect(played).toEqual([]);
+  });
+
+  it('after Kayla reads an answer once, a Repeat answer button plays it again from the start', async () => {
+    fetchMock.mockResolvedValue(reply({ audio_url: AUDIO, parts: 1 }));
+    render(view());
+    expect(screen.getByRole('button', { name: 'Read aloud' })).toBeTruthy();
+    fireEvent.click(readButton());
+    await waitFor(() => expect(played).toEqual([AUDIO]));
+    players[0].onended?.();
+    const repeat = await screen.findByRole('button', { name: 'Repeat answer' });
+    fireEvent.click(repeat);
+    await waitFor(() => expect(played).toEqual([AUDIO, AUDIO]));
+  });
+
+  it('shows the voice service’s own short reason when it refuses', async () => {
+    fetchMock.mockResolvedValue(reply({ error: 'Your approved viewing is not active on this device.' }, 403));
+    render(view());
+    fireEvent.click(readButton());
+    expect(await screen.findByRole('alert')).toHaveTextContent("Kayla's voice couldn't start: Your approved viewing is not active on this device.");
   });
 
   it('the Stop Kayla button silences her right away', async () => {
