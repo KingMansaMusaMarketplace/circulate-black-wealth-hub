@@ -31,7 +31,9 @@ Deno.test('only an answer Kayla signed for this viewer can be spoken', async () 
 
 Deno.test('says the brand the approved way and refuses very long answers', () => {
   assertEquals(speechFor('Welcome to **1325.AI**'), 'Welcome to thirteen twenty-five dot A I');
-  assertEquals(speechFor('x'.repeat(9001)), null);
+  const long = speechFor('Kayla explains this screen step by step. '.repeat(400))!;
+  assert(long.length <= 9000);
+  assert(long.endsWith('The rest of my answer is written on your screen.'));
   assertEquals(speechFor('   '), null);
 });
 
