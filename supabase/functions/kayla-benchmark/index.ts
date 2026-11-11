@@ -18,6 +18,8 @@ import { gatherLiveGrounding } from "../_shared/kayla-grounding.ts";
 import { buildClinicalHelpCatalogue } from "../_shared/clinical-product-catalog.ts";
 import { canonicalQuestion, compileHelpQuestion } from "../_shared/clinical-help-intake.ts";
 import { createResponsesCall } from "../_shared/clinical-help-responses.ts";
+import { premiumChatAnswer } from "../_shared/kayla-deep.ts";
+import { chatAnswerPlan } from "./answer-plan.ts";
 
 // Clinical questions go through the same closed question filter, catalogue,
 // prompt and model as the doctor-facing product guide (health-kayla-help).
@@ -70,26 +72,41 @@ async function answerQuestion(
   key: string,
   agentName?: string | null,
 ): Promise<{ answer: string; model: string; tools: string }> {
+  // Same steps as live chat: approved lessons, same router, same forced web
+  // lookups, and the premium brain + self-check for hard money/legal questions.
   const { category } = await classifyQuery(question, key);
-  const model = category === "simple"
-    ? "google/gemini-3.7-flash"
-    : "google/gemini-3.1-pro-preview";
+  const plan = chatAnswerPlan(category, question);
 
   const grounding = await gatherLiveGrounding({
     supabase,
     question,
     lovableApiKey: key,
     budgetMs: 12000,
+    forceWeb: plan.forceWeb,
   });
+  const tools = grounding.calls.map((c) => c.tool).join(", ");
 
-  const system = buildKaylaSystemPrompt({ isAdmin: false }) + grounding.block +
+  const system = buildKaylaSystemPrompt({ isAdmin: false }) + await loadApprovedImprovements(supabase) + grounding.block +
     (agentName ? `\n[ROLE] Answer as ${agentName}, one of Kayla's Agentic AI Employees. Be accurate and practical.` : "");
+
+  if (plan.premium) {
+    const premium = await premiumChatAnswer({
+      systemPrompt: system,
+      messages: [{ role: "user", content: question }],
+      lovableApiKey: key,
+      label: "kayla-benchmark-premium",
+    });
+    if (premium) {
+      return { answer: premium.text, model: premium.reviewed ? "premium+self-check" : "premium", tools };
+    }
+    // Live chat falls back to the standard model too.
+  }
 
   const resp = await fetchAIWithRetry(GATEWAY, {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      model,
+      model: plan.model,
       messages: [
         { role: "system", content: system },
         { role: "user", content: question },
@@ -98,13 +115,13 @@ async function answerQuestion(
   });
 
   if (!resp.ok) {
-    return { answer: `[no answer: gateway ${resp.status}]`, model, tools: "" };
+    return { answer: `[no answer: gateway ${resp.status}]`, model: plan.model, tools };
   }
   const data = await resp.json();
   return {
     answer: data.choices?.[0]?.message?.content ?? "",
-    model,
-    tools: grounding.calls.map((c) => c.tool).join(", "),
+    model: plan.model,
+    tools,
   };
 }
 
