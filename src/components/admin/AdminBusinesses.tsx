@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { DangerConfirmDialog } from './DangerConfirmDialog';
 import { useUndoableAction } from '@/hooks/useUndoableAction';
+import VerificationDocumentLinks from './verification/VerificationDocumentLinks';
 
 interface Business {
   id: string;
@@ -215,41 +216,7 @@ const AdminBusinesses: React.FC = () => {
 
                         <div className="space-y-2">
                           <p className="text-blue-300 text-sm">Documents</p>
-                          <div className="flex flex-wrap gap-2">
-                            {verification.registration_document_url && (
-                              <a
-                                href={verification.registration_document_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-1 px-3 py-1 bg-blue-500/20 text-blue-400 rounded text-sm hover:bg-blue-500/30"
-                              >
-                                <FileText className="h-3 w-3" />
-                                Registration
-                              </a>
-                            )}
-                            {verification.ownership_document_url && (
-                              <a
-                                href={verification.ownership_document_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-1 px-3 py-1 bg-blue-500/20 text-blue-400 rounded text-sm hover:bg-blue-500/30"
-                              >
-                                <FileText className="h-3 w-3" />
-                                Ownership
-                              </a>
-                            )}
-                            {verification.address_document_url && (
-                              <a
-                                href={verification.address_document_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-1 px-3 py-1 bg-blue-500/20 text-blue-400 rounded text-sm hover:bg-blue-500/30"
-                              >
-                                <FileText className="h-3 w-3" />
-                                Address
-                              </a>
-                            )}
-                          </div>
+                          <VerificationDocumentLinks verificationId={verification.id} />
                         </div>
 
                         <div>

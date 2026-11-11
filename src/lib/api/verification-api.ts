@@ -2,6 +2,12 @@
 import { supabase } from '@/lib/supabase';
 import { BusinessVerification, VerificationQueueItem } from '@/lib/types/verification';
 import { toast } from 'sonner';
+import {
+  VERIFICATION_DOC_BUCKET,
+  VerificationDocType,
+  buildVerificationPath,
+  validateVerificationFile,
+} from '@/lib/verification/documents';
 
 export const getBusinessVerification = async (businessId: string): Promise<BusinessVerification | null> => {
   try {
@@ -162,15 +168,21 @@ export const uploadVerificationDocument = async (
   file: File,
   businessId: string,
   userId: string,
-  documentType: 'registration' | 'ownership' | 'address' | 'identity' | 'license'
+  documentType: VerificationDocType
 ): Promise<{ url: string } | { error: string }> => {
+  // Returns the private storage path (not a public web address); admins open it through a short-lived signed link.
+  const invalid = validateVerificationFile(file);
+  if (invalid) return { error: invalid };
   try {
-    // Since no storage buckets exist, return a placeholder URL
-    const placeholderUrl = `https://placeholder.example.com/${businessId}/${documentType}_${Date.now()}.pdf`;
-    return { url: placeholderUrl };
+    const path = buildVerificationPath(userId, businessId, documentType, file.type);
+    const { error } = await supabase.storage
+      .from(VERIFICATION_DOC_BUCKET)
+      .upload(path, file, { contentType: file.type, upsert: false });
+    if (error) throw error;
+    return { url: path };
   } catch (error: any) {
     console.error('Error uploading verification document:', error);
-    return { error: error.message };
+    return { error: 'Upload failed. Please try again.' };
   }
 };
 
