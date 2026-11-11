@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ChevronDown, ChevronUp, Clock, Pause, Play, Square, Sunrise } from 'lucide-react';
+import { ChevronDown, ChevronUp, Clock, Pause, Play, Repeat, Square, Sunrise } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { VOICE_RATES } from '@/lib/clinical/kayla-workspace-voice';
 import { SILENT_AUDIO, kaylaHuddlePart } from '../kayla-voice';
@@ -91,7 +91,7 @@ export default function MorningHuddle({ clinicId }: { clinicId: string }) {
   const labelOf = (k: Session) => HUDDLE_OPTIONS.find(o => o.key === k)!.label;
   const controls = <div className="flex flex-wrap items-center gap-2">
     {!collapsed && <div className="flex gap-1" aria-label="Speaking speed">{VOICE_RATES.map(r => <Button key={r} size="sm" variant={rate === r ? 'default' : 'outline'} aria-pressed={rate === r} onClick={() => setRate(r)}>{r}×</Button>)}</div>}
-    {state === 'idle' && <Button size="sm" variant="clinicalHelp" onClick={play}><Play />Play huddle</Button>}
+    {state === 'idle' && <Button size="sm" variant="clinicalHelp" onClick={play}>{log.some(e => e.session === session) ? <><Repeat />Play huddle again</> : <><Play />Play huddle</>}</Button>}
     {state === 'loading' && <Button size="sm" disabled>Kayla is getting ready…</Button>}
     {state === 'speaking' && <Button size="sm" variant="outline" onClick={pause}><Pause />Pause</Button>}
     {state === 'paused' && <Button size="sm" variant="outline" onClick={resume}><Play />Resume</Button>}

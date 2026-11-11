@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, RotateCcw, Volume2, VolumeX, Square } from 'lucide-react';
+import { ArrowRight, Repeat, RotateCcw, Volume2, VolumeX, Square } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Conversation, ConversationContent, ConversationScrollButton } from '@/components/ai-elements/conversation';
@@ -16,10 +16,14 @@ import DictationButton from './workspace/DictationButton';
 import { KAYLA_MIC_REMINDER, KAYLA_QUESTION_MAX_CHARS, KAYLA_QUESTION_MAX_SECONDS, appendDictation } from '@/lib/clinical/dictation';
 
 import { spokenText } from '../../../supabase/functions/_shared/clinical-spoken-text';
-import { SILENT_AUDIO, kaylaVoicePart } from './kayla-voice';
+import { SILENT_AUDIO, VoiceRefused, kaylaVoicePart } from './kayla-voice';
 import { voiceCommand } from '@/lib/clinical/kayla-workspace-voice';
 
-const KAYLA_VOICE_PROBLEM = "Kayla's voice couldn't start just now. Her written answer is above — press the speaker to try again.";
+const KAYLA_VOICE_PROBLEM = "Kayla's voice couldn't start just now. Her written answer is above — press Read aloud to try again.";
+/** The retry message, plus the voice service's own short reason when it gave one (never answer words). */
+export const kaylaVoiceProblem = (error: unknown) => error instanceof VoiceRefused && error.reason
+  ? `Kayla's voice couldn't start: ${error.reason} Her written answer is above — press Read aloud to try again.`
+  : KAYLA_VOICE_PROBLEM;
 /** Plain words for the speaker: no markdown symbols or web addresses; brand said the approved way. */
 export { spokenText };
 
@@ -45,6 +49,9 @@ export default function AskKayla({ surface, onNavigate, clinicId }: { surface: H
   const [localError, setLocalError] = useState('');
   const [selectedId, setSelectedId] = useState(() => chat?.previousTopics()[0] ?? 'overview');
   const [speaking, setSpeaking] = useState<string | null>(null);
+  // Answers Kayla has already read once show a Repeat button.
+  const [heard, setHeard] = useState<ReadonlySet<string>>(() => new Set());
+  const markHeard = (id: string) => setHeard(prev => prev.has(id) ? prev : new Set(prev).add(id));
   const heading = useRef<HTMLHeadingElement>(null);
   const form = useRef<HTMLDivElement>(null);
   const voice = useClinicalVoice();
@@ -94,7 +101,7 @@ export default function AskKayla({ surface, onNavigate, clinicId }: { surface: H
     const voiceChoice = kaylaBrowserVoice();
     if (voiceChoice) utterance.voice = voiceChoice;
     utterance.onend = () => setSpeaking(null); utterance.onerror = () => setSpeaking(null);
-    setSpeaking(id); window.speechSynthesis.speak(utterance);
+    setSpeaking(id); markHeard(id); window.speechSynthesis.speak(utterance);
   };
   const readAnswer = (id: string, text: string, toggle = true) => {
     stopSpeaking(); stopVoice.current?.();
@@ -105,7 +112,7 @@ export default function AskKayla({ surface, onNavigate, clinicId }: { surface: H
     const token = readToken.current;
     const live = () => token === readToken.current;
     // In the clinic workspace only Kayla's own voice speaks; if it cannot start, say so instead of a computer voice.
-    const fail = () => { if (!live()) return; setVoiceLoading(null); setSpeaking(null); setLocalError(KAYLA_VOICE_PROBLEM); };
+    const fail = (error?: unknown) => { if (!live()) return; setVoiceLoading(null); setSpeaking(null); setLocalError(kaylaVoiceProblem(error)); };
     const playPiece = (url: string) => new Promise<void>((resolve, reject) => {
       const a = audioElement(); if (!a) { reject(new Error('No audio')); return; }
       primeMark.current++; a.muted = false;
@@ -125,12 +132,13 @@ export default function AskKayla({ surface, onNavigate, clinicId }: { surface: H
           const next = n + 1 < total ? piece(n + 1) : null;
           next?.catch(() => undefined);
           setVoiceLoading(null);
+          if (n === 0) markHeard(id);
           await playPiece(current.url);
           if (!next || !live()) break;
           current = await next.catch(() => piece(n + 1));
         }
         if (live()) setSpeaking(null);
-      } catch { fail(); }
+      } catch (error) { fail(error); }
     })();
   };
   const stopAll = () => { stopSpeaking(); setSpeaking(null); };
@@ -162,7 +170,7 @@ export default function AskKayla({ surface, onNavigate, clinicId }: { surface: H
         {!chat?.messages.length && <Message from="assistant"><MessageContent><MessageResponse>{"I'm Kayla, your Agentic AI product guide for **1325 Clinical EMR / EHR**. What would you like to know about its features or workflows?\n\nI can explain how the sample platform works, what is locked, and how the **42 Agentic AI Employees** fit into the broader 1325.AI team. I don't provide medical advice or accept patient information."}</MessageResponse></MessageContent></Message>}
         {chat?.messages.map(message => <Message key={message.id} from={message.role}><MessageContent className={message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-transparent'}>
           {message.parts.map((part, index) => part.type === 'text' ? <MessageResponse key={index}>{part.text}</MessageResponse> : null)}
-        </MessageContent>{message.role === 'assistant' && message.parts.some(p => p.type === 'data-receipt') && <Button variant="ghost" size="icon" title={speaking === message.id ? 'Stop spoken answer' : 'Read this answer aloud'} aria-label={speaking === message.id ? 'Stop spoken answer' : 'Read this answer aloud'} onClick={() => readAnswer(message.id, message.parts.filter(p => p.type === 'text').map(p => p.text).join('\n'))}>{speaking === message.id ? <Square /> : <Volume2 />}</Button>}{voiceLoading === message.id && <Shimmer className="text-xs">Kayla is getting ready to speak…</Shimmer>}</Message>)}
+        </MessageContent>{message.role === 'assistant' && message.parts.some(p => p.type === 'data-receipt') && <Button variant="outline" size="sm" className="mt-1 self-start" title={speaking === message.id ? 'Stop reading this answer' : heard.has(message.id) ? 'Hear this answer again from the start' : 'Kayla reads this answer aloud'} onClick={() => readAnswer(message.id, message.parts.filter(p => p.type === 'text').map(p => p.text).join('\n'))}>{speaking === message.id ? <><Square />Stop reading</> : heard.has(message.id) ? <><Repeat />Repeat answer</> : <><Volume2 />Read aloud</>}</Button>}{voiceLoading === message.id && <Shimmer className="text-xs">Kayla is getting ready to speak…</Shimmer>}</Message>)}
         {chat?.status === 'submitted' && <Shimmer>Kayla is preparing your answer…</Shimmer>}
       </ConversationContent><ConversationScrollButton aria-label="Latest answer" />
     </Conversation>

@@ -17,3 +17,4 @@
 - Workspace screen rules live in src/pages/health/workspace/AGENTS.md; read it before changing files there.
 - Pilot (saved test-patient) rules live in src/lib/clinical/AGENTS.md; read it before changing pilot screens.
 - Public /health/pilot (and /pilot redirect) files Pilot Doctor requests through the same health-access request path with request_source 'pilot' and a server+trigger-required test-patients-only attestation; the tag only labels emails and the admin list and never skips owner approval or changes viewing limits.
+- Each workspace screen element carries its own key prefix (checked by clinical-workspace-unique-screens test); shared keys made React stack stale Daily huddles cards. Kayla's voice reads overlong answers up to the last fitting sentence then points to the screen, and refusals are logged by reason code only.

@@ -13,6 +13,8 @@ import { HEYGEN_SPEECH_URL, KAYLA_VOICE_ID, MAX_PARTS, makeRateLimiter, parseHud
 const corsHeaders = { ...sdkCorsHeaders, 'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token, x-hc-preview-token, x-hc-preview-device' };
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
 const allow = makeRateLimiter();
+/** A refusal, logged by reason code and status only (never words), so a silent voice can be traced. */
+const refuse = (reason: string, body: unknown, status: number) => { console.warn('kayla voice refused', { reason, status }); return json(body, status); };
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });
@@ -20,28 +22,28 @@ Deno.serve(async (req) => {
   if (!req.headers.get('x-csrf-token')) return json({ error: 'Required request header missing' }, 403);
   try {
     const auth = req.headers.get('Authorization');
-    if (!auth?.startsWith('Bearer ')) return json({ error: 'Please sign in again.' }, 401);
+    if (!auth?.startsWith('Bearer ')) return refuse('no-sign-in', { error: 'Please sign in again.' }, 401);
     const url = Deno.env.get('SUPABASE_URL'), anon = Deno.env.get('SUPABASE_ANON_KEY'), serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
     const apiKey = Deno.env.get('HEYGEN_API_KEY');
-    if (!url || !anon || !serviceKey || !apiKey) return json({ error: "Kayla's voice is not set up." }, 503);
+    if (!url || !anon || !serviceKey || !apiKey) return refuse('not-set-up', { error: "Kayla's voice is not set up." }, 503);
     const raw = await req.text();
-    if (raw.length > 40000) return json({ error: 'That answer is too long to read aloud.' }, 413);
+    if (raw.length > 40000) return refuse('body-too-long', { error: 'That answer is too long to read aloud.' }, 413);
     let body: unknown;
-    try { body = JSON.parse(raw); } catch { return json({ error: 'Invalid request.' }, 400); }
+    try { body = JSON.parse(raw); } catch { return refuse('bad-json', { error: 'Invalid request.' }, 400); }
     const huddle = parseHuddleRequest(body);
     const readBack = huddle ? null : parseReadBackRequest(body, MAX_PARTS);
     // An order with unusual characters is read on the doctor's device instead of being sent.
     if (!huddle && !readBack && body && typeof body === 'object' && 'readback' in body) return json({ error: 'Read-back uses this device’s voice for this order.', device_only: true }, 400);
     const request = huddle ?? readBack ?? parseVoiceRequest(body);
-    if (!request) return json({ error: 'Only Kayla answers can be read aloud.' }, 400);
+    if (!request) return refuse('bad-request', { error: 'Only Kayla answers can be read aloud.' }, 400);
 
     const caller = createClient(url, anon, { global: { headers: { Authorization: auth } }, auth: { persistSession: false } });
     const { data: userData, error: authError } = await caller.auth.getUser();
-    if (authError || !userData.user) return json({ error: 'Please sign in again.' }, 401);
+    if (authError || !userData.user) return refuse('expired-sign-in', { error: 'Please sign in again.' }, 401);
     const service = createClient(url, serviceKey, { auth: { persistSession: false } });
-    if (!await authorizeClinicalPreview(service, req, userData.user)) return json({ error: 'Your approved viewing is not active on this device.' }, 403);
+    if (!await authorizeClinicalPreview(service, req, userData.user)) return refuse('viewing-not-active', { error: 'Your approved viewing is not active on this device.' }, 403);
     const { data: member } = await caller.from('hc_members').select('role').eq('clinic_id', request.clinicId).eq('user_id', userData.user.id).maybeSingle();
-    if (!member) return json({ error: "Kayla's voice is only for members of this clinic." }, 403);
+    if (!member) return refuse('not-member', { error: "Kayla's voice is only for members of this clinic." }, 403);
 
     let words: string | null;
     if (huddle) {
@@ -52,7 +54,7 @@ Deno.serve(async (req) => {
         caller.from('hc_pilot_lab_orders').select('priority').eq('clinic_id', huddle.clinicId).in('status', ['ordered', 'collected']),
         caller.from('hc_pilot_visit_notes').select('status').eq('clinic_id', huddle.clinicId).eq('status', 'draft'),
       ]);
-      if (appts.error || labs.error || notes.error) return json({ error: 'The huddle could not be prepared.' }, 502);
+      if (appts.error || labs.error || notes.error) return refuse('huddle-counts', { error: 'The huddle could not be prepared.' }, 502);
       words = sessionScript(huddle.session, huddleCounts(appts.data ?? [], labs.data ?? [], notes.data ?? []), day.hour);
     } else if (readBack) {
       // Kayla's voice reads orders for made-up test patients only, and never once the clinic is cleared
@@ -71,14 +73,14 @@ Deno.serve(async (req) => {
     } else {
       const key = helpReceiptKey(serviceKey, userData.user.id, req.headers.get('x-hc-preview-token'), req.headers.get('x-hc-preview-device'));
       const answer = request as VoiceRequest;
-      if (!await verifyReply(key, answer.selection, answer.receipt)) return json({ error: 'Only Kayla answers can be read aloud.' }, 403);
+      if (!await verifyReply(key, answer.selection, answer.receipt)) return refuse('receipt-mismatch', { error: 'Only Kayla answers can be read aloud. Please ask the question again.' }, 403);
       words = speechFor((answer.receipt as { text: string }).text);
     }
-    if (!words) return json({ error: 'That answer is too long for Kayla’s voice.' }, 413);
+    if (!words) return refuse('no-words', { error: 'That answer has nothing to read aloud.' }, 413);
     const parts = speechParts(words);
-    if (request.part >= parts.length || parts.length > MAX_PARTS) return json({ error: 'That answer is too long for Kayla’s voice.' }, 413);
+    if (request.part >= parts.length || parts.length > MAX_PARTS) return refuse('too-many-parts', { error: 'That answer is too long for Kayla’s voice.' }, 413);
     const piece = parts[request.part];
-    if (!allow(userData.user.id)) return json({ error: 'Too many spoken answers in a short time.' }, 429);
+    if (!allow(userData.user.id)) return refuse('rate-limit', { error: 'Too many spoken answers in a short time. Please wait a minute.' }, 429);
 
     const voiceId = Deno.env.get('KAYLA_CLINICAL_VOICE_ID') || KAYLA_VOICE_ID;
     const response = await fetch(HEYGEN_SPEECH_URL, {

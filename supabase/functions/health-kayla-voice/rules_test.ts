@@ -1,4 +1,4 @@
-import { assertEquals } from 'https://deno.land/std@0.224.0/assert/mod.ts';
+import { assert, assertEquals } from 'https://deno.land/std@0.224.0/assert/mod.ts';
 import { KAYLA_VOICE_ID, makeRateLimiter, parseHuddleRequest, parseVoiceRequest, safeAudioUrl, speechFor, speechParts, speechPayload } from './rules.ts';
 import { huddleCounts, huddleScript, localDay } from '../_shared/clinical-huddle.ts';
 import { parseReadBackRequest, readBackWords } from '../_shared/clinical-readback.ts';
@@ -31,7 +31,9 @@ Deno.test('only an answer Kayla signed for this viewer can be spoken', async () 
 
 Deno.test('says the brand the approved way and refuses very long answers', () => {
   assertEquals(speechFor('Welcome to **1325.AI**'), 'Welcome to thirteen twenty-five dot A I');
-  assertEquals(speechFor('x'.repeat(9001)), null);
+  const long = speechFor('Kayla explains this screen step by step. '.repeat(400))!;
+  assert(long.length <= 9000);
+  assert(long.endsWith('The rest of my answer is written on your screen.'));
   assertEquals(speechFor('   '), null);
 });
 

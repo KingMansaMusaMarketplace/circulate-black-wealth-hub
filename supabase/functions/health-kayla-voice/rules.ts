@@ -69,11 +69,19 @@ export function speechParts(words: string, first = FIRST_PART_CHARS, rest = PART
   return parts;
 }
 
-/** Spoken words for a verified answer, or null when too long or empty (the browser then uses the device voice). */
+/** Said after a long answer is cut short, so the doctor knows the rest is on screen. */
+export const LONG_ANSWER_ENDING = 'The rest of my answer is written on your screen.';
+
+/** Spoken words for a verified answer, or null when empty. A very long answer is read up to the
+ * last full sentence that fits, then Kayla says the rest is on screen (instead of refusing to speak). */
 export function speechFor(answer: string): string | null {
   const words = spokenText(answer).replace(/\n{3,}/g, '\n\n').trim();
-  if (!words || words.length > KAYLA_VOICE_MAX_CHARS) return null;
-  return words;
+  if (!words) return null;
+  if (words.length <= KAYLA_VOICE_MAX_CHARS) return words;
+  const room = words.slice(0, KAYLA_VOICE_MAX_CHARS - LONG_ANSWER_ENDING.length - 2);
+  const end = Math.max(room.lastIndexOf('. '), room.lastIndexOf('.\n'), room.lastIndexOf('? '), room.lastIndexOf('! '));
+  const kept = (end > room.length / 2 ? room.slice(0, end + 1) : room.slice(0, room.lastIndexOf(' '))).trim();
+  return `${kept}\n${LONG_ANSWER_ENDING}`;
 }
 
 export function speechPayload(words: string, voiceId = KAYLA_VOICE_ID) {

@@ -16,6 +16,8 @@ const fetchMock = vi.fn();
 const reply = (body: object, status = 200) => new Response(JSON.stringify(body), { status });
 
 beforeEach(() => {
+  // Pin the clock to 9:00 AM so the Morning Kickoff is the latest huddle whatever time the checks run.
+  vi.useFakeTimers({ toFake: ['Date'] }); vi.setSystemTime(new Date(2026, 10, 11, 9, 0));
   localStorage.clear(); played.length = 0; players.length = 0; spoken.length = 0; fetchMock.mockReset();
   class FakeAudio { src = ''; muted = false; paused = true; playbackRate = 1; onended: (() => void) | null = null; onerror: (() => void) | null = null;
     constructor() { players.push(this); }
@@ -25,7 +27,7 @@ beforeEach(() => {
   vi.stubGlobal('fetch', fetchMock);
   Object.defineProperty(window, 'speechSynthesis', { configurable: true, value: { speak: (u: { text: string }) => spoken.push(u.text), cancel: vi.fn(), pause: vi.fn(), resume: vi.fn(), getVoices: () => [] } });
 });
-afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
+afterEach(() => { cleanup(); vi.unstubAllGlobals(); vi.useRealTimers(); });
 
 describe("Morning huddle speaks in Kayla's voice", () => {
   it('sends only the clinic, huddle flag, clock offset and piece number — no words', async () => {
@@ -39,6 +41,16 @@ describe("Morning huddle speaks in Kayla's voice", () => {
     expect(body).toMatchObject({ clinic_id: clinic, huddle: true, part: 0 });
     expect(screen.getByText('Good morning. Here is your huddle.')).toBeTruthy();
     expect(spoken).toEqual([]);
+  });
+
+  it('once a huddle has played, its button offers to play it again', async () => {
+    fetchMock.mockImplementation(async () => reply({ audio_url: AUDIO, parts: 1 }));
+    render(<MorningHuddle clinicId={clinic} />);
+    fireEvent.click(screen.getByRole('button', { name: /Play huddle/ }));
+    await waitFor(() => expect(played).toEqual([AUDIO]));
+    players[0].onended?.();
+    fireEvent.click(await screen.findByRole('button', { name: 'Play huddle again' }));
+    await waitFor(() => expect(played).toEqual([AUDIO, AUDIO]));
   });
 
   it('plays both pieces in order, and Stop silences Kayla', async () => {

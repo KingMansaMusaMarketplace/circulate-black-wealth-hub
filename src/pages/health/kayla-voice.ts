@@ -35,7 +35,7 @@ async function post(payload: Record<string, unknown>): Promise<KaylaVoicePiece &
     });
     const body = await response.json().catch(() => ({}));
     if (body?.device_only === true) throw new DeviceVoiceOnly();
-    if (!response.ok || typeof body.audio_url !== 'string') throw new Error(typeof body.error === 'string' ? body.error : `Voice request failed (${response.status})`);
+    if (!response.ok || typeof body.audio_url !== 'string') throw new VoiceRefused(response.status, typeof body.error === 'string' ? body.error : '');
     return { url: body.audio_url, parts: Math.max(1, Number(body.parts) || 1), ...(typeof body.text === 'string' ? { text: body.text } : {}) };
   } finally { clearTimeout(timer); }
 }
@@ -56,6 +56,16 @@ export function kaylaVoicePart(clinicId: string, proof: KaylaVoiceProof, part: n
  * clinic's test-patient counts; the browser sends only the clinic, its clock offset and a piece number. */
 export function kaylaHuddlePart(clinicId: string, part: number, session: 'morning' | 'midday' | 'afternoon' = 'morning'): Promise<KaylaVoicePiece & { text?: string }> {
   return post({ clinic_id: clinicId, huddle: true, tz_offset: new Date().getTimezoneOffset(), part, ...(session === 'morning' ? {} : { session }) });
+}
+
+/** The voice service answered but would not speak; reason is its own short, fixed message (never answer words). */
+export class VoiceRefused extends Error {
+  readonly reason: string;
+  constructor(readonly status: number, reason: string) {
+    super(reason || `Voice request failed (${status})`); this.name = 'VoiceRefused';
+    // Only short sentences the service writes itself are shown; anything else falls back to the general retry message.
+    this.reason = reason.length <= 120 && /^[\w\s.,'’-]+$/.test(reason) && !/unavailable right now/i.test(reason) ? reason.trim() : '';
+  }
 }
 
 /** The voice service said this chart must use the device voice (a real patient, or a clinic cleared for real patients). */

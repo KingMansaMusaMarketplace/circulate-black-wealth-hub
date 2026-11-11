@@ -214,37 +214,37 @@ export default function HealthWorkspacePage() {
             <p className="mt-2 text-xs text-muted-foreground">Saved legacy sample entries are retained and unverified. Their dates, treatment, booking, risk and billing examples are not source-verified facts or completed services.</p>
             <StartHere current={tab} onGo={navigateTab} />
             <h1 className="mb-6 text-2xl font-semibold">{current.l}</h1>
-            {tab !== 'ask-kayla' && <ExecutiveWalkthrough key={`${user.id}:${clinic.id}:${tourRevision}`} onStep={(next) => { if (tourReturnTab.current === null) tourReturnTab.current = tab; setTab(next); }} onEnd={() => { if (tourReturnTab.current !== null) setTab(tourReturnTab.current); tourReturnTab.current = null; }} />}
-            {(tab === 'dashboard' || tab === 'doctor-day') && <MorningHuddle key={`${user.id}:${clinic.id}`} clinicId={clinic.id} />}
+            {tab !== 'ask-kayla' && <ExecutiveWalkthrough key={`tour:${user.id}:${clinic.id}:${tourRevision}`} onStep={(next) => { if (tourReturnTab.current === null) tourReturnTab.current = tab; setTab(next); }} onEnd={() => { if (tourReturnTab.current !== null) setTab(tourReturnTab.current); tourReturnTab.current = null; }} />}
+            {(tab === 'dashboard' || tab === 'doctor-day') && <MorningHuddle key={`huddle:${user.id}:${clinic.id}`} clinicId={clinic.id} />}
             {tab === 'dashboard' && <Dashboard {...props} go={navigateTab} />}
-            {tab === 'ask-kayla' && <AskKayla key={`${user.id}:${clinic.id}:${tourRevision}`} surface="workspace" clinicId={clinic.id} onNavigate={(next) => { if (NAV.some(item => item.k === next)) navigateTab(next); }} />}
-            {tab === 'doctor-day' && <DoctorDay key={`${user.id}:${clinic.id}`} clinicId={clinic.id} clinicRole={role} />}
-            {tab === 'delegation' && <DelegationDesk key={`${user.id}:${clinic.id}`} />}
-            {tab === 'sample-chart' && <SamplePatientChart key={`${user.id}:${clinic.id}`} />}
-            {tab === 'medication-review' && <MedicationReview key={`${user.id}:${clinic.id}`} />}
-            {tab === 'data-explorer' && <ClinicalDataExplorer key={`${user.id}:${clinic.id}`} />}
-            {tab === 'idsr' && <IdsrReporting key={`${user.id}:${clinic.id}`} />}
-            {tab === 'connections' && <ConnectionPreparation key={`${user.id}:${clinic.id}`} />}
-            {tab === 'national-exchange' && <NationalHealthExchange key={`${user.id}:${clinic.id}`} onBack={() => navigateTab('dashboard')} />}
-            {tab === 'portal' && <PatientCommunication key={`${user.id}:${clinic.id}`} />}
+            {tab === 'ask-kayla' && <AskKayla key={`ask-kayla:${user.id}:${clinic.id}:${tourRevision}`} surface="workspace" clinicId={clinic.id} onNavigate={(next) => { if (NAV.some(item => item.k === next)) navigateTab(next); }} />}
+            {tab === 'doctor-day' && <DoctorDay key={`doctor-day:${user.id}:${clinic.id}`} clinicId={clinic.id} clinicRole={role} />}
+            {tab === 'delegation' && <DelegationDesk key={`delegation:${user.id}:${clinic.id}`} />}
+            {tab === 'sample-chart' && <SamplePatientChart key={`sample-chart:${user.id}:${clinic.id}`} />}
+            {tab === 'medication-review' && <MedicationReview key={`medication-review:${user.id}:${clinic.id}`} />}
+            {tab === 'data-explorer' && <ClinicalDataExplorer key={`data-explorer:${user.id}:${clinic.id}`} />}
+            {tab === 'idsr' && <IdsrReporting key={`idsr:${user.id}:${clinic.id}`} />}
+            {tab === 'connections' && <ConnectionPreparation key={`connections:${user.id}:${clinic.id}`} />}
+            {tab === 'national-exchange' && <NationalHealthExchange key={`national-exchange:${user.id}:${clinic.id}`} onBack={() => navigateTab('dashboard')} />}
+            {tab === 'portal' && <PatientCommunication key={`portal:${user.id}:${clinic.id}`} />}
             {tab === 'intake' && <ClinicIntake clinicId={clinic.id} clinicName={clinic.name} clinicRole={role} signedIn />}
-            {tab === 'pilot-patients' && <PilotPatients key={`${user.id}:${clinic.id}:${pilotView ?? ''}`} clinicId={clinic.id} isOwner={role === 'owner'} userId={user.id} role={role} clinicName={clinic.name} initialView={pilotView} />}
+            {tab === 'pilot-patients' && <PilotPatients key={`pilot-patients:${user.id}:${clinic.id}:${pilotView ?? ''}`} clinicId={clinic.id} isOwner={role === 'owner'} userId={user.id} role={role} clinicName={clinic.name} initialView={pilotView} />}
             {tab === 'patients' && <Patients {...props} />}
             {tab === 'schedule' && <Schedule {...props} />}
-            {tab === 'prep' && <ChartPrep key={`${user.id}:${clinic.id}`} />}
-            {tab === 'chronology' && <MedicalChronology key={`${user.id}:${clinic.id}`} />}
+            {tab === 'prep' && <ChartPrep key={`prep:${user.id}:${clinic.id}`} />}
+            {tab === 'chronology' && <MedicalChronology key={`chronology:${user.id}:${clinic.id}`} />}
             {tab === 'review' && <RecordReview clinicId={clinic.id} clinicRole={role} />}
             {tab === 'notes' && <VisitNotes clinicId={clinic.id} clinicRole={role} />}
-            {tab === 'care' && <CareGuide key={`${user.id}:${clinic.id}`} />}
-            {tab === 'doccheck' && <DocumentationCheck key={`${user.id}:${clinic.id}`} />}
+            {tab === 'care' && <CareGuide key={`care:${user.id}:${clinic.id}`} />}
+            {tab === 'doccheck' && <DocumentationCheck key={`doccheck:${user.id}:${clinic.id}`} />}
             {tab === 'auth' && <PriorAuth {...props} />}
-            {tab === 'impact' && <PracticeImpact key={`${user.id}:${clinic.id}`} />}
-            {tab === 'specialties' && <SpecialtyExamples key={`${user.id}:${clinic.id}`} />}
-            {tab === 'billing' && <BillingPreparation key={`${user.id}:${clinic.id}`} />}
+            {tab === 'impact' && <PracticeImpact key={`impact:${user.id}:${clinic.id}`} />}
+            {tab === 'specialties' && <SpecialtyExamples key={`specialties:${user.id}:${clinic.id}`} />}
+            {tab === 'billing' && <BillingPreparation key={`billing:${user.id}:${clinic.id}`} />}
             {tab === 'claims' && <Billing {...props} />}
-            {tab === 'reliability' && <EnterpriseReliability key={`${user.id}:${clinic.id}`} />}
-            {tab === 'evaluation' && <DoctorEvaluation key={`${user.id}:${clinic.id}`} />}
-            {tab === 'quality' && <ExecutiveQuality key={`${user.id}:${clinic.id}:${facilityContext.facilityId}:${facilityContext.department}`} facilityContext={facilityContext} onNavigate={navigateTab} />}
+            {tab === 'reliability' && <EnterpriseReliability key={`reliability:${user.id}:${clinic.id}`} />}
+            {tab === 'evaluation' && <DoctorEvaluation key={`evaluation:${user.id}:${clinic.id}`} />}
+            {tab === 'quality' && <ExecutiveQuality key={`quality:${user.id}:${clinic.id}:${facilityContext.facilityId}:${facilityContext.department}`} facilityContext={facilityContext} onNavigate={navigateTab} />}
             {tab === 'team' && <Team {...props} />}
           </main>
         </div>
