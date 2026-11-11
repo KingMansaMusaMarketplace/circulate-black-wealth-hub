@@ -24,7 +24,7 @@ export function parseVoiceRequest(body: unknown): VoiceRequest | null {
   return { clinicId: b.clinic_id, selection: b.selection, receipt: b.receipt, part };
 }
 
-export type HuddleRequest = { clinicId: string; tzOffset: number; part: number; session: 'morning' | 'midday' | 'afternoon' };
+export type HuddleRequest = { clinicId: string; tzOffset: number; part: number; session: 'morning' | 'afternoon' | 'evening' | 'night' };
 /** The morning huddle: exactly clinic_id + huddle:true + the doctor's clock offset (+ optional piece number).
  * The service builds the words itself from the clinic's test-patient counts; no text is accepted. */
 export function parseHuddleRequest(body: unknown): HuddleRequest | null {
@@ -33,8 +33,9 @@ export function parseHuddleRequest(body: unknown): HuddleRequest | null {
   const keys = Object.keys(b).sort().join(',');
   const allowed = ['clinic_id,huddle,tz_offset', 'clinic_id,huddle,part,tz_offset', 'clinic_id,huddle,session,tz_offset', 'clinic_id,huddle,part,session,tz_offset'];
   if (!allowed.includes(keys)) return null;
-  const session = b.session === undefined ? 'morning' : b.session;
-  if (session !== 'morning' && session !== 'midday' && session !== 'afternoon') return null;
+  // 'midday' came from the older three-huddle screen; it is now the 1 PM afternoon huddle.
+  const session = b.session === undefined ? 'morning' : b.session === 'midday' ? 'afternoon' : b.session;
+  if (session !== 'morning' && session !== 'afternoon' && session !== 'evening' && session !== 'night') return null;
   if (b.huddle !== true || typeof b.clinic_id !== 'string' || !UUID.test(b.clinic_id)) return null;
   if (typeof b.tz_offset !== 'number' || !Number.isInteger(b.tz_offset) || Math.abs(b.tz_offset) > 840) return null;
   const part = b.part === undefined ? 0 : b.part;

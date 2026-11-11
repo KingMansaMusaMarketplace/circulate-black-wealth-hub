@@ -1,4 +1,4 @@
-// Speaks an Ask Kayla answer, or the morning huddle, in Kayla's own video voice (HeyGen).
+// Speaks an Ask Kayla answer, or one of the four daily huddles, in Kayla's own video voice (HeyGen).
 // Only answers Kayla wrote for this viewer (signed receipt) or the huddle this service builds
 // itself from counts (never names), or an order read-back it builds itself for a made-up test patient, can be spoken: nobody can send their own text. Only signed-in members of the clinic with a current approved viewing.
 // Nothing is stored and the words are never logged; the browser falls back to the device voice on any failure.
@@ -6,7 +6,7 @@ import { createClient } from 'npm:@supabase/supabase-js@2';
 import { corsHeaders as sdkCorsHeaders } from 'npm:@supabase/supabase-js@2/cors';
 import { authorizeClinicalPreview } from '../_shared/clinical-preview-auth.ts';
 import { helpReceiptKey, verifyReply } from '../_shared/clinical-help-history.ts';
-import { huddleCounts, sessionScript, localDay } from '../_shared/clinical-huddle.ts';
+import { huddleCounts, huddleUpdates, sessionScript, localDay, updatesWindow } from '../_shared/clinical-huddle.ts';
 import { parseReadBackRequest, readBackWords } from '../_shared/clinical-readback.ts';
 import { HEYGEN_SPEECH_URL, KAYLA_VOICE_ID, MAX_PARTS, makeRateLimiter, parseHuddleRequest, parseVoiceRequest, safeAudioUrl, speechFor, speechParts, speechPayload, type VoiceRequest } from './rules.ts';
 
@@ -49,13 +49,22 @@ Deno.serve(async (req) => {
     if (huddle) {
       // Counts only, read with the caller's own access so the huddle matches what they may see.
       const day = localDay(huddle.tzOffset);
-      const [appts, labs, notes] = await Promise.all([
+      const window = updatesWindow(huddle.session, huddle.tzOffset);
+      const from = window.from.toISOString();
+      const tomorrowEnd = new Date(day.end.getTime() + 86400000).toISOString();
+      const [appts, tomorrow, labs, notes, changed, rx, newLabs] = await Promise.all([
         caller.from('hc_pilot_appointments').select('status').eq('clinic_id', huddle.clinicId).gte('starts_at', day.start.toISOString()).lt('starts_at', day.end.toISOString()),
+        caller.from('hc_pilot_appointments').select('status').eq('clinic_id', huddle.clinicId).gte('starts_at', day.end.toISOString()).lt('starts_at', tomorrowEnd),
         caller.from('hc_pilot_lab_orders').select('priority').eq('clinic_id', huddle.clinicId).in('status', ['ordered', 'collected']),
         caller.from('hc_pilot_visit_notes').select('status').eq('clinic_id', huddle.clinicId).eq('status', 'draft'),
+        // Patient updates since the previous huddle: statuses and times only, never names or reasons.
+        caller.from('hc_pilot_appointments').select('status, created_at, checked_in_at, updated_at').eq('clinic_id', huddle.clinicId).gte('updated_at', from).limit(1000),
+        caller.from('hc_pilot_prescriptions').select('status, created_at, updated_at').eq('clinic_id', huddle.clinicId).gte('updated_at', from).limit(1000),
+        caller.from('hc_pilot_lab_orders').select('created_at').eq('clinic_id', huddle.clinicId).gte('created_at', from).limit(1000),
       ]);
-      if (appts.error || labs.error || notes.error) return refuse('huddle-counts', { error: 'The huddle could not be prepared.' }, 502);
-      words = sessionScript(huddle.session, huddleCounts(appts.data ?? [], labs.data ?? [], notes.data ?? []), day.hour);
+      if (appts.error || tomorrow.error || labs.error || notes.error || changed.error || rx.error || newLabs.error) return refuse('huddle-counts', { error: 'The huddle could not be prepared.' }, 502);
+      const updates = huddleUpdates(window, changed.data ?? [], rx.data ?? [], newLabs.data ?? []);
+      words = sessionScript(huddle.session, huddleCounts(appts.data ?? [], labs.data ?? [], notes.data ?? [], tomorrow.data ?? []), day.hour, updates);
     } else if (readBack) {
       // Kayla's voice reads orders for made-up test patients only, and never once the clinic is cleared
       // for real patients (no signed privacy agreement with the voice company): the screen then uses the device voice.
