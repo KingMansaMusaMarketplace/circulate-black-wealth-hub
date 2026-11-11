@@ -124,6 +124,10 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onLike }) => {
               <Button
                 variant="ghost"
                 size="sm"
+                onClick={async () => {
+                  const result = await shareOrCopy({ title: '1325.AI community', text: activity.content, url: `${window.location.origin}/community` });
+                  if (result === 'copied') toast.success('Link copied');
+                }}
                 className="text-xs text-blue-200/70 hover:text-white"
               >
                 <Share2 className="h-4 w-4 mr-1" />

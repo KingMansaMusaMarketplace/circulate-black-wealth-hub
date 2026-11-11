@@ -87,6 +87,13 @@ export const nativeShare = async (data: ShareData): Promise<boolean> => {
   }
 };
 
+/** Share with the device's share sheet, or copy the link when sharing isn't available. */
+export const shareOrCopy = async (data: ShareData): Promise<'shared' | 'copied' | 'failed'> => {
+  if (await nativeShare(data)) return 'shared';
+  const url = data.url || window.location.href;
+  return (await copyToClipboard(url)) ? 'copied' : 'failed';
+};
+
 // Generate shareable achievement text
 export const generateAchievementShareText = (achievement: {
   achievement_name: string;
