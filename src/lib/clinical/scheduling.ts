@@ -16,16 +16,15 @@ export const APPT_STEP_LABELS: Partial<Record<ApptStatus, string>> = {
   checked_in: 'Check in', completed: 'Mark done', discharged: 'Discharge', left_ama: 'Left AMA', cancelled: 'Cancel', no_show: 'No-show',
 };
 /** Only clinical staff may discharge a patient or record an against-medical-advice departure (same as the database). */
-export const CLINICAL_CLOSE_STEPS: readonly ApptStatus[] = ['discharged', 'left_ama'];
 export const canClinicallyClose = (role: string | null | undefined) => role === 'owner' || role === 'doctor' || role === 'nurse';
 
 export const APPT_LENGTHS = [10, 15, 20, 30, 40, 60, 90] as const;
 export const isOpenAppt = (s: string) => s === 'scheduled' || s === 'checked_in';
 
 /** Allowed next steps from a status (same as the database). Discharge and AMA are for clinical staff only. */
-export function nextApptSteps(status: string, role?: string | null): ApptStatus[] {
+export function nextApptSteps(status: string, clinicalStaff = false): ApptStatus[] {
   if (status === 'scheduled') return ['checked_in', 'no_show', 'cancelled'];
-  if (status === 'checked_in') return canClinicallyClose(role) ? ['completed', 'discharged', 'left_ama', 'cancelled'] : ['completed', 'cancelled'];
+  if (status === 'checked_in') return clinicalStaff ? ['completed', 'discharged', 'left_ama', 'cancelled'] : ['completed', 'cancelled'];
   return [];
 }
 
