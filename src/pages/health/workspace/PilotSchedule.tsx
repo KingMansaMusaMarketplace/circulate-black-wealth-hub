@@ -113,7 +113,7 @@ export default function PilotSchedule({ clinicId, patients, perms, onOpenPatient
             : today.length === 0 ? <p className="text-sm text-muted-foreground">No appointments this day.{perms.bookAppointments ? ' Use “Book appointment” to add one.' : ''}</p>
             : today.map((a) => (
               <ApptItem key={a.id} appt={a} patient={patientById.get(a.patient_id)} patientName={patientById.get(a.patient_id) ? name(patientById.get(a.patient_id)!) : 'Test patient'}
-                provider={memberById.get(a.provider_id)} canChange={perms.bookAppointments} clinicalStaff={perms.readChart} existing={rows}
+                provider={memberById.get(a.provider_id)} canChange={perms.bookAppointments} clinicalStaff={perms.dischargePatients} existing={rows}
                 onOpenChart={perms.readChart && onOpenPatient ? () => onOpenPatient(a.patient_id) : undefined} onChanged={load} />
             ))}
         </CardContent>

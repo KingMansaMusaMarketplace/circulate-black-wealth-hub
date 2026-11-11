@@ -15,8 +15,6 @@ export const APPT_STATUS_LABELS: Record<ApptStatus, string> = {
 export const APPT_STEP_LABELS: Partial<Record<ApptStatus, string>> = {
   checked_in: 'Check in', completed: 'Mark done', discharged: 'Discharge', left_ama: 'Left AMA', cancelled: 'Cancel', no_show: 'No-show',
 };
-/** Only clinical staff may discharge a patient or record an against-medical-advice departure (same as the database). */
-export const canClinicallyClose = (role: string | null | undefined) => role === 'owner' || role === 'doctor' || role === 'nurse';
 
 export const APPT_LENGTHS = [10, 15, 20, 30, 40, 60, 90] as const;
 export const isOpenAppt = (s: string) => s === 'scheduled' || s === 'checked_in';
