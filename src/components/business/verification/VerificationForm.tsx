@@ -19,6 +19,7 @@ import SocialVerification from './SocialVerification';
 import VerificationMethodSelector, { VerificationMethod } from './VerificationMethodSelector';
 import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
 import { BadgeTier } from '@/lib/types/verification';
+import { isAiCheckAllowed } from '@/lib/verification/documents';
 
 interface VerificationFormProps {
   businessId: string;
@@ -57,14 +58,16 @@ const VerificationForm: React.FC<VerificationFormProps> = ({ businessId, userId,
   const [analyzingDoc, setAnalyzingDoc] = useState<string | null>(null);
   
   // Parse document with AI after upload
-  const analyzeDocument = async (docUrl: string, docType: DocumentType) => {
+  const analyzeDocument = async (storagePath: string, docType: DocumentType) => {
+    // Government IDs are reviewed by people only — never sent to the AI check.
+    if (!isAiCheckAllowed(docType)) return;
     setAnalyzingDoc(docType);
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) return;
 
       const { data, error } = await supabase.functions.invoke('parse-verification-document', {
-        body: { documentUrl: docUrl, documentType: docType, businessName },
+        body: { storagePath, documentType: docType, businessName },
         headers: { Authorization: `Bearer ${session.access_token}` },
       });
 
@@ -443,7 +446,7 @@ const VerificationForm: React.FC<VerificationFormProps> = ({ businessId, userId,
                   <DocumentUploadField
                     id="identityDoc"
                     label="Government-Issued Photo ID"
-                    description="Driver's license, passport, or state ID showing your legal name"
+                    description="Driver's license, passport, or state ID showing your legal name. Kept private and seen only by our review team — never sent to AI."
                     type="identity"
                     url={identityDocUrl}
                     setUrl={setIdentityDocUrl}
