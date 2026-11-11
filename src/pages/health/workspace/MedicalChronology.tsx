@@ -62,7 +62,7 @@ export default function MedicalChronology() {
           <h3 className="flex items-center gap-2 font-semibold"><AlertTriangle className="h-4 w-4 text-mansagold" />Gaps & differences to reconcile</h3>
           {chronology.flags.map((flag) => <div key={flag.title} className="space-y-2 border-b pb-4">
             <h4 className="text-sm font-semibold">{flag.title}</h4><p className="text-sm text-muted-foreground">{flag.detail}</p>
-            <div className="flex flex-wrap gap-x-4 gap-y-2">{flag.sources.map((citation, index) => <Button key={index} size="sm" variant="link" className="h-auto px-0" aria-label={`${flag.title}: source page ${citation.page}, excerpt ${index + 1}`} onClick={() => openSource(citation.page, citation.quote)}>Page {citation.page} · excerpt {index + 1}</Button>)}</div>
+            <div className="flex flex-wrap gap-x-4 gap-y-2">{flag.sources.map((citation, index) => <Button key={index} size="sm" variant="link" className="h-auto px-0" aria-label={`${flag.title}: source page ${citation.page}, excerpt ${citation.excerpt ?? index + 1}`} onClick={() => openSource(citation.page, citation.quote)}>Page {citation.page} · excerpt {citation.excerpt ?? index + 1}</Button>)}</div>
           </div>)}
         </section>
       </div>

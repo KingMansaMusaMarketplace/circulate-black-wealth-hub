@@ -6,7 +6,7 @@ afterEach(cleanup);
 describe('chronology sources', () => {
   it('opens the actual page and quotation for a conflicting-history flag', () => {
     render(<MedicalChronology />);
-    fireEvent.click(screen.getByRole('button', { name: 'Prior symptom history differs: source page 2, excerpt 2' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Prior symptom history differs: source page 2, excerpt 1' }));
     const source = screen.getByRole('region', { name: 'Chronology source page' });
     expect(within(source).getByText('Patient reports new low back pain and denies prior back symptoms.')).toBeTruthy();
     expect(within(source).getByText(/Page 2 · 02_Incident-and-ER.txt/)).toBeTruthy();
