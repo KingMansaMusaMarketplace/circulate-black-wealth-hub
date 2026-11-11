@@ -347,7 +347,16 @@ const PropertyDetailPage: React.FC = () => {
                     propertyTitle={property.title}
                     className="border-white/20 text-white hover:bg-white/10"
                   />
-                  <Button variant="outline" size="icon" className="border-white/20 text-white hover:bg-white/10">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    aria-label="Share this property"
+                    onClick={async () => {
+                      const result = await shareOrCopy({ title: property.title, text: `Check out ${property.title} on 1325.AI`, url: window.location.href });
+                      if (result === 'copied') toast.success('Link copied');
+                    }}
+                    className="border-white/20 text-white hover:bg-white/10"
+                  >
                     <Share2 className="w-4 h-4" />
                   </Button>
                   <Button 
