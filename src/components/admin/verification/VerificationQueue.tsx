@@ -16,6 +16,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { format, addYears } from 'date-fns';
 import { toast } from 'sonner';
 import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
+import VerificationDocumentLinks from './VerificationDocumentLinks';
 
 interface RegisteredBusiness {
   id: string;
@@ -534,32 +535,10 @@ const VerificationQueue: React.FC = () => {
               <div>
                 <h3 className="text-lg font-medium text-white">Documents</h3>
                 <p className="text-sm text-white/90 mb-2">
-                  These documents have been submitted for verification.
+                  Only documents the owner actually uploaded appear here.
                 </p>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {[
-                    { name: 'Government ID', icon: FileText },
-                    { name: 'Business Registration', icon: FileText },
-                    { name: 'Ownership Proof', icon: FileText },
-                    { name: 'Address Verification', icon: FileText },
-                    { name: 'Business License', icon: FileText },
-                  ].map((doc) => (
-                    <Card key={doc.name} className="backdrop-blur-xl bg-white/10 border-white/20">
-                      <CardHeader className="p-3">
-                        <CardTitle className="text-sm text-white flex items-center gap-2">
-                          <doc.icon className="h-4 w-4" />
-                          {doc.name}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="p-3 pt-0">
-                        <Button variant="outline" size="sm" className="w-full border-white/20 text-white hover:bg-white/10">
-                          View
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+                <VerificationDocumentLinks verificationId={selectedItem.verification_id} />
               </div>
               
               {selectedItem.verification_status === 'pending' && (
