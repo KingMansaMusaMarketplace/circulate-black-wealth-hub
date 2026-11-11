@@ -25,6 +25,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { toast } from 'sonner';
+import { shareOrCopy } from '@/utils/social-share';
 import { format, differenceInDays } from 'date-fns';
 import { cn } from '@/lib/utils';
 import {
