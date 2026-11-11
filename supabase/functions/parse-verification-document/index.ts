@@ -7,11 +7,15 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version, x-csrf-token',
 };
 
+// Government IDs ('identity') are reviewed by people only and are never sent to an AI service.
 const RequestSchema = z.object({
-  documentUrl: z.string().url().max(2000),
-  documentType: z.enum(['registration', 'ownership', 'address', 'identity', 'license']),
+  storagePath: z.string().min(3).max(500).regex(/^[A-Za-z0-9._\/-]+$/),
+  documentType: z.enum(['registration', 'ownership', 'address', 'license']),
   businessName: z.string().max(200).optional(),
 });
+
+const BUCKET = 'verification_documents';
+const LINK_SECONDS = 300;
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -42,7 +46,13 @@ Deno.serve(async (req) => {
       });
     }
 
-    const rawBody = await req.json();
+    const rawBody = await req.json().catch(() => ({}));
+    if (rawBody?.documentType === 'identity') {
+      return new Response(JSON.stringify({ error: 'Government IDs are reviewed by our team only and are not sent to AI.' }), {
+        status: 400,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
     const parseResult = RequestSchema.safeParse(rawBody);
     if (!parseResult.success) {
       return new Response(JSON.stringify({ error: parseResult.error.issues.map(i => i.message).join(', ') }), {
@@ -51,7 +61,25 @@ Deno.serve(async (req) => {
       });
     }
 
-    const { documentUrl, documentType, businessName } = parseResult.data;
+    const { storagePath, documentType, businessName } = parseResult.data;
+
+    // Only the uploader's own folder; the signed link is created with their sign-in so storage rules still apply.
+    if (storagePath.includes('..') || !storagePath.startsWith(`${user.id}/`)) {
+      return new Response(JSON.stringify({ error: 'Document not found' }), {
+        status: 403,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+    const { data: signed, error: signError } = await supabase.storage
+      .from(BUCKET)
+      .createSignedUrl(storagePath, LINK_SECONDS);
+    if (signError || !signed?.signedUrl) {
+      return new Response(JSON.stringify({ error: 'Document not found' }), {
+        status: 404,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+    const documentUrl = signed.signedUrl;
 
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) {
@@ -62,7 +90,6 @@ Deno.serve(async (req) => {
       registration: 'Business Registration / Certificate of Formation',
       ownership: 'Ownership Verification / Operating Agreement',
       address: 'Address Verification / Utility Bill',
-      identity: 'Government-Issued Photo ID',
       license: 'Business License / Professional License',
     };
 
