@@ -5,6 +5,8 @@ import { BrainCircuit, UserPlus } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
+const usePilotJump = () => { const nav = useNavigate(); return (view: string) => nav(`/health/app?view=${view}&t=${Date.now()}`); };
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -91,6 +93,7 @@ export function Dashboard({ clinicId, patients, go }: P & { go: (k: string) => v
 
 /* ---------- Patients ---------- */
 export function Patients({ clinicId, patients }: P) {
+  const jump = usePilotJump();
   const [q, setQ] = useState('');
   const [open, setOpen] = useState<string | null>(null);
   const list = patients.filter((p) => `${fullName(p)} ${p.mrn}`.toLowerCase().includes(q.toLowerCase()));
@@ -100,7 +103,7 @@ export function Patients({ clinicId, patients }: P) {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between gap-4 space-y-0">
         <Input placeholder="Search sample patients" value={q} onChange={(e) => setQ(e.target.value)} className="max-w-xs" />
-        <Button disabled variant="outline">Patient entry · Locked</Button>
+        <Button variant="outline" onClick={() => jump('pilot')}>Add patients in Pilot Patients →</Button>
       </CardHeader>
       <CardContent>
         <p className="mb-4 text-sm text-muted-foreground">Source-linked identities open the original fictional transcript. Older samples are retained but their clinical and billing details are unverified.</p>
@@ -128,6 +131,7 @@ function Chart({ clinicId, patient, back }: { clinicId: string; patient: Row; ba
 
 /* ---------- Schedule ---------- */
 export function Schedule({ clinicId, patients }: P) {
+  const jump = usePilotJump();
   const appts = useRows('hc_appointments', clinicId, { order: 'starts_at', asc: true });
   const byId = Object.fromEntries(patients.map((p) => [p.id, p]));
 
@@ -151,7 +155,7 @@ export function Schedule({ clinicId, patients }: P) {
             </div>
           ))}
         </CardContent></Card>
-      <section className="space-y-3 border-l pl-5"><h3 className="font-semibold">Scheduling · Read-only sample</h3><p className="text-sm text-muted-foreground">Patient entry, booking and encounter status changes remain unavailable.</p><Button disabled variant="outline">Book visit · Locked</Button></section>
+      <section className="space-y-3 border-l pl-5"><h3 className="font-semibold">Scheduling · Read-only sample</h3><p className="text-sm text-muted-foreground">Patient entry, booking and encounter status changes remain unavailable.</p><Button variant="outline" onClick={() => jump('schedule')}>Book in the live pilot schedule →</Button></section>
     </div>
   );
 }
@@ -163,6 +167,7 @@ export function PriorAuth(_props: P) {
 
 /* ---------- Billing ---------- */
 export function Billing({ clinicId, patients }: P) {
+  const jump = usePilotJump();
   const rows = useRows('hc_claims', clinicId);
   const byId = Object.fromEntries(patients.map((p) => [p.id, p]));
   const billed = rows.rows.reduce((s, c) => s + Number(c.amount), 0);
@@ -175,7 +180,7 @@ export function Billing({ clinicId, patients }: P) {
           <div key={l as string} className="rounded-xl border bg-card p-5"><div className="text-xs uppercase tracking-wide text-muted-foreground">{l}</div><div className="mt-2 text-2xl font-semibold text-mansagold">{v}</div></div>
         ))}
       </div>
-      <Button disabled variant="outline">Claim creation · Locked</Button>
+      <Button variant="outline" onClick={() => jump('billing')}>Create claims in pilot billing →</Button>
       <Card><CardContent className="pt-6"><Table>
         <TableHeader><TableRow><TableHead>Patient</TableHead><TableHead>CPT</TableHead><TableHead>ICD-10</TableHead><TableHead>Amount</TableHead><TableHead>Paid</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
         <TableBody>{rows.rows.map((c) => (

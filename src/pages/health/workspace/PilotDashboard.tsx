@@ -12,7 +12,7 @@ import DataLoadErrors from './DataLoadErrors';
 import { Row, useRows } from './hc';
 import { usePilotPrivacy } from './PilotPrivacy';
 
-type Props = { clinicId: string; isOwner?: boolean; patients: Row[]; audit: Row[] | null; onOpenPatient: (id: string) => void; onOpenLog: () => void };
+type Props = { clinicId: string; isOwner?: boolean; patients: Row[]; audit: Row[] | null; onOpenPatient: (id: string, tab?: string) => void; onOpenLog: () => void };
 
 const activityConfig = {
   patients: { label: 'New test patients', color: 'hsl(var(--mansagold))' },
@@ -106,7 +106,7 @@ export default function PilotDashboard({ clinicId, isOwner, patients, audit, onO
             {notes.loading ? <p role="status" className="text-sm text-muted-foreground">Loading…</p>
               : drafts.length === 0 ? <p className="text-sm text-muted-foreground">No unsigned drafts. Nice work.</p>
               : drafts.map((n) => (
-                <button key={n.id} type="button" onClick={() => onOpenPatient(n.patient_id)} className="flex w-full items-center justify-between gap-2 rounded-md border p-3 text-left text-sm hover:bg-muted/50">
+                <button key={n.id} type="button" onClick={() => onOpenPatient(n.patient_id, 'notes')} className="flex w-full items-center justify-between gap-2 rounded-md border p-3 text-left text-sm hover:bg-muted/50">
                   <span><b>{name(byId[n.patient_id])}</b> · {n.visit_reason}</span>
                   <span className="text-xs text-muted-foreground">{format(parseISO(n.visit_date), 'MMM d')}</span>
                 </button>
