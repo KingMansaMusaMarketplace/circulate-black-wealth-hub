@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Pause, Play, Square, Sunrise } from 'lucide-react';
+import { ChevronDown, ChevronUp, Clock, Pause, Play, Square, Sunrise } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { VOICE_RATES } from '@/lib/clinical/kayla-workspace-voice';
 import { SILENT_AUDIO, kaylaHuddlePart } from '../kayla-voice';
@@ -10,6 +10,22 @@ export const HUDDLE_OPTIONS: { key: Session; label: string; time: string; focus:
   { key: 'midday', label: 'Midday Check-In', time: '12:00 PM', focus: 'Progress, urgent labs and medication safety' },
   { key: 'afternoon', label: 'Afternoon Wrap-Up', time: '4:30 PM', focus: 'Notes to sign and open labs overnight' },
 ];
+/** The most recent scheduled huddle for the given clock time (before noon = morning, before 4:30 PM = midday). */
+export function latestHuddle(now: Date): Session {
+  const minutes = now.getHours() * 60 + now.getMinutes();
+  if (minutes < 12 * 60) return 'morning';
+  if (minutes < 16 * 60 + 30) return 'midday';
+  return 'afternoon';
+}
+type PlayLog = { session: Session; at: number };
+const LOG_KEY = 'hc-huddle-log';
+const COLLAPSE_KEY = 'hc-huddle-collapsed';
+const today = () => new Date().toDateString();
+/** Only huddle names and play times are kept, on this device, for today. */
+function readLog(): PlayLog[] {
+  try { const v = JSON.parse(localStorage.getItem(LOG_KEY) || 'null'); return v && v.day === today() && Array.isArray(v.entries) ? v.entries.filter((e: PlayLog) => HUDDLE_OPTIONS.some(o => o.key === e.session) && typeof e.at === 'number').slice(0, 20) : []; } catch { return []; }
+}
+const clock = (t: number) => new Date(t).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 export const HUDDLE_VOICE_PROBLEM = "Kayla's voice couldn't start just now. Please try Play huddle again in a moment.";
 
 /** Kayla's spoken morning huddle in her own voice. The voice service builds the words itself from
@@ -19,7 +35,11 @@ export default function MorningHuddle({ clinicId }: { clinicId: string }) {
   const [rate, setRate] = useState<number>(1);
   const [script, setScript] = useState('');
   const [error, setError] = useState('');
-  const [session, setSession] = useState<Session>('morning');
+  const [session, setSession] = useState<Session>(() => latestHuddle(new Date()));
+  const [collapsed, setCollapsed] = useState<boolean>(() => { try { return localStorage.getItem(COLLAPSE_KEY) !== 'open'; } catch { return true; } });
+  const [log, setLog] = useState<PlayLog[]>(readLog);
+  const toggle = () => setCollapsed(c => { const next = !c; try { localStorage.setItem(COLLAPSE_KEY, next ? 'closed' : 'open'); } catch { /* private mode */ } return next; });
+  const record = (s: Session) => setLog(prev => { const entries = [{ session: s, at: Date.now() }, ...prev].slice(0, 20); try { localStorage.setItem(LOG_KEY, JSON.stringify({ day: today(), entries })); } catch { /* private mode */ } return entries; });
   const audio = useRef<HTMLAudioElement | null>(null);
   const token = useRef(0);
   const element = () => { if (!audio.current && typeof Audio !== 'undefined') audio.current = new Audio(); return audio.current; };
@@ -51,6 +71,7 @@ export default function MorningHuddle({ clinicId }: { clinicId: string }) {
           // Prepare the next piece while this one plays, so Kayla keeps talking.
           const next = n + 1 < total ? kaylaHuddlePart(clinicId, n + 1, session) : null;
           next?.catch(() => undefined);
+          if (n === 0) record(session);
           setState('speaking');
           await playPiece(current.url);
           if (!next || !live()) break;
@@ -64,20 +85,48 @@ export default function MorningHuddle({ clinicId }: { clinicId: string }) {
   const resume = () => { void Promise.resolve(audio.current?.play()).catch(() => undefined); setState('speaking'); };
   const end = () => { halt(); setState('idle'); };
 
-  return <section aria-label="Morning huddle" className="mb-6 rounded-lg border border-mansagold/40 bg-mansagold/5 p-4">
+  const latest = HUDDLE_OPTIONS.find(o => o.key === latestHuddle(new Date()))!;
+  const chosen = HUDDLE_OPTIONS.find(o => o.key === session)!;
+  const lastPlayed = log[0];
+  const labelOf = (k: Session) => HUDDLE_OPTIONS.find(o => o.key === k)!.label;
+  const controls = <div className="flex flex-wrap items-center gap-2">
+    {!collapsed && <div className="flex gap-1" aria-label="Speaking speed">{VOICE_RATES.map(r => <Button key={r} size="sm" variant={rate === r ? 'default' : 'outline'} aria-pressed={rate === r} onClick={() => setRate(r)}>{r}×</Button>)}</div>}
+    {state === 'idle' && <Button size="sm" variant="clinicalHelp" onClick={play}><Play />Play huddle</Button>}
+    {state === 'loading' && <Button size="sm" disabled>Kayla is getting ready…</Button>}
+    {state === 'speaking' && <Button size="sm" variant="outline" onClick={pause}><Pause />Pause</Button>}
+    {state === 'paused' && <Button size="sm" variant="outline" onClick={resume}><Play />Resume</Button>}
+    {state !== 'idle' && <Button size="sm" variant="destructive" onClick={end}><Square />Stop</Button>}
+    <Button size="sm" variant="ghost" aria-expanded={!collapsed} aria-controls="kayla-huddle-details" aria-label={collapsed ? 'Show all huddles' : 'Hide huddles'} onClick={toggle}>{collapsed ? <ChevronDown /> : <ChevronUp />}<span className="hidden sm:inline">{collapsed ? 'Show all' : 'Hide'}</span></Button>
+  </div>;
+
+  return <section aria-label="Daily huddles with Kayla" className={`mb-6 rounded-lg border border-mansagold/40 bg-mansagold/5 ${collapsed ? 'px-4 py-3' : 'p-4'}`}>
     <div className="flex flex-wrap items-center justify-between gap-3">
-      <div className="flex items-center gap-2"><Sunrise className="h-5 w-5 text-mansagold" /><div><p className="font-semibold">Daily huddles with Kayla</p><p className="text-xs text-muted-foreground">About 45 seconds each · test patients only · in Kayla's voice, counts only (no names)</p></div></div>
-      <div className="flex flex-wrap items-center gap-2">
-        <div className="flex gap-1" aria-label="Speaking speed">{VOICE_RATES.map(r => <Button key={r} size="sm" variant={rate === r ? 'default' : 'outline'} aria-pressed={rate === r} onClick={() => setRate(r)}>{r}×</Button>)}</div>
-        {state === 'idle' && <Button size="sm" variant="clinicalHelp" onClick={play}><Play />Play huddle</Button>}
-        {state === 'loading' && <Button size="sm" disabled>Kayla is getting ready…</Button>}
-        {state === 'speaking' && <Button size="sm" variant="outline" onClick={pause}><Pause />Pause</Button>}
-        {state === 'paused' && <Button size="sm" variant="outline" onClick={resume}><Play />Resume</Button>}
-        {state !== 'idle' && <Button size="sm" variant="destructive" onClick={end}><Square />Stop</Button>}
-      </div>
+      <div className="flex min-w-0 items-center gap-2"><Sunrise className="h-5 w-5 shrink-0 text-mansagold" /><div className="min-w-0">
+        <p className="font-semibold">Daily huddles with Kayla</p>
+        <p className="flex flex-wrap items-center gap-x-2 text-xs text-muted-foreground"><Clock className="h-3 w-3" aria-hidden="true" />
+          <span>Latest update: <span className="font-medium text-foreground">{latest.label} · {latest.time}</span></span>
+          {lastPlayed && <span>· Last played {clock(lastPlayed.at)} ({labelOf(lastPlayed.session)})</span>}
+          {collapsed && session !== latest.key && <span>· Selected: {chosen.label}</span>}
+        </p>
+      </div></div>
+      {controls}
     </div>
-    <div className="mt-3 grid gap-2 sm:grid-cols-3" role="group" aria-label="Choose a huddle">{HUDDLE_OPTIONS.map(o => <Button key={o.key} variant={session === o.key ? 'default' : 'outline'} aria-pressed={session === o.key} className="h-auto flex-col items-start whitespace-normal p-3 text-left" onClick={() => { end(); setScript(''); setError(''); setSession(o.key); }}><span className="font-semibold">{o.label}</span><span className="text-xs opacity-80">{o.time} · {o.focus}</span></Button>)}</div>
-    {script && <p className="mt-3 text-sm text-muted-foreground">{script}</p>}
+    {collapsed && state !== 'idle' && script && <p className="mt-2 text-sm text-muted-foreground">{script}</p>}
+    {!collapsed && <div id="kayla-huddle-details">
+      <p className="mt-2 text-xs text-muted-foreground">About 45 seconds each · test patients only · in Kayla's voice, counts only (no names)</p>
+      <div className="mt-3 grid gap-2 sm:grid-cols-3" role="group" aria-label="Choose a huddle">{HUDDLE_OPTIONS.map(o => {
+        const plays = log.filter(e => e.session === o.key);
+        return <Button key={o.key} variant={session === o.key ? 'default' : 'outline'} aria-pressed={session === o.key} className="h-auto flex-col items-start whitespace-normal p-3 text-left" onClick={() => { end(); setScript(''); setError(''); setSession(o.key); }}>
+          <span className="flex w-full items-center justify-between gap-2 font-semibold">{o.label}{o.key === latest.key && <span className="rounded-full bg-mansagold/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide">Latest</span>}</span>
+          <span className="text-xs opacity-80">{o.time} · {o.focus}</span>
+          <span className="text-[11px] opacity-70">{plays.length ? `Played today at ${clock(plays[0].at)}${plays.length > 1 ? ` (${plays.length} times)` : ''}` : 'Not played yet today'}</span>
+        </Button>;
+      })}</div>
+      {log.length > 0 && <details className="mt-3 text-xs text-muted-foreground"><summary className="cursor-pointer font-medium text-foreground">Today's huddle history ({log.length})</summary>
+        <ul className="mt-2 space-y-1">{log.map(e => <li key={e.at}>{clock(e.at)} — {labelOf(e.session)}</li>)}</ul>
+      </details>}
+      {script && <p className="mt-3 text-sm text-muted-foreground">{script}</p>}
+    </div>}
     {error && <p role="alert" className="mt-2 text-sm text-destructive">{error}</p>}
   </section>;
 }

@@ -3,7 +3,7 @@
 // switches to the computer voice.
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import MorningHuddle, { HUDDLE_VOICE_PROBLEM } from '@/pages/health/workspace/MorningHuddle';
+import MorningHuddle, { HUDDLE_VOICE_PROBLEM, latestHuddle } from '@/pages/health/workspace/MorningHuddle';
 
 vi.mock('@/integrations/supabase/client', () => ({ supabase: { auth: { getSession: async () => ({ data: { session: { access_token: 'token' } } }) } } }));
 
@@ -16,7 +16,7 @@ const fetchMock = vi.fn();
 const reply = (body: object, status = 200) => new Response(JSON.stringify(body), { status });
 
 beforeEach(() => {
-  played.length = 0; players.length = 0; spoken.length = 0; fetchMock.mockReset();
+  localStorage.clear(); played.length = 0; players.length = 0; spoken.length = 0; fetchMock.mockReset();
   class FakeAudio { src = ''; muted = false; paused = true; playbackRate = 1; onended: (() => void) | null = null; onerror: (() => void) | null = null;
     constructor() { players.push(this); }
     play() { if (!this.muted && this.src.startsWith('https://')) played.push(this.src); this.paused = false; return Promise.resolve(); }
@@ -60,4 +60,21 @@ describe("Morning huddle speaks in Kayla's voice", () => {
     await waitFor(() => expect(screen.getByRole('alert').textContent).toBe(HUDDLE_VOICE_PROBLEM));
     expect(spoken).toEqual([]);
   });
+
+  it('starts folded up, showing the latest update, and expands to all three huddles', () => {
+    render(<MorningHuddle clinicId={clinic} />);
+    expect(screen.queryByRole('group', { name: 'Choose a huddle' })).toBeNull();
+    expect(screen.getByText(/Latest update:/)).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Show all huddles' }));
+    expect(screen.getByRole('group', { name: 'Choose a huddle' })).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Hide huddles' }));
+    expect(screen.queryByRole('group', { name: 'Choose a huddle' })).toBeNull();
+  });
+});
+
+describe('latest huddle by clock time', () => {
+  const at = (h: number, m: number) => new Date(2026, 10, 16, h, m);
+  it('before noon is the Morning Kickoff', () => expect(latestHuddle(at(11, 59))).toBe('morning'));
+  it('noon until 4:29 PM is the Midday Check-In', () => { expect(latestHuddle(at(12, 0))).toBe('midday'); expect(latestHuddle(at(16, 29))).toBe('midday'); });
+  it('4:30 PM onward is the Afternoon Wrap-Up', () => expect(latestHuddle(at(16, 30))).toBe('afternoon'));
 });
