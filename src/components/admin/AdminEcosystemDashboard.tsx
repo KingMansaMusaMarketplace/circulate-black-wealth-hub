@@ -12,7 +12,7 @@ import { useEcosystemStats } from '@/hooks/use-technical-partner';
 import EcosystemImpactCard from '@/components/shared/EcosystemImpactCard';
 
 const AdminEcosystemDashboard: React.FC = () => {
-  const { stats, loading } = useEcosystemStats();
+  const { stats, loading, refetch } = useEcosystemStats();
 
   // Mock technical partners list (would come from DB)
   const technicalPartners = [
@@ -144,7 +144,7 @@ const AdminEcosystemDashboard: React.FC = () => {
                 Developers earning from both APIs and referrals
               </CardDescription>
             </div>
-            <Button variant="outline" size="sm" className="border-slate-600 text-slate-300 hover:bg-slate-700">
+            <Button variant="outline" size="sm" onClick={refetch} disabled={loading} className="border-slate-600 text-slate-300 hover:bg-slate-700">
               <RefreshCw className="h-4 w-4 mr-2" />
               Refresh
             </Button>
