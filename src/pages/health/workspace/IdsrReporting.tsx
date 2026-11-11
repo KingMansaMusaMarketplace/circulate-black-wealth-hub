@@ -5,6 +5,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { IDSR_SAMPLES, IDSR_SOURCE, sampleCsv, sampleReport, type SampleId } from './idsr-reporting';
 
+// Plain-language hints shown under official MOH 505 row names; the official names stay unchanged in the table and export.
+const ROW_HINTS: Record<string, string> = {
+  VHF: 'Viral haemorrhagic fever — includes Ebola and Marburg',
+  Measles: 'Rising in several countries, including the U.S. — report every suspected case',
+};
+
 export default function IdsrReporting() {
   const [id, setId] = useState<SampleId>('cluster');
   const [checked, setChecked] = useState(false);
@@ -43,7 +49,7 @@ export default function IdsrReporting() {
     <p className="text-xs text-muted-foreground">County and sub-county are SAMPLE placeholders. The source specifies Monday–Sunday weeks and reporting the following Monday. Epi-week numbering and month assignment require current Kenyan confirmation.</p>
     <div className="overflow-x-auto"><Table>
       <TableHeader><TableRow><TableHead className="min-w-48">Disease, condition or event</TableHead><TableHead>&lt;5 cases</TableHead><TableHead>&lt;5 deaths</TableHead><TableHead>≥5 cases</TableHead><TableHead>≥5 deaths</TableHead></TableRow></TableHeader>
-      <TableBody>{report.rows.map(row => <TableRow key={row.disease}><TableCell className="font-medium">{row.disease}</TableCell>{row.counts.map((count, col) => <TableCell key={col} className={count ? 'font-semibold text-mansagold' : 'text-muted-foreground'}>{count === null ? 'N/A' : count}</TableCell>)}</TableRow>)}</TableBody>
+      <TableBody>{report.rows.map(row => <TableRow key={row.disease}><TableCell className="font-medium">{row.disease}{ROW_HINTS[row.disease] && <span className="block text-xs font-normal text-muted-foreground">{ROW_HINTS[row.disease]}</span>}</TableCell>{row.counts.map((count, col) => <TableCell key={col} className={count ? 'font-semibold text-mansagold' : 'text-muted-foreground'}>{count === null ? 'N/A' : count}</TableCell>)}</TableRow>)}</TableBody>
     </Table></div>
     <p className="text-xs text-muted-foreground">N/A mirrors blocked source-form cells; zeros are explicit fictional tallies. AEFI = adverse events following immunization; AFP = acute flaccid paralysis; SARI = severe acute respiratory infection; MDR/XDR TB = drug-resistant tuberculosis; VHF = viral hemorrhagic fever.</p>
     <div className="space-y-3 border-y border-border py-4">
