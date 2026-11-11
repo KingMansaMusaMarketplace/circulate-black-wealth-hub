@@ -100,11 +100,11 @@ export const ImpactDashboard = () => {
             Sign in to see how you're building Black wealth and circulating money within the community
           </CardDescription>
           <div className="mt-8 flex gap-4 justify-center">
-            <Button size="lg" className="bg-gradient-to-r from-mansagold via-amber-500 to-mansagold hover:from-amber-600 hover:via-amber-500 hover:to-amber-600 text-slate-900 font-bold shadow-[0_0_30px_rgba(251,191,36,0.4)]">
-              Sign In
+            <Button asChild size="lg" className="bg-gradient-to-r from-mansagold via-amber-500 to-mansagold hover:from-amber-600 hover:via-amber-500 hover:to-amber-600 text-slate-900 font-bold shadow-[0_0_30px_rgba(251,191,36,0.4)]">
+              <Link to="/login">Sign In</Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-white/20 bg-slate-700/30 text-white hover:bg-slate-700/50">
-              Learn More
+            <Button asChild size="lg" variant="outline" className="border-white/20 bg-slate-700/30 text-white hover:bg-slate-700/50">
+              <Link to="/how-it-works">Learn More</Link>
             </Button>
           </div>
         </CardHeader>

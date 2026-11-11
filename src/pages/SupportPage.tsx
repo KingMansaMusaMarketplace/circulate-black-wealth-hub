@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, MessageCircle, Book, Headphones, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,21 +13,24 @@ const SupportPage = () => {
       title: "Email Support",
       description: "Get help via email within 24 hours",
       contact: "Partner@1325.AI",
-      action: "Send Email"
+      action: "Send Email",
+      href: "mailto:Partner@1325.AI"
     },
     {
       icon: <Phone className="h-6 w-6" />,
       title: "Phone Support",
       description: "Speak with our support team directly",
       contact: "312.900.6004",
-      action: "Call Now"
+      action: "Call Now",
+      href: "tel:+13129006004"
     },
     {
       icon: <MessageCircle className="h-6 w-6" />,
       title: "Live Chat",
       description: "Chat with us in real-time during business hours",
       contact: "Available Monday-Friday, 9AM-6PM CST",
-      action: "Start Chat"
+      action: "Chat with Kayla",
+      href: "/ai-assistant"
     }
   ];
 
@@ -174,8 +178,8 @@ const SupportPage = () => {
                   </CardHeader>
                   <CardContent className="text-center space-y-4">
                     <p className="font-semibold text-center break-words text-mansagold">{option.contact}</p>
-                    <Button className="w-full bg-mansagold text-black hover:bg-mansagold/90 font-medium">
-                      {option.action}
+                    <Button asChild className="w-full bg-mansagold text-black hover:bg-mansagold/90 font-medium">
+                      {option.href.startsWith('/') ? <Link to={option.href}>{option.action}</Link> : <a href={option.href}>{option.action}</a>}
                     </Button>
                   </CardContent>
                 </Card>
