@@ -1294,6 +1294,7 @@ function App() {
                           {/* Home — Kayla-led front door is the landing page */}
                           <Route path="/" element={typeof window !== "undefined" && window.location.hostname.startsWith("health.") ? (new URLSearchParams(window.location.search).has("access") ? <LazyHealthAccessGate><LazyHealthDemoPage /></LazyHealthAccessGate> : <LazyClinicalSite page="home" />) : <HomePage />} />
                           <Route path="/about-1325" element={<LazyAboutPage />} />
+                          <Route path="/submit-business" element={<SubmitBusinessRedirect />} />
                               <Route path="/home-preview" element={<LazyHomePreviewPage />} />
                               <Route path="/partner-directories" element={<LazyPartnerDirectoriesPage />} />
 <Route path="/connect" element={<LazyConnectPage />} />
