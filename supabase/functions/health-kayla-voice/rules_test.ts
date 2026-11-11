@@ -121,14 +121,14 @@ Deno.test('lab read-back speaks the priority label and that it is never sent', (
   assertEquals(parseReadBackRequest({ clinic_id: clinic, patient_id: patient, readback: 'lab', order: { test_name: 'CBC', priority: 'whenever', reason: '' } }), null);
 });
 
-Deno.test('three huddle sessions: only known session names, each with different words and no names', async () => {
+Deno.test('four huddle sessions: only known session names, each with different words and no names', async () => {
   const { sessionScript } = await import('../_shared/clinical-huddle.ts');
-  assertEquals(parseHuddleRequest({ clinic_id: clinic, huddle: true, tz_offset: 0, session: 'midday' })?.session, 'midday');
+  for (const s of ['morning', 'afternoon', 'evening', 'night'] as const) assertEquals(parseHuddleRequest({ clinic_id: clinic, huddle: true, tz_offset: 0, session: s })?.session, s);
+  assertEquals(parseHuddleRequest({ clinic_id: clinic, huddle: true, tz_offset: 0, session: 'midday' })?.session, 'afternoon');
   assertEquals(parseHuddleRequest({ clinic_id: clinic, huddle: true, tz_offset: 0 })?.session, 'morning');
   assertEquals(parseHuddleRequest({ clinic_id: clinic, huddle: true, tz_offset: 0, session: 'say hi' }), null);
-  const c = { visitsToday: 8, checkedIn: 2, openLabs: 3, urgentLabs: 1, draftNotes: 2, completed: 4 };
-  const [m, d, a] = (['morning', 'midday', 'afternoon'] as const).map((s) => sessionScript(s, c, 9));
-  assertEquals(new Set([m, d, a]).size, 3);
-  assertEquals(d.includes('4 visits finished'), true);
-  assertEquals(a.includes('2 visit notes waiting for your signature'), true);
+  const c = { visitsToday: 8, checkedIn: 2, openLabs: 3, urgentLabs: 1, draftNotes: 2, completed: 4, tomorrowVisits: 6 };
+  const scripts = (['morning', 'afternoon', 'evening', 'night'] as const).map((s) => sessionScript(s, c, 9));
+  assertEquals(new Set(scripts).size, 4);
+  for (const w of scripts) assertEquals(speechParts(w).length <= MAX_PARTS, true);
 });

@@ -16,7 +16,7 @@ const fetchMock = vi.fn();
 const reply = (body: object, status = 200) => new Response(JSON.stringify(body), { status });
 
 beforeEach(() => {
-  // Pin the clock to 9:00 AM so the Morning Kickoff is the latest huddle whatever time the checks run.
+  // Pin the clock to 9:00 AM so the Morning Huddle is the latest huddle whatever time the checks run.
   vi.useFakeTimers({ toFake: ['Date'] }); vi.setSystemTime(new Date(2026, 10, 11, 9, 0));
   localStorage.clear(); played.length = 0; players.length = 0; spoken.length = 0; fetchMock.mockReset();
   class FakeAudio { src = ''; muted = false; paused = true; playbackRate = 1; onended: (() => void) | null = null; onerror: (() => void) | null = null;
@@ -73,20 +73,22 @@ describe("Morning huddle speaks in Kayla's voice", () => {
     expect(spoken).toEqual([]);
   });
 
-  it('starts folded up, showing the latest update, and expands to all three huddles', () => {
+  it('starts folded up, showing the latest update, and expands to all four huddles', () => {
     render(<MorningHuddle clinicId={clinic} />);
     expect(screen.queryByRole('group', { name: 'Choose a huddle' })).toBeNull();
     expect(screen.getByText(/Latest update:/)).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Show all huddles' }));
-    expect(screen.getByRole('group', { name: 'Choose a huddle' })).toBeTruthy();
+    const group = screen.getByRole('group', { name: 'Choose a huddle' });
+    expect(group.querySelectorAll('button').length).toBe(4);
     fireEvent.click(screen.getByRole('button', { name: 'Hide huddles' }));
     expect(screen.queryByRole('group', { name: 'Choose a huddle' })).toBeNull();
   });
 });
 
-describe('latest huddle by clock time', () => {
+describe('latest huddle by clock time (four huddles every 24 hours)', () => {
   const at = (h: number, m: number) => new Date(2026, 10, 16, h, m);
-  it('before noon is the Morning Kickoff', () => expect(latestHuddle(at(11, 59))).toBe('morning'));
-  it('noon until 4:29 PM is the Midday Check-In', () => { expect(latestHuddle(at(12, 0))).toBe('midday'); expect(latestHuddle(at(16, 29))).toBe('midday'); });
-  it('4:30 PM onward is the Afternoon Wrap-Up', () => expect(latestHuddle(at(16, 30))).toBe('afternoon'));
+  it('7:00 AM until 12:59 PM is the Morning Huddle', () => { expect(latestHuddle(at(7, 0))).toBe('morning'); expect(latestHuddle(at(12, 59))).toBe('morning'); });
+  it('1:00 PM until 6:59 PM is the Afternoon Huddle', () => { expect(latestHuddle(at(13, 0))).toBe('afternoon'); expect(latestHuddle(at(18, 59))).toBe('afternoon'); });
+  it('7:00 PM until 10:59 PM is the Evening Handoff', () => { expect(latestHuddle(at(19, 0))).toBe('evening'); expect(latestHuddle(at(22, 59))).toBe('evening'); });
+  it('11:00 PM until 6:59 AM is the Night Huddle', () => { expect(latestHuddle(at(23, 0))).toBe('night'); expect(latestHuddle(at(3, 0))).toBe('night'); expect(latestHuddle(at(6, 59))).toBe('night'); });
 });
