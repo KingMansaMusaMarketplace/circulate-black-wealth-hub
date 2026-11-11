@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { submitSalesAgentApplication } from '@/lib/api/sales-agent-api';
 import { Button } from '@/components/ui/button';
@@ -49,6 +49,7 @@ interface AgentApplicationFormProps {
 
 const AgentApplicationForm: React.FC<AgentApplicationFormProps> = ({ onSuccess }) => {
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [agreedToCodeOfConduct, setAgreedToCodeOfConduct] = useState(false);
@@ -59,7 +60,7 @@ const AgentApplicationForm: React.FC<AgentApplicationFormProps> = ({ onSuccess }
       full_name: user?.user_metadata?.name || '',
       email: user?.email || '',
       phone: '',
-      recruiter_code: '',
+      recruiter_code: (searchParams.get('recruiter') || '').slice(0, 40),
     },
   });
 

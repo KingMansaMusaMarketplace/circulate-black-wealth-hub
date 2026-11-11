@@ -5,6 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { TrendingUp, DollarSign, Users, Leaf, Car, Store, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNoireRideImpact } from '@/hooks/useNoireRideImpact';
+import { toast } from 'sonner';
+import { shareOrCopy } from '@/utils/social-share';
 
 const NoireImpactDashboard: React.FC = () => {
   const { impact, loading } = useNoireRideImpact();
@@ -51,7 +53,15 @@ const NoireImpactDashboard: React.FC = () => {
             <TrendingUp className="h-5 w-5 text-mansagold" />
             <h3 className="text-white font-bold text-lg">Your Ride Impact</h3>
           </div>
-          <Button size="sm" variant="outline" className="border-white/10 text-white/80 hover:bg-white/5 text-xs gap-1">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={async () => {
+              const result = await shareOrCopy({ title: 'My 1325.AI ride impact', text: `I have taken ${impact.total_rides} rides with Noire and supported local drivers on 1325.AI.`, url: window.location.origin });
+              if (result === 'copied') toast.success('Link copied');
+            }}
+            className="border-white/10 text-white/80 hover:bg-white/5 text-xs gap-1"
+          >
             <Share2 className="h-3 w-3" />
             Share
           </Button>

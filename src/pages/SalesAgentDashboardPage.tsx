@@ -261,6 +261,7 @@ const SalesAgentDashboardPage: React.FC = () => {
               recruitedAgents={recruitedAgents}
               teamOverrides={teamOverrides}
               isLoading={isLoadingData}
+              recruiterCode={agent?.referral_code}
             />
           </TabsContent>
 
@@ -273,6 +274,7 @@ const SalesAgentDashboardPage: React.FC = () => {
               recruitedAgents={recruitedAgents}
               teamOverrides={teamOverrides}
               isLoading={isLoadingData}
+              recruiterCode={agent?.referral_code}
             />
           </TabsContent>
 

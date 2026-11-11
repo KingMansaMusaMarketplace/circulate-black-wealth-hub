@@ -96,9 +96,11 @@ const Dashboard: React.FC = () => {
               <CardDescription className="text-blue-200/70">Earn points at verified businesses</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className="w-full bg-gradient-to-r from-mansablue to-blue-600 hover:from-mansablue-dark hover:to-blue-700 text-white">
-                Start Scanning
-                <ArrowRight className="ml-2 h-4 w-4" />
+              <Button asChild className="w-full bg-gradient-to-r from-mansablue to-blue-600 hover:from-mansablue-dark hover:to-blue-700 text-white">
+                <Link to="/scanner">
+                  Start Scanning
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
               </Button>
             </CardContent>
           </Card>
@@ -111,9 +113,11 @@ const Dashboard: React.FC = () => {
               <CardDescription className="text-blue-200/70">Discover nearby verified businesses</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className="w-full bg-gradient-to-r from-mansablue to-blue-600 hover:from-mansablue-dark hover:to-blue-700 text-white">
-                Explore Directory
-                <ArrowRight className="ml-2 h-4 w-4" />
+              <Button asChild className="w-full bg-gradient-to-r from-mansablue to-blue-600 hover:from-mansablue-dark hover:to-blue-700 text-white">
+                <Link to="/directory">
+                  Explore Directory
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
               </Button>
             </CardContent>
           </Card>
@@ -126,9 +130,11 @@ const Dashboard: React.FC = () => {
               <CardDescription className="text-blue-200/70">Check your loyalty points and rewards</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className="w-full bg-gradient-to-r from-mansagold to-amber-500 hover:from-mansagold-dark hover:to-amber-600 text-slate-900 font-semibold">
-                My Rewards
-                <ArrowRight className="ml-2 h-4 w-4" />
+              <Button asChild className="w-full bg-gradient-to-r from-mansagold to-amber-500 hover:from-mansagold-dark hover:to-amber-600 text-slate-900 font-semibold">
+                <Link to="/rewards">
+                  My Rewards
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
               </Button>
             </CardContent>
           </Card>
