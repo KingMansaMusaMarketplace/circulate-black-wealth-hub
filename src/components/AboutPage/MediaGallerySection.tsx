@@ -5,45 +5,42 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, FileText, Video, Image, ExternalLink } from 'lucide-react';
 
 const MediaGallerySection = () => {
+  // Only real, working destinations. Never add press items, outlets or dates that did not happen.
   const mediaItems = [
     {
-      type: "article",
-      title: "The Economic Power of Circulation",
-      source: "Economic Empowerment Today",
-      date: "May 15, 2024",
-      preview: "How 1325.AI is revolutionizing community economic empowerment through intentional circulation...",
-      icon: <FileText className="h-5 w-5" />,
-      link: "/blog",
-      isExternal: false
-    },
-    {
       type: "video",
-      title: "Founder's Vision Interview",
-      source: "Business Innovation Channel",
-      date: "April 3, 2024",
-      preview: "Thomas Bowling explains the systemic approach to wealth building that inspired the marketplace...",
+      title: "1325.AI on YouTube",
+      source: "Official channel",
+      preview: "Product walkthroughs, explainers and updates from the 1325.AI team.",
       icon: <Video className="h-5 w-5" />,
       link: "https://www.youtube.com/@1325AI",
       isExternal: true
     },
     {
       type: "article",
-      title: "Black Dollar Circulation: The 72-Hour Challenge",
-      source: "Community Economics Magazine",
-      date: "March 21, 2024",
-      preview: "Analyzing how 1325.AI has extended community dollar circulation time from 6 to 72 hours...",
+      title: "The 1325.AI Blog",
+      source: "1325.AI",
+      preview: "Articles on community wealth, supporting Black-owned businesses and how the platform works.",
       icon: <FileText className="h-5 w-5" />,
       link: "/blog",
       isExternal: false
     },
     {
       type: "image",
-      title: "Merchant Success Summit 2024",
-      source: "Annual Gathering",
-      date: "February 8, 2024",
-      preview: "Photo gallery from our annual gathering of marketplace merchants sharing success stories...",
+      title: "Press & Media Kit",
+      source: "1325.AI",
+      preview: "Company background, logos and contact details for journalists and partners.",
       icon: <Image className="h-5 w-5" />,
-      link: "/blog",
+      link: "/press",
+      isExternal: false
+    },
+    {
+      type: "article",
+      title: "How 1325.AI Works",
+      source: "1325.AI",
+      preview: "A plain-English guide to discovering businesses, earning rewards and keeping dollars in the community.",
+      icon: <FileText className="h-5 w-5" />,
+      link: "/how-it-works",
       isExternal: false
     },
   ];
@@ -93,7 +90,7 @@ const MediaGallerySection = () => {
                     {item.title}
                   </h3>
                   <div className="text-sm text-blue-200/70 mb-4 font-medium">
-                    {item.source} • {item.date}
+                    {item.source}
                   </div>
                   <p className="text-blue-100/90 mb-5 text-sm font-medium leading-relaxed">{item.preview}</p>
                   {item.isExternal ? (
@@ -103,7 +100,7 @@ const MediaGallerySection = () => {
                       rel="noopener noreferrer"
                       className={`bg-gradient-to-r ${colors.icon} bg-clip-text text-transparent font-bold text-sm flex items-center hover:scale-110 transition-transform`}
                     >
-                      View Full {item.type}
+                      Open
                       <ExternalLink className="ml-1 h-3 w-3" />
                     </a>
                   ) : (
@@ -111,7 +108,7 @@ const MediaGallerySection = () => {
                       to={item.link} 
                       className={`bg-gradient-to-r ${colors.icon} bg-clip-text text-transparent font-bold text-sm flex items-center hover:scale-110 transition-transform`}
                     >
-                      View Full {item.type}
+                      Open
                       <ArrowRight className="ml-1 h-3 w-3" />
                     </Link>
                   )}
