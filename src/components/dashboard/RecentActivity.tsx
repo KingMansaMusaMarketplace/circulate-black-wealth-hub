@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 import { QrCode, Star } from 'lucide-react';
 
 type Activity = {
@@ -38,8 +39,8 @@ const RecentActivity: React.FC<RecentActivityProps> = ({ activities }) => {
       ))}
 
       <div className="mt-6 text-center">
-        <Button variant="outline" className="text-mansablue border-mansablue hover:bg-mansablue hover:text-white">
-          View Full History
+        <Button asChild variant="outline" className="text-mansablue border-mansablue hover:bg-mansablue hover:text-white">
+          <Link to="/rewards">View Full History</Link>
         </Button>
       </div>
     </div>

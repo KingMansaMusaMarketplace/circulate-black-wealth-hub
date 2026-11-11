@@ -30,10 +30,11 @@ export const ReferralMilestoneTracker: React.FC<ReferralMilestoneTrackerProps> =
   showAll = false,
 }) => {
   const { milestones, nextMilestone, unclaimedMilestones, claimMilestoneReward, claimingMilestone } = useReferralCampaigns();
+  const [expanded, setExpanded] = React.useState(false);
 
   if (!milestones || milestones.length === 0) return null;
 
-  const displayMilestones = showAll ? milestones : milestones.slice(0, 4);
+  const displayMilestones = showAll || expanded ? milestones : milestones.slice(0, 4);
 
   const MilestoneCard: React.FC<{ milestone: Milestone; index: number }> = ({ milestone, index }) => {
     const isNext = milestone.milestone_id === nextMilestone?.milestone_id;
@@ -188,9 +189,9 @@ export const ReferralMilestoneTracker: React.FC<ReferralMilestoneTrackerProps> =
           ))}
         </div>
 
-        {!showAll && milestones.length > 4 && (
+        {!showAll && !expanded && milestones.length > 4 && (
           <div className="mt-4 text-center">
-            <Button variant="outline" className="border-white/20 text-blue-200 hover:bg-white/10">
+            <Button variant="outline" onClick={() => setExpanded(true)} className="border-white/20 text-blue-200 hover:bg-white/10">
               View All {milestones.length} Milestones
             </Button>
           </div>

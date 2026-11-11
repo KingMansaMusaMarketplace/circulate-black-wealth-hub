@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Heart, MessageCircle, Share2, TrendingUp, QrCode, Clock } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { ActivityItem } from './mockActivityData';
+import { toast } from 'sonner';
+import { shareOrCopy } from '@/utils/social-share';
 
 interface ActivityCardProps {
   activity: ActivityItem;
@@ -112,18 +114,18 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onLike }) => {
                 {activity.likes}
               </Button>
               
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-xs text-blue-200/70 hover:text-white"
-              >
+              <span className="inline-flex h-9 items-center px-3 text-xs text-blue-200/70" aria-label={`${activity.comments} comments`}>
                 <MessageCircle className="h-4 w-4 mr-1" />
                 {activity.comments}
-              </Button>
+              </span>
               
               <Button
                 variant="ghost"
                 size="sm"
+                onClick={async () => {
+                  const result = await shareOrCopy({ title: '1325.AI community', text: activity.content, url: `${window.location.origin}/community` });
+                  if (result === 'copied') toast.success('Link copied');
+                }}
                 className="text-xs text-blue-200/70 hover:text-white"
               >
                 <Share2 className="h-4 w-4 mr-1" />

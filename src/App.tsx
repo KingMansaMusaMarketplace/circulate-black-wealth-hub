@@ -831,6 +831,7 @@ function App() {
                               
                               {/* F */}
                               <Route path="/faq" element={<LazyFAQPage />} />
+                              <Route path="/feature-guide" element={<LazyFeatureGuidePage />} />
                               <Route path="/features" element={<LazyFeaturesPage />} />
                               <Route path="/founders-wall" element={<LazyFoundersWallPage />} />
                               {/* test routes removed */}
@@ -1217,6 +1218,8 @@ function App() {
                               
                               {/* T */}
                               <Route path="/terms" element={<LazyTermsOfServicePage />} />
+                              <Route path="/user-guide" element={<LazyUserGuidePage />} />
+                              <Route path="/signup/customer" element={<LazySignupPage />} />
                               
                               {/* V */}
                               <Route path="/verify/:certificateNumber" element={<LazyVerifyCertificatePage />} />
@@ -1291,6 +1294,7 @@ function App() {
                           {/* Home — Kayla-led front door is the landing page */}
                           <Route path="/" element={typeof window !== "undefined" && window.location.hostname.startsWith("health.") ? (new URLSearchParams(window.location.search).has("access") ? <LazyHealthAccessGate><LazyHealthDemoPage /></LazyHealthAccessGate> : <LazyClinicalSite page="home" />) : <HomePage />} />
                           <Route path="/about-1325" element={<LazyAboutPage />} />
+                          <Route path="/submit-business" element={<SubmitBusinessRedirect />} />
                               <Route path="/home-preview" element={<LazyHomePreviewPage />} />
                               <Route path="/partner-directories" element={<LazyPartnerDirectoriesPage />} />
 <Route path="/connect" element={<LazyConnectPage />} />

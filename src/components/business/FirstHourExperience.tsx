@@ -93,7 +93,7 @@ export const FirstHourExperience: React.FC<FirstHourExperienceProps> = ({ busine
       done: !!(business?.logo_url && business?.description),
       cta: 'Edit profile',
       estMinutes: 2,
-      onClick: () => navigate('/business-profile'),
+      onClick: () => navigate('/business/profile'),
     },
     {
       key: 'contact',
@@ -103,7 +103,7 @@ export const FirstHourExperience: React.FC<FirstHourExperienceProps> = ({ busine
       done: !!(business?.phone && business?.address),
       cta: 'Add details',
       estMinutes: 1,
-      onClick: () => navigate('/business-profile'),
+      onClick: () => navigate('/business/profile'),
     },
     {
       key: 'services',

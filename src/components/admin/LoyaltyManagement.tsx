@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { downloadCsv } from '@/lib/csv-safe';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -323,6 +324,12 @@ const LoyaltyManagement: React.FC = () => {
           <Button
             variant="outline"
             size="sm"
+            disabled={members.length === 0}
+            onClick={() => downloadCsv(
+              `loyalty-members-${new Date().toISOString().slice(0, 10)}.csv`,
+              ['Name', 'Email', 'Tier', 'Points balance', 'Total earned', 'Total redeemed', 'Joined'],
+              members.map((m) => [m.full_name, m.email, m.tier, m.points_balance, m.total_earned, m.total_redeemed, m.created_at]),
+            )}
             className="border-white/20 text-white hover:bg-white/10"
           >
             <Download className="h-4 w-4 mr-2" />

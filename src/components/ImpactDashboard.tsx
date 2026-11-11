@@ -17,6 +17,7 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
+import { Link } from 'react-router-dom';
 
 interface ImpactStats {
   totalSpent: number;
@@ -74,6 +75,26 @@ export const ImpactDashboard = () => {
     }
   };
 
+  const exportImpact = () => {
+    if (!report) return;
+    const rows = [
+      ['Period', period],
+      ['Total spent', report.stats.totalSpent.toFixed(2)],
+      ['Businesses supported', String(report.stats.uniqueBusinesses)],
+      ['Transactions', String(report.stats.transactionCount)],
+      ['Visits', String(report.stats.totalVisits)],
+      ...report.stats.businesses.map((b) => ['Business', `${b.business_name} (${b.category})`]),
+    ];
+    const csv = rows.map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `1325-impact-${period}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success('Impact report downloaded');
+  };
+
   const shareImpact = () => {
     if (!report) return;
     
@@ -100,11 +121,11 @@ export const ImpactDashboard = () => {
             Sign in to see how you're building Black wealth and circulating money within the community
           </CardDescription>
           <div className="mt-8 flex gap-4 justify-center">
-            <Button size="lg" className="bg-gradient-to-r from-mansagold via-amber-500 to-mansagold hover:from-amber-600 hover:via-amber-500 hover:to-amber-600 text-slate-900 font-bold shadow-[0_0_30px_rgba(251,191,36,0.4)]">
-              Sign In
+            <Button asChild size="lg" className="bg-gradient-to-r from-mansagold via-amber-500 to-mansagold hover:from-amber-600 hover:via-amber-500 hover:to-amber-600 text-slate-900 font-bold shadow-[0_0_30px_rgba(251,191,36,0.4)]">
+              <Link to="/login">Sign In</Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-white/20 bg-slate-700/30 text-white hover:bg-slate-700/50">
-              Learn More
+            <Button asChild size="lg" variant="outline" className="border-white/20 bg-slate-700/30 text-white hover:bg-slate-700/50">
+              <Link to="/how-it-works">Learn More</Link>
             </Button>
           </div>
         </CardHeader>
@@ -171,7 +192,7 @@ export const ImpactDashboard = () => {
             <Share2 className="h-5 w-5 mr-2" />
             Share
           </Button>
-          <Button variant="outline" size="lg" className="border-white/20 bg-slate-700/30 text-white hover:bg-slate-700/50 hover:border-mansablue/50 transition-all duration-300">
+          <Button variant="outline" size="lg" onClick={exportImpact} className="border-white/20 bg-slate-700/30 text-white hover:bg-slate-700/50 hover:border-mansablue/50 transition-all duration-300">
             <Download className="h-5 w-5 mr-2" />
             Export
           </Button>

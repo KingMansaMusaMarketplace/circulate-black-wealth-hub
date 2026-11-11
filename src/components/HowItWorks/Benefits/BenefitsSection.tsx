@@ -140,8 +140,8 @@ const BenefitsSection = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Button variant="white" size="lg" className="font-medium">
-                Join Now
+              <Button asChild variant="white" size="lg" className="font-medium">
+                <Link to="/signup">Join Now</Link>
               </Button>
             </motion.div>
           </Link>

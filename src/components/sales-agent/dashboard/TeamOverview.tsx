@@ -4,6 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Users, TrendingUp, Calendar, UserPlus } from 'lucide-react';
 import { format } from 'date-fns';
+import { toast } from 'sonner';
+import { shareOrCopy } from '@/utils/social-share';
 
 interface RecruitedAgent {
   id: string;
@@ -17,13 +19,25 @@ interface TeamOverviewProps {
   recruitedAgents: RecruitedAgent[];
   teamOverrides: any[];
   isLoading: boolean;
+  recruiterCode?: string;
 }
 
 const TeamOverview: React.FC<TeamOverviewProps> = ({
   recruitedAgents,
   teamOverrides,
-  isLoading
+  isLoading,
+  recruiterCode
 }) => {
+  const inviteAgents = async () => {
+    if (!recruiterCode) {
+      toast.error('Your recruiter code is not ready yet');
+      return;
+    }
+    const url = `${window.location.origin}/sales-agent-signup?recruiter=${encodeURIComponent(recruiterCode)}`;
+    const result = await shareOrCopy({ title: 'Join 1325.AI as a sales agent', text: `Join me as a 1325.AI sales agent. My recruiter code is ${recruiterCode}.`, url });
+    if (result === 'copied') toast.success('Invite link copied');
+  };
+
   const totalTeamOverrides = teamOverrides.reduce(
     (sum, override) => sum + parseFloat(override.override_amount || 0),
     0
@@ -69,7 +83,7 @@ const TeamOverview: React.FC<TeamOverviewProps> = ({
                 Share your recruiter code when inviting new agents to earn $75 bonuses and 7.5% overrides!
               </p>
             </div>
-            <Button className="gap-2 mt-4">
+            <Button className="gap-2 mt-4" onClick={inviteAgents}>
               <UserPlus className="h-4 w-4" />
               Invite Agents
             </Button>

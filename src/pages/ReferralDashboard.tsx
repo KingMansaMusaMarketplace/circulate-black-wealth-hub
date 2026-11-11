@@ -134,9 +134,11 @@ const ReferralDashboard: React.FC = () => {
                   variant="default"
                   showLabel
                 />
-                <Button variant="outline" className="flex-1 border-white/20 bg-white/5 text-white hover:bg-white/10">
-                  <ExternalLink className="w-4 h-4 mr-2" />
-                  Share via Email
+                <Button asChild variant="outline" className="flex-1 border-white/20 bg-white/5 text-white hover:bg-white/10">
+                  <a href={`mailto:?subject=${encodeURIComponent('Join me on 1325.AI')}&body=${encodeURIComponent(`Join me on 1325.AI — discover great businesses and earn rewards! ${referralLink}`)}`}>
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Share via Email
+                  </a>
                 </Button>
               </div>
             </div>

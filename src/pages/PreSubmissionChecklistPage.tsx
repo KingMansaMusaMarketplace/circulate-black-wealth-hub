@@ -281,14 +281,14 @@ const PreSubmissionChecklistPage: React.FC = () => {
             <Button 
               variant="outline" 
               className="w-full justify-start text-base font-semibold hover:scale-105 transition-transform shadow-lg border-2 border-white/20 hover:border-white/40 bg-slate-800/50 text-white hover:bg-slate-700/50"
-              onClick={() => window.location.href = '/apple-compliance'}
+              onClick={() => window.location.href = '/dev/test'}
             >
               🧪 Run Full Compliance Test
             </Button>
             <Button 
               variant="outline" 
               className="w-full justify-start text-base font-semibold hover:scale-105 transition-transform shadow-lg border-2 border-white/20 hover:border-white/40 bg-slate-800/50 text-white hover:bg-slate-700/50"
-              onClick={() => window.location.href = '/button-test'}
+              onClick={() => window.location.href = '/dev/test'}
             >
               🎨 Test All Buttons
             </Button>

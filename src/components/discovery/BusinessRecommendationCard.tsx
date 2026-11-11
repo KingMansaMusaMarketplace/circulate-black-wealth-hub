@@ -3,6 +3,8 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { useUserFavorites } from '@/hooks/use-user-favorites';
 import { MapPin, Star, Heart, Clock } from 'lucide-react';
 import { Business } from '@/types/business';
 import { getCategoryBanner } from '@/utils/businessBanners';
@@ -12,6 +14,7 @@ interface BusinessRecommendationCardProps {
 }
 
 const BusinessRecommendationCard: React.FC<BusinessRecommendationCardProps> = ({ business }) => {
+  const { toggleFavorite, isFavorite } = useUserFavorites();
   return (
     <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-scale-in border border-white/10 bg-slate-800/60 backdrop-blur-xl">
       <div className="relative h-48 overflow-hidden">
@@ -68,11 +71,18 @@ const BusinessRecommendationCard: React.FC<BusinessRecommendationCardProps> = ({
         </div>
         
         <div className="mt-4 flex justify-between">
-          <Button variant="outline" size="sm" className="transition-all hover:scale-105 border-white/20 bg-gradient-to-r from-mansablue to-blue-600 hover:from-blue-700 hover:to-mansablue text-white">
-            View
+          <Button asChild variant="outline" size="sm" className="transition-all hover:scale-105 border-white/20 bg-gradient-to-r from-mansablue to-blue-600 hover:from-blue-700 hover:to-mansablue text-white">
+            <Link to={`/business/${business.id}`}>View</Link>
           </Button>
-          <Button variant="ghost" size="icon" className="transition-all hover:scale-110 text-white hover:text-red-500">
-            <Heart className="h-4 w-4" />
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => toggleFavorite(String(business.id))}
+            aria-label={isFavorite(String(business.id)) ? 'Remove from favorites' : 'Save to favorites'}
+            aria-pressed={isFavorite(String(business.id))}
+            className="transition-all hover:scale-110 text-white hover:text-red-500"
+          >
+            <Heart className={`h-4 w-4 ${isFavorite(String(business.id)) ? 'fill-current text-red-500' : ''}`} />
           </Button>
         </div>
       </CardContent>

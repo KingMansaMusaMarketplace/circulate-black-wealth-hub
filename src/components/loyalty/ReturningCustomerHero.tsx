@@ -196,7 +196,7 @@ export const ReturningCustomerHero: React.FC<ReturningCustomerHeroProps> = ({
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => navigate('/qr-scanner')}
+                onClick={() => navigate('/scanner')}
                 className="border-orange-500/30 text-orange-300 hover:bg-orange-500/10"
               >
                 <QrCode className="h-3 w-3 mr-1" />

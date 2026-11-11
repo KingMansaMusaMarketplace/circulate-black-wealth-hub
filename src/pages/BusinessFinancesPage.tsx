@@ -460,18 +460,6 @@ const BusinessFinancesPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Demo Mode Toggle */}
-            <div className="animate-fade-in text-center" style={{ animationDelay: '0.5s' }}>
-              <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl inline-block">
-                <CardContent className="p-6">
-                  <h4 className="text-xl font-bold mb-3 text-white">Want to explore? 🎭</h4>
-                  <p className="text-white mb-4">Try the dashboard with sample data to see all features in action!</p>
-                  <button className="px-6 py-3 bg-gradient-to-r from-blue-500 to-yellow-500 text-white font-bold rounded-lg hover:shadow-xl transition-all transform hover:scale-105">
-                    Show Demo Data ✨
-                  </button>
-                </CardContent>
-              </Card>
-            </div>
           </div>
         </DashboardLayout>
     );

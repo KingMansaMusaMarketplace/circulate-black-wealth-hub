@@ -23,7 +23,7 @@ const MediaGallerySection = () => {
       date: "April 3, 2024",
       preview: "Thomas Bowling explains the systemic approach to wealth building that inspired the marketplace...",
       icon: <Video className="h-5 w-5" />,
-      link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      link: "https://www.youtube.com/@1325AI",
       isExternal: true
     },
     {

@@ -25,6 +25,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { toast } from 'sonner';
+import { shareOrCopy } from '@/utils/social-share';
 import { format, differenceInDays } from 'date-fns';
 import { cn } from '@/lib/utils';
 import {
@@ -347,7 +348,16 @@ const PropertyDetailPage: React.FC = () => {
                     propertyTitle={property.title}
                     className="border-white/20 text-white hover:bg-white/10"
                   />
-                  <Button variant="outline" size="icon" className="border-white/20 text-white hover:bg-white/10">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    aria-label="Share this property"
+                    onClick={async () => {
+                      const result = await shareOrCopy({ title: property.title, text: `Check out ${property.title} on 1325.AI`, url: window.location.href });
+                      if (result === 'copied') toast.success('Link copied');
+                    }}
+                    className="border-white/20 text-white hover:bg-white/10"
+                  >
                     <Share2 className="w-4 h-4" />
                   </Button>
                   <Button 

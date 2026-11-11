@@ -12,7 +12,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import BusinessAnalyticsDashboard from './analytics/BusinessAnalyticsDashboard';
 import QRCodeGenerator from './qr-code/QRCodeGenerator';
 import RewardsManager from './rewards/RewardsManager';
-import { BusinessServicesContent, BusinessAvailabilityContent, StripeConnectContent } from './business-settings';
+import { BusinessServicesContent, BusinessAvailabilityContent, StripeConnectContent, BusinessImagesContent } from './business-settings';
 import { BusinessCalendarView } from './BusinessCalendarView';
 import BusinessDashboard from './BusinessDashboard';
 import KaylaReputationMonitor from './kayla/KaylaReputationMonitor';
@@ -379,29 +379,7 @@ const BusinessProfileManager = () => {
         </TabsContent>
 
         <TabsContent value="images" className="mt-6">
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
-            <h2 className="text-xl font-bold mb-4">Business Images</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h3 className="font-medium mb-3">Logo</h3>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                  <p className="text-gray-500">Upload your business logo</p>
-                  <button className="mt-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-md">
-                    Choose File
-                  </button>
-                </div>
-              </div>
-              <div>
-                <h3 className="font-medium mb-3">Banner Image</h3>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                  <p className="text-gray-500">Upload a banner image</p>
-                  <button className="mt-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-md">
-                    Choose File
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <BusinessImagesContent profile={profile} onImageUpdate={(updates) => updateBusinessProfile(updates)} />
         </TabsContent>
 
         <TabsContent value="services" className="mt-6">

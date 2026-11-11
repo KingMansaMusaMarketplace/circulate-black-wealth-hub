@@ -541,7 +541,7 @@ const AuditLog = () => {
       <Card><CardHeader className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <CardTitle className="text-base">Who opened what, and when</CardTitle>
         <div className="flex gap-2"><Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search person, patient or action" className="sm:w-72" />
-          <Button variant="outline" size="sm">Export report</Button></div>
+          <Button variant="outline" size="sm" disabled title="Sample audit log; exporting is locked in the private preview"><Lock className="h-4 w-4" />Export · locked</Button></div>
       </CardHeader>
         <CardContent className="overflow-x-auto"><table className="w-full text-sm"><thead className="text-left text-muted-foreground">
           <tr><th className="py-1">Time</th><th>Person</th><th>Action</th><th>Patient</th><th>Details</th><th></th></tr></thead>

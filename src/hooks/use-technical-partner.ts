@@ -14,8 +14,11 @@ export function useEcosystemStats() {
   const [stats, setStats] = useState<EcosystemCrossStats | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const [reloadKey, setReloadKey] = useState(0);
+
   useEffect(() => {
     const fetchStats = async () => {
+      setLoading(true);
       try {
         const { data, error } = await supabase
           .from('ecosystem_cross_stats')
@@ -32,9 +35,9 @@ export function useEcosystemStats() {
     };
 
     fetchStats();
-  }, []);
+  }, [reloadKey]);
 
-  return { stats, loading };
+  return { stats, loading, refetch: () => setReloadKey((k) => k + 1) };
 }
 
 export function usePartnerReferredBusinesses(limit = 10) {
