@@ -12,6 +12,7 @@ import { requestNotification } from './notification-result.ts';
 import { validateCsrf } from '../_shared/csrf-guard.ts';
 import { viewingMinutes } from './viewing-duration.ts';
 import { emailWasAccepted } from './confirmation.ts';
+import { overDailyLimit } from './request-limit.ts';
 import { CODE_MINUTES, MAX_ATTEMPTS, MAX_SENDS_PER_HOUR, hashSigninCode, isSigninCode, newSigninCode, sameHash, sendAllowed, signinCodeEmail } from './signin-code.ts';
 
 const cors = {
@@ -229,7 +230,7 @@ Deno.serve(async (req) => {
   const email = p.data.work_email.toLowerCase();
   const since = new Date(Date.now() - 86400000).toISOString();
   const { count } = await db.from("hc_access_requests").select("id", { count: "exact", head: true }).eq("work_email", email).gte("created_at", since);
-  if ((count ?? 0) >= 3) return json({ error: "Too many requests. Please try again tomorrow." }, 429);
+  if (overDailyLimit(email, count ?? 0)) return json({ error: "Too many requests. Please try again tomorrow." }, 429);
 
   const { data: r, error } = await db.from("hc_access_requests").insert({
     full_name: p.data.full_name, organization: p.data.organization, role: p.data.role,
