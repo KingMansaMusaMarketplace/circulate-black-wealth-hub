@@ -7,22 +7,25 @@ export const VISIT_TYPE_LABELS: Record<VisitType, string> = {
   new_patient: 'New patient', follow_up: 'Follow-up', annual: 'Annual physical', urgent: 'Same-day / urgent', telehealth: 'Telehealth', procedure: 'Procedure',
 };
 
-export const APPT_STATUSES = ['scheduled', 'checked_in', 'completed', 'cancelled', 'no_show'] as const;
+export const APPT_STATUSES = ['scheduled', 'checked_in', 'completed', 'discharged', 'left_ama', 'cancelled', 'no_show'] as const;
 export type ApptStatus = (typeof APPT_STATUSES)[number];
 export const APPT_STATUS_LABELS: Record<ApptStatus, string> = {
-  scheduled: 'Booked', checked_in: 'Checked in', completed: 'Done', cancelled: 'Cancelled', no_show: 'No-show',
+  scheduled: 'Booked', checked_in: 'Checked in', completed: 'Done', discharged: 'Discharged', left_ama: 'Left against medical advice (AMA)', cancelled: 'Cancelled', no_show: 'No-show',
 };
 export const APPT_STEP_LABELS: Partial<Record<ApptStatus, string>> = {
-  checked_in: 'Check in', completed: 'Mark done', cancelled: 'Cancel', no_show: 'No-show',
+  checked_in: 'Check in', completed: 'Mark done', discharged: 'Discharge', left_ama: 'Left AMA', cancelled: 'Cancel', no_show: 'No-show',
 };
+/** Only clinical staff may discharge a patient or record an against-medical-advice departure (same as the database). */
+export const CLINICAL_CLOSE_STEPS: readonly ApptStatus[] = ['discharged', 'left_ama'];
+export const canClinicallyClose = (role: string | null | undefined) => role === 'owner' || role === 'doctor' || role === 'nurse';
 
 export const APPT_LENGTHS = [10, 15, 20, 30, 40, 60, 90] as const;
 export const isOpenAppt = (s: string) => s === 'scheduled' || s === 'checked_in';
 
-/** Allowed next steps from a status (same as the database). */
-export function nextApptSteps(status: string): ApptStatus[] {
+/** Allowed next steps from a status (same as the database). Discharge and AMA are for clinical staff only. */
+export function nextApptSteps(status: string, role?: string | null): ApptStatus[] {
   if (status === 'scheduled') return ['checked_in', 'no_show', 'cancelled'];
-  if (status === 'checked_in') return ['completed', 'cancelled'];
+  if (status === 'checked_in') return canClinicallyClose(role) ? ['completed', 'discharged', 'left_ama', 'cancelled'] : ['completed', 'cancelled'];
   return [];
 }
 
@@ -61,6 +64,15 @@ export function validateAppointment(a: AppointmentInput, now = new Date()): stri
   if (!(VISIT_TYPES as readonly string[]).includes(a.visit_type)) return 'Choose a visit type.';
   if (a.reason.trim().length > 300) return 'Reason is too long (300 characters max).';
   if (/\d{3}-\d{2}-\d{4}/.test(a.reason)) return 'Social Security numbers are not allowed.';
+  return null;
+}
+
+/** An against-medical-advice departure needs a short written reason, as in a real chart. */
+export function validateAmaReason(reason: string): string | null {
+  const r = reason.trim();
+  if (r.length < 3) return 'Describe why the patient left against medical advice (at least 3 characters).';
+  if (r.length > 300) return 'Reason is too long (300 characters max).';
+  if (/\d{3}-\d{2}-\d{4}/.test(r)) return 'Social Security numbers are not allowed.';
   return null;
 }
 

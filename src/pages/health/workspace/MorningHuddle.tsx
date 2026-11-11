@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp, Clock, Pause, Play, Repeat, Square, Sunrise } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { VOICE_RATES } from '@/lib/clinical/kayla-workspace-voice';
+import { VOICE_RATES, latestSession, type HuddleSession } from '@/lib/clinical/kayla-workspace-voice';
 import { SILENT_AUDIO, kaylaHuddlePart } from '../kayla-voice';
-
-import { latestSession, type HuddleSession } from '@/lib/clinical/kayla-workspace-voice';
 
 type Session = HuddleSession;
 /** Four huddles across 24 hours, at shift changes; each also reports patient updates since the one before. */
