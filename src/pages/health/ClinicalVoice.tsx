@@ -73,10 +73,10 @@ export default function ClinicalVoiceGuide({ tourId }: { tourId?: string }) {
   const speakId = tourId ? `tour-${tourId}` : selection;
   return <div className="mt-4 border-t border-border pt-4 space-y-3" aria-label="Kayla voice guide">
     <div className="flex flex-wrap items-center justify-between gap-3">
-      <div className="flex items-center gap-2"><img src={logo} alt="1325.AI" className="h-8 w-8 object-contain" /><div><p className="text-sm font-semibold">Kayla · Agentic AI voice guide</p><p className="text-xs text-muted-foreground">Fictional rehearsal · {voice.enabled ? 'Sound enabled' : 'Sound off'}</p></div></div>
+      <div className="flex items-center gap-2"><img src={logo} alt="1325.AI" className="h-8 w-8 object-contain" /><div><p className="text-sm font-semibold">Kayla · Agentic AI voice guide</p><p className="text-xs text-muted-foreground">Fictional rehearsal · {voice.enabled ? 'Sound on' : 'Sound off · press Play to listen'}</p></div></div>
       <div className="flex gap-1">
         <Button variant="outline" size="icon" aria-label={voice.enabled ? 'Mute narration' : 'Enable sound'} title={voice.enabled ? 'Mute narration' : 'Enable sound'} onClick={voice.toggle}>{voice.enabled ? <Volume2 /> : <VolumeX />}</Button>
-        <Button variant="outline" size="icon" disabled={!voice.enabled} aria-label={voice.playing ? 'Pause narration' : 'Play narration'} title={voice.playing ? 'Pause narration' : 'Play narration'} onClick={() => voice.playing ? voice.pause() : voice.paused ? voice.resume() : voice.play(speakId)}>{voice.playing ? <Pause /> : <Play />}</Button>
+        <Button variant="outline" size="icon" aria-label={voice.playing ? 'Pause narration' : 'Play narration'} title={voice.playing ? 'Pause narration' : 'Play narration'} onClick={() => voice.playing ? voice.pause() : voice.paused ? voice.resume() : voice.play(speakId, true)}>{voice.playing ? <Pause /> : <Play />}</Button>
         <Button variant="ghost" size="icon" disabled={!voice.current} aria-label="Stop narration" title="Stop narration" onClick={voice.stop}><Square /></Button>
       </div>
     </div>
@@ -86,7 +86,7 @@ export default function ClinicalVoiceGuide({ tourId }: { tourId?: string }) {
         <optgroup label="Illustrative assistant handoffs">{catalog.filter(item => item.kind === 'handoff').map(item => <option key={item.id} value={item.id}>{item.title}</option>)}</optgroup>
       </select>
     </label>
-    <Button variant="outline" disabled={!voice.enabled} onClick={() => voice.play(selection)}><Play className="h-4 w-4" />{selected?.kind === 'handoff' ? 'Hear illustrative handoff' : 'Read fictional source'}</Button>
+    <Button variant="outline" onClick={() => voice.play(selection, true)}><Play className="h-4 w-4" />{selected?.kind === 'handoff' ? 'Hear illustrative handoff' : 'Read fictional source'}</Button>
     {selected?.kind === 'handoff' && <p className="text-xs text-primary">{selected.title} → Kayla · illustrative only, no employee action performed</p>}
     <div aria-label="Written narration" className="max-h-40 overflow-y-auto text-sm leading-relaxed text-muted-foreground"><p className="mb-1 text-xs font-semibold text-primary">{clip?.kind === 'source' ? 'Exact fictional source · numbered lines' : clip?.kind === 'handoff' ? 'Illustrative handoff · explanation' : 'Kayla explanation'}{clip ? ` · ${clip.title}` : ''}</p>{clip?.text ?? 'Select a fictional source or start the walkthrough.'}</div>
     {voice.error && <p role="alert" className="text-sm text-destructive">{voice.error}</p>}

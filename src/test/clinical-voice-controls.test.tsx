@@ -37,7 +37,9 @@ describe('private clinical voice playback', () => {
     vi.stubGlobal('Audio', FakeAudio);
     const view = render(<ClinicalVoiceProvider remaining={900000} extended={false} isAdmin={false}><ClinicalVoiceGuide /></ClinicalVoiceProvider>);
     expect(recordings).toHaveLength(0);
-    expect(screen.getByRole('button', { name: 'Play narration' })).toBeDisabled();
+    // Pressing Play is the deliberate choice to listen: it turns sound on and starts right away.
+    expect(screen.getByRole('button', { name: 'Play narration' })).toBeEnabled();
+    expect(screen.getByRole('button', { name: 'Read fictional source' })).toBeEnabled();
     fireEvent.click(screen.getByRole('button', { name: 'Enable sound' }));
     expect(recordings).toHaveLength(0);
     fireEvent.click(screen.getByRole('button', { name: 'Read fictional source' }));
@@ -55,6 +57,14 @@ describe('private clinical voice playback', () => {
     view.unmount();
     expect(recordings[1].pause).toHaveBeenCalled();
     expect(recordings[1].src).toBe('');
+  });
+  it('plays straight away when Play is pressed while sound is off', async () => {
+    vi.stubGlobal('Audio', FakeAudio);
+    render(<ClinicalVoiceProvider remaining={900000} extended={false} isAdmin><ClinicalVoiceGuide /></ClinicalVoiceProvider>);
+    fireEvent.click(screen.getByRole('button', { name: 'Read fictional source' }));
+    await waitFor(() => expect(recordings).toHaveLength(1));
+    expect(recordings[0].play).toHaveBeenCalledOnce();
+    expect(screen.getByRole('button', { name: 'Mute narration' })).toBeInTheDocument();
   });
   it('plays a confirmed extra-time announcement once and replaces earlier audio', async () => {
     vi.stubGlobal('Audio', FakeAudio);
