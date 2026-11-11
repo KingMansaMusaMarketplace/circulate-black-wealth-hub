@@ -166,7 +166,7 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null, role = null, cli
       {seeding && <p role="status" className="text-sm text-muted-foreground">Loading {SAMPLE_PATIENT_COUNT} made-up sample patients…</p>}
       {view === 'dashboard' && (
         <PilotDashboard clinicId={clinicId} isOwner={isOwner} patients={patients.rows} audit={isOwner ? audit.rows : null}
-          onOpenPatient={setOpenId} onOpenLog={() => setView('chartlog')} />
+          onOpenPatient={(id, tab) => openPatient(id, tab)} onOpenLog={() => setView('chartlog')} />
       )}
       {view === 'chartlog' && isOwner && <><DataLoadErrors sources={[audit]} /><PilotChartLog audit={audit.rows} patients={patients.rows} loading={audit.loading} /></>}
       {view === 'activity' && isOwner && <ActivityLog audit={audit} patients={patients.rows} />}
@@ -564,7 +564,7 @@ function AddRecordForm({ clinicId, patientId, initialType, onCancel, onSaved, re
   const save = async () => {
     if (pending.current) return;
     const input = {
-      record_type: type, recorded_on: f.recorded_on, title: f.title, details: f.details.trim() || null,
+      record_type: type, recorded_on: f.recorded_on, title: f.title.trim() || (type === 'medication' ? f.medication_name.trim() : ''), details: f.details.trim() || null,
       ...(type === 'vitals' ? { bp_sys: num(f.bp_sys), bp_dia: num(f.bp_dia), heart_rate: num(f.heart_rate), weight_lb: num(f.weight_lb), temperature_f: num(f.temperature_f) } : {}),
       ...(type === 'medication' ? { medication_name: opt(f.medication_name), dose: opt(f.dose), med_frequency: opt(f.med_frequency), med_route: opt(f.med_route) } : {}),
       ...(type === 'allergy' ? { allergy_reaction: opt(f.allergy_reaction), allergy_severity: opt(f.allergy_severity) } : {}),
