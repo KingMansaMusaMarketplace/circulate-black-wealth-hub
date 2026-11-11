@@ -142,6 +142,8 @@ export const AUDIT_LABELS: Record<string, string> = {
   appointment_rescheduled: 'Rescheduled an appointment',
   appointment_checked_in: 'Checked in a patient',
   appointment_completed: 'Marked an appointment done',
+  appointment_discharged: 'Discharged a patient',
+  appointment_left_ama: 'Recorded a patient leaving against medical advice',
   appointment_cancelled: 'Cancelled an appointment',
   appointment_no_show: 'Marked an appointment no-show',
   claim_started: 'Started a practice claim',

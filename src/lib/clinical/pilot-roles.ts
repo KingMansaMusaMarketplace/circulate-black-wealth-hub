@@ -28,6 +28,8 @@ export interface PilotPermissions {
   needsEmergencyAccess: boolean;
   /** Phase 2 */
   bookAppointments: boolean;
+  /** Discharge a patient or record a left-against-medical-advice departure (doctors and nurses only). */
+  dischargePatients: boolean;
   workClaims: boolean;
   portalTeam: boolean;
   useBoost: boolean;
@@ -55,6 +57,7 @@ export function pilotPermissions(role: string | null | undefined, emergency = fa
     screenSocialNeeds: clinical || r === 'front_desk',
     needsEmergencyAccess: member && !clinical,
     bookAppointments: clinical || r === 'front_desk',
+    dischargePatients: clinical,
     workClaims: prescriber || r === 'biller',
     portalTeam: clinical || r === 'front_desk',
     useBoost: clinical,

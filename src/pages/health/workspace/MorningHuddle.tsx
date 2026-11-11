@@ -1,21 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp, Clock, Pause, Play, Repeat, Square, Sunrise } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { VOICE_RATES } from '@/lib/clinical/kayla-workspace-voice';
+import { VOICE_RATES, latestSession, type HuddleSession } from '@/lib/clinical/kayla-workspace-voice';
 import { SILENT_AUDIO, kaylaHuddlePart } from '../kayla-voice';
 
-type Session = 'morning' | 'midday' | 'afternoon';
+type Session = HuddleSession;
+/** Four huddles across 24 hours, at shift changes; each also reports patient updates since the one before. */
 export const HUDDLE_OPTIONS: { key: Session; label: string; time: string; focus: string }[] = [
-  { key: 'morning', label: 'Morning Kickoff', time: '8:00 AM', focus: 'Schedule, check-ins and chart readiness' },
-  { key: 'midday', label: 'Midday Check-In', time: '12:00 PM', focus: 'Progress, urgent labs and medication safety' },
-  { key: 'afternoon', label: 'Afternoon Wrap-Up', time: '4:30 PM', focus: 'Notes to sign and open labs overnight' },
+  { key: 'morning', label: 'Morning Huddle', time: '7:00 AM', focus: "Today's schedule, labs, notes and overnight updates" },
+  { key: 'afternoon', label: 'Afternoon Huddle', time: '1:00 PM', focus: 'Progress, urgent labs and medication safety' },
+  { key: 'evening', label: 'Evening Handoff', time: '7:00 PM', focus: 'Shift handoff: notes to sign and open labs' },
+  { key: 'night', label: 'Night Huddle', time: '11:00 PM', focus: "Overnight watch and tomorrow's schedule" },
 ];
-/** The most recent scheduled huddle for the given clock time (before noon = morning, before 4:30 PM = midday). */
+/** The most recent huddle for the given clock time (before 7 AM still belongs to last night's huddle). */
 export function latestHuddle(now: Date): Session {
-  const minutes = now.getHours() * 60 + now.getMinutes();
-  if (minutes < 12 * 60) return 'morning';
-  if (minutes < 16 * 60 + 30) return 'midday';
-  return 'afternoon';
+  return latestSession(now.getHours());
 }
 type PlayLog = { session: Session; at: number };
 const LOG_KEY = 'hc-huddle-log';
@@ -28,7 +27,7 @@ function readLog(): PlayLog[] {
 const clock = (t: number) => new Date(t).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 export const HUDDLE_VOICE_PROBLEM = "Kayla's voice couldn't start just now. Please try Play huddle again in a moment.";
 
-/** Kayla's spoken morning huddle in her own voice. The voice service builds the words itself from
+/** Kayla's spoken daily huddles in her own voice. The voice service builds the words itself from
  * this clinic's test-patient counts (never names); the browser sends no text to be spoken. */
 export default function MorningHuddle({ clinicId }: { clinicId: string }) {
   const [state, setState] = useState<'idle' | 'loading' | 'speaking' | 'paused'>('idle');
@@ -113,8 +112,8 @@ export default function MorningHuddle({ clinicId }: { clinicId: string }) {
     </div>
     {collapsed && state !== 'idle' && script && <p className="mt-2 text-sm text-muted-foreground">{script}</p>}
     {!collapsed && <div id="kayla-huddle-details">
-      <p className="mt-2 text-xs text-muted-foreground">About 45 seconds each · test patients only · in Kayla's voice, counts only (no names)</p>
-      <div className="mt-3 grid gap-2 sm:grid-cols-3" role="group" aria-label="Choose a huddle">{HUDDLE_OPTIONS.map(o => {
+      <p className="mt-2 text-xs text-muted-foreground">Four huddles every 24 hours · each adds patient updates since the last one (new visits, check-ins, discharges, against-medical-advice departures, medicines and labs) · test patients only · in Kayla's voice, counts only (no names)</p>
+      <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4" role="group" aria-label="Choose a huddle">{HUDDLE_OPTIONS.map(o => {
         const plays = log.filter(e => e.session === o.key);
         return <Button key={o.key} variant={session === o.key ? 'default' : 'outline'} aria-pressed={session === o.key} className="h-auto flex-col items-start whitespace-normal p-3 text-left" onClick={() => { end(); setScript(''); setError(''); setSession(o.key); }}>
           <span className="flex w-full items-center justify-between gap-2 font-semibold">{o.label}{o.key === latest.key && <span className="rounded-full bg-mansagold/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide">Latest</span>}</span>

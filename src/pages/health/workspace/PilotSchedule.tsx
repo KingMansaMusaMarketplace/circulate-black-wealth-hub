@@ -12,13 +12,13 @@ import { db, Row } from './hc';
 import { usePilotPrivacy } from './PilotPrivacy';
 import {
   APPT_LENGTHS, APPT_STATUS_LABELS, APPT_STEP_LABELS, VISIT_TYPES, VISIT_TYPE_LABELS, combineLocal, findConflict, isOpenAppt, nextApptSteps,
-  validateAppointment, validateCancelReason, type ApptStatus, type VisitType,
+  validateAmaReason, validateAppointment, validateCancelReason, type ApptStatus, type VisitType,
 } from '@/lib/clinical/scheduling';
 import { roleLabel, type PilotPermissions } from '@/lib/clinical/pilot-roles';
 
 const gold = 'bg-mansagold text-mansablue hover:bg-mansagold-dark';
 const dayKey = (d: Date) => format(d, 'yyyy-MM-dd');
-const statusVariant = (s: string) => (s === 'cancelled' || s === 'no_show' ? 'destructive' : s === 'completed' ? 'secondary' : s === 'checked_in' ? 'default' : 'outline') as 'destructive' | 'secondary' | 'default' | 'outline';
+const statusVariant = (s: string) => (s === 'cancelled' || s === 'no_show' || s === 'left_ama' ? 'destructive' : s === 'completed' || s === 'discharged' ? 'secondary' : s === 'checked_in' ? 'default' : 'outline') as 'destructive' | 'secondary' | 'default' | 'outline';
 
 export function useClinicTeam(clinicId: string) {
   const [team, setTeam] = useState<Row[]>([]);
@@ -113,7 +113,7 @@ export default function PilotSchedule({ clinicId, patients, perms, onOpenPatient
             : today.length === 0 ? <p className="text-sm text-muted-foreground">No appointments this day.{perms.bookAppointments ? ' Use “Book appointment” to add one.' : ''}</p>
             : today.map((a) => (
               <ApptItem key={a.id} appt={a} patient={patientById.get(a.patient_id)} patientName={patientById.get(a.patient_id) ? name(patientById.get(a.patient_id)!) : 'Test patient'}
-                provider={memberById.get(a.provider_id)} canChange={perms.bookAppointments} existing={rows}
+                provider={memberById.get(a.provider_id)} canChange={perms.bookAppointments} clinicalStaff={perms.dischargePatients} existing={rows}
                 onOpenChart={perms.readChart && onOpenPatient ? () => onOpenPatient(a.patient_id) : undefined} onChanged={load} />
             ))}
         </CardContent>
@@ -183,10 +183,10 @@ function BookForm({ clinicId, patients, providers, existing, defaultDate, onCanc
   );
 }
 
-function ApptItem({ appt: a, patient, patientName, provider, canChange, existing, onOpenChart, onChanged }: {
-  appt: Row; patient?: Row; patientName: string; provider?: Row; canChange: boolean; existing: Row[]; onOpenChart?: () => void; onChanged: () => Promise<unknown>;
+function ApptItem({ appt: a, patient, patientName, provider, canChange, clinicalStaff, existing, onOpenChart, onChanged }: {
+  appt: Row; patient?: Row; patientName: string; provider?: Row; canChange: boolean; clinicalStaff: boolean; existing: Row[]; onOpenChart?: () => void; onChanged: () => Promise<unknown>;
 }) {
-  const [mode, setMode] = useState<'cancel' | 'move' | null>(null);
+  const [mode, setMode] = useState<'cancel' | 'move' | 'ama' | null>(null);
   const [reason, setReason] = useState('');
   const start = new Date(a.starts_at);
   const [move, setMove] = useState({ date: dayKey(start), time: format(start, 'HH:mm'), duration_min: Number(a.duration_min) });
@@ -205,8 +205,10 @@ function ApptItem({ appt: a, patient, patientName, provider, canChange, existing
   };
   const step = (s: ApptStatus) => {
     if (s === 'cancelled') { setMode('cancel'); return; }
-    void run({ status: s }, `${APPT_STATUS_LABELS[s]}`);
+    if (s === 'left_ama') { setMode('ama'); return; }
+    void run({ status: s }, s === 'discharged' ? 'Patient discharged' : `${APPT_STATUS_LABELS[s]}`);
   };
+  const leftAma = () => { const p = validateAmaReason(reason); if (p) { toast.error(p); return; } void run({ status: 'left_ama', status_reason: reason.trim() }, 'Recorded: left against medical advice'); };
   const cancel = () => { const p = validateCancelReason(reason); if (p) { toast.error(p); return; } void run({ status: 'cancelled', status_reason: reason.trim() }, 'Appointment cancelled'); };
   const reschedule = () => {
     const when = combineLocal(move.date, move.time);
@@ -230,10 +232,12 @@ function ApptItem({ appt: a, patient, patientName, provider, canChange, existing
       </div>
       {a.reason && <p className="mt-1 text-sm text-muted-foreground">{a.reason}</p>}
       {a.status === 'cancelled' && a.status_reason && <p className="mt-1 text-xs text-muted-foreground">Cancelled: {a.status_reason}</p>}
+      {a.status === 'left_ama' && a.status_reason && <p className="mt-1 text-xs text-muted-foreground">Left against medical advice: {a.status_reason}</p>}
+      {(a.status === 'discharged' || a.status === 'left_ama') && <p className="mt-1 text-xs text-muted-foreground">{a.status === 'discharged' ? 'Discharged' : 'Left'} at {format(new Date(a.updated_at), 'h:mm a')}</p>}
       {a.checked_in_at && <p className="mt-1 text-xs text-muted-foreground">Checked in at {format(new Date(a.checked_in_at), 'h:mm a')}</p>}
       <div className="mt-3 flex flex-wrap gap-2">
-        {canChange && nextApptSteps(a.status).map((s) => (
-          <Button key={s} size="sm" variant={s === 'cancelled' || s === 'no_show' ? 'outline' : 'default'} disabled={saving} onClick={() => step(s)}>{APPT_STEP_LABELS[s]}</Button>
+        {canChange && nextApptSteps(a.status, clinicalStaff).map((s) => (
+          <Button key={s} size="sm" variant={s === 'cancelled' || s === 'no_show' || s === 'left_ama' ? 'outline' : 'default'} disabled={saving} onClick={() => step(s)}>{APPT_STEP_LABELS[s]}</Button>
         ))}
         {canChange && a.status === 'scheduled' && <Button size="sm" variant="ghost" disabled={saving} onClick={() => setMode(mode === 'move' ? null : 'move')}>Reschedule</Button>}
         {onOpenChart && <Button size="sm" variant="link" onClick={onOpenChart}>Open chart</Button>}
@@ -243,6 +247,13 @@ function ApptItem({ appt: a, patient, patientName, provider, canChange, existing
           <div className="min-w-[16rem] flex-1 space-y-1"><Label htmlFor={`cx-${a.id}`}>Why is it cancelled? *</Label><Input id={`cx-${a.id}`} value={reason} maxLength={300} onChange={(e) => setReason(e.target.value)} placeholder="Patient called to cancel" /></div>
           <Button size="sm" variant="destructive" disabled={saving} onClick={cancel}>Cancel appointment</Button>
           <Button size="sm" variant="ghost" onClick={() => setMode(null)}>Keep it</Button>
+        </div>
+      )}
+      {mode === 'ama' && (
+        <div className="mt-3 flex flex-wrap items-end gap-2">
+          <div className="min-w-[16rem] flex-1 space-y-1"><Label htmlFor={`ama-${a.id}`}>Why did the patient leave against medical advice? *</Label><Input id={`ama-${a.id}`} value={reason} maxLength={300} onChange={(e) => setReason(e.target.value)} placeholder="Declined admission after risks were explained" /></div>
+          <Button size="sm" variant="destructive" disabled={saving} onClick={leftAma}>Record AMA departure</Button>
+          <Button size="sm" variant="ghost" onClick={() => setMode(null)}>Never mind</Button>
         </div>
       )}
       {mode === 'move' && (

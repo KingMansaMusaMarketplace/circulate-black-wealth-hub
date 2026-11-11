@@ -54,7 +54,7 @@ export function kaylaVoicePart(clinicId: string, proof: KaylaVoiceProof, part: n
 
 /** One piece of the morning huddle in Kayla's voice. The service builds the words itself from this
  * clinic's test-patient counts; the browser sends only the clinic, its clock offset and a piece number. */
-export function kaylaHuddlePart(clinicId: string, part: number, session: 'morning' | 'midday' | 'afternoon' = 'morning'): Promise<KaylaVoicePiece & { text?: string }> {
+export function kaylaHuddlePart(clinicId: string, part: number, session: 'morning' | 'afternoon' | 'evening' | 'night' = 'morning'): Promise<KaylaVoicePiece & { text?: string }> {
   return post({ clinic_id: clinicId, huddle: true, tz_offset: new Date().getTimezoneOffset(), part, ...(session === 'morning' ? {} : { session }) });
 }
 
