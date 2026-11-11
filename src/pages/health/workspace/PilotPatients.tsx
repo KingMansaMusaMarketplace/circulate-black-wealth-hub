@@ -28,6 +28,7 @@ import {
 } from '@/lib/clinical/real-patient-chart';
 import { PilotPrivacyShell, usePilotPrivacy, useRealPatientTimer } from './PilotPrivacy';
 import PilotDashboard from './PilotDashboard';
+import PilotPatientPhoto from './PilotPatientPhoto';
 import PilotChartLog from './PilotChartLog';
 import PilotVisitNotes from './PilotVisitNotes';
 import PilotGoLive from './PilotGoLive';
@@ -193,9 +194,9 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null, role = null, cli
                     <TableHeader><TableRow><TableHead>Test patient</TableHead><TableHead>Date of birth</TableHead><TableHead>Allergies</TableHead><TableHead>Conditions</TableHead></TableRow></TableHeader>
                     <TableBody>{list.map((p) => (
                       <TableRow key={p.id} className="cursor-pointer" onClick={() => setOpenId(p.id)}>
-                        <TableCell className="font-medium">{name(p)}{p.is_real
+                        <TableCell className="font-medium"><div className="flex items-center gap-3"><PilotPatientPhoto patient={p} size="sm" /><div>{name(p)}{p.is_real
                           ? <Badge variant="destructive" className="ml-2"><ShieldCheck className="mr-1 h-3 w-3" />Real patient</Badge>
-                          : <Badge variant="outline" className="ml-2"><FlaskConical className="mr-1 h-3 w-3" />{p.is_sample ? SAMPLE_BADGE_LABEL : 'Test'}</Badge>}</TableCell>
+                          : <Badge variant="outline" className="ml-2"><FlaskConical className="mr-1 h-3 w-3" />{p.is_sample ? SAMPLE_BADGE_LABEL : 'Test'}</Badge>}</div></div></TableCell>
                         <TableCell>{p.date_of_birth ? format(parseISO(p.date_of_birth), 'MMM d, yyyy') : '—'}</TableCell>
                         <TableCell>{p.allergies?.length ? p.allergies.join(', ') : 'None recorded'}</TableCell>
                         <TableCell>{p.conditions?.length ? p.conditions.join(', ') : 'None recorded'}</TableCell>
@@ -351,13 +352,13 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName, initial
       <Button variant="link" className="px-0" onClick={back}><ArrowLeft className="mr-1 h-4 w-4" />Back to Pilot Patients</Button>
       {real ? <RealPatientNotice allowed={realAllowed} /> : <TestOnlyNotice />}
       <Card className={real ? 'border-destructive/40' : undefined}>
-        <CardHeader className="pb-3"><CardTitle className="flex flex-wrap items-center gap-2 text-xl">{name(patient)}{real
+        <CardHeader className="pb-3"><div className="flex items-start gap-4"><PilotPatientPhoto patient={patient} /><div className="min-w-0 flex-1 space-y-2"><CardTitle className="flex flex-wrap items-center gap-2 text-xl">{name(patient)}{real
           ? <Badge variant="destructive"><ShieldCheck className="mr-1 h-3 w-3" />Real patient</Badge>
           : <Badge variant="outline"><FlaskConical className="mr-1 h-3 w-3" />{patient.is_sample ? SAMPLE_BADGE_LABEL : 'Test patient'}</Badge>}</CardTitle>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="text-xs text-muted-foreground">Opening this chart was recorded in the clinic’s chart-opened log{real ? ' under real patients' : ''}. Your role: {roleLabel(role)}{emergencyUntil ? ` · emergency access until ${format(new Date(emergencyUntil), 'h:mm a')}` : ''}.</p>
             {perms.readChart && <PrintChartButton patient={patient} records={records.rows} notes={notes.rows} clinicName={clinicName} disabled={real} />}
-          </div></CardHeader>
+          </div></div></div></CardHeader>
         <CardContent className="grid gap-3 text-sm sm:grid-cols-4">
           <div><div className="text-xs uppercase text-muted-foreground">Date of birth</div>{patient.date_of_birth ? format(parseISO(patient.date_of_birth), 'MMM d, yyyy') : '—'}</div>
           <div><div className="text-xs uppercase text-muted-foreground">Sex</div><span className="capitalize">{patient.sex ?? '—'}</span></div>
