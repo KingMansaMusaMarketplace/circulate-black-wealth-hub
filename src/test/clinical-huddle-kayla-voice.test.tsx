@@ -44,7 +44,7 @@ describe("Morning huddle speaks in Kayla's voice", () => {
   });
 
   it('once a huddle has played, its button offers to play it again', async () => {
-    fetchMock.mockResolvedValue(reply({ audio_url: AUDIO, parts: 1 }));
+    fetchMock.mockImplementation(async () => reply({ audio_url: AUDIO, parts: 1 }));
     render(<MorningHuddle clinicId={clinic} />);
     fireEvent.click(screen.getByRole('button', { name: /Play huddle/ }));
     await waitFor(() => expect(played).toEqual([AUDIO]));
