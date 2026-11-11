@@ -1,9 +1,9 @@
-// Kayla's workspace voice helpers: morning huddle, order read-back, hands-free screen commands
+// Kayla's workspace voice helpers: four daily huddles, order read-back, hands-free screen commands
 // and team attribution. The huddle (counts only) is spoken in Kayla's own voice, built by the
 // voice service itself; order read-backs use Kayla's voice for made-up test patients only (built by the
 // service from checked order fields), and the device voice for real patients.
 
-export { TEAM_VOICE, plural, huddleScript, huddleCounts, type HuddleCounts } from '../../../supabase/functions/_shared/clinical-huddle';
+export { TEAM_VOICE, plural, huddleScript, huddleCounts, huddleUpdates, updatesSentence, sessionScript, latestSession, HUDDLE_SESSIONS, type HuddleCounts, type HuddleSession, type HuddleUpdates } from '../../../supabase/functions/_shared/clinical-huddle';
 
 export { prescriptionReadBack, labReadBack, type RxReadBack } from '../../../supabase/functions/_shared/clinical-readback';
 
