@@ -24,19 +24,22 @@ export function parseVoiceRequest(body: unknown): VoiceRequest | null {
   return { clinicId: b.clinic_id, selection: b.selection, receipt: b.receipt, part };
 }
 
-export type HuddleRequest = { clinicId: string; tzOffset: number; part: number };
+export type HuddleRequest = { clinicId: string; tzOffset: number; part: number; session: 'morning' | 'midday' | 'afternoon' };
 /** The morning huddle: exactly clinic_id + huddle:true + the doctor's clock offset (+ optional piece number).
  * The service builds the words itself from the clinic's test-patient counts; no text is accepted. */
 export function parseHuddleRequest(body: unknown): HuddleRequest | null {
   if (!body || typeof body !== 'object' || Array.isArray(body)) return null;
   const b = body as Record<string, unknown>;
   const keys = Object.keys(b).sort().join(',');
-  if (keys !== 'clinic_id,huddle,tz_offset' && keys !== 'clinic_id,huddle,part,tz_offset') return null;
+  const allowed = ['clinic_id,huddle,tz_offset', 'clinic_id,huddle,part,tz_offset', 'clinic_id,huddle,session,tz_offset', 'clinic_id,huddle,part,session,tz_offset'];
+  if (!allowed.includes(keys)) return null;
+  const session = b.session === undefined ? 'morning' : b.session;
+  if (session !== 'morning' && session !== 'midday' && session !== 'afternoon') return null;
   if (b.huddle !== true || typeof b.clinic_id !== 'string' || !UUID.test(b.clinic_id)) return null;
   if (typeof b.tz_offset !== 'number' || !Number.isInteger(b.tz_offset) || Math.abs(b.tz_offset) > 840) return null;
   const part = b.part === undefined ? 0 : b.part;
   if (typeof part !== 'number' || !Number.isInteger(part) || part < 0 || part >= MAX_PARTS) return null;
-  return { clinicId: b.clinic_id, tzOffset: b.tz_offset, part };
+  return { clinicId: b.clinic_id, tzOffset: b.tz_offset, part, session };
 }
 
 /** Splits the spoken words into pieces at sentence ends: a short first piece, then longer ones. */

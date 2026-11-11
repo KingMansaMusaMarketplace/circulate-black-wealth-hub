@@ -4,6 +4,12 @@ import { Button } from '@/components/ui/button';
 import { VOICE_RATES } from '@/lib/clinical/kayla-workspace-voice';
 import { SILENT_AUDIO, kaylaHuddlePart } from '../kayla-voice';
 
+type Session = 'morning' | 'midday' | 'afternoon';
+export const HUDDLE_OPTIONS: { key: Session; label: string; time: string; focus: string }[] = [
+  { key: 'morning', label: 'Morning Kickoff', time: '8:00 AM', focus: 'Schedule, check-ins and chart readiness' },
+  { key: 'midday', label: 'Midday Check-In', time: '12:00 PM', focus: 'Progress, urgent labs and medication safety' },
+  { key: 'afternoon', label: 'Afternoon Wrap-Up', time: '4:30 PM', focus: 'Notes to sign and open labs overnight' },
+];
 export const HUDDLE_VOICE_PROBLEM = "Kayla's voice couldn't start just now. Please try Play huddle again in a moment.";
 
 /** Kayla's spoken morning huddle in her own voice. The voice service builds the words itself from
@@ -13,6 +19,7 @@ export default function MorningHuddle({ clinicId }: { clinicId: string }) {
   const [rate, setRate] = useState<number>(1);
   const [script, setScript] = useState('');
   const [error, setError] = useState('');
+  const [session, setSession] = useState<Session>('morning');
   const audio = useRef<HTMLAudioElement | null>(null);
   const token = useRef(0);
   const element = () => { if (!audio.current && typeof Audio !== 'undefined') audio.current = new Audio(); return audio.current; };
@@ -35,14 +42,14 @@ export default function MorningHuddle({ clinicId }: { clinicId: string }) {
     });
     void (async () => {
       try {
-        let current = await kaylaHuddlePart(clinicId, 0);
+        let current = await kaylaHuddlePart(clinicId, 0, session);
         if (!live()) return;
         if (current.text) setScript(current.text);
         const total = current.parts;
         for (let n = 0; n < total; n++) {
           if (!live()) return;
           // Prepare the next piece while this one plays, so Kayla keeps talking.
-          const next = n + 1 < total ? kaylaHuddlePart(clinicId, n + 1) : null;
+          const next = n + 1 < total ? kaylaHuddlePart(clinicId, n + 1, session) : null;
           next?.catch(() => undefined);
           setState('speaking');
           await playPiece(current.url);
@@ -59,7 +66,7 @@ export default function MorningHuddle({ clinicId }: { clinicId: string }) {
 
   return <section aria-label="Morning huddle" className="mb-6 rounded-lg border border-mansagold/40 bg-mansagold/5 p-4">
     <div className="flex flex-wrap items-center justify-between gap-3">
-      <div className="flex items-center gap-2"><Sunrise className="h-5 w-5 text-mansagold" /><div><p className="font-semibold">Morning huddle with Kayla</p><p className="text-xs text-muted-foreground">About 45 seconds · test patients only · in Kayla's voice, counts only (no names)</p></div></div>
+      <div className="flex items-center gap-2"><Sunrise className="h-5 w-5 text-mansagold" /><div><p className="font-semibold">Daily huddles with Kayla</p><p className="text-xs text-muted-foreground">About 45 seconds each · test patients only · in Kayla's voice, counts only (no names)</p></div></div>
       <div className="flex flex-wrap items-center gap-2">
         <div className="flex gap-1" aria-label="Speaking speed">{VOICE_RATES.map(r => <Button key={r} size="sm" variant={rate === r ? 'default' : 'outline'} aria-pressed={rate === r} onClick={() => setRate(r)}>{r}×</Button>)}</div>
         {state === 'idle' && <Button size="sm" variant="clinicalHelp" onClick={play}><Play />Play huddle</Button>}
@@ -69,6 +76,7 @@ export default function MorningHuddle({ clinicId }: { clinicId: string }) {
         {state !== 'idle' && <Button size="sm" variant="destructive" onClick={end}><Square />Stop</Button>}
       </div>
     </div>
+    <div className="mt-3 grid gap-2 sm:grid-cols-3" role="group" aria-label="Choose a huddle">{HUDDLE_OPTIONS.map(o => <Button key={o.key} variant={session === o.key ? 'default' : 'outline'} aria-pressed={session === o.key} className="h-auto flex-col items-start whitespace-normal p-3 text-left" onClick={() => { end(); setScript(''); setError(''); setSession(o.key); }}><span className="font-semibold">{o.label}</span><span className="text-xs opacity-80">{o.time} · {o.focus}</span></Button>)}</div>
     {script && <p className="mt-3 text-sm text-muted-foreground">{script}</p>}
     {error && <p role="alert" className="mt-2 text-sm text-destructive">{error}</p>}
   </section>;

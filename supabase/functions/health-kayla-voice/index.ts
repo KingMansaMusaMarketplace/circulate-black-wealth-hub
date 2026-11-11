@@ -6,7 +6,7 @@ import { createClient } from 'npm:@supabase/supabase-js@2';
 import { corsHeaders as sdkCorsHeaders } from 'npm:@supabase/supabase-js@2/cors';
 import { authorizeClinicalPreview } from '../_shared/clinical-preview-auth.ts';
 import { helpReceiptKey, verifyReply } from '../_shared/clinical-help-history.ts';
-import { huddleCounts, huddleScript, localDay } from '../_shared/clinical-huddle.ts';
+import { huddleCounts, sessionScript, localDay } from '../_shared/clinical-huddle.ts';
 import { parseReadBackRequest, readBackWords } from '../_shared/clinical-readback.ts';
 import { HEYGEN_SPEECH_URL, KAYLA_VOICE_ID, MAX_PARTS, makeRateLimiter, parseHuddleRequest, parseVoiceRequest, safeAudioUrl, speechFor, speechParts, speechPayload, type VoiceRequest } from './rules.ts';
 
@@ -53,7 +53,7 @@ Deno.serve(async (req) => {
         caller.from('hc_pilot_visit_notes').select('status').eq('clinic_id', huddle.clinicId).eq('status', 'draft'),
       ]);
       if (appts.error || labs.error || notes.error) return json({ error: 'The huddle could not be prepared.' }, 502);
-      words = huddleScript(huddleCounts(appts.data ?? [], labs.data ?? [], notes.data ?? []), undefined, day.hour);
+      words = sessionScript(huddle.session, huddleCounts(appts.data ?? [], labs.data ?? [], notes.data ?? []), day.hour);
     } else if (readBack) {
       // Kayla's voice reads orders for made-up test patients only, and never once the clinic is cleared
       // for real patients (no signed privacy agreement with the voice company): the screen then uses the device voice.
