@@ -14,6 +14,7 @@ interface BusinessRecommendationCardProps {
 }
 
 const BusinessRecommendationCard: React.FC<BusinessRecommendationCardProps> = ({ business }) => {
+  const { toggleFavorite, isFavorite } = useUserFavorites();
   return (
     <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-scale-in border border-white/10 bg-slate-800/60 backdrop-blur-xl">
       <div className="relative h-48 overflow-hidden">
