@@ -6,3 +6,14 @@ export function csvCell(value: unknown): string {
   if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
   return `"${s.replace(/"/g, '""')}"`;
 }
+
+/** Build a formula-safe CSV and download it in the browser. */
+export function downloadCsv(filename: string, header: string[], rows: unknown[][]): void {
+  const csv = [header, ...rows].map((row) => row.map(csvCell).join(',')).join('\n');
+  const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}

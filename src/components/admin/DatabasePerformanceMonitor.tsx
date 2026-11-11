@@ -244,9 +244,9 @@ const DatabasePerformanceMonitor: React.FC = () => {
               <p className="text-white/90 text-sm mb-3">
                 Export and delete audit logs older than 90 days to improve performance.
               </p>
-              <Button variant="outline" size="sm" className="border-white/20 text-white">
+              <Button variant="outline" size="sm" disabled title="Not available yet" className="border-white/20 text-white">
                 <Clock className="h-4 w-4 mr-2" />
-                Run Archive
+                Run Archive · coming soon
               </Button>
             </div>
             <div className="p-4 bg-white/5 rounded-lg border border-white/10">
@@ -254,9 +254,9 @@ const DatabasePerformanceMonitor: React.FC = () => {
               <p className="text-white/90 text-sm mb-3">
                 Remove activity logs older than 180 days to free up space.
               </p>
-              <Button variant="outline" size="sm" className="border-white/20 text-white">
+              <Button variant="outline" size="sm" disabled title="Not available yet" className="border-white/20 text-white">
                 <Clock className="h-4 w-4 mr-2" />
-                Run Cleanup
+                Run Cleanup · coming soon
               </Button>
             </div>
           </div>
