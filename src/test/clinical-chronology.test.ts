@@ -27,6 +27,13 @@ describe('fictional medical chronology', () => {
   it('preserves both sources for conflicting prior-symptom history', () => {
     expect(buildSampleChronology(SAMPLE_CASE_ID).flags[0].sources.map((source) => source.page)).toEqual([1, 2]);
   });
+  it('numbers each quotation by its place on its page, the same everywhere it is cited', () => {
+    const { flags } = buildSampleChronology(SAMPLE_CASE_ID);
+    const label = (title: string) => flags.find((flag) => flag.title === title)!.sources.map((s) => `${s.page}.${s.excerpt}`);
+    expect(label('Prior symptom history differs')).toEqual(['1.1', '2.1']);
+    expect(label('Planned attendance is unverified')).toEqual(['4.1', '6.2']);
+    expect(label('Index date missing')).toEqual(['6.1']);
+  });
   it('filters imaging records without adding events', () => {
     const { events } = buildSampleChronology(SAMPLE_CASE_ID);
     expect(filterChronology(events, 'imaging').map((event) => event.page)).toEqual([3]);

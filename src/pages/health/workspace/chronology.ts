@@ -1,7 +1,7 @@
 import { SAMPLE_CASE_ID, SAMPLE_PAGES } from '../../../../supabase/functions/health-kayla-review/sample-case';
 
 export type EventKind = 'history' | 'incident' | 'imaging' | 'therapy' | 'follow_up' | 'index';
-export type ChronologySource = { page: number; quote: string };
+export type ChronologySource = { page: number; quote: string; excerpt?: number };
 export type ChronologyEvent = { page: number; file: string; date: string | null; kind: EventKind; title: string; text: string };
 export type ChronologyFlag = { title: string; detail: string; sources: ChronologySource[] };
 const CLASSIFICATION: { kind: EventKind; title: string }[] = [
@@ -46,6 +46,21 @@ export function buildSampleChronology(caseId: string) {
       const page = SAMPLE_PAGES.find((item) => item.page === source.page);
       if (!page?.text.includes(source.quote)) throw new Error('Chronology source could not be verified.');
     }
+  }
+  // Number each quotation by where it sits on its page, so the same sentence
+  // always carries the same excerpt number wherever it is cited.
+  const quotesByPage = new Map<number, string[]>();
+  for (const source of flags.flatMap((flag) => flag.sources)) {
+    const list = quotesByPage.get(source.page) ?? [];
+    if (!list.includes(source.quote)) list.push(source.quote);
+    quotesByPage.set(source.page, list);
+  }
+  for (const [pageNumber, quotes] of quotesByPage) {
+    const text = SAMPLE_PAGES.find((item) => item.page === pageNumber)!.text;
+    quotes.sort((a, b) => text.indexOf(a) - text.indexOf(b));
+  }
+  for (const source of flags.flatMap((flag) => flag.sources)) {
+    source.excerpt = quotesByPage.get(source.page)!.indexOf(source.quote) + 1;
   }
   return { caseId, events, flags };
 }
