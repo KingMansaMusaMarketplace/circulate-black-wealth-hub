@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 import { Award, Trophy, Star, Gift, UserCircle, TrendingUp } from 'lucide-react';
 
 const BadgesTab = () => {
@@ -49,10 +50,11 @@ const BadgesTab = () => {
             🎖️ You've earned 3 out of 12 possible badges. Keep supporting community businesses to earn more!
           </p>
           <Button 
+            asChild
             variant="outline" 
             className="border-2 border-mansagold text-mansagold hover:bg-gradient-to-r hover:from-mansagold hover:to-amber-600 hover:text-blue-950 hover:border-transparent font-bold px-8 py-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
           >
-            View All Badges
+            <Link to="/rewards">View All Badges</Link>
           </Button>
         </div>
       </CardContent>

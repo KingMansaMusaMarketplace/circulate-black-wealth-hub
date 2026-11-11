@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -59,8 +60,8 @@ const RewardsTab = () => {
             </ul>
             
             <div className="pt-2">
-              <Button className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-bold py-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
-                View Available Rewards
+              <Button asChild className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-bold py-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                <Link to="/rewards">View Available Rewards</Link>
               </Button>
             </div>
           </div>
