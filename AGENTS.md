@@ -42,3 +42,4 @@
 - Business verification paperwork lives in the private verification_documents bucket under <ownerId>/<businessId>/ and is opened only through 5-minute signed links (src/lib/verification/documents.ts); government IDs are never sent to the AI document check, which refuses them server-side too, so ID images never reach an AI service.
 - Non-clinical scoreboard cases answer through kayla-benchmark/answer-plan.ts (mirrors ai-chat routing, forced web, premium + self-check) plus approved lessons, so scores reflect live chat rather than a weaker path.
 - The iOS app starts through SceneDelegate.swift + UIApplicationSceneManifest (Main storyboard) with link opens forwarded to Capacitor; iOS 27 kills apps without scene-based startup in under a second, so never remove the scene setup.
+- The Admin Dashboard's open section is stored in the address (?tab=), not page memory, so refreshes, sign-in re-checks and Back/Forward keep admins on the section they were working in.
