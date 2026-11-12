@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, useCallback, Suspense } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 const AdminAnalyticsDashboard = React.lazy(() => import('@/components/admin/AdminAnalyticsDashboard'));
 const VerificationQueue = React.lazy(() => import('@/components/admin/verification/VerificationQueue'));
@@ -61,12 +61,28 @@ const FoundingClinicsList = React.lazy(() => import('@/components/admin/Founding
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { PlayCircle, Home, Activity, ExternalLink, Stethoscope } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 const AdminDashboardPage: React.FC = () => {
   const { user } = useAuth();
   const [showTour, setShowTour] = useState(false);
-  const [activeTab, setActiveTab] = useState('hub');
+  // The open section lives in the address (?tab=...) so a refresh, a brief
+  // sign-in re-check, or Back/Forward returns to the same section instead of Hub.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get('tab') || 'hub';
+  const setActiveTab = useCallback(
+    (tab: string) => {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          if (!tab || tab === 'hub') next.delete('tab');
+          else next.set('tab', tab);
+          return next;
+        },
+      );
+    },
+    [setSearchParams],
+  );
 
   useEffect(() => {
     const hasSeenTour = localStorage.getItem('admin-dashboard-page-tour-completed');
