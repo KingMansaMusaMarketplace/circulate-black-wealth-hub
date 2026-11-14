@@ -2,6 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      // Short, email-safe links for Wayne's video page (e.g. /wayne, /Wayne, /wayne-video) — email apps sometimes
+      // glue ")" or "*" onto links, so any /wayne… address lands on the real page.
+      (function () {
+        var p = location.pathname;
+        if (/^\/wayne/i.test(p) && p !== "/wayne-video.html") location.replace("/wayne-video.html");
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>1325.AI | Agentic Intelligence &amp; Global Black-Owned Commerce</title>
     <meta name="description" content="Explore Black-owned businesses, Kayla and 42 Agentic AI Employees, and enterprise connectivity. Connect with your community and list your business free.">
