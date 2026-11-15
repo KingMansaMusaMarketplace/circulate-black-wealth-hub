@@ -8,7 +8,7 @@ import { authorizeClinicalPreview } from '../_shared/clinical-preview-auth.ts';
 import { helpReceiptKey, verifyReply } from '../_shared/clinical-help-history.ts';
 import { huddleCounts, huddleUpdates, sessionScript, localDay, updatesWindow } from '../_shared/clinical-huddle.ts';
 import { parseReadBackRequest, readBackWords } from '../_shared/clinical-readback.ts';
-import { HEYGEN_SPEECH_URL, KAYLA_VOICE_ID, MAX_PARTS, makeRateLimiter, parseHuddleRequest, parseVoiceRequest, safeAudioUrl, speechFor, speechParts, speechPayload, type VoiceRequest } from './rules.ts';
+import { HEYGEN_SPEECH_URL, KAYLA_VOICE_ID, MAX_PARTS, callerHeaders, makeRateLimiter, parseHuddleRequest, parseVoiceRequest, safeAudioUrl, speechFor, speechParts, speechPayload, type VoiceRequest } from './rules.ts';
 
 const corsHeaders = { ...sdkCorsHeaders, 'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token, x-hc-preview-token, x-hc-preview-device' };
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
@@ -37,7 +37,7 @@ Deno.serve(async (req) => {
     const request = huddle ?? readBack ?? parseVoiceRequest(body);
     if (!request) return refuse('bad-request', { error: 'Only Kayla answers can be read aloud.' }, 400);
 
-    const caller = createClient(url, anon, { global: { headers: { Authorization: auth } }, auth: { persistSession: false } });
+    const caller = createClient(url, anon, { global: { headers: callerHeaders(req, auth) }, auth: { persistSession: false } });
     const { data: userData, error: authError } = await caller.auth.getUser();
     if (authError || !userData.user) return refuse('expired-sign-in', { error: 'Please sign in again.' }, 401);
     const service = createClient(url, serviceKey, { auth: { persistSession: false } });

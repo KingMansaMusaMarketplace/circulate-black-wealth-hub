@@ -89,6 +89,12 @@ export function speechPayload(words: string, voiceId = KAYLA_VOICE_ID) {
   return { voice_id: voiceId, text: words };
 }
 
+/** Headers for reading clinic data as the caller: their sign-in plus their approved-viewing pass, because the
+ * clinic's data rules check that pass for guest viewers (without it, guests look like non-members). */
+export function callerHeaders(req: Request, auth: string): Record<string, string> {
+  return { Authorization: auth, 'x-hc-preview-token': req.headers.get('x-hc-preview-token') ?? '', 'x-hc-preview-device': req.headers.get('x-hc-preview-device') ?? '' };
+}
+
 /** Only HeyGen's own audio addresses are passed back to the browser. */
 export function safeAudioUrl(value: unknown): string | null {
   if (typeof value !== 'string') return null;

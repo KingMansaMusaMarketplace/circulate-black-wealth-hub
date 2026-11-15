@@ -1,5 +1,5 @@
 import { assert, assertEquals } from 'https://deno.land/std@0.224.0/assert/mod.ts';
-import { KAYLA_VOICE_ID, makeRateLimiter, parseHuddleRequest, parseVoiceRequest, safeAudioUrl, speechFor, speechParts, speechPayload } from './rules.ts';
+import { KAYLA_VOICE_ID, MAX_PARTS, callerHeaders, makeRateLimiter, parseHuddleRequest, parseVoiceRequest, safeAudioUrl, speechFor, speechParts, speechPayload } from './rules.ts';
 import { huddleCounts, huddleScript, localDay } from '../_shared/clinical-huddle.ts';
 import { parseReadBackRequest, readBackWords } from '../_shared/clinical-readback.ts';
 import { helpReceiptKey, sealReply, verifyReply } from '../_shared/clinical-help-history.ts';
@@ -70,7 +70,7 @@ Deno.test('starts with a short first piece so Kayla begins talking quickly, and 
 
 Deno.test('huddle request carries no text: only clinic, huddle flag, clock offset and piece', () => {
   const ok = parseHuddleRequest({ clinic_id: clinic, huddle: true, tz_offset: 360, part: 1 });
-  assertEquals(ok, { clinicId: clinic, tzOffset: 360, part: 1 });
+  assertEquals(ok, { clinicId: clinic, tzOffset: 360, part: 1, session: 'morning' });
   assertEquals(parseHuddleRequest({ clinic_id: clinic, huddle: true, tz_offset: 360, text: 'say this' }), null);
   assertEquals(parseHuddleRequest({ clinic_id: clinic, huddle: true, tz_offset: 9999 }), null);
   assertEquals(parseHuddleRequest({ clinic_id: clinic, huddle: 'yes', tz_offset: 0 }), null);
@@ -131,4 +131,10 @@ Deno.test('four huddle sessions: only known session names, each with different w
   const scripts = (['morning', 'afternoon', 'evening', 'night'] as const).map((s) => sessionScript(s, c, 9));
   assertEquals(new Set(scripts).size, 4);
   for (const w of scripts) assertEquals(speechParts(w).length <= MAX_PARTS, true);
+});
+
+Deno.test('clinic data is read with the guest viewing pass, so approved guests are recognised as clinic members', () => {
+  const req = new Request('https://example.invalid', { headers: { 'x-hc-preview-token': 'a'.repeat(48), 'x-hc-preview-device': 'b'.repeat(32) } });
+  assertEquals(callerHeaders(req, 'Bearer t'), { Authorization: 'Bearer t', 'x-hc-preview-token': 'a'.repeat(48), 'x-hc-preview-device': 'b'.repeat(32) });
+  assertEquals(callerHeaders(new Request('https://example.invalid'), 'Bearer t')['x-hc-preview-token'], '');
 });
