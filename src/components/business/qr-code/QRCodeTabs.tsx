@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { QrCode, BarChart3, Settings } from 'lucide-react';
+import { QrCode, BarChart3, Settings, Receipt } from 'lucide-react';
+import { QRBillsTab } from './QRBillsTab';
 import QRCodeGenerator from './QRCodeGenerator';
 import { QRCodeAnalyticsTab } from './QRCodeAnalyticsTab';
 import { QRCodeManageTab } from './QRCodeManage/QRCodeManageTab';
@@ -22,7 +23,7 @@ export const QRCodeTabs: React.FC<QRCodeTabsProps> = ({
 }) => {
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab}>
-      <TabsList className="grid w-full grid-cols-3">
+      <TabsList className="grid w-full grid-cols-4">
         <TabsTrigger value="generate" className="flex items-center gap-2">
           <QrCode className="h-4 w-4" />
           Generate
@@ -30,6 +31,10 @@ export const QRCodeTabs: React.FC<QRCodeTabsProps> = ({
         <TabsTrigger value="manage" className="flex items-center gap-2">
           <Settings className="h-4 w-4" />
           Manage
+        </TabsTrigger>
+        <TabsTrigger value="bills" className="flex items-center gap-2">
+          <Receipt className="h-4 w-4" />
+          Bills
         </TabsTrigger>
         <TabsTrigger value="analytics" className="flex items-center gap-2">
           <BarChart3 className="h-4 w-4" />
@@ -43,6 +48,10 @@ export const QRCodeTabs: React.FC<QRCodeTabsProps> = ({
 
       <TabsContent value="manage" className="mt-6">
         <QRCodeManageTab qrCodes={qrCodes} />
+      </TabsContent>
+
+      <TabsContent value="bills" className="mt-6">
+        <QRBillsTab businessId={businessId} />
       </TabsContent>
 
       <TabsContent value="analytics" className="mt-6">

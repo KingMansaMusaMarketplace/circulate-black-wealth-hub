@@ -232,6 +232,25 @@ export const ActionBuilder: React.FC<ActionBuilderProps> = ({ onAdd, onCancel })
                 </SelectContent>
               </Select>
             </div>
+            <div className="space-y-2">
+              <Label className="text-white">Fields to send</Label>
+              <Textarea
+                value={actionConfig.body_template_text ?? (actionConfig.body_template ? JSON.stringify(actionConfig.body_template, null, 2) : '')}
+                onChange={(e) => {
+                  const text = e.target.value;
+                  let parsed: unknown = null;
+                  try { parsed = JSON.parse(text); } catch { parsed = null; }
+                  const ok = parsed && typeof parsed === 'object' && !Array.isArray(parsed);
+                  setActionConfig((prev: Record<string, any>) => ({ ...prev, body_template_text: text, body_template: ok ? parsed : undefined }));
+                }}
+                placeholder='{"order_total": "{{amount}}"}'
+                className="bg-white/5 border-white/20 text-white font-mono text-xs"
+                rows={4}
+              />
+              <p className="text-xs text-white/70">
+                Only the fields you list here are sent. The web address must use https and be approved by 1325 before it works.
+              </p>
+            </div>
           </div>
         );
 
@@ -248,7 +267,7 @@ export const ActionBuilder: React.FC<ActionBuilderProps> = ({ onAdd, onCancel })
     (actionType === 'notify_user' && actionConfig.title) ||
     (actionType === 'create_task' && actionConfig.task_title) ||
     (actionType === 'update_customer_field' && actionConfig.field && actionConfig.new_value) ||
-    (actionType === 'webhook' && actionConfig.url)
+    (actionType === 'webhook' && actionConfig.url && actionConfig.body_template)
   );
 
   return (

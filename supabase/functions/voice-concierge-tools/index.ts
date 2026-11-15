@@ -52,7 +52,12 @@ const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[
 // Sanitize wildcard characters from user input to prevent ILIKE abuse
 function sanitizeSearchInput(input: string): string {
   return input
-    .replace(/[%_]/g, '') // Remove SQL wildcards
+    .replace(/[%_*]/g, '') // Remove SQL wildcards
+    // Remove characters that carry meaning in search filter syntax
+    // (commas, parentheses, dots, colons, quotes, backslashes) so a spoken
+    // query can never add or change filter conditions.
+    .replace(/[,().:"'\\]/g, ' ')
+    .replace(/\s+/g, ' ')
     .trim()
     .substring(0, 100); // Enforce max length
 }
@@ -143,8 +148,9 @@ serve(async (req) => {
           const safeCity = sanitizeSearchInput(args.city);
           if (safeCity) query = query.ilike("city", `%${safeCity}%`);
         }
-        if (args.min_rating) {
-          query = query.gte("average_rating", args.min_rating);
+        const minRating = Number(args.min_rating);
+        if (args.min_rating != null && Number.isFinite(minRating) && minRating >= 0 && minRating <= 5) {
+          query = query.gte("average_rating", minRating);
         }
         if (args.query && typeof args.query === 'string') {
           const safeQuery = sanitizeSearchInput(args.query);

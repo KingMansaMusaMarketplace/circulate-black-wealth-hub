@@ -81,7 +81,10 @@ async function getCommissionRate(supabase: any, businessId: string): Promise<num
 const qrTransactionSchema = z.object({
   businessId: z.string().uuid(),
   qrCodeId: z.string().uuid().optional(),
-  amount: z.number().positive().max(99999.99), // pre-discount bill (USD)
+  // SECURITY: the amount is never taken from the request. The customer sends the
+  // short bill code the business created; the server reads the amount from it.
+  billCode: z.string().trim().min(4).max(12).regex(/^[A-Za-z0-9]+$/),
+  previewOnly: z.boolean().optional(),
   discountPercentage: z.number().min(0).max(100).optional().default(0),
   description: z.string().max(500).optional(),
   customerEmail: z.string().email().max(255).optional(),
@@ -121,9 +124,24 @@ serve(async (req) => {
     }
 
     const {
-      businessId, qrCodeId, amount, discountPercentage, description,
+      businessId, qrCodeId, billCode, previewOnly, discountPercentage, description,
       customerEmail, successUrl, cancelUrl,
     } = parseResult.data;
+
+    // Trusted amount: an open, unexpired bill the business created for this sale.
+    const { data: bill } = await supabase
+      .from("qr_bill_requests")
+      .select("id, amount_cents, description, status, expires_at")
+      .eq("business_id", businessId)
+      .eq("bill_code", billCode.toUpperCase())
+      .maybeSingle();
+    if (!bill || bill.status !== "open" || new Date(bill.expires_at).getTime() <= Date.now()) {
+      return new Response(
+        JSON.stringify({ success: false, error: "That bill code was not found or has expired. Ask the business for a new one." }),
+        { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+    const amount = Number(bill.amount_cents) / 100;
 
     // Get business payment account
     const { data: paymentAccount, error: accountError } = await supabase
@@ -195,6 +213,21 @@ serve(async (req) => {
     const commissionCents = Math.round(finalAmountCents * (commissionRate / 100));
     const businessReceivesCents = finalAmountCents - commissionCents;
 
+    if (previewOnly) {
+      return new Response(
+        JSON.stringify({
+          success: true,
+          preview: true,
+          amount,
+          description: bill.description ?? null,
+          discountPercentage: effectiveDiscount,
+          finalAmount: finalAmountCents / 100,
+          expiresAt: bill.expires_at,
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2023-10-16",
     });
@@ -237,6 +270,7 @@ serve(async (req) => {
           finalAmount: (finalAmountCents / 100).toFixed(2),
           commissionRate: commissionRate.toString(),
           transactionType: "qr_scan",
+          billId: bill.id,
         },
         description: description || `QR Code Payment to ${business?.business_name || "Business"}`,
       },
@@ -254,6 +288,8 @@ serve(async (req) => {
         transactionType: "qr_scan",
       },
     });
+
+    await supabase.from("qr_bill_requests").update({ checkout_session_id: session.id }).eq("id", bill.id);
 
     // Record platform fee row so QR revenue appears in admin Platform Revenue dashboard.
     // Webhook (payment_intent.succeeded/failed, charge.refunded) updates this row by stripe_payment_intent_id.

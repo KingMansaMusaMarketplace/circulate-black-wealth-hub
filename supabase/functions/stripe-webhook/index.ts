@@ -220,7 +220,7 @@ serve(async (req) => {
                 trial_end: trialEnd,
                 updated_at: new Date().toISOString(),
               }, { onConflict: 'email' });
-              console.log(`✅ Subscribers upserted for ${customerEmail} (tier=${tier}, status=${sub.status})`);
+              console.log(`✅ Subscribers upserted (tier=${tier}, status=${sub.status})`);
             }
           } catch (subErr) {
             console.error('Subscribers upsert from webhook failed:', subErr);

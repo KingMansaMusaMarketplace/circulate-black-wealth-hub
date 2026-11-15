@@ -45,15 +45,17 @@ export default function TeamInvites({ clinicId, onJoinedChange }: { clinicId: st
     if (problem) { toast.error(problem); return; }
     const res = await callAccess({ action: 'staff_invite', clinic_id: clinicId, email: email.trim(), full_name: name.trim(), role });
     if (!res?.ok) { toast.error(inviteErrorMessage(res?.reason, res?.error)); await load(); return; }
-    toast.success(res.invitee_email_accepted
-      ? `Invitation sent. 1325 will review it, and ${name.trim()} was emailed (ask them to check Spam).`
-      : 'Invitation saved and sent to 1325, but their email could not be confirmed. Use Resend below.');
+    toast.success(`Invitation sent to 1325 for review. Once approved, ${name.trim()} gets an email from Thomas at 1325.AI (ask them to check Spam).`);
     setName(''); setEmail(''); await load();
   });
   const resend = (id: string) => run(async () => {
     const res = await callAccess({ action: 'staff_invite_resend', invite_id: id });
     if (!res?.ok) { toast.error(inviteErrorMessage(res?.reason, res?.error)); return; }
-    toast.success(res.refiled ? 'Asked 1325 again and re-sent their email.' : 'Reminder email sent.');
+    toast.success(res.refiled
+      ? 'Asked 1325 to review it again. They are emailed once approved.'
+      : res.approved
+        ? (res.invitee_email_accepted ? 'Reminder email sent.' : 'The reminder email could not be confirmed. Try again later.')
+        : 'Still waiting for 1325 to review. They are emailed once approved.');
     await load();
   });
   const cancel = (id: string) => run(async () => {
@@ -65,7 +67,7 @@ export default function TeamInvites({ clinicId, onJoinedChange }: { clinicId: st
   return (
     <section aria-labelledby="team-invite-title" className="space-y-3 rounded-lg border border-mansagold/40 bg-mansagold/5 p-4">
       <h3 id="team-invite-title" className="font-semibold">Invite a team member</h3>
-      <p className="text-xs text-muted-foreground">This sends a request to 1325 for them. 1325 approves every person. They get an email from “Thomas at 1325.AI”, and once approved they sign in with this same email and join your clinic automatically.</p>
+      <p className="text-xs text-muted-foreground">This sends a request to 1325 for them. 1325 approves every person. Once approved they get an email from “Thomas at 1325.AI” and sign in with this same email and join your clinic automatically.</p>
       <div className="grid gap-2 md:grid-cols-[1fr_1fr_150px_auto]">
         <Input aria-label="Their full name" placeholder="Their full name" value={name} onChange={(e) => setName(e.target.value)} maxLength={120} />
         <Input aria-label="Their email" type="email" placeholder="Their email" value={email} onChange={(e) => setEmail(e.target.value)} maxLength={255} />

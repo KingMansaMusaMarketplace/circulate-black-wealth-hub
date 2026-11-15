@@ -158,7 +158,7 @@ serve(async (req) => {
             });
           } else {
             const errorText = await emailResponse.text();
-            console.error(`Failed to send email to ${reminder.email}:`, errorText);
+            console.error(`Failed to send reminder email for ${reminder.companyName}:`, errorText);
             results.push({
               company: reminder.companyName,
               status: 'email_failed',

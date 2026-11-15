@@ -26,6 +26,31 @@ interface NotificationRequest {
   rejectionReason?: string;
 }
 
+/** Email addresses on record for the business or sponsor an admin notification is about. */
+async function allowedRecipients(type: string, businessId?: string, userId?: string): Promise<Set<string>> {
+  const out = new Set<string>();
+  const add = (e?: string | null) => { if (e && typeof e === 'string') out.add(e.trim().toLowerCase()); };
+  const authEmail = async (id?: string | null) => {
+    if (!id) return;
+    const { data } = await supabase.auth.admin.getUserById(id);
+    add(data?.user?.email);
+  };
+  if (type === 'verification_approved') {
+    if (!businessId) return out;
+    const { data: biz } = await supabase.from('businesses').select('owner_id, email').eq('id', businessId).maybeSingle();
+    if (!biz) return out;
+    add(biz.email);
+    const { data: priv } = await supabase.from('businesses_private').select('email').eq('business_id', businessId).maybeSingle();
+    add(priv?.email);
+    await authEmail(biz.owner_id);
+  } else if (type === 'sponsor_welcome' || type === 'sponsor_rejected') {
+    if (!userId) return out;
+    const { data: sub } = await supabase.from('corporate_subscriptions').select('user_id').eq('user_id', userId).limit(1).maybeSingle();
+    if (sub?.user_id) await authEmail(sub.user_id);
+  }
+  return out;
+}
+
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -64,6 +89,15 @@ const handler = async (req: Request): Promise<Response> => {
       if (!isAdmin) {
         return new Response(
           JSON.stringify({ error: 'Forbidden' }),
+          { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
+      // Even admins may only send these to the business or sponsor on record:
+      // the server looks up the allowed addresses instead of trusting the request.
+      const allowed = await allowedRecipients(type, businessId, userId);
+      if (!allowed.has((recipientEmail || '').trim().toLowerCase())) {
+        return new Response(
+          JSON.stringify({ error: 'Recipient does not match the business or sponsor on record' }),
           { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
         );
       }
