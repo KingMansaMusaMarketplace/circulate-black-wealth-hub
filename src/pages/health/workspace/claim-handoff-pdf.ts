@@ -72,7 +72,9 @@ export function buildHandoffPdf(preview: HandoffPreview, meta: { patientName: st
   });
   const end = (doc as unknown as { lastAutoTable?: { finalY: number } }).lastAutoTable?.finalY ?? after;
   doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(90);
-  doc.text(doc.splitTextToSize(`${preview.missing} item(s) are marked for the clinic or billing partner to supply (for example NPI and tax ID). They are not stored in the pilot.`, W - 2 * M), M, Math.min(end + 18, H - 60));
+  let noteY = end + 18;
+  if (noteY > H - 64) { doc.addPage(); noteY = M; }
+  doc.text(doc.splitTextToSize(`${preview.missing} item(s) are marked for the clinic or billing partner to supply (for example NPI and tax ID). They are not stored in the pilot.`, W - 2 * M), M, noteY);
   footer();
   return doc;
 }
