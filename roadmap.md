@@ -1,5 +1,12 @@
 # Roadmap
 
+## Video visits, care reminders, Helios hand-off (investor demo) — November 15, 2026
+- [x] Video visits for made-up test patients with a Telehealth appointment: Start video visit in the chart, Join video visit in My Chart, Test my camera; device-to-device, never recorded.
+- [x] "Due for care" card on each chart (USPSTF/ADA ages and time gaps, checked twice) + clinic Quality snapshot on the pilot dashboard; suggestions only, never sent to Medicare.
+- [x] Billing partner hand-off preview on practice claims (CMS-1500 box by box), sample PDF stamped "SAMPLE — NOT FOR SUBMISSION"; Helios labeled "partnership under discussion".
+- [ ] Two-device signed-in video test — needs two real signed-in devices; owner/Maurice to try after publishing.
+- [ ] Real-patient video — only after a video vendor BAA, a relay service for strict networks, and attorney go-live approval.
+
 ## Patient details sheet + photo in My Chart — November 15, 2026
 - [x] Fuller details on pilot charts (preferred name, language, address, emergency contact, primary doctor, insurance), editable for test patients.
 - [x] My Chart (patient portal) shows the patient's photo or initials and a read-only "About me" card.

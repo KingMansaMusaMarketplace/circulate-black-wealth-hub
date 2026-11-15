@@ -52,7 +52,7 @@ export const CARE_RULES: CareRule[] = [
   { id: 'diabetes_a1c', title: 'A1c (3-month blood sugar test)', why: 'Diabetes: at least every 6 months', source: 'ADA Standards of Care',
     applies: (c) => c.diabetes,
     evidence: [{ pattern: /a1c/i, months: 6 }] },
-  { id: 'diabetes_kidney', title: 'Diabetes kidney check', why: 'Diabetes: urine albumin and eGFR at least yearly', source: 'ADA Standards of Care',
+  { id: 'diabetes_kidney', title: 'Diabetes kidney check', why: 'Diabetes: urine albumin and eGFR at least yearly (type 1: from 5 years after diagnosis)', source: 'ADA Standards of Care',
     applies: (c) => c.diabetes,
     evidence: [{ pattern: /egfr|creatinine|albumin|\buacr\b|kidney function/i, months: 12 }] },
 ];
