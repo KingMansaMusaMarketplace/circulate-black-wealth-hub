@@ -176,7 +176,7 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null, role = null, cli
       {view === 'activity' && isOwner && <ActivityLog audit={audit} patients={patients.rows} />}
       {view === 'schedule' && <PilotSchedule clinicId={clinicId} patients={patients.rows} perms={perms} onOpenPatient={(id) => openPatient(id)} />}
       {view === 'inbox' && <PortalInbox clinicId={clinicId} patients={patients.rows} perms={perms} onOpenPatient={(id) => openPatient(id, 'portal')} />}
-      {view === 'billing' && <PilotBilling clinicId={clinicId} patients={patients.rows} perms={perms} />}
+      {view === 'billing' && <PilotBilling clinicId={clinicId} patients={patients.rows} perms={perms} clinicName={clinicName} />}
       {view === 'boost' && perms.useBoost && <PilotBoost />}
       {view === 'golive' && <PilotGoLive clinicId={clinicId} onPatientSaved={async (id) => { await patients.reload(); setOpenId(id); }} />}
       {view === 'patients' && (
