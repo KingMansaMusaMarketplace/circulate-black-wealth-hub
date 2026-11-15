@@ -52,7 +52,12 @@ const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[
 // Sanitize wildcard characters from user input to prevent ILIKE abuse
 function sanitizeSearchInput(input: string): string {
   return input
-    .replace(/[%_]/g, '') // Remove SQL wildcards
+    .replace(/[%_*]/g, '') // Remove SQL wildcards
+    // Remove characters that carry meaning in search filter syntax
+    // (commas, parentheses, dots, colons, quotes, backslashes) so a spoken
+    // query can never add or change filter conditions.
+    .replace(/[,().:"'\\]/g, ' ')
+    .replace(/\s+/g, ' ')
     .trim()
     .substring(0, 100); // Enforce max length
 }
