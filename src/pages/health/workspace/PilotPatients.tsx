@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { toast } from 'sonner';
-import { AlertTriangle, ArrowLeft, CalendarDays, Eye, FlaskConical, History, Inbox, LayoutDashboard, Lock, Plus, Receipt, Rocket, ShieldCheck, RotateCcw, Users } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, CalendarDays, Eye, FlaskConical, History, Inbox, LayoutDashboard, Lock, MessageSquare, Plus, Receipt, Rocket, ShieldCheck, RotateCcw, Users } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
