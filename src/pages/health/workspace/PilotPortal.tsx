@@ -15,6 +15,7 @@ import DataLoadErrors from './DataLoadErrors';
 import { usePilotPrivacy } from './PilotPrivacy';
 import PilotPatientPhoto from './PilotPatientPhoto';
 import { PatientDetailsGrid } from './PilotPatientDetails';
+import { PortalVideoJoin } from './PilotVideoVisit';
 import {
   MESSAGE_MAX, PATIENT_TOPICS, PORTAL_TEST_NOTICE, TOPIC_LABELS, unreadFor, validatePortalEmail, validatePortalMessage, type PortalTopic,
 } from '@/lib/clinical/patient-portal';
@@ -268,6 +269,7 @@ function PortalBody({ link }: { link: Row }) {
       </CardHeader>
       <CardContent className="space-y-3">
         {loadError && <p role="alert" className="text-sm text-destructive">{loadError}</p>}
+        <PortalVideoJoin patientId={pid} />
         <Tabs value={tab} onValueChange={setTab}>
           <TabsList className="flex h-auto flex-wrap justify-start">
             <TabsTrigger value="home">Overview</TabsTrigger>

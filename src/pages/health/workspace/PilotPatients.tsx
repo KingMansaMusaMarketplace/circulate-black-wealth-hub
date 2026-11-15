@@ -39,6 +39,8 @@ import { pilotPermissions, roleLabel } from '@/lib/clinical/pilot-roles';
 import PilotSchedule, { UpcomingAppointments } from './PilotSchedule';
 import PilotBilling from './PilotBilling';
 import PilotBoost from './PilotBoost';
+import { ChartVideoCard } from './PilotVideoVisit';
+import { CareRemindersCard } from './PilotCareReminders';
 import { PortalInbox, PortalTeamPanel } from './PilotPortal';
 
 export type PilotView = 'dashboard' | 'patients' | 'schedule' | 'inbox' | 'billing' | 'boost' | 'chartlog' | 'activity' | 'golive';
@@ -385,6 +387,7 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName, initial
         </>
       )}
       {perms.readChart && <>
+      {!real && <ChartVideoCard clinicId={clinicId} patient={patient} canStart={perms.videoVisits} />}
       <DataLoadErrors sources={[records, notes]} />
       <Tabs value={tab} onValueChange={(v) => { setTab(v); setAdding(null); }}>
         <TabsList className="flex h-auto flex-wrap justify-start">
@@ -417,6 +420,7 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName, initial
               <CardContent className="text-sm">{allergyRecords.length ? <ul className="space-y-1">{allergyRecords.map((r) => (
                 <li key={r.id} className="flex flex-wrap items-center gap-2"><span>{r.title}</span>{r.allergy_severity && <Badge variant={severityVariant(r.allergy_severity)}>{ALLERGY_SEVERITY_LABELS[r.allergy_severity as AllergySeverity] ?? r.allergy_severity}</Badge>}{r.allergy_reaction && <span className="text-muted-foreground">· {r.allergy_reaction}</span>}</li>
               ))}</ul> : patient.allergies?.length ? patient.allergies.join(', ') : 'None recorded'}</CardContent></Card>
+            <CareRemindersCard patient={patient} records={records.rows} />
             <Card><CardHeader className="pb-2"><CardTitle className="text-base">Upcoming appointments</CardTitle></CardHeader>
               <CardContent><UpcomingAppointments clinicId={clinicId} patientId={patient.id} /></CardContent></Card>
             <Card><CardHeader className="pb-2"><CardTitle className="text-base">Latest lab results</CardTitle></CardHeader>
