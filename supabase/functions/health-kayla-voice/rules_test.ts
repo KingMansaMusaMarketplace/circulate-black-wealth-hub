@@ -1,5 +1,5 @@
 import { assert, assertEquals } from 'https://deno.land/std@0.224.0/assert/mod.ts';
-import { KAYLA_VOICE_ID, callerHeaders, makeRateLimiter, parseHuddleRequest, parseVoiceRequest, safeAudioUrl, speechFor, speechParts, speechPayload } from './rules.ts';
+import { KAYLA_VOICE_ID, MAX_PARTS, callerHeaders, makeRateLimiter, parseHuddleRequest, parseVoiceRequest, safeAudioUrl, speechFor, speechParts, speechPayload } from './rules.ts';
 import { huddleCounts, huddleScript, localDay } from '../_shared/clinical-huddle.ts';
 import { parseReadBackRequest, readBackWords } from '../_shared/clinical-readback.ts';
 import { helpReceiptKey, sealReply, verifyReply } from '../_shared/clinical-help-history.ts';
@@ -70,7 +70,7 @@ Deno.test('starts with a short first piece so Kayla begins talking quickly, and 
 
 Deno.test('huddle request carries no text: only clinic, huddle flag, clock offset and piece', () => {
   const ok = parseHuddleRequest({ clinic_id: clinic, huddle: true, tz_offset: 360, part: 1 });
-  assertEquals(ok, { clinicId: clinic, tzOffset: 360, part: 1 });
+  assertEquals(ok, { clinicId: clinic, tzOffset: 360, part: 1, session: 'morning' });
   assertEquals(parseHuddleRequest({ clinic_id: clinic, huddle: true, tz_offset: 360, text: 'say this' }), null);
   assertEquals(parseHuddleRequest({ clinic_id: clinic, huddle: true, tz_offset: 9999 }), null);
   assertEquals(parseHuddleRequest({ clinic_id: clinic, huddle: 'yes', tz_offset: 0 }), null);
