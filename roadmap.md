@@ -499,3 +499,5 @@
 - [x] Owner chart-opened log with staff/patient/date filters; masked names + 10-minute idle screen lock
 - [ ] Real patient data — blocked: signed vendor BAAs, attorney approval, separate secure database
 - [x] Real-patient chart (after go-live unlock): vitals, medicines (frequency/route/stop with reason), allergies (severity required), lab results (value/units/range/flag), signed notes; 5-minute idle lock, password to sign, no talk-to-type, read-only while locked, real/test chart-open log filter
+- [x] Doctor "Invite a team member" (files request to 1325, auto-join after approval + sign-in), invite status list with Resend/Cancel, 10 invites/clinic/day
+- [x] In-app team messages (bell + drawer, "Message team" on test charts) with privacy-safe email alerts; SMS and real-patient messaging wait for go-live
