@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.hc_pilot_video_signals_validate() FROM PUBLIC, anon, authenticated;
