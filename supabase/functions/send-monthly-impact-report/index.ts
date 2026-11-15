@@ -102,7 +102,7 @@ serve(async (req) => {
             results.push({ company: sponsor.company_name, status: 'sent' });
           } else {
             const errorText = await emailResponse.text();
-            console.error(`Failed to send to ${email}:`, errorText);
+            console.error(`Failed to send impact report for ${sponsor.company_name}:`, errorText);
             results.push({ company: sponsor.company_name, status: 'failed', error: errorText });
           }
         } catch (emailError) {
