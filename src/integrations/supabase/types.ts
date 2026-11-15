@@ -30487,14 +30487,6 @@ export type Database = {
           title: string
         }[]
       }
-      get_qr_bill: {
-        Args: { _business: string; _code: string }
-        Returns: {
-          amount_cents: number
-          description: string
-          expires_at: string
-        }[]
-      }
       get_qr_scan_metrics: { Args: { p_business_id: string }; Returns: Json }
       get_safe_business_listings: {
         Args: never
