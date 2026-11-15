@@ -36,10 +36,13 @@ function sanitizeDataForPrompt(data: any, maxDepth = 3, currentDepth = 0): any {
   }
   
   if (typeof data === 'object') {
-    const sanitized: Record<string, any> = {};
+    // Null-prototype object + blocked keys: a submitted "__proto__" key can
+    // never change the object's built-in behaviour.
+    const sanitized: Record<string, any> = Object.create(null);
     const keys = Object.keys(data).slice(0, 50); // Limit number of keys
     for (const key of keys) {
       const sanitizedKey = sanitizeForPrompt(key).substring(0, 100);
+      if (sanitizedKey === '__proto__' || sanitizedKey === 'constructor' || sanitizedKey === 'prototype') continue;
       sanitized[sanitizedKey] = sanitizeDataForPrompt(data[key], maxDepth, currentDepth + 1);
     }
     return sanitized;
