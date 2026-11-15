@@ -1,5 +1,10 @@
 # Roadmap
 
+## Chart tabs tidy-up — November 15, 2026
+- [x] Patient chart: 11 tabs → 6 main tabs (Summary, Visit notes, Medications, Orders & results, Vitals, Problems & allergies) + a More menu (Social needs, Patient portal, All records); never wraps, scrolls sideways on very small screens.
+- [x] One Medications screen: prescriptions written here + home medicines, with Write prescription and Record home medicine buttons; lab orders and lab results share Orders & results.
+- [ ] Signed-in look on a 13" laptop and iPad — not possible from here on this user-managed backend; owner to check after publishing.
+
 ## Video visits, care reminders, Helios hand-off (investor demo) — November 15, 2026
 - [x] Video visits for made-up test patients with a Telehealth appointment: Start video visit in the chart, Join video visit in My Chart, Test my camera; device-to-device, never recorded.
 - [x] "Due for care" card on each chart (USPSTF/ADA ages and time gaps, checked twice) + clinic Quality snapshot on the pilot dashboard; suggestions only, never sent to Medicare.

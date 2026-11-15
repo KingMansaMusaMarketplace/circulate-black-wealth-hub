@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { toast } from 'sonner';
-import { AlertTriangle, ArrowLeft, CalendarDays, Eye, FlaskConical, History, Inbox, LayoutDashboard, Lock, MessageSquare, Plus, Receipt, Rocket, ShieldCheck, RotateCcw, Users } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, CalendarDays, ChevronDown, Eye, FlaskConical, History, Inbox, LayoutDashboard, Lock, MessageSquare, Plus, Receipt, Rocket, ShieldCheck, RotateCcw, Users } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,6 +14,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { MAIN_CHART_TABS, isMoreTab, resolveChartTab, visibleMoreTabs } from '@/lib/clinical/chart-tabs';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
 import { db, Row, useRows } from './hc';
 import DataLoadErrors from './DataLoadErrors';
@@ -324,7 +326,7 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName, initial
   }, [checkGoLive, real]);
   const writable = chartWritable(real, realAllowed);
   const [adding, setAdding] = useState<string | null>(null);
-  const [tab, setTab] = useState(initialTab ?? 'summary');
+  const [tab, setTab] = useState<string>(() => resolveChartTab(initialTab, perms.portalTeam));
   const logged = useRef<string | null>(null);
   useEffect(() => {
     if (logged.current === patient.id) return;
@@ -389,23 +391,52 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName, initial
       {perms.readChart && <>
       {!real && <ChartVideoCard clinicId={clinicId} patient={patient} canStart={perms.videoVisits} />}
       <DataLoadErrors sources={[records, notes]} />
-      <Tabs value={tab} onValueChange={(v) => { setTab(v); setAdding(null); }}>
-        <TabsList className="flex h-auto flex-wrap justify-start">
-          <TabsTrigger value="summary">Summary</TabsTrigger>
-          <TabsTrigger value="notes">Visit notes</TabsTrigger>
-          <TabsTrigger value="rx">Prescriptions</TabsTrigger>
-          <TabsTrigger value="orders">Lab orders</TabsTrigger>
-          <TabsTrigger value="vitals">Vitals</TabsTrigger>
-          <TabsTrigger value="meds">Medicines</TabsTrigger>
-          <TabsTrigger value="problems">Allergies & problems</TabsTrigger>
-          <TabsTrigger value="labs">Lab results</TabsTrigger>
-          <TabsTrigger value="social">Social needs</TabsTrigger>
-          {perms.portalTeam && <TabsTrigger value="portal">Patient portal</TabsTrigger>}
-          <TabsTrigger value="all">All records</TabsTrigger>
-        </TabsList>
+      <Tabs value={tab} onValueChange={(v) => { setTab(resolveChartTab(v, perms.portalTeam)); setAdding(null); }}>
+        <div className="-mx-1 overflow-x-auto px-1 pb-1">
+          <TabsList aria-label="Chart sections" className="flex h-auto w-max min-w-full flex-nowrap justify-start">
+            {MAIN_CHART_TABS.map((t) => <TabsTrigger key={`chart-tab-${t.id}`} value={t.id}>{t.label}</TabsTrigger>)}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button type="button" data-chart-active={isMoreTab(tab) ? 'true' : 'false'}
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[chart-active=true]:bg-background data-[chart-active=true]:text-foreground data-[chart-active=true]:shadow-sm">
+                  {isMoreTab(tab) ? `More · ${visibleMoreTabs(perms.portalTeam).find((t) => t.id === tab)?.label ?? ''}` : 'More'}
+                  <ChevronDown className="ml-1 h-4 w-4" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start">
+                {visibleMoreTabs(perms.portalTeam).map((t) => (
+                  <DropdownMenuItem key={`chart-more-${t.id}`} onSelect={() => { setTab(t.id); setAdding(null); }}>{t.label}</DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </TabsList>
+        </div>
 
-        <TabsContent value="rx"><PrescriptionsPanel clinicId={clinicId} patient={patient} perms={perms} writable={writable} onFailed={onWriteFailed} records={records.rows} /></TabsContent>
-        <TabsContent value="orders"><LabOrdersPanel clinicId={clinicId} patient={patient} perms={perms} writable={writable} onFailed={onWriteFailed} real={real} onResulted={() => records.reload()} /></TabsContent>
+        <TabsContent value="meds" className="space-y-6">
+          <p className="text-sm text-muted-foreground">Everything this patient takes, in one place: prescriptions written in this practice and the medicines they already take at home.</p>
+          <section aria-labelledby="chart-meds-rx" className="space-y-3">
+            <h3 id="chart-meds-rx" className="text-base font-semibold">Prescriptions written here</h3>
+            <PrescriptionsPanel clinicId={clinicId} patient={patient} perms={perms} writable={writable} onFailed={onWriteFailed} records={records.rows} />
+          </section>
+          <section aria-labelledby="chart-meds-home" className="space-y-3 border-t pt-5">
+            <h3 id="chart-meds-home" className="text-base font-semibold">Home medicines</h3>
+            <p className="text-xs text-muted-foreground">What the patient says they take, including vitamins, over-the-counter pills and medicines from other doctors.</p>
+            {addRecord('medication', 'Record home medicine')}
+            {recordList(records.rows.filter((r) => r.record_type === 'medication'), 'No home medicines recorded.')}
+          </section>
+        </TabsContent>
+        <TabsContent value="results" className="space-y-6">
+          <section aria-labelledby="chart-results-orders" className="space-y-3">
+            <h3 id="chart-results-orders" className="text-base font-semibold">Lab orders</h3>
+            <LabOrdersPanel clinicId={clinicId} patient={patient} perms={perms} writable={writable} onFailed={onWriteFailed} real={real} onResulted={() => records.reload()} />
+          </section>
+          <section aria-labelledby="chart-results-labs" className="space-y-3 border-t pt-5">
+            <h3 id="chart-results-labs" className="text-base font-semibold">Lab results</h3>
+            <KidneyFunctionCard patient={patient} records={records.rows} />
+            {addRecord('lab_result')}
+            {recordList(records.rows.filter((r) => r.record_type === 'lab_result'), 'No lab results recorded.')}
+          </section>
+        </TabsContent>
         <TabsContent value="portal"><PortalTeamPanel clinicId={clinicId} patient={patient} perms={perms} /></TabsContent>
         <TabsContent value="social"><SocialNeedsPanel clinicId={clinicId} patient={patient} perms={perms} writable={writable} onFailed={onWriteFailed} canRead /></TabsContent>
 
@@ -415,7 +446,8 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName, initial
               <CardContent className="text-sm">{patient.conditions?.length ? patient.conditions.join(', ') : 'None recorded'}
                 {byType('problem').length > 0 && <ul className="mt-2 list-disc pl-5">{byType('problem').map((r) => <li key={r.id}>{r.title}</li>)}</ul>}</CardContent></Card>
             <Card><CardHeader className="pb-2"><CardTitle className="text-base">Current medicines</CardTitle></CardHeader>
-              <CardContent className="text-sm">{byType('medication').length ? <ul className="list-disc pl-5">{byType('medication').map((r) => <li key={r.id}>{r.medication_name}{r.dose ? ` · ${r.dose}` : ''}{r.med_frequency ? ` · ${r.med_frequency}` : ''}</li>)}</ul> : 'None recorded'}</CardContent></Card>
+              <CardContent className="text-sm">{byType('medication').length ? <ul className="list-disc pl-5">{byType('medication').map((r) => <li key={r.id}>{r.medication_name}{r.dose ? ` · ${r.dose}` : ''}{r.med_frequency ? ` · ${r.med_frequency}` : ''}</li>)}</ul> : 'None recorded'}
+                <Button size="sm" variant="link" className="block px-0" onClick={() => setTab('meds')}>See all medications and prescriptions</Button></CardContent></Card>
             <Card><CardHeader className="pb-2"><CardTitle className="text-base">Allergies</CardTitle></CardHeader>
               <CardContent className="text-sm">{allergyRecords.length ? <ul className="space-y-1">{allergyRecords.map((r) => (
                 <li key={r.id} className="flex flex-wrap items-center gap-2"><span>{r.title}</span>{r.allergy_severity && <Badge variant={severityVariant(r.allergy_severity)}>{ALLERGY_SEVERITY_LABELS[r.allergy_severity as AllergySeverity] ?? r.allergy_severity}</Badge>}{r.allergy_reaction && <span className="text-muted-foreground">· {r.allergy_reaction}</span>}</li>
@@ -467,13 +499,11 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName, initial
           {recordList(records.rows.filter((r) => r.record_type === 'vitals'), 'No vital signs yet.')}
         </TabsContent>
 
-        <TabsContent value="meds" className="space-y-4">{addRecord('medication')}{recordList(records.rows.filter((r) => r.record_type === 'medication'), 'No medicines recorded.')}</TabsContent>
         <TabsContent value="problems" className="space-y-4">
           <div className="flex flex-wrap gap-2">{addRecord('allergy')}{adding !== 'allergy' && addRecord('problem')}</div>
           {real && <p className="text-xs text-muted-foreground">Real-patient allergies need a severity. Choose “Unknown” if the patient isn’t sure.</p>}
           {recordList(records.rows.filter((r) => r.record_type === 'allergy' || r.record_type === 'problem'), 'No allergies or problems recorded.')}
         </TabsContent>
-        <TabsContent value="labs" className="space-y-4"><KidneyFunctionCard patient={patient} records={records.rows} />{addRecord('lab_result')}{recordList(records.rows.filter((r) => r.record_type === 'lab_result'), 'No lab results recorded.')}</TabsContent>
         <TabsContent value="all" className="space-y-4">
           {addRecord('problem', 'Add any record', 'all')}
           {recordList(records.rows, 'No records yet.')}
