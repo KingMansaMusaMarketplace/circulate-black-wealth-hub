@@ -1,13 +1,20 @@
 /**
  * Pilot patient photos (display only).
- * Only the three fixed, made-up sample patients have a computer-generated face bundled with the app.
- * Nothing is ever uploaded or saved: every other chart (test or real) shows an initials placeholder.
+ * The three fixed, made-up sample patients have a computer-generated face bundled with the app.
+ * Other made-up test patients may be given one of eight bundled computer-generated faces (a gallery
+ * choice, saved only as a short key such as "face-03"). Nothing is ever uploaded: real patients always
+ * show an initials placeholder until go-live approval adds a real photo step.
  * A face identifies a person just like a name, so the photo follows the same "Hide names" switch.
  */
-export type PhotoPatient = { first_name?: string | null; last_name?: string | null; is_sample?: boolean | null; is_real?: boolean | null };
+export type PhotoPatient = {
+  first_name?: string | null; last_name?: string | null; is_sample?: boolean | null; is_real?: boolean | null; photo_choice?: string | null;
+};
 
 export const SAMPLE_PHOTO_KEYS = ['marcus-bell', 'alicia-grant', 'harold-jenkins'] as const;
 export type SamplePhotoKey = (typeof SAMPLE_PHOTO_KEYS)[number];
+export const GALLERY_PHOTO_KEYS = ['face-01', 'face-02', 'face-03', 'face-04', 'face-05', 'face-06', 'face-07', 'face-08'] as const;
+export type GalleryPhotoKey = (typeof GALLERY_PHOTO_KEYS)[number];
+export type PhotoKey = SamplePhotoKey | GalleryPhotoKey;
 export type PhotoDisplay = 'photo' | 'hidden' | 'placeholder';
 
 export function samplePhotoKey(p?: PhotoPatient | null): SamplePhotoKey | null {
@@ -16,9 +23,24 @@ export function samplePhotoKey(p?: PhotoPatient | null): SamplePhotoKey | null {
   return (SAMPLE_PHOTO_KEYS as readonly string[]).includes(key) ? (key as SamplePhotoKey) : null;
 }
 
-/** What the photo spot shows: the sample face only when names are showing, never for real or typed-in patients. */
+export const isGalleryKey = (v: unknown): v is GalleryPhotoKey => typeof v === 'string' && (GALLERY_PHOTO_KEYS as readonly string[]).includes(v);
+
+/** Which bundled face a patient shows: the fixed sample face first, else a gallery choice; never for real patients. */
+export function photoKey(p?: PhotoPatient | null): PhotoKey | null {
+  if (!p || p.is_real) return null;
+  return samplePhotoKey(p) ?? (isGalleryKey(p.photo_choice) ? p.photo_choice : null);
+}
+
+/** Problem with a chosen gallery face, or null. Mirrors the database rule. */
+export function validatePhotoChoice(choice: string | null | undefined, real: boolean): string | null {
+  if (choice == null || choice === '') return null;
+  if (real) return 'Real patients cannot be given a sample face.';
+  return isGalleryKey(choice) ? null : 'Choose one of the sample faces.';
+}
+
+/** What the photo spot shows: a bundled face only when names are showing, never for real patients. */
 export function photoDisplay(p: PhotoPatient | null | undefined, namesHidden: boolean): PhotoDisplay {
-  if (!samplePhotoKey(p)) return 'placeholder';
+  if (!photoKey(p)) return 'placeholder';
   return namesHidden ? 'hidden' : 'photo';
 }
 

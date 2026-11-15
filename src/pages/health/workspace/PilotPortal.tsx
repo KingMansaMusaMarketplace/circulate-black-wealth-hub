@@ -13,6 +13,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { db, Row, useRows } from './hc';
 import DataLoadErrors from './DataLoadErrors';
 import { usePilotPrivacy } from './PilotPrivacy';
+import PilotPatientPhoto from './PilotPatientPhoto';
+import { PatientDetailsGrid } from './PilotPatientDetails';
 import {
   MESSAGE_MAX, PATIENT_TOPICS, PORTAL_TEST_NOTICE, TOPIC_LABELS, unreadFor, validatePortalEmail, validatePortalMessage, type PortalTopic,
 } from '@/lib/clinical/patient-portal';
@@ -221,15 +223,16 @@ export default function PatientPortal({ onBackToClinic }: { onBackToClinic?: () 
 
 function PortalBody({ link }: { link: Row }) {
   const { patient_id: pid, clinic_id: cid } = link;
-  const [data, setData] = useState<{ appts: Row[]; rx: Row[]; records: Row[]; notes: Row[] } | null>(null);
+  const [data, setData] = useState<{ appts: Row[]; rx: Row[]; records: Row[]; notes: Row[]; me: Row | null } | null>(null);
   const [loadError, setLoadError] = useState('');
   const messages = useRows('hc_pilot_portal_messages', cid, { eq: ['patient_id', pid], order: 'created_at', asc: true });
   const [tab, setTab] = useState('home');
   const load = useCallback(async () => {
     const q = (t: string, order: string, asc = false) => db.from(t).select('*').eq('clinic_id', cid).eq('patient_id', pid).order(order, { ascending: asc });
-    const [a, r, rec, n] = await Promise.all([q('hc_pilot_appointments', 'starts_at', true), q('hc_pilot_prescriptions', 'prescribed_on'), q('hc_pilot_records', 'recorded_on'), q('hc_pilot_visit_notes', 'visit_date')]);
-    if (a.error || r.error || rec.error || n.error) { setLoadError('Part of your portal could not be loaded. Try again.'); }
-    setData({ appts: a.data ?? [], rx: r.data ?? [], records: rec.data ?? [], notes: n.data ?? [] });
+    const [a, r, rec, n, me] = await Promise.all([q('hc_pilot_appointments', 'starts_at', true), q('hc_pilot_prescriptions', 'prescribed_on'), q('hc_pilot_records', 'recorded_on'), q('hc_pilot_visit_notes', 'visit_date'),
+      db.from('hc_pilot_patients').select('*').eq('id', pid).eq('clinic_id', cid).maybeSingle()]);
+    if (a.error || r.error || rec.error || n.error || me.error) { setLoadError('Part of your portal could not be loaded. Try again.'); }
+    setData({ appts: a.data ?? [], rx: r.data ?? [], records: rec.data ?? [], notes: n.data ?? [], me: me.data ?? null });
   }, [cid, pid]);
   useEffect(() => { void load(); }, [load]);
   const unread = unreadFor('patient', messages.rows);
@@ -253,8 +256,15 @@ function PortalBody({ link }: { link: Row }) {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="flex flex-wrap items-center gap-2 text-lg">{link.first_name} {link.last_name}<Badge variant="outline"><FlaskConical className="mr-1 h-3 w-3" />Test patient</Badge></CardTitle>
-        <p className="text-sm text-muted-foreground">{link.clinic_name}</p>
+        <div className="flex items-start gap-4">
+          {/* The patient sees their own face: the names privacy switch is for clinic screens. */}
+          <PilotPatientPhoto patient={data.me ?? link} namesHidden={false} />
+          <div className="min-w-0 space-y-1">
+            <CardTitle className="flex flex-wrap items-center gap-2 text-lg">{link.first_name} {link.last_name}<Badge variant="outline"><FlaskConical className="mr-1 h-3 w-3" />Test patient</Badge></CardTitle>
+            <p className="text-sm text-muted-foreground">{link.clinic_name}</p>
+            {data.me?.date_of_birth && <p className="text-sm text-muted-foreground">Born {fmt(data.me.date_of_birth)}</p>}
+          </div>
+        </div>
       </CardHeader>
       <CardContent className="space-y-3">
         {loadError && <p role="alert" className="text-sm text-destructive">{loadError}</p>}
@@ -276,6 +286,9 @@ function PortalBody({ link }: { link: Row }) {
               <CardContent className="text-sm">{allergies.length ? allergies.map((r) => r.title).join(', ') : 'None on file'}</CardContent></Card>
             <Card><CardHeader className="pb-1"><CardTitle className="text-sm">Unread messages</CardTitle></CardHeader>
               <CardContent className="text-sm">{unread ? `${unread} new from your care team` : 'You’re all caught up'}</CardContent></Card>
+            <Card className="md:col-span-2"><CardHeader className="pb-1"><CardTitle className="text-sm">About me</CardTitle></CardHeader>
+              <CardContent className="space-y-2">{data.me ? <PatientDetailsGrid patient={data.me} /> : <p className="text-sm text-muted-foreground">Your details could not be loaded.</p>}
+                <p className="text-xs text-muted-foreground">Something wrong? Send your care team a message so they can update it.</p></CardContent></Card>
           </TabsContent>
           <TabsContent value="visits" className="space-y-2">
             <h3 className="font-medium">Upcoming</h3>

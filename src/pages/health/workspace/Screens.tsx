@@ -18,6 +18,7 @@ import { registrationSource } from './registration-source';
 import SamplePatientChart from './SamplePatientChart';
 import ClinicalOperationsTiles from './ClinicalOperationsTiles';
 import { TEAM_ROLES, roleLabel } from '@/lib/clinical/pilot-roles';
+import { photoInitials } from '@/lib/clinical/pilot-photos';
 
 type P = { clinicId: string; patients: Row[]; reloadPatients?: () => void; isOwner?: boolean };
 
@@ -112,7 +113,7 @@ export function Patients({ clinicId, patients }: P) {
           <TableBody>
             {list.map((p) => (
               <TableRow key={p.id} className="cursor-pointer" onClick={() => setOpen(p.id)}>
-                <TableCell className="font-medium">{fullName(p)}<span className="mt-1 block text-xs text-muted-foreground">{registrationSource(p) ? 'Fictional transcript identity' : 'Legacy sample · Evidence unverified'}</span></TableCell><TableCell>Unknown</TableCell><TableCell>Unknown</TableCell>
+                <TableCell className="font-medium"><div className="flex items-center gap-3"><span aria-hidden className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-dashed bg-muted text-xs font-semibold text-muted-foreground">{photoInitials(p)}</span><div>{fullName(p)}<span className="mt-1 block text-xs text-muted-foreground">{registrationSource(p) ? 'Fictional transcript identity' : 'Legacy sample · Evidence unverified'}</span></div></div></TableCell><TableCell>Unknown</TableCell><TableCell>Unknown</TableCell>
                 <TableCell>See fictional source; current status unknown</TableCell>
                 <TableCell><Badge variant="outline">Unknown</Badge></TableCell>
               </TableRow>

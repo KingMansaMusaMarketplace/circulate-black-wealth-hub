@@ -29,6 +29,7 @@ import {
 import { PilotPrivacyShell, usePilotPrivacy, useRealPatientTimer } from './PilotPrivacy';
 import PilotDashboard from './PilotDashboard';
 import PilotPatientPhoto from './PilotPatientPhoto';
+import { PatientDetailsCard } from './PilotPatientDetails';
 import PilotChartLog from './PilotChartLog';
 import PilotVisitNotes from './PilotVisitNotes';
 import PilotGoLive from './PilotGoLive';
@@ -122,6 +123,7 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null, role = null, cli
 
   if (selected) {
     return <PilotChart clinicId={clinicId} patient={selected} userId={userId} role={myRole} clinicName={clinicName} initialTab={openTab}
+      onPatientChanged={async () => { await patients.reload(); }}
       back={() => { setOpenId(null); setOpenTab(undefined); void patients.reload(); if (isOwner) void audit.reload(); }} />;
   }
 
@@ -275,7 +277,7 @@ const vitalsConfig = {
 } satisfies ChartConfig;
 const weightConfig = { weight: { label: 'Weight (lb)', color: 'hsl(var(--mansagold))' } } satisfies ChartConfig;
 
-function PilotChart({ clinicId, patient, back, userId, role, clinicName, initialTab }: { clinicId: string; patient: Row; back: () => void; userId: string | null; role: string | null; clinicName?: string; initialTab?: string }) {
+function PilotChart({ clinicId, patient, back, userId, role, clinicName, initialTab, onPatientChanged }: { clinicId: string; patient: Row; back: () => void; userId: string | null; role: string | null; clinicName?: string; initialTab?: string; onPatientChanged: () => void | Promise<void> }) {
   const records = useRows('hc_pilot_records', clinicId, { order: 'recorded_on', asc: false, eq: ['patient_id', patient.id] });
   const notes = useRows('hc_pilot_visit_notes', clinicId, { order: 'visit_date', asc: false, eq: ['patient_id', patient.id] });
   // Emergency "break the glass" access for front desk / billing (database-enforced, 30 minutes).
@@ -367,13 +369,12 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName, initial
             : patient.allergies?.length ? patient.allergies.join(', ') : 'None recorded'}</div>
           <div><div className="text-xs uppercase text-muted-foreground">Latest vitals</div>{latestVitals ? `${latestVitals.bp_sys ?? '—'}/${latestVitals.bp_dia ?? '—'} · HR ${latestVitals.heart_rate ?? '—'}` : 'None recorded'}</div>
           {real && <>
-            <div><div className="text-xs uppercase text-muted-foreground">Insurance</div>{patient.insurance_company ? `${patient.insurance_company}${patient.insurance_plan ? ` · ${patient.insurance_plan}` : ''}` : '—'}</div>
-            <div><div className="text-xs uppercase text-muted-foreground">Member ID</div>{patient.insurance_member_id ?? '—'}</div>
             <div><div className="text-xs uppercase text-muted-foreground">Consent signed</div>{patient.consent_signed_on ? format(parseISO(patient.consent_signed_on), 'MMM d, yyyy') : '—'}</div>
             <div><div className="text-xs uppercase text-muted-foreground">Chart status</div>{writable ? 'Open for entries' : 'Read only'}</div>
           </>}
         </CardContent>
       </Card>
+      <PatientDetailsCard patient={patient} canEdit={perms.addPatients && writable} onSaved={onPatientChanged} />
       {!perms.readChart && (
         <>
           <EmergencyAccessCard patientId={patient.id} onGranted={(until) => { setEmergencyUntil(until); void records.reload(); void notes.reload(); }} />
