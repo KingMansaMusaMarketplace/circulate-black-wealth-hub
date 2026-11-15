@@ -20677,6 +20677,81 @@ export type Database = {
           },
         ]
       }
+      qr_bill_requests: {
+        Row: {
+          amount_cents: number
+          bill_code: string
+          business_id: string
+          checkout_session_id: string | null
+          created_at: string
+          created_by: string
+          description: string | null
+          expires_at: string
+          id: string
+          status: string
+        }
+        Insert: {
+          amount_cents: number
+          bill_code?: string
+          business_id: string
+          checkout_session_id?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          expires_at?: string
+          id?: string
+          status?: string
+        }
+        Update: {
+          amount_cents?: number
+          bill_code?: string
+          business_id?: string
+          checkout_session_id?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          expires_at?: string
+          id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "qr_bill_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qr_bill_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qr_bill_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qr_bill_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qr_bill_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       qr_code_scans: {
         Row: {
           converted: boolean | null
@@ -30410,6 +30485,14 @@ export type Database = {
           review_count: number
           state: string
           title: string
+        }[]
+      }
+      get_qr_bill: {
+        Args: { _business: string; _code: string }
+        Returns: {
+          amount_cents: number
+          description: string
+          expires_at: string
         }[]
       }
       get_qr_scan_metrics: { Args: { p_business_id: string }; Returns: Json }
