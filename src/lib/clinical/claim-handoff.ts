@@ -80,7 +80,7 @@ export function buildHandoffPreview(i: HandoffInput): HandoffPreview {
   ];
   const lines: HandoffLine[] = claimLines.map((l, n) => ({
     n: n + 1, date: claimDate(i.claim.service_date), pos: i.pos, code: l.code, modifier: l.modifier ?? '',
-    pointers: l.dx_pointers.map(pointerLetter).join(''), charge: formatCents(l.units * l.charge_cents), units: String(l.units), npi: PARTNER_SUPPLIES,
+    pointers: l.dx_pointers.map(pointerLetter).join(''), charge: formatCents(l.units * l.charge_cents), units: String(l.units), npi: 'Partner supplies',
   }));
   return { boxes, lines, totalCents, missing: boxes.filter((b) => b.missing).length };
 }
