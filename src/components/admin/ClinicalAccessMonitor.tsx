@@ -141,6 +141,7 @@ const ClinicalAccessMonitor: React.FC = () => {
               <CardTitle className="text-white text-base flex flex-wrap items-center gap-2">
                 {r.full_name} <span className="text-slate-400 font-normal text-sm">{r.role} · {r.organization}</span>
                 {r.request_source === 'pilot' && <Badge className="bg-mansagold text-black">Pilot Doctor</Badge>}
+                {r.request_source === 'staff_invite' && <Badge variant="outline">Staff invite (from a clinic owner)</Badge>}
                 <Badge className={st === 'Waiting for you' ? 'bg-mansagold text-black' : st === 'Viewing now' ? 'bg-green-600' : st === 'Approved, not opened yet' ? 'bg-blue-100 text-blue-950 border border-blue-300 text-sm font-semibold px-3 py-1' : 'bg-slate-700'}>{st}{left > 0 ? ` · ${mins(left)} left` : ''}</Badge>
               </CardTitle>
             </CardHeader>
