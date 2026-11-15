@@ -1,5 +1,13 @@
 # Roadmap
 
+## Patient details sheet + photo in My Chart — November 15, 2026
+- [x] Fuller details on pilot charts (preferred name, language, address, emergency contact, primary doctor, insurance), editable for test patients.
+- [x] My Chart (patient portal) shows the patient's photo or initials and a read-only "About me" card.
+- [x] Eight computer-made sample faces to pick from; real patients can never get one; no uploads.
+- [x] Faces hide with names on clinic screens; initials added to the older Patients list.
+- [ ] Signed-in walkthrough — not possible from here on this user-managed backend; owner/Maurice to try after publishing.
+- [ ] Real photo uploads — only after HIPAA agreements are signed and the attorney approves go-live.
+
 ## Board's 10 world-class EMR gaps for the 4-doctor pilot — November 8, 2026
 - [x] Board Check answered: each doctor gets a separate clinic; nurses, front desk and billers will use it too.
 - [x] Phase 1 (test patients): staff roles + emergency "break the glass" access (#7).
