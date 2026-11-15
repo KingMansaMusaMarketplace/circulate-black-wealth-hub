@@ -33,6 +33,8 @@ export interface PilotPermissions {
   workClaims: boolean;
   portalTeam: boolean;
   useBoost: boolean;
+  /** Start a test-patient video visit (owner, doctors and nurses; mirrors hc_pilot_video_open). */
+  videoVisits: boolean;
 }
 
 const CLINICAL = new Set(['owner', 'doctor', 'nurse']);
@@ -61,6 +63,7 @@ export function pilotPermissions(role: string | null | undefined, emergency = fa
     workClaims: prescriber || r === 'biller',
     portalTeam: clinical || r === 'front_desk',
     useBoost: clinical,
+    videoVisits: clinical,
   };
 }
 

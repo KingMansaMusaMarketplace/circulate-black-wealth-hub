@@ -11768,6 +11768,108 @@ export type Database = {
           },
         ]
       }
+      hc_pilot_video_rooms: {
+        Row: {
+          appointment_id: string
+          clinic_id: string
+          created_at: string
+          ended_at: string | null
+          ended_by: string | null
+          expires_at: string
+          id: string
+          opened_at: string
+          opened_by: string
+          patient_id: string
+          updated_at: string
+        }
+        Insert: {
+          appointment_id: string
+          clinic_id: string
+          created_at?: string
+          ended_at?: string | null
+          ended_by?: string | null
+          expires_at?: string
+          id?: string
+          opened_at?: string
+          opened_by: string
+          patient_id: string
+          updated_at?: string
+        }
+        Update: {
+          appointment_id?: string
+          clinic_id?: string
+          created_at?: string
+          ended_at?: string | null
+          ended_by?: string | null
+          expires_at?: string
+          id?: string
+          opened_at?: string
+          opened_by?: string
+          patient_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_pilot_video_rooms_appointment_id_fkey"
+            columns: ["appointment_id"]
+            isOneToOne: false
+            referencedRelation: "hc_pilot_appointments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_pilot_video_rooms_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_pilot_video_rooms_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "hc_pilot_patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_pilot_video_signals: {
+        Row: {
+          created_at: string
+          id: number
+          kind: string
+          payload: Json | null
+          room_id: string
+          sender_id: string
+          sender_side: string
+        }
+        Insert: {
+          created_at?: string
+          id?: never
+          kind: string
+          payload?: Json | null
+          room_id: string
+          sender_id?: string
+          sender_side: string
+        }
+        Update: {
+          created_at?: string
+          id?: never
+          kind?: string
+          payload?: Json | null
+          room_id?: string
+          sender_id?: string
+          sender_side?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_pilot_video_signals_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "hc_pilot_video_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       hc_pilot_visit_notes: {
         Row: {
           assessment: string | null
@@ -30601,6 +30703,9 @@ export type Database = {
       hc_pilot_portal_revoke: { Args: { _link: string }; Returns: boolean }
       hc_pilot_reset: { Args: { _clinic: string }; Returns: number }
       hc_pilot_seed_samples: { Args: { _clinic: string }; Returns: number }
+      hc_pilot_video_end: { Args: { _room: string }; Returns: undefined }
+      hc_pilot_video_open: { Args: { _appointment: string }; Returns: string }
+      hc_pilot_video_side: { Args: { _room: string }; Returns: string }
       hc_portal_my_patients: {
         Args: never
         Returns: {

@@ -12,6 +12,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { db, Row, useRows } from './hc';
 import DataLoadErrors from './DataLoadErrors';
 import { usePilotPrivacy } from './PilotPrivacy';
+import ClaimHandoffPreview from './PilotClaimHandoff';
 import {
   CLAIM_NOT_SENT_NOTICE, CLAIM_STATUS_LABELS, MAX_DX, MAX_LINES, claimTotalCents, dollarsToCents, formatCents, isClosedClaim, normalizeDx,
   summarizeClaims, validateClaimDraft, validateClaimReason, validatePaidAmount, type ClaimLine, type ClaimStatus,
@@ -22,9 +23,9 @@ const gold = 'bg-mansagold text-mansablue hover:bg-mansagold-dark';
 const fmt = (d?: string | null) => (d ? format(parseISO(d), 'MMM d, yyyy') : '—');
 const statusVariant = (s: string) => (s === 'practice_denied' || s === 'void' ? 'destructive' : s === 'practice_paid' ? 'default' : s === 'draft' ? 'outline' : 'secondary') as 'destructive' | 'default' | 'outline' | 'secondary';
 
-type Props = { clinicId: string; patients: Row[]; perms: PilotPermissions };
+type Props = { clinicId: string; patients: Row[]; perms: PilotPermissions; clinicName?: string };
 
-export default function PilotBilling({ clinicId, patients, perms }: Props) {
+export default function PilotBilling({ clinicId, patients, perms, clinicName }: Props) {
   const { name } = usePilotPrivacy();
   const claims = useRows('hc_pilot_claims', perms.workClaims ? clinicId : null, { order: 'service_date', asc: false });
   const [visits, setVisits] = useState<Row[]>([]);
@@ -64,7 +65,7 @@ export default function PilotBilling({ clinicId, patients, perms }: Props) {
 
   if (open) {
     const visit = visits.find((v) => v.note_id === open.visit_note_id);
-    return <ClaimEditor claim={open} patientName={patientById.get(open.patient_id) ? name(patientById.get(open.patient_id)!) : 'Test patient'} visit={visit}
+    return <ClaimEditor claim={open} patient={patientById.get(open.patient_id) ?? null} clinicName={clinicName} patientName={patientById.get(open.patient_id) ? name(patientById.get(open.patient_id)!) : 'Test patient'} visit={visit}
       onClose={() => setOpenId(null)} onChanged={async () => { await claims.reload(); await loadVisits(); }} />;
   }
 
@@ -121,7 +122,7 @@ const fromForm = (l: LineForm): ClaimLine => ({
   units: Number(l.units), charge_cents: dollarsToCents(l.charge) ?? -1, dx_pointers: [...l.dx].sort((a, b) => a - b),
 });
 
-function ClaimEditor({ claim: c, patientName, visit, onClose, onChanged }: { claim: Row; patientName: string; visit?: Row; onClose: () => void; onChanged: () => Promise<unknown> }) {
+function ClaimEditor({ claim: c, patient, clinicName, patientName, visit, onClose, onChanged }: { claim: Row; patient: Row | null; clinicName?: string; patientName: string; visit?: Row; onClose: () => void; onChanged: () => Promise<unknown> }) {
   const draft = c.status === 'draft';
   const [payer, setPayer] = useState<string>(c.payer_name ?? '');
   const [member, setMember] = useState<string>(c.member_id ?? '');
@@ -249,6 +250,7 @@ function ClaimEditor({ claim: c, patientName, visit, onClose, onChanged }: { cla
           )}
         </CardContent>
       </Card>
+      {c.status !== 'void' && <ClaimHandoffPreview claim={c} patient={patient} patientName={patientName} clinicName={clinicName} visit={visit} />}
     </div>
   );
 }
