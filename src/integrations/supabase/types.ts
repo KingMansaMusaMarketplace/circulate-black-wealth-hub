@@ -11207,14 +11207,19 @@ export type Database = {
       }
       hc_pilot_patients: {
         Row: {
+          address_line: string | null
           allergies: string[]
           archived_at: string | null
+          city: string | null
           clinic_id: string
           conditions: string[]
           consent_signed_on: string | null
           created_at: string
           created_by: string
           date_of_birth: string | null
+          emergency_contact_name: string | null
+          emergency_contact_phone: string | null
+          emergency_contact_relation: string | null
           first_name: string
           id: string
           insurance_company: string | null
@@ -11225,21 +11230,32 @@ export type Database = {
           is_sample: boolean
           last_name: string
           phone: string | null
+          photo_choice: string | null
           policy_holder: string | null
+          postal_code: string | null
+          preferred_language: string | null
+          preferred_name: string | null
+          primary_doctor: string | null
           sex: string | null
+          state_region: string | null
           test_patient_confirmed: boolean
           updated_at: string
           updated_by: string | null
         }
         Insert: {
+          address_line?: string | null
           allergies?: string[]
           archived_at?: string | null
+          city?: string | null
           clinic_id: string
           conditions?: string[]
           consent_signed_on?: string | null
           created_at?: string
           created_by?: string
           date_of_birth?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          emergency_contact_relation?: string | null
           first_name: string
           id?: string
           insurance_company?: string | null
@@ -11250,21 +11266,32 @@ export type Database = {
           is_sample?: boolean
           last_name: string
           phone?: string | null
+          photo_choice?: string | null
           policy_holder?: string | null
+          postal_code?: string | null
+          preferred_language?: string | null
+          preferred_name?: string | null
+          primary_doctor?: string | null
           sex?: string | null
+          state_region?: string | null
           test_patient_confirmed?: boolean
           updated_at?: string
           updated_by?: string | null
         }
         Update: {
+          address_line?: string | null
           allergies?: string[]
           archived_at?: string | null
+          city?: string | null
           clinic_id?: string
           conditions?: string[]
           consent_signed_on?: string | null
           created_at?: string
           created_by?: string
           date_of_birth?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_phone?: string | null
+          emergency_contact_relation?: string | null
           first_name?: string
           id?: string
           insurance_company?: string | null
@@ -11275,8 +11302,14 @@ export type Database = {
           is_sample?: boolean
           last_name?: string
           phone?: string | null
+          photo_choice?: string | null
           policy_holder?: string | null
+          postal_code?: string | null
+          preferred_language?: string | null
+          preferred_name?: string | null
+          primary_doctor?: string | null
           sex?: string | null
+          state_region?: string | null
           test_patient_confirmed?: boolean
           updated_at?: string
           updated_by?: string | null
