@@ -508,3 +508,10 @@
 - [x] Real-patient chart (after go-live unlock): vitals, medicines (frequency/route/stop with reason), allergies (severity required), lab results (value/units/range/flag), signed notes; 5-minute idle lock, password to sign, no talk-to-type, read-only while locked, real/test chart-open log filter
 - [x] Doctor "Invite a team member" (files request to 1325, auto-join after approval + sign-in), invite status list with Resend/Cancel, 10 invites/clinic/day
 - [x] In-app team messages (bell + drawer, "Message team" on test charts) with privacy-safe email alerts; SMS and real-patient messaging wait for go-live
+
+## Security cleanup — Nov 15, 2026
+- [x] Review all 224 database warnings; lock 13 unneeded ones (224 → 211); investor summary PDF
+- [ ] Deep code-level security scan results (running; review when it finishes)
+- [ ] Follow-up: signed-in helpers without their own caller check (badge progress, share counts, business metrics, agent scan stats)
+- [ ] Decide (user): rental-lease listings show full street address and moderation notes publicly
+- [ ] Decide (user): community investment records readable by anyone (finding previously dismissed)
