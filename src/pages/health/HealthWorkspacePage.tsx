@@ -44,6 +44,7 @@ import { DEFAULT_FACILITY_CONTEXT, type FacilityContext } from './workspace/faci
 import ProprietaryNotice from './ProprietaryNotice';
 import AskKayla from './AskKayla';
 import MorningHuddle from './workspace/MorningHuddle';
+import TeamMessages from './workspace/TeamMessages';
 
 const NAV = [
   { k: 'ask-kayla', l: 'Ask Kayla', i: BrainCircuit },
@@ -130,8 +131,15 @@ export default function HealthWorkspacePage() {
     const version = ++requestVersion.current;
     setClinicError('');
     try {
+      // Staff invited by their doctor join automatically once 1325 approved them (server-checked by email).
+      let joinedClinic: string | undefined;
+      if (!preferredClinicId) {
+        try { const { data: claim } = await db.rpc('hc_claim_team_invites'); if (claim?.joined > 0 && claim.clinic_id) joinedClinic = claim.clinic_id; } catch { /* joining is retried on next load */ }
+        if (currentUser.current !== userId || version !== requestVersion.current) return;
+      }
+      const target = preferredClinicId ?? joinedClinic;
       let query = db.from('hc_members').select('role, hc_clinics(*)').eq('user_id', userId);
-      if (preferredClinicId) query = query.eq('clinic_id', preferredClinicId);
+      if (target) query = query.eq('clinic_id', target);
       const { data, error } = await query.order('created_at').limit(1).maybeSingle();
       if (currentUser.current !== userId || version !== requestVersion.current) return;
       if (error) throw new Error(error.message);
@@ -180,7 +188,7 @@ export default function HealthWorkspacePage() {
   const shellHeader = (
     <header className="flex min-h-14 flex-wrap items-center justify-between gap-2 py-2 border-b-2 border-mansagold theme-clinical-bar px-4 text-foreground shadow-lg">
       <Brand />
-      <div className="flex flex-wrap items-center gap-2">{user && clinic && loadedFor === userId && <Button variant="clinicalHelp" aria-pressed={tab === 'ask-kayla'} onClick={() => navigateTab('ask-kayla')}><BrainCircuit />Ask Kayla</Button>}<EnterpriseReadiness /><ClinicalSafetyPanel /><Button variant="ghost" size="sm" asChild><Link to="/health/intake">Clinic intake</Link></Button><Button variant="ghost" size="sm" asChild><Link to="/health/baa">Clinic BAA</Link></Button>{user && portalCount > 0 && <Button variant="ghost" size="sm" aria-pressed={portalMode} onClick={() => setPortalMode(!portalMode)}>{portalMode ? 'Back to clinic' : 'My patient portal'}</Button>}</div>
+      <div className="flex flex-wrap items-center gap-2">{user && clinic && loadedFor === userId && <TeamMessages key={`team-messages:${user.id}:${clinic.id}`} clinicId={clinic.id} userId={user.id} />}{user && clinic && loadedFor === userId && <Button variant="clinicalHelp" aria-pressed={tab === 'ask-kayla'} onClick={() => navigateTab('ask-kayla')}><BrainCircuit />Ask Kayla</Button>}<EnterpriseReadiness /><ClinicalSafetyPanel /><Button variant="ghost" size="sm" asChild><Link to="/health/intake">Clinic intake</Link></Button><Button variant="ghost" size="sm" asChild><Link to="/health/baa">Clinic BAA</Link></Button>{user && portalCount > 0 && <Button variant="ghost" size="sm" aria-pressed={portalMode} onClick={() => setPortalMode(!portalMode)}>{portalMode ? 'Back to clinic' : 'My patient portal'}</Button>}</div>
       {user && <div className="flex items-center gap-3 text-sm"><span className="hidden text-foreground/80 md:inline">{loadedFor === userId ? clinic?.name : ''}</span>
         <Button size="sm" variant="ghost" className="text-foreground hover:bg-foreground/10" onClick={() => supabase.auth.signOut()}><LogOut className="h-4 w-4" /></Button></div>}
     </header>

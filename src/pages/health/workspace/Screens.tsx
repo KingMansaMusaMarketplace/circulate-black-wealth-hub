@@ -18,6 +18,7 @@ import { registrationSource } from './registration-source';
 import SamplePatientChart from './SamplePatientChart';
 import ClinicalOperationsTiles from './ClinicalOperationsTiles';
 import { TEAM_ROLES, roleLabel } from '@/lib/clinical/pilot-roles';
+import TeamInvites from './TeamInvites';
 import { photoInitials } from '@/lib/clinical/pilot-photos';
 
 type P = { clinicId: string; patients: Row[]; reloadPatients?: () => void; isOwner?: boolean };
@@ -208,8 +209,11 @@ export function Team({ clinicId, isOwner }: P) {
           <li><b className="text-foreground">Front desk:</b> patient list and details, social-needs screening; medical records only through logged emergency access.</li>
           <li><b className="text-foreground">Biller:</b> patient list and details (read only); medical records only through logged emergency access.</li>
         </ul>
+        {isOwner && clinicId && <TeamInvites clinicId={clinicId} onJoinedChange={() => { void rows.reload(); }} />}
         {isOwner && (
-          <div className="grid gap-2 sm:grid-cols-[1fr_140px_auto]">
+          <details className="rounded-lg border p-3">
+            <summary className="cursor-pointer text-sm font-medium">Already approved by 1325 and signed in? Add them directly</summary>
+          <div className="mt-3 grid gap-2 sm:grid-cols-[1fr_140px_auto]">
             <Input placeholder="Team member's email (they must have a 1325.AI account)" value={email} onChange={(e) => setEmail(e.target.value)} />
             <Select value={role} onValueChange={setRole}>
               <SelectTrigger className="h-9" aria-label="Team role"><SelectValue /></SelectTrigger>
@@ -220,11 +224,12 @@ export function Team({ clinicId, isOwner }: P) {
               try {
               const { data, error } = await db.rpc('hc_add_member', { _clinic: clinicId, _email: email, _role: role });
               if (error) return toast.error(error.message);
-              if (data === 'not_found') return toast.error('No account with that email yet — ask them to sign up first.');
+              if (data === 'not_found') return toast.error('No account with that email yet. Use "Invite a team member" above so 1325 can approve them.');
               toast.success('Added to the clinic'); setEmail(''); await rows.reload();
               } catch { toast.error('Team member could not be saved.'); } finally { pending.current = false; setSaving(false); }
             }}><UserPlus className="mr-1 h-4 w-4" /> Add</Button>
           </div>
+          </details>
         )}
         <Table><TableHeader><TableRow><TableHead>Email</TableHead><TableHead>Role</TableHead><TableHead /></TableRow></TableHeader>
           <TableBody>{rows.rows.map((m) => (

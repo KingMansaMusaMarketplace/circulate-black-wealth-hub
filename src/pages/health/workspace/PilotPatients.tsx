@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { toast } from 'sonner';
-import { AlertTriangle, ArrowLeft, CalendarDays, Eye, FlaskConical, History, Inbox, LayoutDashboard, Lock, Plus, Receipt, Rocket, ShieldCheck, RotateCcw, Users } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, CalendarDays, Eye, FlaskConical, History, Inbox, LayoutDashboard, Lock, MessageSquare, Plus, Receipt, Rocket, ShieldCheck, RotateCcw, Users } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -30,6 +30,7 @@ import { PilotPrivacyShell, usePilotPrivacy, useRealPatientTimer } from './Pilot
 import PilotDashboard from './PilotDashboard';
 import PilotPatientPhoto from './PilotPatientPhoto';
 import { PatientDetailsCard } from './PilotPatientDetails';
+import { openTeamMessage } from './TeamMessages';
 import PilotChartLog from './PilotChartLog';
 import PilotVisitNotes from './PilotVisitNotes';
 import PilotGoLive from './PilotGoLive';
@@ -359,7 +360,8 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName, initial
           : <Badge variant="outline"><FlaskConical className="mr-1 h-3 w-3" />{patient.is_sample ? SAMPLE_BADGE_LABEL : 'Test patient'}</Badge>}</CardTitle>
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="text-xs text-muted-foreground">Opening this chart was recorded in the clinic’s chart-opened log{real ? ' under real patients' : ''}. Your role: {roleLabel(role)}{emergencyUntil ? ` · emergency access until ${format(new Date(emergencyUntil), 'h:mm a')}` : ''}.</p>
-            {perms.readChart && <PrintChartButton patient={patient} records={records.rows} notes={notes.rows} clinicName={clinicName} disabled={real} />}
+            <div className="flex flex-wrap gap-2">{!real && <Button size="sm" variant="outline" onClick={() => openTeamMessage(patient.id)}><MessageSquare className="mr-1 h-4 w-4" />Message team</Button>}
+            {perms.readChart && <PrintChartButton patient={patient} records={records.rows} notes={notes.rows} clinicName={clinicName} disabled={real} />}</div>
           </div></div></div></CardHeader>
         <CardContent className="grid gap-3 text-sm sm:grid-cols-4">
           <div><div className="text-xs uppercase text-muted-foreground">Date of birth</div>{patient.date_of_birth ? format(parseISO(patient.date_of_birth), 'MMM d, yyyy') : '—'}</div>

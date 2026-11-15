@@ -13,6 +13,9 @@ import { validateCsrf } from '../_shared/csrf-guard.ts';
 import { viewingMinutes } from './viewing-duration.ts';
 import { emailWasAccepted } from './confirmation.ts';
 import { overDailyLimit } from './request-limit.ts';
+import { INVITE_ROLES, INVITE_ROLE_LABELS, NEEDS_NEW_REQUEST, resendAllowed, staffInviteEmail } from './staff-invite.ts';
+import { ALERT_FRESH_MINUTES, ALERT_MAX_RECIPIENTS, alertDue, teamAlertEmail } from './team-alert.ts';
+import { authorizeClinicalPreview } from '../_shared/clinical-preview-auth.ts';
 import { CODE_MINUTES, MAX_ATTEMPTS, MAX_SENDS_PER_HOUR, hashSigninCode, isSigninCode, newSigninCode, sameHash, sendAllowed, signinCodeEmail } from './signin-code.ts';
 
 const cors = {
@@ -51,6 +54,9 @@ const Request = z.object({
 const Verify = z.object({ action: z.enum(["verify", "end"]), token: z.string().regex(/^[a-f0-9]{48}$/), device: z.string().regex(/^[a-f0-9]{32}$/), path: z.string().max(200).optional(), nda: z.literal(true).optional() });
 const SigninCode = z.object({ action: z.enum(["code_send", "code_verify"]), token: z.string().regex(/^[a-f0-9]{48}$/), device: z.string().regex(/^[a-f0-9]{32}$/), code: z.string().max(12).optional() }).strict();
 const WINDOW_DAYS = 7;
+const StaffInvite = z.object({ action: z.literal('staff_invite'), clinic_id: z.string().uuid(), email: z.string().trim().email().max(255), full_name: z.string().trim().min(2).max(120), role: z.enum(INVITE_ROLES) }).strict();
+const StaffInviteResend = z.object({ action: z.literal('staff_invite_resend'), invite_id: z.string().uuid() }).strict();
+const TeamAlert = z.object({ action: z.literal('team_alert'), message_id: z.string().uuid() }).strict();
 const AdminDecision = z.object({ action: z.literal('admin_decision'), request_id: z.string().uuid(), decision: z.enum(['approve', 'deny', 'revoke', 'reopen', 'extend']), expected_status: z.enum(['pending', 'approved', 'expired']), confirmed: z.literal(true) }).strict();
 const EmailDecision = z.object({ action: z.enum(['email_preview', 'email_decide']), id: z.string().regex(/^[0-9a-f-]{36}$/), t: z.string().regex(/^[a-f0-9]{48}$/), d: z.enum(['approve', 'deny', 'revoke']) }).strict();
 
@@ -223,6 +229,98 @@ Deno.serve(async (req) => {
       return json(visible);
     }
     return json(grant);
+  }
+
+  // ---------- Doctor-sent staff invites and team message alerts (signed-in clinic members only) ----------
+  const si = StaffInvite.safeParse(body), sr = StaffInviteResend.safeParse(body), ta = TeamAlert.safeParse(body);
+  if (si.success || sr.success || ta.success) {
+    const auth = req.headers.get('authorization') ?? '';
+    if (!/^Bearer\s+\S+/i.test(auth)) return json({ ok: false, reason: 'sign_in' }, 401);
+    // The caller client forwards the viewer's approval proof so clinic ownership checks pass for approved guests.
+    const caller = createClient(Deno.env.get('SUPABASE_URL') ?? '', Deno.env.get('SUPABASE_ANON_KEY') ?? '', { global: { headers: { Authorization: auth, 'x-hc-preview-token': req.headers.get('x-hc-preview-token') ?? '', 'x-hc-preview-device': req.headers.get('x-hc-preview-device') ?? '' } }, auth: { persistSession: false } });
+    const { data: who, error: whoError } = await caller.auth.getUser();
+    if (whoError || !who?.user) return json({ ok: false, reason: 'sign_in' }, 401);
+    if (!await authorizeClinicalPreview(db, req, who.user)) return json({ ok: false, reason: 'viewing' }, 403);
+    const inviterName = (typeof who.user.user_metadata?.full_name === 'string' && who.user.user_metadata.full_name.trim()) || who.user.email || 'Your doctor';
+    const since = new Date(Date.now() - 86400000).toISOString();
+
+    // Files one access request to Thomas for the invited person and links it to the invite.
+    const fileRequest = async (invite: { id: string; email: string; full_name: string; role: string }, clinicName: string) => {
+      const { count } = await db.from('hc_access_requests').select('id', { count: 'exact', head: true }).eq('work_email', invite.email).gte('created_at', since);
+      if (overDailyLimit(invite.email, count ?? 0)) return { ok: false as const, reason: 'person_limit' };
+      const { data: r, error } = await db.from('hc_access_requests').insert({
+        full_name: invite.full_name, organization: clinicName, role: INVITE_ROLE_LABELS[invite.role] ?? invite.role, work_email: invite.email,
+        phone: null, user_agent: ua, request_source: 'staff_invite', test_only_attested_at: new Date().toISOString(), nda_accepted_at: null,
+      }).select('id, decision_token').single();
+      if (error || !r) return { ok: false as const, reason: 'not_saved' };
+      const { error: linkError } = await db.from('hc_team_invites').update({ access_request_id: r.id }).eq('id', invite.id).eq('status', 'requested');
+      if (linkError) return { ok: false as const, reason: 'not_saved' };
+      const link = (d: string) => `${FN_URL}?id=${r.id}&t=${r.decision_token}&d=${d}`;
+      const content = accessRequestEmail({ full_name: invite.full_name, organization: clinicName, role: INVITE_ROLE_LABELS[invite.role] ?? invite.role, work_email: invite.email, phone: 'Not provided', source: 'staff_invite', invited_by: `${inviterName} (${who.user.email ?? ''})` }, { approve: link('approve'), deny: link('deny'), revoke: link('revoke') });
+      const notified = await requestNotification(() => resend.emails.send({ ...clinicalEmailRouting(), subject: `STAFF INVITE — ${invite.full_name} invited by ${inviterName} — ${clinicName}`, ...content }));
+      return { ok: true as const, notified };
+    };
+    const emailInvitee = async (invite: { id: string; email: string; full_name: string; role: string }, clinicName: string, approved: boolean) => {
+      let accepted = false;
+      try { accepted = emailWasAccepted(await resend.emails.send({ ...clinicalEmailRouting(invite.email), ...staffInviteEmail({ full_name: invite.full_name, inviter: inviterName, clinic: clinicName, role: invite.role, approved }) })); } catch { accepted = false; }
+      await db.from('hc_team_invites').update({ last_emailed_at: new Date().toISOString() }).eq('id', invite.id);
+      return accepted;
+    };
+
+    if (si.success) {
+      const { data: made, error } = await caller.rpc('hc_create_team_invite', { _clinic: si.data.clinic_id, _email: si.data.email, _name: si.data.full_name, _role: si.data.role });
+      if (error || !made) return json({ ok: false, reason: 'not_owner', error: error?.message ?? 'Only the clinic owner can invite team members.' }, 403);
+      if (made.result !== 'created') return json({ ok: false, reason: made.result }, made.result === 'limit' ? 429 : 409);
+      const invite = { id: made.invite_id as string, email: si.data.email.toLowerCase(), full_name: si.data.full_name, role: si.data.role };
+      const filed = await fileRequest(invite, made.clinic_name ?? 'your clinic');
+      if (!filed.ok) {
+        await db.from('hc_team_invites').update({ status: 'cancelled' }).eq('id', invite.id).eq('status', 'requested');
+        return json({ ok: false, reason: filed.reason }, filed.reason === 'person_limit' ? 429 : 500);
+      }
+      const inviteeEmailed = await emailInvitee(invite, made.clinic_name ?? 'your clinic', false);
+      return json({ ok: true, invite_id: invite.id, notification_accepted: filed.notified, invitee_email_accepted: inviteeEmailed });
+    }
+
+    if (sr.success) {
+      // Owner-only read through the caller's own access rules.
+      const { data: invite } = await caller.from('hc_team_invites').select('id,clinic_id,email,full_name,role,status,access_request_id,last_emailed_at').eq('id', sr.data.invite_id).maybeSingle();
+      if (!invite) return json({ ok: false, reason: 'not_owner' }, 403);
+      if (invite.status !== 'requested') return json({ ok: false, reason: 'closed' }, 409);
+      if (!resendAllowed(invite.last_emailed_at, new Date())) return json({ ok: false, reason: 'too_soon' }, 429);
+      const { data: clinic } = await db.from('hc_clinics').select('name').eq('id', invite.clinic_id).maybeSingle();
+      const clinicName = clinic?.name ?? 'your clinic';
+      const { data: request } = invite.access_request_id ? await db.from('hc_access_requests').select('status').eq('id', invite.access_request_id).maybeSingle() : { data: null };
+      let approved = request?.status === 'approved';
+      let refiled = false;
+      if (!request || NEEDS_NEW_REQUEST.has(request.status)) {
+        const filed = await fileRequest(invite, clinicName);
+        if (!filed.ok) return json({ ok: false, reason: filed.reason }, filed.reason === 'person_limit' ? 429 : 500);
+        refiled = true; approved = false;
+      }
+      const inviteeEmailed = await emailInvitee(invite, clinicName, approved);
+      return json({ ok: true, refiled, invitee_email_accepted: inviteeEmailed });
+    }
+
+    if (ta.success) {
+      const { data: m } = await db.from('hc_team_messages').select('id,clinic_id,sender_id,recipient_id,created_at,alerted_at').eq('id', ta.data.message_id).maybeSingle();
+      if (!m || m.sender_id !== who.user.id) return json({ ok: false, reason: 'not_sender' }, 403);
+      if (m.alerted_at || Date.now() - Date.parse(m.created_at) > ALERT_FRESH_MINUTES * 60000) return json({ ok: true, sent: 0 });
+      const { data: claimed } = await db.from('hc_team_messages').update({ alerted_at: new Date().toISOString() }).eq('id', m.id).is('alerted_at', null).select('id').maybeSingle();
+      if (!claimed) return json({ ok: true, sent: 0 });
+      let q = db.from('hc_members').select('user_id,email').eq('clinic_id', m.clinic_id).neq('user_id', who.user.id).limit(ALERT_MAX_RECIPIENTS);
+      if (m.recipient_id) q = q.eq('user_id', m.recipient_id);
+      const [{ data: people }, { data: clinic }] = await Promise.all([q, db.from('hc_clinics').select('name').eq('id', m.clinic_id).maybeSingle()]);
+      const content = teamAlertEmail(clinic?.name ?? 'your clinic');
+      let sent = 0;
+      for (const person of people ?? []) {
+        if (!person.email) continue;
+        const { data: log } = await db.from('hc_team_alert_log').select('last_sent_at').eq('user_id', person.user_id).maybeSingle();
+        if (!alertDue(log?.last_sent_at, new Date())) continue;
+        await db.from('hc_team_alert_log').upsert({ user_id: person.user_id, last_sent_at: new Date().toISOString() });
+        try { if (emailWasAccepted(await resend.emails.send({ ...clinicalEmailRouting(person.email), ...content }))) sent++; } catch { /* alert is best effort; the message itself is saved */ }
+      }
+      return json({ ok: true, sent });
+    }
   }
 
   const p = Request.safeParse(body);
