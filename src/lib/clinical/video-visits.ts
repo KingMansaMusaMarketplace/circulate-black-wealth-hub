@@ -59,6 +59,51 @@ export function connectionLabel(state: RTCPeerConnectionState | 'waiting' | 'idl
   }
 }
 
+/** The offer an answer replies to (signal id), or null. */
+export function answerRef(payload: unknown): number | null {
+  const r = (payload as { ref?: unknown } | null)?.ref;
+  return typeof r === 'number' && Number.isInteger(r) && r > 0 ? r : null;
+}
+
+export type Signal = { id: number; sender_side: string; kind: string; payload: unknown };
+export type SignalAction =
+  | { do: 'send_hello' }
+  | { do: 'make_offer' }
+  | { do: 'answer'; offerId: number; offer: RTCSessionDescriptionInit }
+  | { do: 'accept_answer'; ref: number; answer: RTCSessionDescriptionInit }
+  | { do: 'peer_left' };
+
+/**
+ * What to do with a batch of new handshake notes. The clinic makes one offer per batch when the
+ * patient says hello; the patient answers only the newest offer and says hello back only when no
+ * offer followed. A goodbye counts only if nothing newer arrived after it.
+ */
+export function planSignals(side: VideoSide, batch: Signal[]): SignalAction[] {
+  const theirs = batch.filter((s) => s.sender_side !== side).sort((a, b) => a.id - b.id);
+  const last = (kind: string) => theirs.reduce((i, s, n) => (s.kind === kind ? n : i), -1);
+  const hello = last('hello'); const bye = last('bye');
+  if (side === 'clinic') {
+    const ans = last('answer');
+    if (bye > hello && bye > ans) return [{ do: 'peer_left' }];
+    const out: SignalAction[] = [];
+    if (hello >= 0) out.push({ do: 'make_offer' });
+    if (ans > hello) {
+      const s = theirs[ans]; const d = parseDescription(s.payload, 'answer'); const ref = answerRef(s.payload);
+      if (d && ref) out.push({ do: 'accept_answer', ref, answer: d });
+    }
+    return out;
+  }
+  const off = last('offer');
+  if (bye > hello && bye > off) return [{ do: 'peer_left' }];
+  const out: SignalAction[] = [];
+  if (hello > off) out.push({ do: 'send_hello' });
+  if (off >= 0 && off > bye) {
+    const s = theirs[off]; const d = parseDescription(s.payload, 'offer');
+    if (d) out.push({ do: 'answer', offerId: s.id, offer: d });
+  }
+  return out;
+}
+
 /** Only well-formed offer/answer descriptions are accepted from the other side. */
 export function parseDescription(payload: unknown, expected: 'offer' | 'answer'): RTCSessionDescriptionInit | null {
   if (!payload || typeof payload !== 'object') return null;
