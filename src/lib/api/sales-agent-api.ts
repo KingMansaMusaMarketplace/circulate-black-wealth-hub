@@ -169,20 +169,23 @@ export const getSalesAgentByUserId = async (userId: string): Promise<SalesAgent 
 
 export const getSalesAgentByReferralCode = async (referralCode: string): Promise<SalesAgent | null> => {
   try {
-    // Use the secure function that only returns minimal data
-    const { data: referralData, error: referralError } = await supabase
-      .rpc('get_active_referral_codes');
+    // Check one code at a time (never download the full list of agent codes).
+    const code = referralCode.trim().toUpperCase();
+    if (!code) return null;
+    const { data: check, error: referralError } = await supabase
+      .rpc('validate_referral_code', { p_referral_code: code });
 
     if (referralError) {
-      console.error('Error fetching active referral codes:', referralError);
+      console.error('Error validating referral code:', referralError);
       return null;
     }
 
-    const agent = referralData?.find((agent: any) => agent.referral_code === referralCode);
-    if (!agent) {
-      console.log('No active agent found for referral code:', referralCode);
+    const result = check as { valid?: boolean } | null;
+    if (!result?.valid) {
+      console.log('No active agent found for referral code:', code);
       return null;
     }
+    const agent = { referral_code: code, is_active: true };
 
     // Return minimal safe data for referral functionality only
     return {
