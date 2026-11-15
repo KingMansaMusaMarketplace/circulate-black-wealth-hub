@@ -169,7 +169,7 @@ function PilotPatientsInner({ clinicId, isOwner, userId = null, role = null, cli
       </div>
       {seeding && <p role="status" className="text-sm text-muted-foreground">Loading {SAMPLE_PATIENT_COUNT} made-up sample patients…</p>}
       {view === 'dashboard' && (
-        <PilotDashboard clinicId={clinicId} isOwner={isOwner} patients={patients.rows} audit={isOwner ? audit.rows : null}
+        <PilotDashboard clinicId={clinicId} isOwner={isOwner} canReadCharts={perms.readChart} patients={patients.rows} audit={isOwner ? audit.rows : null}
           onOpenPatient={(id, tab) => openPatient(id, tab)} onOpenLog={() => setView('chartlog')} />
       )}
       {view === 'chartlog' && isOwner && <><DataLoadErrors sources={[audit]} /><PilotChartLog audit={audit.rows} patients={patients.rows} loading={audit.loading} /></>}

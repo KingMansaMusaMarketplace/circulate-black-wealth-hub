@@ -11,8 +11,9 @@ import { buildDashboardStats, dailySeries } from '@/lib/clinical/pilot-visit-not
 import DataLoadErrors from './DataLoadErrors';
 import { Row, useRows } from './hc';
 import { usePilotPrivacy } from './PilotPrivacy';
+import { QualitySnapshot } from './PilotCareReminders';
 
-type Props = { clinicId: string; isOwner?: boolean; patients: Row[]; audit: Row[] | null; onOpenPatient: (id: string, tab?: string) => void; onOpenLog: () => void };
+type Props = { clinicId: string; isOwner?: boolean; canReadCharts?: boolean; patients: Row[]; audit: Row[] | null; onOpenPatient: (id: string, tab?: string) => void; onOpenLog: () => void };
 
 const activityConfig = {
   patients: { label: 'New test patients', color: 'hsl(var(--mansagold))' },
@@ -20,7 +21,7 @@ const activityConfig = {
 } satisfies ChartConfig;
 const typeConfig = { count: { label: 'Records', color: 'hsl(var(--mansagold))' } } satisfies ChartConfig;
 
-export default function PilotDashboard({ clinicId, isOwner, patients, audit, onOpenPatient, onOpenLog }: Props) {
+export default function PilotDashboard({ clinicId, isOwner, canReadCharts, patients, audit, onOpenPatient, onOpenLog }: Props) {
   const notes = useRows('hc_pilot_visit_notes', clinicId, { order: 'visit_date', asc: false });
   const records = useRows('hc_pilot_records', clinicId, { order: 'recorded_on', asc: false });
   const { name } = usePilotPrivacy();
@@ -98,6 +99,8 @@ export default function PilotDashboard({ clinicId, isOwner, patients, audit, onO
           </CardContent>
         </Card>
       </div>
+
+      {canReadCharts && <QualitySnapshot patients={patients} records={records.rows} loading={records.loading} />}
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
