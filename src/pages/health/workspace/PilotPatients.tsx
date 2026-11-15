@@ -397,8 +397,8 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName, initial
             {MAIN_CHART_TABS.map((t) => <TabsTrigger key={`chart-tab-${t.id}`} value={t.id}>{t.label}</TabsTrigger>)}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button type="button" data-state={isMoreTab(tab) ? 'active' : 'inactive'}
-                  className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm">
+                <button type="button" data-chart-active={isMoreTab(tab) ? 'true' : 'false'}
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[chart-active=true]:bg-background data-[chart-active=true]:text-foreground data-[chart-active=true]:shadow-sm">
                   {isMoreTab(tab) ? `More · ${visibleMoreTabs(perms.portalTeam).find((t) => t.id === tab)?.label ?? ''}` : 'More'}
                   <ChevronDown className="ml-1 h-4 w-4" />
                 </button>
