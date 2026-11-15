@@ -29,14 +29,17 @@ const QRPayBill: React.FC<QRPayBillProps> = ({
   discountPercentage,
   onCancel,
 }) => {
-  const [amountStr, setAmountStr] = useState("");
+  const [code, setCode] = useState("");
+  const [bill, setBill] = useState<{ amount: number; finalAmount: number; discountPercentage: number; description: string | null } | null>(null);
+  const [checking, setChecking] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const amount = parseFloat(amountStr) || 0;
+  const amount = bill?.amount ?? 0;
+  const appliedDiscount = bill?.discountPercentage ?? discountPercentage;
 
   const breakdown = useMemo(() => {
-    const discount = amount * (discountPercentage / 100);
-    const finalAmount = Math.max(0, amount - discount);
+    const finalAmount = bill?.finalAmount ?? 0;
+    const discount = Math.max(0, amount - finalAmount);
     const bonusPoints = Math.floor(finalAmount * 10); // 10 pts/$
     return {
       discount,
@@ -44,15 +47,42 @@ const QRPayBill: React.FC<QRPayBillProps> = ({
       bonusPoints,
       totalPoints: pointsEarned + bonusPoints,
     };
-  }, [amount, discountPercentage, pointsEarned]);
+  }, [amount, bill, pointsEarned]);
 
-  const handlePay = async () => {
-    if (amount <= 0) {
-      toast.error("Please enter your bill amount");
+  const request = (previewOnly: boolean) =>
+    supabase.functions.invoke("process-qr-transaction", {
+      body: {
+        businessId,
+        qrCodeId,
+        billCode: code.trim().toUpperCase(),
+        previewOnly,
+        description: `Bill payment at ${businessName}`,
+        successUrl: `${window.location.origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+        cancelUrl: `${window.location.origin}/qr-scanner?canceled=1`,
+      },
+    });
+
+  const handleCheck = async () => {
+    if (!/^[A-Za-z0-9]{4,12}$/.test(code.trim())) {
+      toast.error("Enter the bill code the business gave you");
       return;
     }
-    if (breakdown.finalAmount < 0.5) {
-      toast.error("Total must be at least $0.50");
+    setChecking(true);
+    setBill(null);
+    try {
+      const { data, error } = await request(true);
+      if (error || !data?.success) throw new Error(data?.error || "That bill code was not found or has expired.");
+      setBill({ amount: data.amount, finalAmount: data.finalAmount, discountPercentage: data.discountPercentage, description: data.description });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "That bill code was not found or has expired.");
+    } finally {
+      setChecking(false);
+    }
+  };
+
+  const handlePay = async () => {
+    if (!bill) {
+      toast.error("Check your bill code first");
       return;
     }
 
@@ -63,17 +93,7 @@ const QRPayBill: React.FC<QRPayBillProps> = ({
 
     try {
       setSubmitting(true);
-      const { data, error } = await supabase.functions.invoke("process-qr-transaction", {
-        body: {
-          businessId,
-          qrCodeId,
-          amount, // pre-discount bill
-          discountPercentage,
-          description: `Bill payment at ${businessName}`,
-          successUrl: `${window.location.origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-          cancelUrl: `${window.location.origin}/qr-scanner?canceled=1`,
-        },
-      });
+      const { data, error } = await request(false);
 
       if (error) throw error;
       if (!data?.success || !data?.url) {
@@ -109,29 +129,33 @@ const QRPayBill: React.FC<QRPayBillProps> = ({
         )}
 
         <div className="space-y-2">
-          <Label htmlFor="bill-amount">Bill amount (USD)</Label>
-          <Input
-            id="bill-amount"
-            type="number"
-            inputMode="decimal"
-            step="0.01"
-            min="0"
-            placeholder="0.00"
-            value={amountStr}
-            onChange={(e) => setAmountStr(e.target.value)}
-            disabled={submitting}
-          />
+          <Label htmlFor="bill-code">Bill code</Label>
+          <div className="flex gap-2">
+            <Input
+              id="bill-code"
+              autoCapitalize="characters"
+              placeholder="e.g. 7K2Q9A"
+              value={code}
+              maxLength={12}
+              onChange={(e) => { setCode(e.target.value); setBill(null); }}
+              disabled={submitting}
+            />
+            <Button variant="outline" onClick={handleCheck} disabled={checking || submitting || !code.trim()}>
+              {checking ? <Loader2 className="h-4 w-4 animate-spin" /> : "Check"}
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground">Ask the cashier for your bill code. The business sets the amount.</p>
         </div>
 
-        {amount > 0 && (
+        {bill && (
           <div className="rounded-lg border bg-muted/30 p-4 space-y-2 text-sm">
             <div className="flex justify-between">
               <span>Subtotal</span>
               <span>${amount.toFixed(2)}</span>
             </div>
-            {discountPercentage > 0 && (
+            {appliedDiscount > 0 && (
               <div className="flex justify-between text-primary">
-                <span>Discount ({discountPercentage}%)</span>
+                <span>Discount ({appliedDiscount}%)</span>
                 <span>−${breakdown.discount.toFixed(2)}</span>
               </div>
             )}
@@ -155,7 +179,7 @@ const QRPayBill: React.FC<QRPayBillProps> = ({
           <Button variant="outline" onClick={onCancel} disabled={submitting} className="flex-1">
             Cancel
           </Button>
-          <Button onClick={handlePay} disabled={submitting || amount <= 0} className="flex-1">
+          <Button onClick={handlePay} disabled={submitting || !bill} className="flex-1">
             {submitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
