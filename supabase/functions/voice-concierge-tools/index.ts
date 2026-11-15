@@ -148,8 +148,9 @@ serve(async (req) => {
           const safeCity = sanitizeSearchInput(args.city);
           if (safeCity) query = query.ilike("city", `%${safeCity}%`);
         }
-        if (args.min_rating) {
-          query = query.gte("average_rating", args.min_rating);
+        const minRating = Number(args.min_rating);
+        if (args.min_rating != null && Number.isFinite(minRating) && minRating >= 0 && minRating <= 5) {
+          query = query.gte("average_rating", minRating);
         }
         if (args.query && typeof args.query === 'string') {
           const safeQuery = sanitizeSearchInput(args.query);
