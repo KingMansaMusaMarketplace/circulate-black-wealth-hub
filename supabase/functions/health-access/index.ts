@@ -277,8 +277,9 @@ Deno.serve(async (req) => {
         await db.from('hc_team_invites').update({ status: 'cancelled' }).eq('id', invite.id).eq('status', 'requested');
         return json({ ok: false, reason: filed.reason }, filed.reason === 'person_limit' ? 429 : 500);
       }
-      const inviteeEmailed = await emailInvitee(invite, made.clinic_name ?? 'your clinic', false);
-      return json({ ok: true, invite_id: invite.id, notification_accepted: filed.notified, invitee_email_accepted: inviteeEmailed });
+      // The invitee is not emailed yet: the address the caller typed only receives
+      // mail after 1325 approves the request (the approval email goes to it then).
+      return json({ ok: true, invite_id: invite.id, notification_accepted: filed.notified, invitee_email_accepted: false, awaiting_approval: true });
     }
 
     if (sr.success) {
@@ -297,8 +298,9 @@ Deno.serve(async (req) => {
         if (!filed.ok) return json({ ok: false, reason: filed.reason }, filed.reason === 'person_limit' ? 429 : 500);
         refiled = true; approved = false;
       }
-      const inviteeEmailed = await emailInvitee(invite, clinicName, approved);
-      return json({ ok: true, refiled, invitee_email_accepted: inviteeEmailed });
+      // Only an address 1325 has already approved can be emailed directly.
+      const inviteeEmailed = approved ? await emailInvitee(invite, clinicName, true) : false;
+      return json({ ok: true, refiled, approved, invitee_email_accepted: inviteeEmailed });
     }
 
     if (ta.success) {
