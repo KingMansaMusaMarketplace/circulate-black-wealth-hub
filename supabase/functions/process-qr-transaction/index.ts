@@ -289,6 +289,8 @@ serve(async (req) => {
       },
     });
 
+    await supabase.from("qr_bill_requests").update({ checkout_session_id: session.id }).eq("id", bill.id);
+
     // Record platform fee row so QR revenue appears in admin Platform Revenue dashboard.
     // Webhook (payment_intent.succeeded/failed, charge.refunded) updates this row by stripe_payment_intent_id.
     const paymentIntentId =
