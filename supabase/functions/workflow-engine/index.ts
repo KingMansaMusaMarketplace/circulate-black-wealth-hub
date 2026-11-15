@@ -249,10 +249,26 @@ async function executeAction(
         if (PRIVATE_HOST_RE.test(hostname) || BLOCKED_HOSTS.has(hostname)) {
           throw new Error("Webhook url targets a private or metadata address");
         }
-
-        const resolvedBody = body_template
-          ? JSON.parse(resolveTemplate(JSON.stringify(body_template), context))
-          : context;
+        // SECURITY: default-deny outbound destinations. Only HTTPS hosts that
+        // 1325 has approved (WORKFLOW_WEBHOOK_ALLOWED_HOSTS, comma-separated)
+        // may receive workflow data; raw IP addresses are never allowed.
+        if (parsedUrl.protocol !== "https:") {
+          throw new Error("Webhook url must use https");
+        }
+        if (/^[\d.]+$/.test(hostname) || hostname.includes(":") || hostname.startsWith("[")) {
+          throw new Error("Webhook url must use a named, approved host");
+        }
+        const allowedHosts = (Deno.env.get("WORKFLOW_WEBHOOK_ALLOWED_HOSTS") ?? "")
+          .split(",").map((h) => h.trim().toLowerCase()).filter(Boolean);
+        if (!allowedHosts.includes(hostname)) {
+          throw new Error("Webhook destination is not approved by 1325. Ask 1325 to approve this address first.");
+        }
+        // Only the fields the owner explicitly mapped are sent — never the whole
+        // trigger record (which can contain customer details).
+        if (!body_template || typeof body_template !== "object") {
+          throw new Error("Webhook needs a body template listing the fields to send");
+        }
+        const resolvedBody = JSON.parse(resolveTemplate(JSON.stringify(body_template), context));
 
         // SECURITY: do NOT forward caller-controlled headers (Authorization, Cookie, etc.)
         // to prevent credential relay / smuggling via webhook actions.
