@@ -12031,6 +12031,161 @@ export type Database = {
           },
         ]
       }
+      hc_team_alert_log: {
+        Row: {
+          last_sent_at: string
+          user_id: string
+        }
+        Insert: {
+          last_sent_at?: string
+          user_id: string
+        }
+        Update: {
+          last_sent_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      hc_team_invites: {
+        Row: {
+          access_request_id: string | null
+          clinic_id: string
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          invited_by: string
+          invited_by_email: string | null
+          joined_at: string | null
+          last_emailed_at: string | null
+          role: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          access_request_id?: string | null
+          clinic_id: string
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          invited_by: string
+          invited_by_email?: string | null
+          joined_at?: string | null
+          last_emailed_at?: string | null
+          role: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          access_request_id?: string | null
+          clinic_id?: string
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          invited_by?: string
+          invited_by_email?: string | null
+          joined_at?: string | null
+          last_emailed_at?: string | null
+          role?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_team_invites_access_request_id_fkey"
+            columns: ["access_request_id"]
+            isOneToOne: false
+            referencedRelation: "hc_access_requests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_team_invites_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_team_message_reads: {
+        Row: {
+          message_id: string
+          read_at: string
+          user_id: string
+        }
+        Insert: {
+          message_id: string
+          read_at?: string
+          user_id: string
+        }
+        Update: {
+          message_id?: string
+          read_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_team_message_reads_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "hc_team_messages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hc_team_messages: {
+        Row: {
+          alerted_at: string | null
+          body: string
+          clinic_id: string
+          created_at: string
+          id: string
+          patient_id: string | null
+          recipient_id: string | null
+          sender_email: string | null
+          sender_id: string
+        }
+        Insert: {
+          alerted_at?: string | null
+          body: string
+          clinic_id: string
+          created_at?: string
+          id?: string
+          patient_id?: string | null
+          recipient_id?: string | null
+          sender_email?: string | null
+          sender_id: string
+        }
+        Update: {
+          alerted_at?: string | null
+          body?: string
+          clinic_id?: string
+          created_at?: string
+          id?: string
+          patient_id?: string | null
+          recipient_id?: string | null
+          sender_email?: string | null
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hc_team_messages_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "hc_clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hc_team_messages_patient_id_fkey"
+            columns: ["patient_id"]
+            isOneToOne: false
+            referencedRelation: "hc_pilot_patients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       hc_vendor_baas: {
         Row: {
           attorney_approved: boolean
@@ -30361,9 +30516,15 @@ export type Database = {
         Args: { _clinic: string; _patient: string }
         Returns: boolean
       }
+      hc_cancel_team_invite: { Args: { _invite: string }; Returns: boolean }
+      hc_claim_team_invites: { Args: never; Returns: Json }
       hc_create_clinic: {
         Args: { _name: string; _specialty?: string }
         Returns: string
+      }
+      hc_create_team_invite: {
+        Args: { _clinic: string; _email: string; _name: string; _role: string }
+        Returns: Json
       }
       hc_glass_active: {
         Args: { _clinic: string; _patient: string }
@@ -30394,6 +30555,20 @@ export type Database = {
       }
       hc_is_member: { Args: { _clinic: string }; Returns: boolean }
       hc_is_owner: { Args: { _clinic: string }; Returns: boolean }
+      hc_list_team_invites: {
+        Args: { _clinic: string }
+        Returns: {
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          joined_at: string
+          last_emailed_at: string
+          request_status: string
+          role: string
+          status: string
+        }[]
+      }
       hc_member_role: { Args: { _clinic: string }; Returns: string }
       hc_pilot_billable_visits: {
         Args: { _clinic: string }
