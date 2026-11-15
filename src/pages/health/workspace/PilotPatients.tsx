@@ -326,7 +326,7 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName, initial
   }, [checkGoLive, real]);
   const writable = chartWritable(real, realAllowed);
   const [adding, setAdding] = useState<string | null>(null);
-  const [tab, setTab] = useState<string>(() => resolveChartTab(initialTab, pilotPermissions(role).portalTeam));
+  const [tab, setTab] = useState<string>(() => resolveChartTab(initialTab, perms.portalTeam));
   const logged = useRef<string | null>(null);
   useEffect(() => {
     if (logged.current === patient.id) return;
@@ -446,7 +446,8 @@ function PilotChart({ clinicId, patient, back, userId, role, clinicName, initial
               <CardContent className="text-sm">{patient.conditions?.length ? patient.conditions.join(', ') : 'None recorded'}
                 {byType('problem').length > 0 && <ul className="mt-2 list-disc pl-5">{byType('problem').map((r) => <li key={r.id}>{r.title}</li>)}</ul>}</CardContent></Card>
             <Card><CardHeader className="pb-2"><CardTitle className="text-base">Current medicines</CardTitle></CardHeader>
-              <CardContent className="text-sm">{byType('medication').length ? <ul className="list-disc pl-5">{byType('medication').map((r) => <li key={r.id}>{r.medication_name}{r.dose ? ` · ${r.dose}` : ''}{r.med_frequency ? ` · ${r.med_frequency}` : ''}</li>)}</ul> : 'None recorded'}</CardContent></Card>
+              <CardContent className="text-sm">{byType('medication').length ? <ul className="list-disc pl-5">{byType('medication').map((r) => <li key={r.id}>{r.medication_name}{r.dose ? ` · ${r.dose}` : ''}{r.med_frequency ? ` · ${r.med_frequency}` : ''}</li>)}</ul> : 'None recorded'}
+                <Button size="sm" variant="link" className="block px-0" onClick={() => setTab('meds')}>See all medications and prescriptions</Button></CardContent></Card>
             <Card><CardHeader className="pb-2"><CardTitle className="text-base">Allergies</CardTitle></CardHeader>
               <CardContent className="text-sm">{allergyRecords.length ? <ul className="space-y-1">{allergyRecords.map((r) => (
                 <li key={r.id} className="flex flex-wrap items-center gap-2"><span>{r.title}</span>{r.allergy_severity && <Badge variant={severityVariant(r.allergy_severity)}>{ALLERGY_SEVERITY_LABELS[r.allergy_severity as AllergySeverity] ?? r.allergy_severity}</Badge>}{r.allergy_reaction && <span className="text-muted-foreground">· {r.allergy_reaction}</span>}</li>
