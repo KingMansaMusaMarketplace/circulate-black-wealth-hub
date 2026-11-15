@@ -37,8 +37,9 @@ export function buildHandoffPdf(preview: HandoffPreview, meta: { patientName: st
     doc.saveGraphicsState();
     // Light diagonal stamp across the page.
     doc.setGState(new (doc as unknown as { GState: new (o: { opacity: number }) => unknown }).GState({ opacity: 0.12 }) as never);
-    doc.setTextColor(...RED); doc.setFont('helvetica', 'bold'); doc.setFontSize(46);
-    doc.text(SAMPLE_STAMP, W / 2, H / 2, { align: 'center', angle: 35 });
+    doc.setTextColor(...RED); doc.setFont('helvetica', 'bold'); doc.setFontSize(34);
+    const a = (35 * Math.PI) / 180; const w = doc.getTextWidth(SAMPLE_STAMP);
+    doc.text(SAMPLE_STAMP, W / 2 - (Math.cos(a) * w) / 2, H / 2 + (Math.sin(a) * w) / 2, { angle: 35 });
     doc.restoreGraphicsState();
   };
   const footer = () => {
