@@ -1,6 +1,8 @@
 import React from 'react';
 import { useCapacitor } from '@/hooks/use-capacitor';
 import { VoiceButton, VoiceTranscript, useVoiceConnection } from './voice';
+import { useKaylaChatPreferences } from '@/hooks/use-kayla-chat-preferences';
+import { KaylaAdultConfirmDialog } from '@/components/ai/kayla-privacy/KaylaAdultConfirmDialog';
 
 interface VoiceInterfaceProps {
   onSpeakingChange?: (speaking: boolean) => void;
@@ -19,7 +21,15 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
     endConversation,
   } = useVoiceConnection({ onSpeakingChange });
 
+  const prefs = useKaylaChatPreferences();
+  const [ageCheckOpen, setAgeCheckOpen] = React.useState(false);
+
   const handleStart = async () => {
+    // Kayla chat is for adults: ask once before the first voice chat.
+    if (!prefs.adultConfirmed) {
+      setAgeCheckOpen(true);
+      return;
+    }
     try {
       console.log('[VoiceInterface] Ask Kayla pressed - starting conversation...');
       await startConversation();
@@ -33,8 +43,15 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
     return null;
   }
 
+  const confirmAndStart = () => {
+    void prefs.confirmAdult();
+    setAgeCheckOpen(false);
+    startConversation().catch((error) => console.error('[VoiceInterface] Error starting conversation:', error));
+  };
+
   return (
     <>
+      <KaylaAdultConfirmDialog open={ageCheckOpen} onOpenChange={setAgeCheckOpen} onConfirm={confirmAndStart} />
       <div
         className="fixed left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center gap-4"
         style={{
