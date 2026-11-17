@@ -29406,6 +29406,7 @@ export type Database = {
       }
       _is_admin_current_user: { Args: never; Returns: boolean }
       _is_admin_or_service: { Args: never; Returns: boolean }
+      _is_trusted_claim: { Args: never; Returns: boolean }
       _review_range_match: {
         Args: { _name: string; _range: string }
         Returns: boolean
