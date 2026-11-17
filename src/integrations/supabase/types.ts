@@ -13423,6 +13423,51 @@ export type Database = {
           },
         ]
       }
+      kayla_autopilot_state: {
+        Row: {
+          enabled: boolean
+          id: number
+          last_daily_on: string | null
+          last_email_at: string | null
+          last_email_id: string | null
+          last_tick_at: string | null
+          last_tick_note: string | null
+          last_weekly_on: string | null
+          lease_until: string | null
+          paused_at: string | null
+          paused_reason: string | null
+          updated_at: string
+        }
+        Insert: {
+          enabled?: boolean
+          id?: number
+          last_daily_on?: string | null
+          last_email_at?: string | null
+          last_email_id?: string | null
+          last_tick_at?: string | null
+          last_tick_note?: string | null
+          last_weekly_on?: string | null
+          lease_until?: string | null
+          paused_at?: string | null
+          paused_reason?: string | null
+          updated_at?: string
+        }
+        Update: {
+          enabled?: boolean
+          id?: number
+          last_daily_on?: string | null
+          last_email_at?: string | null
+          last_email_id?: string | null
+          last_tick_at?: string | null
+          last_tick_note?: string | null
+          last_weekly_on?: string | null
+          lease_until?: string | null
+          paused_at?: string | null
+          paused_reason?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       kayla_b2b_matches: {
         Row: {
           buyer_business_id: string
@@ -13567,45 +13612,63 @@ export type Database = {
       kayla_benchmark_runs: {
         Row: {
           accuracy_score: number | null
+          autopilot_processed_at: string | null
           average_score: number | null
+          case_ids: string[] | null
           cases_run: number
           created_by: string | null
           failed: number
           finished_at: string | null
           grounding_score: number | null
+          hops: number
           id: string
+          kind: string
           notes: string | null
           passed: number
           run_label: string | null
           started_at: string
+          trial_proposal_id: string | null
+          trial_rule: string | null
         }
         Insert: {
           accuracy_score?: number | null
+          autopilot_processed_at?: string | null
           average_score?: number | null
+          case_ids?: string[] | null
           cases_run?: number
           created_by?: string | null
           failed?: number
           finished_at?: string | null
           grounding_score?: number | null
+          hops?: number
           id?: string
+          kind?: string
           notes?: string | null
           passed?: number
           run_label?: string | null
           started_at?: string
+          trial_proposal_id?: string | null
+          trial_rule?: string | null
         }
         Update: {
           accuracy_score?: number | null
+          autopilot_processed_at?: string | null
           average_score?: number | null
+          case_ids?: string[] | null
           cases_run?: number
           created_by?: string | null
           failed?: number
           finished_at?: string | null
           grounding_score?: number | null
+          hops?: number
           id?: string
+          kind?: string
           notes?: string | null
           passed?: number
           run_label?: string | null
           started_at?: string
+          trial_proposal_id?: string | null
+          trial_rule?: string | null
         }
         Relationships: []
       }
@@ -14648,48 +14711,69 @@ export type Database = {
       }
       kayla_improvement_proposals: {
         Row: {
+          auto_applied: boolean
+          auto_applied_at: string | null
+          autopilot_note: string | null
+          autopilot_status: string | null
           created_at: string
           diagnosis: string | null
           grader_notes: string | null
           id: string
+          origin: string
           proposed_rule: string
           question: string
           reviewed_at: string | null
           reviewed_by: string | null
           run_id: string | null
           score: number | null
+          source_case_id: string | null
           source_result_id: string | null
           status: string
+          trial_run_id: string | null
           weak_answer: string | null
         }
         Insert: {
+          auto_applied?: boolean
+          auto_applied_at?: string | null
+          autopilot_note?: string | null
+          autopilot_status?: string | null
           created_at?: string
           diagnosis?: string | null
           grader_notes?: string | null
           id?: string
+          origin?: string
           proposed_rule: string
           question: string
           reviewed_at?: string | null
           reviewed_by?: string | null
           run_id?: string | null
           score?: number | null
+          source_case_id?: string | null
           source_result_id?: string | null
           status?: string
+          trial_run_id?: string | null
           weak_answer?: string | null
         }
         Update: {
+          auto_applied?: boolean
+          auto_applied_at?: string | null
+          autopilot_note?: string | null
+          autopilot_status?: string | null
           created_at?: string
           diagnosis?: string | null
           grader_notes?: string | null
           id?: string
+          origin?: string
           proposed_rule?: string
           question?: string
           reviewed_at?: string | null
           reviewed_by?: string | null
           run_id?: string | null
           score?: number | null
+          source_case_id?: string | null
           source_result_id?: string | null
           status?: string
+          trial_run_id?: string | null
           weak_answer?: string | null
         }
         Relationships: [
