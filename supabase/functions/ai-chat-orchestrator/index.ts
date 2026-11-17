@@ -5,6 +5,7 @@ import { retrieveRAGContext, retrievePersonalMemory } from "../_shared/kayla-mem
 import { gatherLiveGrounding, resolveOwnedBusinessId } from "../_shared/kayla-grounding.ts";
 import { buildTeamBriefing, logHandoff } from "../_shared/kayla-handoffs.ts";
 import { premiumChatAnswer, textToChatSSE, wantsPremium } from "../_shared/kayla-deep.ts";
+import { assessChat, fixedReplyStream, loadRecentSafetyEvents, logSafetyEvent, withSafetyNote } from "../_shared/kayla-harm-stages.ts";
 
 // Memory + platform knowledge now live in _shared/kayla-memory.ts so every
 // Kayla surface remembers the same things.
@@ -367,6 +368,16 @@ Deno.serve(async (req) => {
       console.error('[Kayla memory] Session upsert failed (non-fatal):', e);
     }
 
+    // ========== HARM-STAGE ENGINE: fixed rules decide before any AI runs ==========
+    const safety = assessChat(requestBody.messages, await loadRecentSafetyEvents(supabase, user.id));
+    await logSafetyEvent(supabase, user.id, "chat-orchestrator", safety);
+    if (safety.action === "replace" && safety.fixedReply) {
+      return new Response(
+        fixedReplyStream(safety.fixedReply, { model_used: "safety-rules", session_id: sessionId, safety_tier: safety.tier }),
+        { headers: { ...corsHeaders, "Content-Type": "text/event-stream" } },
+      );
+    }
+
     // ========== CHECK API KEYS ==========
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     const ANTHROPIC_API_KEY = Deno.env.get("ANTHROPIC_API_KEY");
@@ -388,6 +399,7 @@ Deno.serve(async (req) => {
     } catch { /* not admin */ }
 
     let systemPrompt = buildSystemPrompt(isAdmin) + await loadApprovedImprovements(supabase);
+    if (safety.systemNote) systemPrompt += safety.systemNote;
     const lastMessage = messages[messages.length - 1];
     const lastUserMessage = getMessageText(lastMessage?.content || '');
     const messageHasImage = hasImage(lastMessage?.content);
@@ -593,7 +605,7 @@ Deno.serve(async (req) => {
     const encoder = new TextEncoder();
     const modelInfoChunk = encoder.encode(`data: ${JSON.stringify({ model_used: modelUsed, session_id: sessionId })}\n\n`);
 
-    const originalBody = responseStream.body;
+    const originalBody = responseStream.body ? withSafetyNote(responseStream.body, safety.prependText) : null;
     if (!originalBody) {
       return new Response(JSON.stringify({ error: "Empty response from AI" }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });

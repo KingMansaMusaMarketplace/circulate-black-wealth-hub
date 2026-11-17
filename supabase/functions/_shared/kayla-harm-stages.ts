@@ -388,3 +388,37 @@ export function sseChunk(text: string, model = "safety-rules"): Uint8Array {
   const data = { choices: [{ delta: { content: text }, index: 0 }], model };
   return new TextEncoder().encode(`data: ${JSON.stringify(data)}\n\n`);
 }
+
+/** A complete chat reply made only of fixed words (tiers 3–4). */
+export function fixedReplyStream(text: string, head?: Record<string, unknown>): ReadableStream<Uint8Array> {
+  const enc = new TextEncoder();
+  return new ReadableStream({
+    start(controller) {
+      if (head) controller.enqueue(enc.encode(`data: ${JSON.stringify(head)}\n\n`));
+      for (let i = 0; i < text.length; i += 24) controller.enqueue(sseChunk(text.slice(i, i + 24)));
+      controller.enqueue(enc.encode("data: [DONE]\n\n"));
+      controller.close();
+    },
+  });
+}
+
+/** Show the fixed tier-2 safety note first, then the AI's reply. */
+export function withSafetyNote(stream: ReadableStream<Uint8Array>, note?: string): ReadableStream<Uint8Array> {
+  if (!note) return stream;
+  return new ReadableStream({
+    async start(controller) {
+      controller.enqueue(sseChunk(`${note}\n\n`));
+      const reader = stream.getReader();
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          controller.enqueue(value);
+        }
+        controller.close();
+      } catch (e) {
+        controller.error(e);
+      }
+    },
+  });
+}
