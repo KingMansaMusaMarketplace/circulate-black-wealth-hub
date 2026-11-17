@@ -1,5 +1,11 @@
 # Roadmap
 
+## Kayla Autopilot — November 17, 2026
+- [x] Daily 12-question check + Sunday-night full test, run on a schedule; stuck tests closed automatically.
+- [x] One proof-tested fix per check; kept only if the failed question passes and nothing else worsens; Clinical/money/legal/patent/new-fact fixes wait for approval; max 3 per week; Undo button; auto switch-off.
+- [x] Owner emails only when something needs attention (first email sent: 3 old stuck tests closed).
+- [ ] First live daily check + fix trial — runs on its own Tuesday morning; owner to look at the Autopilot panel afterwards.
+
 ## Chart tabs tidy-up — November 15, 2026
 - [x] Patient chart: 11 tabs → 6 main tabs (Summary, Visit notes, Medications, Orders & results, Vitals, Problems & allergies) + a More menu (Social needs, Patient portal, All records); never wraps, scrolls sideways on very small screens.
 - [x] One Medications screen: prescriptions written here + home medicines, with Write prescription and Record home medicine buttons; lab orders and lab results share Orders & results.
