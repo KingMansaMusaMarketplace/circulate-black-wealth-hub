@@ -107,21 +107,26 @@ Deno.test("P1/P2: early trust and probing signs are logged quietly", () => {
   assertEquals(assessMessage("are your parents home right now").stages, ["P2"]);
 });
 
-Deno.test("P3: sexual photo pressure gets a fixed note", () => {
+Deno.test("P3: boundary-testing is logged quietly", () => {
+  assertEquals(assessMessage("what are you wearing").stages, ["P3"]);
+  assertEquals(assessMessage("what are you wearing").tier, 1);
+});
+
+Deno.test("P5: private-image pressure gets a fixed note", () => {
   const d = assessMessage("a buyer keeps asking for private pics");
-  assertEquals(d.stages, ["P3"]);
+  assertEquals(d.stages, ["P5"]);
   assertEquals(d.tier, 2);
   assert(d.prependText!.includes("takeitdown.ncmec.org"));
 });
 
-Deno.test("P5: secrecy coaching gets a fixed note", () => {
+Deno.test("P2: secrecy coaching gets a fixed note", () => {
   const d = assessMessage("he told me to keep it a secret and not tell anyone");
-  assertEquals(d.stages, ["P5"]);
+  assertEquals(d.stages, ["P2"]);
   assertEquals(d.tier, 2);
 });
 
 Deno.test("two different early stages together escalate to a note", () => {
-  const d = assessMessage("are your parents home right now", ["he said only he understands me"]);
+  const d = assessMessage("what are you wearing", ["he said only he understands me"]);
   assertEquals(d.tier, 2);
   assert(d.escalatedBy.includes("early_stage_pattern"));
 });
