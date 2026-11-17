@@ -75,14 +75,14 @@ serve(async (req) => {
     if (!isAdmin) {
       const since = new Date(Date.now() - 6 * 86400000).toISOString();
       const { count } = await supabase
-        .from("kayla_improvement_proposals").select("id", { count: "exact", head: true }).gte("created_at", since);
+        .from("kayla_improvement_proposals").select("id", { count: "exact", head: true }).eq("origin", "weekly").gte("created_at", since);
       if ((count ?? 0) > 0) return json({ skipped: true, reason: "already ran this week" });
     }
 
     // ---- latest finished scoreboard run ----
     const { data: run } = await supabase
       .from("kayla_benchmark_runs").select("id, run_label, finished_at")
-      .not("finished_at", "is", null).order("finished_at", { ascending: false }).limit(1).maybeSingle();
+      .not("finished_at", "is", null).neq("kind", "trial").order("finished_at", { ascending: false }).limit(1).maybeSingle();
     if (!run) return json({ created: 0, reason: "no finished scoreboard run yet" });
 
     const { data: weak } = await supabase
