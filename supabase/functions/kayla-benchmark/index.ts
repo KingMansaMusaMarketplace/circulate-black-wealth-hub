@@ -31,12 +31,13 @@ async function answerClinicalQuestion(
   supabase: any,
   question: string,
   key: string,
+  trialBlock = "",
 ): Promise<{ answer: string; model: string; tools: string }> {
   const selection = compileHelpQuestion(question);
   if (!selection) {
     return { answer: "[blocked: the Clinical product guide could not understand this question, so a doctor asking it would be turned away]", model: CLINICAL_HELP_MODEL, tools: "clinical-intake:blocked" };
   }
-  const lessons = await loadApprovedImprovements(supabase);
+  const lessons = (await loadApprovedImprovements(supabase)) + trialBlock;
   const call = createResponsesCall(
     new Request("https://kayla-benchmark.local/clinical"),
     { baseURL: "https://ai.gateway.lovable.dev/v1", apiKey: key, model: CLINICAL_HELP_MODEL },
@@ -51,6 +52,7 @@ async function answerClinicalQuestion(
 }
 
 const GATEWAY = "https://ai.gateway.lovable.dev/v1/chat/completions";
+const MAX_HOPS = 25;
 
 interface GradedCase {
   case_id: string | null;
@@ -71,6 +73,7 @@ async function answerQuestion(
   question: string,
   key: string,
   agentName?: string | null,
+  trialBlock = "",
 ): Promise<{ answer: string; model: string; tools: string }> {
   // Same steps as live chat: approved lessons, same router, same forced web
   // lookups, and the premium brain + self-check for hard money/legal questions.
@@ -86,7 +89,7 @@ async function answerQuestion(
   });
   const tools = grounding.calls.map((c) => c.tool).join(", ");
 
-  const system = buildKaylaSystemPrompt({ isAdmin: false }) + await loadApprovedImprovements(supabase) + grounding.block +
+  const system = buildKaylaSystemPrompt({ isAdmin: false }) + await loadApprovedImprovements(supabase) + trialBlock + grounding.block +
     (agentName ? `\n[ROLE] Answer as ${agentName}, one of Kayla's Agentic AI Employees. Be accurate and practical.` : "");
 
   if (plan.premium) {
@@ -232,11 +235,41 @@ serve(async (req) => {
     const label = body.label || `Run ${new Date().toISOString().slice(0, 16).replace("T", " ")}`;
     const limit = Math.min(Number(body.limit) || 150, 150);
 
-    const { data: cases } = await supabase
+    // Autopilot runs (internal only) can pick a subset of questions and try
+    // one candidate fix on top of the approved lessons. A browser call can
+    // never set these, so an admin's "Run the test" stays a plain full run.
+    let kind: string = isInternal && ["daily", "weekly", "trial"].includes(body.kind) ? body.kind : "manual";
+    let caseIds: string[] | null = isInternal && Array.isArray(body.case_ids)
+      ? body.case_ids.filter((x: unknown) => typeof x === "string").slice(0, 150) : null;
+    let trialRule: string | null = isInternal && typeof body.trial_rule === "string" ? body.trial_rule.slice(0, 600) : null;
+    const trialProposalId: string | null = isInternal && typeof body.trial_proposal_id === "string" ? body.trial_proposal_id : null;
+    let hops = 0;
+
+    if (body.run_id) {
+      // A continuation reads everything from the saved run so a resumed pass
+      // uses exactly the same questions and candidate fix.
+      const { data: saved } = await supabase.from("kayla_benchmark_runs")
+        .select("kind, case_ids, trial_rule, hops, finished_at").eq("id", body.run_id).maybeSingle();
+      if (!saved || saved.finished_at) {
+        return new Response(JSON.stringify({ run_id: body.run_id, status: "already finished" }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      kind = saved.kind || "manual";
+      caseIds = saved.case_ids || null;
+      trialRule = saved.trial_rule || null;
+      hops = Number(saved.hops) || 0;
+    }
+    const trialBlock = trialRule
+      ? `\n\n**LESSON BEING TESTED (scoreboard trial only):**\n- ${trialRule}`
+      : "";
+
+    let casesQuery = supabase
       .from("kayla_benchmark_cases")
       .select("id, question, expected_facts, must_not_say, agent_name, category")
-      .eq("is_active", true)
-      .limit(limit);
+      .eq("is_active", true);
+    if (caseIds?.length) casesQuery = casesQuery.in("id", caseIds);
+    const { data: cases } = await casesQuery.limit(limit);
 
     if (!cases?.length) {
       return new Response(JSON.stringify({ error: "No benchmark questions are set up yet" }), {
@@ -248,7 +281,15 @@ serve(async (req) => {
     if (!runId) {
       const { data: run } = await supabase
         .from("kayla_benchmark_runs")
-        .insert({ run_label: label, cases_run: cases.length, created_by: userId })
+        .insert({
+          run_label: label,
+          cases_run: cases.length,
+          created_by: userId,
+          kind,
+          case_ids: caseIds,
+          trial_rule: trialRule,
+          trial_proposal_id: trialProposalId,
+        })
         .select("id").single();
       runId = run.id;
     }
@@ -284,16 +325,32 @@ serve(async (req) => {
       // Sequential on purpose: the whole workspace shares one rate-limit budget.
       for (const c of todo) {
         if (Date.now() > deadline) {
-          // Hand the rest to a fresh invocation and stop cleanly.
-          await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/kayla-benchmark`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${serviceKey}`,
-              "x-internal-continue": serviceKey,
-            },
-            body: JSON.stringify({ run_id: runId, limit }),
-          }).catch(() => {});
+          // Hand the rest to a fresh invocation and stop cleanly. Each hop is
+          // counted; a run that needs more than MAX_HOPS is closed out with a
+          // note instead of chaining forever.
+          if (hops + 1 > MAX_HOPS) {
+            await supabase.from("kayla_benchmark_runs")
+              .update({ notes: `Stopped after ${MAX_HOPS} continuation steps.` }).eq("id", runId);
+            await finalize();
+            return;
+          }
+          await supabase.from("kayla_benchmark_runs").update({ hops: hops + 1 }).eq("id", runId);
+          await new Promise((r) => setTimeout(r, 2000)); // short cooldown between hops
+          try {
+            const res = await fetch(`${Deno.env.get("SUPABASE_URL")}/functions/v1/kayla-benchmark`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${serviceKey}`,
+                "x-internal-continue": serviceKey,
+              },
+              body: JSON.stringify({ run_id: runId, limit }),
+            });
+            if (!res.ok) throw new Error(`continue ${res.status}`);
+          } catch (e) {
+            await supabase.from("kayla_benchmark_runs")
+              .update({ notes: `Could not continue: ${(e as Error).message}` }).eq("id", runId);
+          }
           return;
         }
 
@@ -301,8 +358,8 @@ serve(async (req) => {
         let answer = "", model = "", tools = "";
         try {
           const res = c.category === "clinical"
-            ? await answerClinicalQuestion(supabase, c.question, key)
-            : await answerQuestion(supabase, c.question, key, c.agent_name);
+            ? await answerClinicalQuestion(supabase, c.question, key, trialBlock)
+            : await answerQuestion(supabase, c.question, key, c.agent_name, trialBlock);
           answer = res.answer; model = res.model; tools = res.tools;
         } catch (e) {
           answer = `[error: ${(e as Error).message}]`;
