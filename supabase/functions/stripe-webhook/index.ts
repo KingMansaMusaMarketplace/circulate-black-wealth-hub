@@ -658,6 +658,19 @@ serve(async (req) => {
           })
           .eq("stripe_payment_intent_id", paymentIntent.id);
 
+        // 🧾 Invoice paid online: mark it paid so the business sees it and it can't be paid again.
+        // kind/invoice_id are set server-side in create-payment-intent (caller notes are prefixed note_).
+        const piMeta = (paymentIntent.metadata || {}) as Record<string, string>;
+        if (piMeta.kind === 'invoice_payment_to_business' && piMeta.invoice_id) {
+          const { error: invErr } = await supabaseClient
+            .from('invoices')
+            .update({ status: 'paid', paid_date: new Date().toISOString().slice(0, 10) })
+            .eq('id', piMeta.invoice_id)
+            .eq('business_id', piMeta.business_id || '')
+            .not('status', 'in', '(paid,refunded)');
+          if (invErr) console.error('Invoice paid update failed:', invErr.message);
+        }
+
         console.log(`Payment succeeded: ${paymentIntent.id}`);
         break;
       }

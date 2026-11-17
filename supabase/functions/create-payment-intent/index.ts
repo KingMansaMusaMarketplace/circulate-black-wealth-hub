@@ -134,9 +134,48 @@ serve(async (req) => {
       throw new Error("Business account is not ready to accept payments");
     }
 
+
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2023-10-16",
     });
+
+    // An invoice pays once: reuse a payment already started for it instead of charging again.
+    const json = (body: unknown, status = 200) =>
+      new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    const { data: priorRows } = await admin
+      .from("platform_transactions")
+      .select("stripe_payment_intent_id")
+      .eq("business_id", businessId)
+      .eq("status", "pending")
+      .eq("metadata->>invoice_id", invoice.id)
+      .order("created_at", { ascending: false })
+      .limit(1);
+    const priorId = priorRows?.[0]?.stripe_payment_intent_id;
+    if (priorId) {
+      let prior: Stripe.PaymentIntent | null = null;
+      try { prior = await stripe.paymentIntents.retrieve(priorId); } catch { prior = null; }
+      if (!prior) {
+        return json({ error: "We couldn't confirm this bill's payment status. Please try again in a moment." }, 503);
+      }
+      if (prior.status === "succeeded") {
+        await admin.from("invoices").update({ status: "paid", paid_date: new Date().toISOString().slice(0, 10) })
+          .eq("id", invoice.id).not("status", "in", "(paid,refunded)");
+        return json({ error: "This bill has already been paid." }, 409);
+      }
+      if (prior.status === "processing") {
+        return json({ error: "A payment for this bill is already being processed." }, 409);
+      }
+      if (prior.status !== "canceled") {
+        return json({
+          clientSecret: prior.client_secret,
+          paymentIntentId: prior.id,
+          amount: prior.amount / 100,
+          platformFee: (prior.application_fee_amount ?? 0) / 100,
+          businessAmount: (prior.amount - (prior.application_fee_amount ?? 0)) / 100,
+          reused: true,
+        });
+      }
+    }
 
     // Calculate platform fee
     const amountInCents = Math.round(amount * 100);
@@ -177,7 +216,7 @@ serve(async (req) => {
         description,
         customer_email: customerEmail || user.email,
         customer_name: customerName,
-        metadata: metadata,
+        metadata: { ...metadata, invoice_id: invoice.id },
       });
 
     return new Response(
