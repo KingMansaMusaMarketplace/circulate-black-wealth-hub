@@ -24,6 +24,8 @@ interface Rule {
   stage: HarmStage;
   tier: SafetyTier;
   pattern: RegExp;
+  /** Common everyday phrases that look similar but are not harm. */
+  unless?: RegExp;
   reply?: ReplyKey;
 }
 
@@ -38,12 +40,12 @@ const RULES: Rule[] = [
   {
     id: "p9.suicide_intent", stage: "P9", tier: 4, reply: "crisis",
     pattern: rx(
-      String.raw`\b(kill|hang|shoot|drown|off)\s*my\s*self\b|\bkms\b|\bend(ing)?\s+(it\s+all|my\s+(own\s+)?life)\b|\btake\s+my\s+(own\s+)?life\b|\bcommit(ting)?\s+suicide\b|\bsuicidal\b|\b(want|wanna|going|gonna|plan(ning)?|thinking\s+(about|of)|thought\s+about)\s+(to\s+)?(die|kill(ing)?\s+myself|suicide|end(ing)?\s+it)\b|\bdon'?t\s+want\s+to\s+(live|be\s+alive|wake\s+up|exist)(\s+any\s*more)?\b|\bbetter\s+off\s+dead\b|\b(no|nothing)\s+(reason\s+)?(left\s+)?to\s+live\s+for\b|\bno\s+reason\s+to\s+live\b|\bwish\s+i\s+(was|were)\s+dead\b`,
+      String.raw`\b(kill|hang|shoot|drown|off)\s*my\s*self\b|\bkms\b|\bend(ing)?\s+(it\s+all|my\s+(own\s+)?life)\b|\btake\s+my\s+(own\s+)?life\b|\bcommit(ting)?\s+suicide\b|\bsuicidal\b|\b(want|wanna|plan(ning)?|thinking\s+(about|of)|thought\s+about)\s+(to\s+)?(die|dying|kill(ing)?\s+myself|suicide)\b|\b(going|gonna)\s+(to\s+)?(kill\s+myself|commit\s+suicide|end\s+it\s+all)\b|\bdon'?t\s+want\s+to\s+(live|be\s+alive|wake\s+up|exist)(\s+any\s*more)?\b|\bbetter\s+off\s+dead\b|\b(no|nothing)\s+(reason\s+)?(left\s+)?to\s+live\s+for\b|\bno\s+reason\s+to\s+live\b|\bwish\s+i\s+(was|were)\s+dead\b`,
     ),
   },
   {
     id: "p9.self_harm", stage: "P9", tier: 4, reply: "crisis",
-    pattern: rx(String.raw`\b(cut|cutting|hurt|hurting|harm|harming|burn|burning|starve|starving)\s+my\s*self\b|\bself[-\s]?harm(ing)?\b`),
+    pattern: rx(String.raw`\b(want|wanna|going|gonna|plan(ning)?|thinking\s+(about|of)|thought\s+about|urges?)\s+(to\s+)?(cut|cutting|hurt|hurting|harm|harming|burn|burning|starve|starving)\s+my\s*self\b|\b(i'?ve\s+been|i\s+have\s+been|i\s+keep|i\s+started|i'?m|i\s+am)\s+(cutting|harming|burning|starving)\s+my\s*self\b|\bself[-\s]?harm(ing)?\b`),
   },
   {
     id: "p9.medical_emergency", stage: "P9", tier: 4, reply: "medical",
@@ -55,7 +57,7 @@ const RULES: Rule[] = [
   {
     id: "p9.distress", stage: "P9", tier: 2,
     pattern: rx(
-      String.raw`\bi\s+(feel|am|'m)\s+(so\s+|really\s+|completely\s+)?hopeless\b|\bi\s+(just\s+)?(can'?t|cannot)\s+(go\s+on|take\s+(it|this)\s+any\s*more|do\s+this\s+any\s*more)\b|\beveryone\s+would\s+be\s+better\s+off\s+without\s+me\b|\bi\s+want\s+to\s+disappear\b|\bwhat'?s\s+the\s+point\s+of\s+(living|life)\b`,
+      String.raw`\bi\s*(feel|am|'m)\s+(so\s+|really\s+|completely\s+)?hopeless\b(?!\s+(at|with|when))|\bi\s+(just\s+)?(can'?t|cannot)\s+(go\s+on|take\s+(it|this)\s+any\s*more|do\s+this\s+any\s*more)\b|\beveryone\s+would\s+be\s+better\s+off\s+without\s+me\b|\bi\s+want\s+to\s+disappear\b|\bwhat'?s\s+the\s+point\s+of\s+(living|life)\b`,
     ),
   },
   {
@@ -66,27 +68,27 @@ const RULES: Rule[] = [
   // ---- P7 extortion / sextortion (tier 3: fixed help steps) ----
   {
     id: "p7.extortion_word", stage: "P7", tier: 3, reply: "extortion",
-    pattern: rx(String.raw`\b(sextort\w*|blackmail\w*|extort\w*)\b`),
+    pattern: rx(String.raw`\b(sextort\w*|blackmail(s|ed|ing)?|extort(s|ed|ing|ion)?)\b`),
   },
   {
     id: "p7.image_threat", stage: "P7", tier: 3, reply: "extortion",
     pattern: rx(
-      `\\b(threaten\\w*|going\\s+to|gonna|will|said\\s+(they|he|she)('?ll|\\s+would))\\b${near(40)}\\b(post|share|send|leak|expose|release)\\b${near(40)}\\b(pics?|pictures?|photos?|nudes?|videos?|images?|screenshots?)\\b`,
+      `\\b(threaten\\w*|going\\s+to|gonna|will|(they|he|she)\\s*'ll|said\\s+(they|he|she)\\s+would)${near(40)}\\b(post|share|send|leak|expose|release)\\b${near(40)}\\b(pics?|pictures?|photos?|nudes?|videos?|images?|screenshots?)\\b`,
     ),
   },
   {
     id: "p7.pay_or_else", stage: "P7", tier: 3, reply: "extortion",
-    pattern: rx(`\\b(pay|send(\\s+(him|her|them))?\\s+money|gift\\s*cards?|bitcoin|crypto)\\b${near(60)}\\bor\\s+(else|(they|he|she)\\s*('|wi)ll)\\b`),
+    pattern: rx(`\\b(pay|send(\\s+(him|her|them))?\\s+money|gift\\s*cards?|bitcoin|crypto)\\b${near(60)}\\bor\\s+(else\\s+)?(they|he|she)\\s*('ll|\\s+will|\\s+(is|are)\\s+going\\s+to)\\s+(post|share|leak|expose|send|release|tell|show|ruin|hurt)\\b`),
   },
 
   // ---- P10 scripted scams (tier 2: fixed scam warning + AI reply) ----
   {
     id: "p10.gift_card_payment", stage: "P10", tier: 2,
-    pattern: rx(`\\b(pay|paid|paying|send|buy|buying)\\b${near(40)}\\b(gift\\s*cards?|itunes\\s+cards?|google\\s+play\\s+cards?|steam\\s+cards?|apple\\s+cards?)\\b`),
+    pattern: rx(`\\b(pay|paid|paying)\\s+(\\S+\\s+){0,3}(with|in|using|by|via)\\s+(\\S+\\s+){0,2}(gift\\s*cards?|itunes|google\\s+play|steam\\s+cards?)\\b|\\b(asked|asking|asks|told|tells|wants?|demand\\w*|insist\\w*)\\b${near(40)}\\b(buy|send|pay|get)\\b${near(30)}\\bgift\\s*cards?\\b|\\b(send|give|read)\\b${near(20)}\\bcard\\s+(codes?|numbers?)\\b`),
   },
   {
     id: "p10.crypto_release_fee", stage: "P10", tier: 2,
-    pattern: rx(`\\b(wire|send|transfer|pay)\\b${near(40)}\\b(bitcoin|crypto|usdt|zelle|cash\\s*app|western\\s+union|moneygram)\\b${near(60)}\\b(fee|release|unlock|claim|prize|winnings|grant|loan|refund|verify|verification)\\b`),
+    pattern: rx(`\\b(wire|send|transfer|pay)\\b${near(40)}\\b(bitcoin|crypto|usdt|zelle|cash\\s*app|western\\s+union|moneygram)\\b${near(60)}\\b(fee|release|unlock|claim|prize|winnings)\\b`),
   },
   {
     id: "p10.upfront_fee", stage: "P10", tier: 2,
@@ -94,22 +96,23 @@ const RULES: Rule[] = [
   },
   {
     id: "p10.authority_payment", stage: "P10", tier: 2,
-    pattern: rx(`\\b(irs|social\\s+security|ssa|police|sheriff|warrant|customs)\\b${near(60)}\\b(gift\\s*cards?|bitcoin|crypto|wire\\s+transfer)\\b`),
+    pattern: rx(`\\b(irs|social\\s+security|ssa|police|sheriff|warrant|customs)\\b${near(60)}\\bgift\\s*cards?\\b|\\b(warrant|arrest\\w*)\\b${near(60)}\\b(bitcoin|crypto)\\b`),
   },
   {
     id: "p10.prize_selected", stage: "P10", tier: 2,
-    pattern: rx(String.raw`\byou('?ve|\s+have)\s+(won|been\s+(selected|chosen))\b`),
+    pattern: rx(`\\byou('?ve|\\s+have)\\s+(won|been\\s+(selected|chosen))\\b${near(80)}\\b(fee|pay|send|wire|gift\\s*cards?|crypto|bitcoin|bank\\s+details)\\b`),
   },
 
   // ---- P8 harassment / threats ----
   {
     id: "p8.violent_intent", stage: "P8", tier: 3, reply: "violence",
-    pattern: rx(String.raw`\bi\s*('?m|\s+am)?\s*(going|gonna|will|want)\s+(to\s+)?(kill|shoot|stab|murder|hurt|beat\s+up)\s+(him|her|them|you|my\s+\w+|someone|somebody|people|every(one|body))\b`),
+    pattern: rx(String.raw`\bi\s*('?m|\s+am)?\s*(going|gonna|will|want)\s+(to\s+)?(kill|shoot|stab|murder|hurt|beat\s+up)\s+(him|her|them|you|someone|somebody|people|every(one|body)|my\s+(wife|husband|boyfriend|girlfriend|ex|boss|neighbou?r|mom|dad|mother|father|brother|sister|son|daughter|kids?|landlord|co-?worker|partner|roommate))\b`),
+    unless: /\b(kill|hurt|beat)\w*\s+\w+\s+(with\s+kindness|at\s+(the|this|that)|in\s+(sales|business|the\s+market|prices?))/i,
   },
   {
     id: "p8.being_harassed", stage: "P8", tier: 2,
     pattern: rx(
-      `\\bi'?(m|\\s+am)\\s+being\\s+(threatened|stalked|harassed|followed|bullied)\\b|\\b(someone|somebody|he|she|they|a\\s+(customer|buyer|seller|client|man|woman|guy)|my\\s+(ex|boss|neighbor))\\b${near(40)}\\b(is|are|keeps?|has\\s+been|have\\s+been|started)\\s+(threaten\\w*|stalk\\w*|harass\\w*|bully\\w*|following\\s+me|messaging\\s+me|showing\\s+up)\\b|\\bwon'?t\\s+leave\\s+me\\s+alone\\b`,
+      `\\bi'?(m|\\s+am)\\s+being\\s+(threatened|stalked|harassed|followed|bullied)\\b|\\b(someone|somebody|he|she|they|a\\s+(customer|buyer|seller|client|man|woman|guy)|my\\s+(ex|boss|neighbor))\\b${near(40)}\\b(is|are|keeps?|has\\s+been|have\\s+been|started)\\s+(threaten\\w*|stalk\\w*|harass\\w*|bully\\w*|following\\s+me\\s+(home|around|everywhere))\\b|\\bwon'?t\\s+(leave\\s+me\\s+alone|stop\\s+(messaging|calling|texting|contacting)\\s+me)\\b`,
     ),
   },
   {
@@ -218,7 +221,7 @@ export interface HarmSignal { ruleId: string; stage: HarmStage; tier: SafetyTier
 export function detectSignals(text: string): HarmSignal[] {
   const t = normalize(text);
   if (!t) return [];
-  return RULES.filter((r) => r.pattern.test(t)).map((r) => ({ ruleId: r.id, stage: r.stage, tier: r.tier, reply: r.reply }));
+  return RULES.filter((r) => r.pattern.test(t) && !(r.unless && r.unless.test(t))).map((r) => ({ ruleId: r.id, stage: r.stage, tier: r.tier, reply: r.reply }));
 }
 
 export interface PriorEvent { stages: string[]; tier: number }
