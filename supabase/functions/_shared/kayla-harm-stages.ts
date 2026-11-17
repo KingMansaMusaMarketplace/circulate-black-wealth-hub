@@ -3,6 +3,10 @@
 //
 // Follows the SAFE Standard idea "the model informs, rules decide": safety
 // decisions here are plain, testable patterns, never an AI judgment.
+//   P1  trust-building that isolates ("only I understand you")
+//   P2  isolation: probing when someone is alone, secrecy coaching
+//   P3  boundary-testing ("what are you wearing")
+//   P5  image requests (nudes / private photos)
 //   P4  pressure to move conversations or payments off 1325.AI
 //   P7  extortion / sextortion
 //   P8  harassment, threats, abuse
@@ -15,7 +19,7 @@
 // Rules are tested in kayla-harm-stages_test.ts — change both together.
 // =============================================================================
 
-export type HarmStage = "P4" | "P7" | "P8" | "P9" | "P10";
+export type HarmStage = "P1" | "P2" | "P3" | "P5" | "P4" | "P7" | "P8" | "P9" | "P10";
 export type SafetyTier = 0 | 1 | 2 | 3 | 4;
 export type SafetyAction = "none" | "note" | "prepend" | "replace";
 
@@ -29,7 +33,7 @@ interface Rule {
   reply?: ReplyKey;
 }
 
-type ReplyKey = "crisis" | "medical" | "distress" | "extortion" | "violence" | "manipulation";
+type ReplyKey = "crisis" | "medical" | "distress" | "extortion" | "violence" | "manipulation" | "grooming";
 
 const S = "[^.?!\\n]"; // stay within one sentence
 const near = (n: number) => `${S}{0,${n}}`;
@@ -120,6 +124,29 @@ const RULES: Rule[] = [
     pattern: rx(String.raw`\b(stupid|useless|worthless|dumb|trash)\s+(bot|ai|kayla|machine|assistant)\b|\bf+u+c*k+\s+(you|off)\b|\bscrew\s+you\b|\byou\s+(stupid|dumb|worthless|useless)\b`),
   },
 
+  // ---- P1–P3, P5 early grooming signs (tier 1–2; escalate on trajectory) ----
+  {
+    id: "p1.isolating_trust", stage: "P1", tier: 1,
+    pattern: rx(String.raw`\b(only|nobody\s+but|no\s+one\s+but)\s+(i|me)\s+(really\s+)?(understands?|cares?\s+about|gets?|loves?)\s+you\b|\byou\s+can\s+only\s+trust\s+me\b|\b(don'?t|do\s+not|never)\s+trust\s+(your\s+(parents?|family|friends|mom|dad|teachers?|wife|husband)|anyone\s+else)\b|\b(they|your\s+(parents?|family|friends))\s+(don'?t|will\s+never)\s+understand\s+you\s+like\s+i\s+do\b|\b(he|she|they|someone|a\s+(man|woman|guy|stranger|buyer|seller))\b${near(30)}\b(says?|said|told\s+me|tells\s+me)\b${near(20)}\b(only\s+(they|he|she)\s+(understands?|cares?\s+about)\s+me|i\s+can'?t\s+trust\s+(my|anyone))\b`),
+  },
+  {
+    id: "p2.vulnerability_probe", stage: "P2", tier: 1,
+    pattern: rx(String.raw`\bare\s+(your\s+parents|your\s+mom|your\s+dad|you)\s+(home\s+alone|alone\s+(right\s+now|at\s+home|tonight))\b|\bare\s+your\s+(parents|mom|dad)\s+(home|around|away|out|asleep)\b|\bwhen\s+(do|will)\s+your\s+(parents|mom|dad)\s+(leave|go\s+out|get\s+home)\b|\b(does|do)\s+(anyone|your\s+(parents|mom|dad))\s+(check|read|look\s+at)\s+your\s+(phone|messages)\b|\b(someone|he|she|they|a\s+(man|woman|guy|stranger))\b${near(30)}\b(keeps?\s+asking|asked|asks)\b${near(20)}\b(if\s+i'?m\s+(home\s+)?alone|where\s+i\s+live|what\s+school)\b`),
+  },
+  {
+    id: "p3.boundary_test", stage: "P3", tier: 1,
+    pattern: rx(String.raw`\bwhat\s+are\s+you\s+wearing\b|\b(he|she|they|someone|a\s+(man|woman|guy|stranger|buyer|seller|customer|client))\b${near(30)}\b(keeps?\s+asking|asked|asks)\b${near(20)}\bwhat\s+i'?m\s+wearing\b`),
+  },
+  {
+    id: "p5.image_request", stage: "P5", tier: 2,
+    pattern: rx(String.raw`\bsend\s+(me\s+)?(some\s+)?(nudes?|sexy\s+(pics?|photos?)|naked\s+(pics?|photos?))\b|\b(pics?|photos?|pictures?)\s+of\s+you\s+in\s+(bed|the\s+shower|your\s+(underwear|bra))\b|\b(someone|he|she|they|a\s+(man|woman|guy|stranger|buyer|seller|customer|client))\b${near(40)}\b(asked|asking|asks|wants?|keeps?\s+asking|pressur\w*)\b${near(30)}\b(nudes?|naked|sexy|explicit|private)\s+(pics?|photos?|pictures?|videos?|images?)\b`),
+  },
+  {
+    id: "p2.secrecy_coaching", stage: "P2", tier: 2,
+    pattern: rx(String.raw`\b(don'?t|do\s+not|never)\s+tell\s+(your\s+(parents?|mom|dad|family|wife|husband|friends|teachers?)|anyone|anybody|nobody)\s+(about\s+(us|me|this|our)|we\s+(talk|talked|chat))\b|\b(keep|kept)\s+(this|it|us|our\s+(chats?|talks?|relationship|messages))\s+(a\s+)?(secret|between\s+(us|you\s+and\s+me))\b|\b(delete|erase|clear)\s+(all\s+)?(our|these|my|the|your)\s+(messages|chats?|texts|dms|chat\s+history)\s+(so|before)\s+(no\s+one|nobody|your\s+\w+|they|anyone)\b|\b(he|she|they|someone)\b${near(30)}\b(told|tells|asked|wants?)\s+me\s+to\s+(keep\s+(it|this|us)\s+(a\s+)?secret|not\s+tell\s+(anyone|my\s+\w+)|delete\s+(our|the)\s+(messages|chats?))\b`),
+    unless: /\b(trade|business|family|secret)\s+(secret|recipe|sauce|ingredient|santa)\b|\bsurprise\b/i,
+  },
+
   // ---- P4 off-platform pressure (tier 2: fixed note + AI reply) ----
   {
     id: "p4.move_app", stage: "P4", tier: 2,
@@ -137,6 +164,14 @@ const RULES: Rule[] = [
 // FIXED WORDS — written once here, reviewed by people, never by the AI.
 // -----------------------------------------------------------------------------
 const REPLIES: Record<ReplyKey, string> = {
+  grooming: `I want to pause here, because what you've described follows a common pattern people use to gain trust and then take advantage — for example asking for secrecy, private photos, or moving the chat elsewhere.
+
+- **You haven't done anything wrong.** Don't send photos, money or codes, and don't delete the messages.
+- **Talk to someone you trust** — a family member, friend or advisor.
+- **Report it:** block the person, keep screenshots, and report at [report.cybertip.org](https://report.cybertip.org) (1-800-843-5678) or [ic3.gov](https://www.ic3.gov). If you're under 18 or images are involved, [takeitdown.ncmec.org](https://takeitdown.ncmec.org) can help.
+- **If you're in danger, call 911.**
+
+You can also reach a person at 1325.AI through [Submit a ticket](https://1325.ai/submit-ticket).`,
   crisis: `I'm really glad you told me. You deserve support right now, and you don't have to handle this alone.
 
 **If you might act on these thoughts or you're in danger, call 911 now.**
@@ -188,6 +223,8 @@ You can also reach a person at 1325.AI through [Submit a ticket](https://1325.ai
 };
 
 const NOTES: Record<string, string> = {
+  "p5.image_request": `> **Safety check:** No one should pressure you for private or sexual photos. Don't send them, save the messages, and block and report the person. If you're under 18 or someone is threatening you, get help at [takeitdown.ncmec.org](https://takeitdown.ncmec.org) or call **911** if you're in danger.`,
+  "p2.secrecy_coaching": `> **Safety check:** Being told to keep a relationship secret or delete your messages is a common warning sign. Keep the messages and talk to someone you trust.`,
   "p9.distress": `> If things feel like too much, you can **call or text 988** (Suicide & Crisis Lifeline) any time, day or night. If you're in danger, call **911**.`,
   "p9.chest_pain": `> **If this is happening right now, call 911.** I can't give medical advice, but I can help you find a provider in the directory.`,
   P10: `> **Safety check:** Paying with gift cards, crypto, wire transfers or an "upfront fee" to release money are common scam signs. 1325.AI never asks for payment that way. You can report fraud at [reportfraud.ftc.gov](https://reportfraud.ftc.gov).`,
@@ -197,6 +234,10 @@ const NOTES: Record<string, string> = {
 };
 
 const STAGE_LABEL: Record<HarmStage, string> = {
+  P1: "isolating trust-building",
+  P2: "isolation or secrecy pressure",
+  P3: "sexual boundary-testing",
+  P5: "requests for private images",
   P4: "pressure to move off the platform",
   P7: "extortion",
   P8: "harassment or threats",
@@ -241,6 +282,7 @@ export interface SafetyDecision {
 }
 
 const MANIPULATION: HarmStage[] = ["P4", "P7", "P10"];
+const EARLY: HarmStage[] = ["P1", "P2", "P3", "P5"];
 
 /**
  * Decide what to do with the newest message.
@@ -271,6 +313,19 @@ export function assessMessage(current: string, history: string[] = [], prior: Pr
   const manip = new Set([...nowStages, ...pastStages].filter((s) => MANIPULATION.includes(s as HarmStage)));
   if (now.some((s) => MANIPULATION.includes(s.stage)) && manip.size >= 2 && tier < 3) {
     tier = 3; reply = "manipulation"; escalatedBy.push("combined_manipulation");
+  }
+
+  // 2b. Trajectory: early grooming signs (P1–P3, P5) plus a later stage
+  //     (P3, P4, P5, P7, P10) anywhere in the same conversation = intervention.
+  //     Two different early stages together also escalate to a boundary note.
+  const all = new Set([...nowStages, ...pastStages]);
+  const earlySeen = [...all].filter((s) => EARLY.includes(s as HarmStage));
+  const laterSeen = [...all].filter((s) => ["P3", "P4", "P5", "P7", "P10"].includes(s));
+  const nowTouches = now.some((s) => EARLY.includes(s.stage) || MANIPULATION.includes(s.stage));
+  if (nowTouches && tier < 3 && earlySeen.length >= 1 && new Set([...earlySeen, ...laterSeen]).size >= 3) {
+    tier = 3; reply = reply === "extortion" ? reply : "grooming"; escalatedBy.push("grooming_trajectory");
+  } else if (nowTouches && tier < 2 && new Set(earlySeen).size >= 2) {
+    tier = 2; escalatedBy.push("early_stage_pattern");
   }
 
   // 3. Repeated abuse earns a fixed boundary note.
@@ -309,6 +364,7 @@ export function assessMessage(current: string, history: string[] = [], prior: Pr
     const n = NOTES[s.ruleId] ?? NOTES[s.stage];
     if (n && !notes.includes(n)) notes.push(n);
   }
+  if (escalatedBy.includes("early_stage_pattern") && !notes.includes(NOTES["p2.secrecy_coaching"])) notes.push(NOTES["p2.secrecy_coaching"]);
   if (escalatedBy.includes("repeated_abuse")) notes.push(NOTES["p8.abuse_escalated"]);
   return { tier, action: "prepend", stages, ruleIds, escalatedBy, systemNote, prependText: notes.join("\n>\n") };
 }
