@@ -13915,6 +13915,30 @@ export type Database = {
           },
         ]
       }
+      kayla_chat_preferences: {
+        Row: {
+          adult_confirmed_at: string | null
+          created_at: string
+          memory_enabled: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          adult_confirmed_at?: string | null
+          created_at?: string
+          memory_enabled?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          adult_confirmed_at?: string | null
+          created_at?: string
+          memory_enabled?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       kayla_compliance_reminders: {
         Row: {
           ai_generated: boolean | null
