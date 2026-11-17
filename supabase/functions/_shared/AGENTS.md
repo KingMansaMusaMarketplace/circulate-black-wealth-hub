@@ -1,0 +1,3 @@
+# Kayla shared modules
+- Kayla text chats run `_shared/kayla-harm-stages.ts` before any AI call (SAFE: rules decide); tiers 3–4 send fixed words with no AI and kayla_safety_events keeps labels only. Change rules with their test.
+- Kayla chat privacy lives in `_shared/kayla-chat-privacy.ts` + `kayla_chat_preferences`: saved Memory Off wins, requests may only turn memory off, unreadable settings mean off; every signed-in channel skips saving/recall and handoff words when off. The 18+ check is a self-declared, account-stamped confirmation in the chat screens, not a server block, so older bundled iPhone builds keep working.
