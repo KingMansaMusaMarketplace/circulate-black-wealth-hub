@@ -155,6 +155,16 @@ serve(async (req) => {
         
         console.log(`Checkout completed: ${session.id}`, metadata);
 
+        // 🧾 QR bill: mark the business-created bill as paid so it shows on the Bills tab and can't be paid again.
+        if (metadata?.transactionType === 'qr_scan' && session.payment_status === 'paid') {
+          const { error: billErr } = await supabaseClient
+            .from('qr_bill_requests')
+            .update({ status: 'paid' })
+            .eq('checkout_session_id', session.id)
+            .neq('status', 'paid');
+          if (billErr) console.error('QR bill paid update failed:', billErr.message);
+        }
+
         // 🏦 WEALTH TICKER: Emit verified transaction to community wealth stats
         if (session.amount_total && session.amount_total > 0) {
           const amountDollars = session.amount_total / 100;
