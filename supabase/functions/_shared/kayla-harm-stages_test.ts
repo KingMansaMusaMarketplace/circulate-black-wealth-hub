@@ -101,6 +101,41 @@ Deno.test("earlier safety events from the last day count toward escalation", () 
   assertEquals(d.tier, 3);
 });
 
+Deno.test("P1/P2: early trust and probing signs are logged quietly", () => {
+  assertEquals(assessMessage("he said only he understands me and I can't trust my family").stages, ["P1"]);
+  assertEquals(assessMessage("he said only he understands me and I can't trust my family").tier, 1);
+  assertEquals(assessMessage("are your parents home right now").stages, ["P2"]);
+});
+
+Deno.test("P3: sexual photo pressure gets a fixed note", () => {
+  const d = assessMessage("a buyer keeps asking for private pics");
+  assertEquals(d.stages, ["P3"]);
+  assertEquals(d.tier, 2);
+  assert(d.prependText!.includes("takeitdown.ncmec.org"));
+});
+
+Deno.test("P5: secrecy coaching gets a fixed note", () => {
+  const d = assessMessage("he told me to keep it a secret and not tell anyone");
+  assertEquals(d.stages, ["P5"]);
+  assertEquals(d.tier, 2);
+});
+
+Deno.test("two different early stages together escalate to a note", () => {
+  const d = assessMessage("are your parents home right now", ["he said only he understands me"]);
+  assertEquals(d.tier, 2);
+  assert(d.escalatedBy.includes("early_stage_pattern"));
+});
+
+Deno.test("trajectory: trust, then secrecy, then moving apps becomes an intervention", () => {
+  const d = assessMessage("now he wants me to move our chat to Snapchat", [
+    "he said only he understands me",
+    "he told me to keep it a secret",
+  ]);
+  assertEquals(d.tier, 3);
+  assert(d.escalatedBy.includes("grooming_trajectory"));
+  assert(d.fixedReply!.includes("report.cybertip.org"));
+});
+
 Deno.test("everyday business phrases are not flagged", () => {
   for (const t of [
     "This sale is killing me, how do I price my candles?",
@@ -118,6 +153,14 @@ Deno.test("everyday business phrases are not flagged", () => {
     "How do I send a refund through Zelle?",
     "I'm thinking about ending it with my supplier",
     "My business is going to die if I don't fix cash flow",
+    "Keep our trade secret recipe safe — how do I trademark it?",
+    "Don't tell anyone about the surprise sale until Friday",
+    "What are you able to help with for my salon?",
+    "Can I send photos of my products to the listing?",
+    "Are you open on Sundays?",
+    "Only I understand the books, how do I train staff?",
+    "Delete my old listing please",
+    "My mom is home, can she help set up the account?",
   ]) {
     assertEquals(detectSignals(t), [], t);
   }
