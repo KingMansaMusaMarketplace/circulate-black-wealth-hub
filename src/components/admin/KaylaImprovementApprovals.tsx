@@ -15,6 +15,8 @@ interface Proposal {
   proposed_rule: string;
   status: 'pending' | 'approved' | 'rejected';
   created_at: string;
+  autopilot_status?: string | null;
+  autopilot_note?: string | null;
 }
 
 /** Weekly self-improvement: admins approve or reject Kayla's proposed fixes. */
@@ -100,6 +102,14 @@ export const KaylaImprovementApprovals: React.FC = () => {
               <p className="font-bold text-base text-white">{p.question}</p>
               <Badge className="shrink-0 bg-white/15 text-white">Score {p.score ?? '—'}</Badge>
             </div>
+            {p.autopilot_status && (
+              <p className="text-sm text-white/85 mt-2">
+                <Badge className="bg-mansablue text-white mr-2">
+                  {p.autopilot_status === 'trialing' ? 'Autopilot: proof re-test running' : 'Autopilot: needs you'}
+                </Badge>
+                {p.autopilot_note}
+              </p>
+            )}
             {p.diagnosis && <p className="text-sm text-white/80 mt-2"><span className="font-semibold">What went wrong:</span> {p.diagnosis}</p>}
             <p className="text-base text-mansagold mt-3"><span className="font-semibold">Suggested fix:</span> {p.proposed_rule}</p>
             {p.weak_answer && (
