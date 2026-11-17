@@ -9,6 +9,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { KaylaImprovementApprovals } from '@/components/admin/KaylaImprovementApprovals';
 import { AgentScorecard } from '@/components/admin/AgentScorecard';
+import { KaylaAutopilotCard } from '@/components/admin/KaylaAutopilotCard';
 
 interface Run {
   id: string;
@@ -243,6 +244,7 @@ const KaylaScoreboardPage: React.FC = () => {
           </Card>
         </div>
 
+        <KaylaAutopilotCard />
         <AgentScorecard />
         <KaylaImprovementApprovals />
       </div>
