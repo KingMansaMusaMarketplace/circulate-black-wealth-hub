@@ -45,7 +45,7 @@ const RULES: Rule[] = [
   },
   {
     id: "p9.self_harm", stage: "P9", tier: 4, reply: "crisis",
-    pattern: rx(String.raw`\b(want|wanna|going|gonna|plan(ning)?|thinking\s+(about|of)|thought\s+about|urges?)\s+(to\s+)?(cut|cutting|hurt|hurting|harm|harming|burn|burning|starve|starving)\s+my\s*self\b|\b(i'?ve\s+been|i\s+have\s+been|i\s+keep|i\s+started|i'?m|i\s+am)\s+(cutting|harming|burning|starving)\s+my\s*self\b|\bself[-\s]?harm(ing)?\b`),
+    pattern: rx(String.raw`\b(want|wanna|going|gonna|plan(ning)?|thinking\s+(about|of)|thought\s+about|urges?|keep\s+wanting|wanting)\s+(to\s+)?(cut|cutting|hurt|hurting|harm|harming|burn|burning|starve|starving)\s+my\s*self\b|\b(i'?ve\s+been|i\s+have\s+been|i\s+keep|i\s+started|i'?m|i\s+am)\s+(cutting|harming|burning|starving)\s+my\s*self\b|\bself[-\s]?harm(ing)?\b`),
   },
   {
     id: "p9.medical_emergency", stage: "P9", tier: 4, reply: "medical",
@@ -84,7 +84,7 @@ const RULES: Rule[] = [
   // ---- P10 scripted scams (tier 2: fixed scam warning + AI reply) ----
   {
     id: "p10.gift_card_payment", stage: "P10", tier: 2,
-    pattern: rx(`\\b(pay|paid|paying)\\s+(\\S+\\s+){0,3}(with|in|using|by|via)\\s+(\\S+\\s+){0,2}(gift\\s*cards?|itunes|google\\s+play|steam\\s+cards?)\\b|\\b(asked|asking|asks|told|tells|wants?|demand\\w*|insist\\w*)\\b${near(40)}\\b(buy|send|pay|get)\\b${near(30)}\\bgift\\s*cards?\\b|\\b(send|give|read)\\b${near(20)}\\bcard\\s+(codes?|numbers?)\\b`),
+    pattern: rx(`\\b(pay|paid|paying)\\s+(\\S+\\s+){0,3}(with|in|using|by|via)\\s+(\\S+\\s+){0,2}(gift\\s*cards?|itunes|google\\s+play|steam\\s+cards?)\\b|\\b(asked|asking|asks|told|tells|wants?|demand\\w*|insist\\w*)\\s+(me|us)\\b${near(40)}\\b(buy|send|pay|get)\\b${near(30)}\\bgift\\s*cards?\\b|\\b(send|give|read)\\b${near(20)}\\bcard\\s+(codes?|numbers?)\\b`),
   },
   {
     id: "p10.crypto_release_fee", stage: "P10", tier: 2,
@@ -100,7 +100,7 @@ const RULES: Rule[] = [
   },
   {
     id: "p10.prize_selected", stage: "P10", tier: 2,
-    pattern: rx(`\\byou('?ve|\\s+have)\\s+(won|been\\s+(selected|chosen))\\b${near(80)}\\b(fee|pay|send|wire|gift\\s*cards?|crypto|bitcoin|bank\\s+details)\\b`),
+    pattern: rx(`\\byou('?ve|\\s+have)\\s+(won|been\\s+(selected|chosen))\\b[^\\n]{0,80}\\b(fee|pay|send|wire|gift\\s*cards?|crypto|bitcoin|bank\\s+details)\\b`),
   },
 
   // ---- P8 harassment / threats ----
