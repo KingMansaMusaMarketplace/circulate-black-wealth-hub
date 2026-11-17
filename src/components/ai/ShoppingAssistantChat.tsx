@@ -9,6 +9,10 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import ReactMarkdown from 'react-markdown';
 import { linkifyMarkdown } from '@/lib/utils/linkify-markdown';
 import { useToast } from '@/hooks/use-toast';
+import { useKaylaChatPreferences } from '@/hooks/use-kayla-chat-preferences';
+import { readLocalKaylaPrefs } from '@/lib/kayla/chat-preferences';
+import { KaylaAdultGate } from '@/components/ai/kayla-privacy/KaylaAdultGate';
+import { KaylaMemoryControls } from '@/components/ai/kayla-privacy/KaylaMemoryControls';
 
 type Message = { role: 'user' | 'assistant'; content: string };
 
@@ -84,7 +88,12 @@ const ShoppingAssistantChatInner: React.FC = () => {
         placeholder: 'Ask Kayla anything...',
       };
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>(() => loadStoredMessages());
+  const prefs = useKaylaChatPreferences();
+  // With "Remember my chats" off, nothing is reloaded from (or saved to) this device.
+  const [messages, setMessages] = useState<Message[]>(() =>
+    readLocalKaylaPrefs(typeof window !== 'undefined' ? localStorage : null).memoryEnabled ? loadStoredMessages() : [],
+  );
+  const chatLocked = !prefs.ready || !prefs.adultConfirmed;
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -105,8 +114,8 @@ const ShoppingAssistantChatInner: React.FC = () => {
 
   // Persist messages whenever they change (skips empty arrays).
   useEffect(() => {
-    saveStoredMessages(messages);
-  }, [messages]);
+    if (prefs.memoryEnabled) saveStoredMessages(messages);
+  }, [messages, prefs.memoryEnabled]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -127,7 +136,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
 
   const sendMessage = async (override?: string, speakReply = false) => {
     const trimmed = (override ?? input).trim();
-    if (!trimmed || isLoading) return;
+    if (!trimmed || isLoading || chatLocked) return;
 
     const userMsg: Message = { role: 'user', content: trimmed };
     const allMessages = [...messages, userMsg];
@@ -159,7 +168,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
         },
-        body: JSON.stringify({ messages: allMessages, ...(clinical ? { mode: 'clinical' } : {}) }),
+        body: JSON.stringify({ messages: allMessages, memory_off: !prefs.memoryEnabled, ...(clinical ? { mode: 'clinical' } : {}) }),
       });
 
       if (!resp.ok) {
@@ -319,9 +328,24 @@ const ShoppingAssistantChatInner: React.FC = () => {
         </div>
       </div>
 
+      {!chatLocked && (
+        <KaylaMemoryControls
+          memoryEnabled={prefs.memoryEnabled}
+          signedIn={prefs.signedIn}
+          onToggle={prefs.setMemoryEnabled}
+          onDeleteSaved={prefs.deleteSavedChats}
+          onCleared={() => setMessages([])}
+          className="px-4 py-1.5 border-b"
+        />
+      )}
+
       {/* Messages */}
       <ScrollArea className="flex-1 p-4" ref={scrollRef}>
-        {messages.length === 0 && (
+        {prefs.ready && !prefs.adultConfirmed && <KaylaAdultGate onConfirm={() => { void prefs.confirmAdult(); }} />}
+        {!prefs.ready && (
+          <div className="flex justify-center py-8"><Loader2 className="h-5 w-5 animate-spin text-muted-foreground" /></div>
+        )}
+        {!chatLocked && messages.length === 0 && (
           <div className="text-center text-muted-foreground py-8">
             <Sparkles className="h-8 w-8 mx-auto mb-3 opacity-50" />
             <p className="text-sm font-medium">{copy.hello}</p>
@@ -394,7 +418,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={copy.placeholder}
-            disabled={isLoading}
+            disabled={isLoading || chatLocked}
             className="text-sm"
           />
           {mic.supported && (
@@ -402,7 +426,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
               size="icon"
               variant={mic.isRecording ? 'destructive' : 'outline'}
               onClick={handleMicToggle}
-              disabled={isLoading || mic.isTranscribing}
+              disabled={isLoading || mic.isTranscribing || chatLocked}
               className="shrink-0"
               aria-label={mic.isRecording ? 'Stop recording and send' : 'Talk to Kayla'}
               title={mic.isRecording ? 'Stop and send' : 'Talk to Kayla'}
@@ -416,7 +440,7 @@ const ShoppingAssistantChatInner: React.FC = () => {
               )}
             </Button>
           )}
-          <Button size="icon" onClick={handleSend} disabled={isLoading || !input.trim()} className="shrink-0">
+          <Button size="icon" onClick={handleSend} disabled={isLoading || !input.trim() || chatLocked} className="shrink-0">
             <Send className="h-4 w-4" />
           </Button>
         </div>
