@@ -27,7 +27,12 @@ export const QRBillsTab = ({ businessId }: { businessId?: string }) => {
       .eq('business_id', businessId).order('created_at', { ascending: false }).limit(10);
     if (!error) setRows((data ?? []) as Bill[]);
   }, [businessId]);
-  useEffect(() => { void load(); }, [load]);
+  useEffect(() => {
+    void load();
+    // Refresh so the cashier sees "paid" without reloading the page.
+    const t = window.setInterval(() => { if (document.visibilityState === 'visible') void load(); }, 15000);
+    return () => window.clearInterval(t);
+  }, [load]);
 
   const create = async () => {
     const cents = Math.round((parseFloat(amount) || 0) * 100);
@@ -81,7 +86,7 @@ export const QRBillsTab = ({ businessId }: { businessId?: string }) => {
                   <span className="font-mono text-base font-semibold">{b.bill_code}</span>
                   <span>${(b.amount_cents / 100).toFixed(2)}</span>
                   <span className="hidden flex-1 truncate text-muted-foreground md:block">{b.description}</span>
-                  <Badge variant="secondary">{label}</Badge>
+                  <Badge variant={b.status === 'paid' ? 'default' : 'secondary'}>{label}</Badge>
                   {b.status === 'open' && !expired && <Button size="sm" variant="ghost" onClick={() => cancel(b.id)}>Cancel</Button>}
                 </li>
               );

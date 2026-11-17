@@ -15,6 +15,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import Stripe from "https://esm.sh/stripe@14.21.0";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
+import { billSessionAction } from "./bill-state.ts";
 
 /**
  * Only allow post-checkout redirects back to our own origins — never to a
@@ -131,7 +132,7 @@ serve(async (req) => {
     // Trusted amount: an open, unexpired bill the business created for this sale.
     const { data: bill } = await supabase
       .from("qr_bill_requests")
-      .select("id, amount_cents, description, status, expires_at")
+      .select("id, amount_cents, description, status, expires_at, checkout_session_id")
       .eq("business_id", businessId)
       .eq("bill_code", billCode.toUpperCase())
       .maybeSingle();
@@ -142,6 +143,33 @@ serve(async (req) => {
       );
     }
     const amount = Number(bill.amount_cents) / 100;
+    const json = (body: unknown, status = 200) =>
+      new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+
+    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
+      apiVersion: "2023-10-16",
+    });
+
+    // A bill pays once: check any checkout already started for it before charging again.
+    if (bill.checkout_session_id) {
+      let existing: Stripe.Checkout.Session | null = null;
+      try {
+        existing = await stripe.checkout.sessions.retrieve(bill.checkout_session_id);
+      } catch (e) {
+        console.warn("Could not check existing bill checkout", e instanceof Error ? e.message : e);
+      }
+      const next = billSessionAction(existing);
+      if (next === "paid") {
+        await supabase.from("qr_bill_requests").update({ status: "paid" }).eq("id", bill.id).neq("status", "paid");
+        return json({ success: false, error: "This bill has already been paid." }, 409);
+      }
+      if (next === "unknown") {
+        return json({ success: false, error: "We couldn't confirm this bill's payment status. Please try again in a moment." }, 503);
+      }
+      if (next === "reuse" && !previewOnly && existing?.url) {
+        return json({ success: true, url: existing.url, sessionId: existing.id, reused: true });
+      }
+    }
 
     // Get business payment account
     const { data: paymentAccount, error: accountError } = await supabase
@@ -228,10 +256,6 @@ serve(async (req) => {
       );
     }
 
-    const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
-      apiVersion: "2023-10-16",
-    });
-
     const origin = safeOrigin(req);
     const productName = business?.business_name
       ? `Payment to ${business.business_name}`
@@ -244,6 +268,8 @@ serve(async (req) => {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
+      // Stripe's shortest allowed window; keeps a stale checkout from lingering on the bill.
+      expires_at: Math.floor(Date.now() / 1000) + 31 * 60,
       customer_email: customerEmail || user.email,
       line_items: [
         {
@@ -286,10 +312,24 @@ serve(async (req) => {
         qrCodeId: qrCodeId || "direct",
         customerId: user.id,
         transactionType: "qr_scan",
+        billId: bill.id,
       },
     });
 
-    await supabase.from("qr_bill_requests").update({ checkout_session_id: session.id }).eq("id", bill.id);
+    // Attach this checkout only if nobody else attached one first (two taps / two phones).
+    let claim = supabase
+      .from("qr_bill_requests")
+      .update({ checkout_session_id: session.id })
+      .eq("id", bill.id)
+      .eq("status", "open");
+    claim = bill.checkout_session_id
+      ? claim.eq("checkout_session_id", bill.checkout_session_id)
+      : claim.is("checkout_session_id", null);
+    const { data: claimed, error: claimError } = await claim.select("id");
+    if (claimError || !claimed?.length) {
+      try { await stripe.checkout.sessions.expire(session.id); } catch { /* already unusable */ }
+      return json({ success: false, error: "Someone is already paying this bill. If that wasn't you, ask the business for help." }, 409);
+    }
 
     // Record platform fee row so QR revenue appears in admin Platform Revenue dashboard.
     // Webhook (payment_intent.succeeded/failed, charge.refunded) updates this row by stripe_payment_intent_id.

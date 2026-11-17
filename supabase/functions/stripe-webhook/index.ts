@@ -155,6 +155,16 @@ serve(async (req) => {
         
         console.log(`Checkout completed: ${session.id}`, metadata);
 
+        // 🧾 QR bill: mark the business-created bill as paid so it shows on the Bills tab and can't be paid again.
+        if (metadata?.transactionType === 'qr_scan' && session.payment_status === 'paid') {
+          const { error: billErr } = await supabaseClient
+            .from('qr_bill_requests')
+            .update({ status: 'paid' })
+            .eq('checkout_session_id', session.id)
+            .neq('status', 'paid');
+          if (billErr) console.error('QR bill paid update failed:', billErr.message);
+        }
+
         // 🏦 WEALTH TICKER: Emit verified transaction to community wealth stats
         if (session.amount_total && session.amount_total > 0) {
           const amountDollars = session.amount_total / 100;
@@ -647,6 +657,19 @@ serve(async (req) => {
             stripe_charge_id: paymentIntent.latest_charge as string,
           })
           .eq("stripe_payment_intent_id", paymentIntent.id);
+
+        // 🧾 Invoice paid online: mark it paid so the business sees it and it can't be paid again.
+        // kind/invoice_id are set server-side in create-payment-intent (caller notes are prefixed note_).
+        const piMeta = (paymentIntent.metadata || {}) as Record<string, string>;
+        if (piMeta.kind === 'invoice_payment_to_business' && piMeta.invoice_id) {
+          const { error: invErr } = await supabaseClient
+            .from('invoices')
+            .update({ status: 'paid', paid_date: new Date().toISOString().slice(0, 10) })
+            .eq('id', piMeta.invoice_id)
+            .eq('business_id', piMeta.business_id || '')
+            .not('status', 'in', '(paid,refunded)');
+          if (invErr) console.error('Invoice paid update failed:', invErr.message);
+        }
 
         console.log(`Payment succeeded: ${paymentIntent.id}`);
         break;
