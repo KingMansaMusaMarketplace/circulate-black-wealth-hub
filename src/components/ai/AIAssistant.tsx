@@ -11,6 +11,9 @@ import { supabase } from '@/integrations/supabase/client';
 import ReactMarkdown from 'react-markdown';
 import { linkifyMarkdown } from '@/lib/utils/linkify-markdown';
 import { Capacitor } from '@capacitor/core';
+import { useKaylaChatPreferences } from '@/hooks/use-kayla-chat-preferences';
+import { KaylaAdultGate } from '@/components/ai/kayla-privacy/KaylaAdultGate';
+import { KaylaMemoryControls } from '@/components/ai/kayla-privacy/KaylaMemoryControls';
 
 
 interface MessageContent {
@@ -61,6 +64,8 @@ export const AIAssistant = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [pendingImage, setPendingImage] = useState<{ base64: string; name: string } | null>(null);
   const voice = useKaylaVoice();
+  const prefs = useKaylaChatPreferences();
+  const chatLocked = !prefs.ready || !prefs.adultConfirmed;
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -102,6 +107,7 @@ export const AIAssistant = () => {
   };
 
   const streamChat = async (userMessage: string, imageBase64?: string) => {
+    if (chatLocked) return;
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
@@ -157,7 +163,12 @@ export const AIAssistant = () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${session.access_token}`,
           },
-          body: JSON.stringify({ messages: apiMessages, session_id: sessionIdRef.current }),
+          body: JSON.stringify({
+            messages: apiMessages,
+            // Private chat: no saved conversation id, and the server saves nothing.
+            session_id: prefs.memoryEnabled ? sessionIdRef.current : null,
+            memory_off: !prefs.memoryEnabled,
+          }),
           signal: controller.signal,
         }
       );
@@ -205,7 +216,7 @@ export const AIAssistant = () => {
 
             if (parsed.model_used && !parsed.choices) {
               modelUsed = parsed.model_used;
-              if (parsed.session_id && parsed.session_id !== sessionIdRef.current) {
+              if (prefs.memoryEnabled && parsed.session_id && parsed.session_id !== sessionIdRef.current) {
                 sessionIdRef.current = parsed.session_id;
                 try { localStorage.setItem('kayla_session_id', parsed.session_id); } catch {}
               }
@@ -308,9 +319,29 @@ export const AIAssistant = () => {
         </div>
       </div>
 
+      {!chatLocked && (
+        <KaylaMemoryControls
+          memoryEnabled={prefs.memoryEnabled}
+          signedIn={prefs.signedIn}
+          onToggle={async (on) => {
+            if (!on) sessionIdRef.current = null;
+            return prefs.setMemoryEnabled(on);
+          }}
+          onDeleteSaved={async () => {
+            sessionIdRef.current = null;
+            return prefs.deleteSavedChats();
+          }}
+          tone="onDark"
+          className="px-4 py-1.5 border-b border-mansagold/20"
+        />
+      )}
+
       {/* Messages */}
       <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
-        <div className="space-y-4">
+        {prefs.ready && !prefs.adultConfirmed && (
+          <KaylaAdultGate tone="onDark" onConfirm={() => { void prefs.confirmAdult(); }} />
+        )}
+        <div className={chatLocked ? 'hidden' : 'space-y-4'}>
           {messages.map((msg, idx) => (
             <div
               key={idx}
@@ -486,12 +517,12 @@ export const AIAssistant = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder={pendingImage ? "Ask about this image..." : "Ask Kayla anything about 1325.AI..."}
-            disabled={isLoading}
+            disabled={isLoading || chatLocked}
             className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/80 focus:border-mansagold focus:ring-mansagold/20"
           />
           <Button
             onClick={handleSend}
-            disabled={isLoading || (!input.trim() && !pendingImage)}
+            disabled={isLoading || chatLocked || (!input.trim() && !pendingImage)}
             className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-semibold shadow-lg shadow-mansagold/30 hover:shadow-mansagold/40 transition-all hover-glow-gold"
           >
             {isLoading ? (

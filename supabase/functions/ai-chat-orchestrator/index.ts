@@ -6,6 +6,7 @@ import { gatherLiveGrounding, resolveOwnedBusinessId } from "../_shared/kayla-gr
 import { buildTeamBriefing, logHandoff } from "../_shared/kayla-handoffs.ts";
 import { premiumChatAnswer, textToChatSSE, wantsPremium } from "../_shared/kayla-deep.ts";
 import { assessChat, fixedReplyStream, loadRecentSafetyEvents, logSafetyEvent, withSafetyNote } from "../_shared/kayla-harm-stages.ts";
+import { handoffReason, loadChatPrivacy } from "../_shared/kayla-chat-privacy.ts";
 
 // Memory + platform knowledge now live in _shared/kayla-memory.ts so every
 // Kayla surface remembers the same things.
@@ -328,6 +329,8 @@ Deno.serve(async (req) => {
     }
 
     // ========== KAYLA SESSION MEMORY ==========
+    // The person's own "Remember my chats" switch decides whether we save.
+    const privacy = await loadChatPrivacy(supabase, user.id, requestBody);
     // Optional client-provided session id; if absent we generate one and return it
     // so the client can pin all subsequent turns to the same row in ai_chat_sessions.
     const incomingSessionId = typeof requestBody.session_id === 'string' ? requestBody.session_id : null;
@@ -350,7 +353,7 @@ Deno.serve(async (req) => {
     // the assistant's reply (the client always sends the full message list), so the
     // assistant turn lands in the row on the *next* upsert. This is intentional —
     // it keeps the streaming response path uncomplicated.
-    try {
+    if (privacy.memoryEnabled) try {
       const firstUserText = (() => {
         const firstUser = messages.find((m: any) => m.role === 'user');
         return firstUser ? getMessageText(firstUser.content).slice(0, 80) : 'Kayla session';
@@ -424,7 +427,7 @@ Deno.serve(async (req) => {
     const ownedBusinessId = await resolveOwnedBusinessId(supabase, user.id);
     const [ragContext, personalMemory, grounding] = await Promise.all([
       retrieveRAGContext(lastUserMessage, LOVABLE_API_KEY, supabase),
-      retrievePersonalMemory(user.id, supabase, sessionId),
+      privacy.memoryEnabled ? retrievePersonalMemory(user.id, supabase, sessionId) : Promise.resolve(""),
       gatherLiveGrounding({
         supabase,
         question: lastUserMessage,
@@ -445,7 +448,7 @@ Deno.serve(async (req) => {
       console.log(`[orchestrator] team: ${team.team.join(", ")} | handoffs: ${team.handoffs.join(", ") || "none"}`);
       for (const h of team.handoffs) {
         const [from, to] = h.split(" → ");
-        logHandoff(supabase, { business_id: ownedBusinessId, from_agent: from, to_agent: to, reason: lastUserMessage.slice(0, 160), channel: "chat" });
+        logHandoff(supabase, { business_id: ownedBusinessId, from_agent: from, to_agent: to, reason: handoffReason(privacy, lastUserMessage), channel: "chat" });
       }
     }
     if (grounding.calls.length) {
@@ -603,7 +606,7 @@ Deno.serve(async (req) => {
 
     // Inject model info + session id as the first SSE event, then pipe the rest
     const encoder = new TextEncoder();
-    const modelInfoChunk = encoder.encode(`data: ${JSON.stringify({ model_used: modelUsed, session_id: sessionId })}\n\n`);
+    const modelInfoChunk = encoder.encode(`data: ${JSON.stringify({ model_used: modelUsed, session_id: sessionId, memory: privacy.memoryEnabled ? "on" : "off" })}\n\n`);
 
     const originalBody = responseStream.body ? withSafetyNote(responseStream.body, safety.prependText) : null;
     if (!originalBody) {

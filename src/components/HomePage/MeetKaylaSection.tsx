@@ -7,6 +7,8 @@ import { useVoiceConnection } from '@/components/voice';
 import { VoiceTranscript } from '@/components/voice';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useKaylaChatPreferences } from '@/hooks/use-kayla-chat-preferences';
+import { KaylaAdultConfirmDialog } from '@/components/ai/kayla-privacy/KaylaAdultConfirmDialog';
 import meetKaylaVideo from '@/assets/videos/stream/meet-kayla-stream.mp4.asset.json';
 
 // CRITICAL iOS: Completely skip mounting Kayla on iOS.
@@ -30,11 +32,18 @@ const MeetKaylaSectionInner: React.FC = () => {
 
   const { user } = useAuth();
   const navigate = useNavigate();
+  const prefs = useKaylaChatPreferences();
+  const [ageCheckOpen, setAgeCheckOpen] = React.useState(false);
 
   const handleStart = async () => {
     // Voice chat is free but needs an account, so guests go to sign-in first.
     if (!user) {
       navigate('/login?redirect=/');
+      return;
+    }
+    // Kayla chat is for adults: ask once before the first voice chat.
+    if (!prefs.adultConfirmed) {
+      setAgeCheckOpen(true);
       return;
     }
     try {
@@ -44,8 +53,15 @@ const MeetKaylaSectionInner: React.FC = () => {
     }
   };
 
+  const confirmAndStart = () => {
+    void prefs.confirmAdult();
+    setAgeCheckOpen(false);
+    startConversation().catch((error) => console.error('[MeetKayla] Error starting:', error));
+  };
+
   return (
     <section className="pt-2 pb-8 md:pt-4 md:pb-12 relative">
+      <KaylaAdultConfirmDialog open={ageCheckOpen} onOpenChange={setAgeCheckOpen} onConfirm={confirmAndStart} />
 
       <div className="max-w-5xl mx-auto px-4">
         {/* Section label */}
