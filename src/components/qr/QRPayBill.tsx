@@ -49,6 +49,17 @@ const QRPayBill: React.FC<QRPayBillProps> = ({
     };
   }, [amount, bill, pointsEarned]);
 
+  // Non-2xx replies (e.g. "already paid") arrive as an error; read the server's own message.
+  const serverMessage = async (error: unknown): Promise<string | null> => {
+    try {
+      const ctx = (error as { context?: Response })?.context;
+      const body = ctx && typeof ctx.json === "function" ? await ctx.clone().json() : null;
+      return typeof body?.error === "string" ? body.error : null;
+    } catch {
+      return null;
+    }
+  };
+
   const request = (previewOnly: boolean) =>
     supabase.functions.invoke("process-qr-transaction", {
       body: {
@@ -71,7 +82,7 @@ const QRPayBill: React.FC<QRPayBillProps> = ({
     setBill(null);
     try {
       const { data, error } = await request(true);
-      if (error || !data?.success) throw new Error(data?.error || "That bill code was not found or has expired.");
+      if (error || !data?.success) throw new Error(data?.error || (await serverMessage(error)) || "That bill code was not found or has expired.");
       setBill({ amount: data.amount, finalAmount: data.finalAmount, discountPercentage: data.discountPercentage, description: data.description });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "That bill code was not found or has expired.");
@@ -95,7 +106,7 @@ const QRPayBill: React.FC<QRPayBillProps> = ({
       setSubmitting(true);
       const { data, error } = await request(false);
 
-      if (error) throw error;
+      if (error) throw new Error((await serverMessage(error)) || "Failed to start checkout");
       if (!data?.success || !data?.url) {
         throw new Error(data?.error || "Failed to start checkout");
       }
