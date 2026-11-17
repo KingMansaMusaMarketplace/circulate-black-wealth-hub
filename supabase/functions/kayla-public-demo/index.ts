@@ -5,6 +5,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import { buildKaylaSystemPrompt, fetchAIWithRetry } from "../_shared/kayla-brain.ts";
 import { foldUntrustedHistory } from "../_shared/untrusted-history.ts";
 import { requireAuth } from "../_shared/auth-guard.ts";
+import { assessChat, loadRecentSafetyEvents, logSafetyEvent } from "../_shared/kayla-harm-stages.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -152,6 +153,17 @@ Deno.serve(async (req) => {
       });
     }
 
+    // Harm-stage engine: fixed rules decide before any AI runs.
+    const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!) as any;
+    const safety = assessChat(rawMessages, await loadRecentSafetyEvents(supabase, authResult.userId));
+    await logSafetyEvent(supabase, authResult.userId, "public-demo", safety);
+    if (safety.action === "replace" && safety.fixedReply) {
+      return new Response(
+        JSON.stringify({ reply: safety.fixedReply, remaining: limit.remaining, safety_tier: safety.tier }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
       return new Response(JSON.stringify({ error: "AI service not configured" }), {
@@ -162,7 +174,7 @@ Deno.serve(async (req) => {
 
     const lastUserMsg = messages[messages.length - 1].content;
     const directory = await lookupBusinesses(lastUserMsg);
-    const systemPrompt = buildKaylaSystemPrompt({ compact: true }) + DEMO_RULES + directory;
+    const systemPrompt = buildKaylaSystemPrompt({ compact: true }) + DEMO_RULES + directory + (safety.systemNote ?? "");
 
     const aiRes = await fetchAIWithRetry(
       "https://ai.gateway.lovable.dev/v1/chat/completions",
@@ -192,8 +204,9 @@ Deno.serve(async (req) => {
     }
 
     const json = await aiRes.json();
-    const reply =
+    const aiReply =
       json?.choices?.[0]?.message?.content ?? "Sorry — could you rephrase that?";
+    const reply = safety.prependText ? `${safety.prependText}\n\n${aiReply}` : aiReply;
 
     return new Response(
       JSON.stringify({ reply, remaining: limit.remaining }),

@@ -6,6 +6,7 @@ import { buildKaylaSystemPrompt, classifyQuery, fetchAIWithRetry, loadApprovedIm
 import { retrieveRAGContext, retrievePersonalMemory, persistSession, resolveSessionId } from "../_shared/kayla-memory.ts";
 import { gatherLiveGrounding, resolveOwnedBusinessId } from "../_shared/kayla-grounding.ts";
 import { premiumChatAnswer, textToChatSSE, wantsPremium } from "../_shared/kayla-deep.ts";
+import { assessChat, fixedReplyStream, loadRecentSafetyEvents, logSafetyEvent, withSafetyNote } from "../_shared/kayla-harm-stages.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -146,6 +147,17 @@ Deno.serve(async (req) => {
 
     const lastUserMsg = String(messages[messages.length - 1]?.content || "");
 
+    // ===== HARM-STAGE ENGINE: fixed rules decide before any AI runs =====
+    const safety = assessChat(requestBody.messages, await loadRecentSafetyEvents(supabase, user.id));
+    await logSafetyEvent(supabase, user.id, "ai-chat", safety);
+    if (safety.action === "replace" && safety.fixedReply) {
+      return new Response(
+        fixedReplyStream(safety.fixedReply, { session_id: sessionId, model_used: "safety-rules", safety_tier: safety.tier }),
+        { headers: { ...corsHeaders, "Content-Type": "text/event-stream" } },
+      );
+    }
+    if (safety.systemNote) systemPrompt += safety.systemNote;
+
     // ===== ROUTING: how hard should Kayla think about this? =====
     const { category, reason } = await classifyQuery(lastUserMsg, LOVABLE_API_KEY);
     console.log(`[ai-chat] category=${category} (${reason})`);
@@ -185,7 +197,7 @@ Deno.serve(async (req) => {
         const head = encoder.encode(
           `data: ${JSON.stringify({ agents: routeAgents(lastUserMsg), session_id: sessionId, model_used: "premium", depth: category, self_checked: premium.reviewed })}\n\n`,
         );
-        const body = textToChatSSE(premium.text, "premium");
+        const body = withSafetyNote(textToChatSSE(premium.text, "premium"), safety.prependText);
         const stream = new ReadableStream({
           async start(controller) {
             controller.enqueue(head);
@@ -259,7 +271,7 @@ Deno.serve(async (req) => {
     const agentEvent = encoder.encode(
       `data: ${JSON.stringify({ agents, session_id: sessionId, model_used: model, depth: category })}\n\n`,
     );
-    const upstream = response.body!;
+    const upstream = withSafetyNote(response.body!, safety.prependText);
     const combined = new ReadableStream({
       async start(controller) {
         controller.enqueue(agentEvent);

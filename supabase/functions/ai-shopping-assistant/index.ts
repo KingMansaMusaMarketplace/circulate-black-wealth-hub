@@ -5,6 +5,7 @@ import { fetchAIWithRetry, buildAgentBrandBlock, buildKaylaSystemPrompt, buildCl
 import { gatherLiveGrounding, NEEDS_LIVE_FACTS } from "../_shared/kayla-grounding.ts";
 import { foldUntrustedHistory } from "../_shared/untrusted-history.ts";
 import { premiumChatAnswer, textToChatSSE, wantsPremium } from "../_shared/kayla-deep.ts";
+import { assessChat, fixedReplyStream, loadRecentSafetyEvents, logSafetyEvent, withSafetyNote } from "../_shared/kayla-harm-stages.ts";
 
 // Simple per-caller throttle so the public shopping assistant cannot be used
 // to burn paid AI credits. Guests get a small allowance; signed-in users more.
@@ -146,6 +147,15 @@ serve(async (req) => {
       });
     }
 
+    // Harm-stage engine: fixed rules decide before any AI runs.
+    const safety = assessChat(messages, await loadRecentSafetyEvents(supabase, userId));
+    await logSafetyEvent(supabase, userId, "shopping-assistant", safety);
+    if (safety.action === "replace" && safety.fixedReply) {
+      return new Response(fixedReplyStream(safety.fixedReply), {
+        headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
+      });
+    }
+
     // Pull the user's most recent message and extract intent
     const lastUser = [...messages].reverse().find((m: any) => m.role === "user")?.content || "";
     const { city, state, keywords } = extractSearchSignals(String(lastUser));
@@ -249,7 +259,7 @@ INSTRUCTIONS:
         const grounding = await gatherLiveGrounding({
           supabase, question: lastText, lovableApiKey: LOVABLE_API_KEY, userId: userId || null, forceWeb: needsLive,
         });
-        const fullPrompt = systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({}) + buildAgentBrandBlock() + approvedLessons + clinicalBlock + (grounding.block || "");
+        const fullPrompt = systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({}) + buildAgentBrandBlock() + approvedLessons + clinicalBlock + (grounding.block || "") + (safety.systemNote ?? "");
         const premium = await premiumChatAnswer({
           systemPrompt: fullPrompt,
           messages: foldUntrustedHistory(messages, 10),
@@ -261,7 +271,7 @@ INSTRUCTIONS:
           runDetails.self_checked = premium.reviewed;
           runDetails.grounding = grounding.calls.map((c) => c.tool);
           await logRun(supabase, "kayla-shopping", "success", startedAt, runDetails);
-          return new Response(textToChatSSE(premium.text, "premium"), {
+          return new Response(withSafetyNote(textToChatSSE(premium.text, "premium"), safety.prependText), {
             headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
           });
         }
@@ -279,7 +289,7 @@ INSTRUCTIONS:
       body: JSON.stringify({
         model: "google/gemini-3.7-flash",
         messages: [
-          { role: "system", content: systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({ compact: true }) + buildAgentBrandBlock() + approvedLessons + clinicalBlock },
+          { role: "system", content: systemPrompt + "\n\n--- PLATFORM KNOWLEDGE ---\n" + buildKaylaSystemPrompt({ compact: true }) + buildAgentBrandBlock() + approvedLessons + clinicalBlock + (safety.systemNote ?? "") },
           // Callers may only speak as the user or assistant — never 'system'.
           ...foldUntrustedHistory(messages, 10),
         ],
@@ -372,7 +382,7 @@ INSTRUCTIONS:
       }
     })();
 
-    return new Response(clientStream, {
+    return new Response(withSafetyNote(clientStream, safety.prependText), {
       headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
     });
   } catch (e) {

@@ -15614,6 +15614,42 @@ export type Database = {
         }
         Relationships: []
       }
+      kayla_safety_events: {
+        Row: {
+          action: string
+          channel: string
+          created_at: string
+          escalated_by: string[]
+          id: string
+          rule_ids: string[]
+          stages: string[]
+          tier: number
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          channel: string
+          created_at?: string
+          escalated_by?: string[]
+          id?: string
+          rule_ids?: string[]
+          stages?: string[]
+          tier: number
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          channel?: string
+          created_at?: string
+          escalated_by?: string[]
+          id?: string
+          rule_ids?: string[]
+          stages?: string[]
+          tier?: number
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       kayla_segment_members: {
         Row: {
           added_at: string | null
