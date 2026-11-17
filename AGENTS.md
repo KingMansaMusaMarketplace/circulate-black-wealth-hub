@@ -46,4 +46,4 @@
 - QR bill payments take the amount only from a business-created qr_bill_requests row read server-side by process-qr-transaction; QR bills and invoices allow one live payment, marked paid by stripe-webhook. Workflow webhooks are default-deny to WORKFLOW_WEBHOOK_ALLOWED_HOSTS and send only the mapped body template, so callers can't set charges or reroute data.
 - Kayla Autopilot (`kayla-autopilot`, one cron job) runs scheduled checks and proof-gated fixes; limits and keep/discard rules live in tested `_shared/kayla-autopilot-rules.ts`; only internal callers set benchmark subsets/trial lessons. Keeps automatic fixes provable and undoable.
 - Kayla safety (harm stages) and chat privacy (Memory Off, 18+) rules live in supabase/functions/_shared/AGENTS.md; read it before changing Kayla chat channels.
-- Emailed claims set app.trusted_claim; businesses triggers honor it only for owner_id/claim_status/claimed_at.
+- Claim functions (email invite, reviewer approval) set app.trusted_claim; businesses triggers honor it only for owner_id/claim_status/claimed_at.
