@@ -3,6 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { buildKaylaSystemPrompt, loadApprovedImprovements } from "../_shared/kayla-brain.ts";
 import { retrievePersonalMemory } from "../_shared/kayla-memory.ts";
+import { loadChatPrivacy } from "../_shared/kayla-chat-privacy.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -166,7 +167,11 @@ You're confident but not stiff. You know your stuff but you don't need to prove 
 - When ending a conversation, casually mention spreading the word: "Hey, tell your people about us!" — keep it natural, not scripted.
 
 `;
-    const personalMemory = await retrievePersonalMemory(userId, supabase, null).catch(() => "");
+    // Voice obeys the same "Remember my chats" switch as text chat.
+    const voicePrivacy = await loadChatPrivacy(supabase, userId, null);
+    const personalMemory = voicePrivacy.memoryEnabled
+      ? await retrievePersonalMemory(userId, supabase, null).catch(() => "")
+      : "";
     let kaylaInstructions = buildKaylaSystemPrompt({ isAdmin }) + await loadApprovedImprovements(supabase) + "\n\n" + VOICE_STYLE + (personalMemory || "");
 
     // Add admin-specific knowledge if user is admin

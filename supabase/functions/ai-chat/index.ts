@@ -7,6 +7,7 @@ import { retrieveRAGContext, retrievePersonalMemory, persistSession, resolveSess
 import { gatherLiveGrounding, resolveOwnedBusinessId } from "../_shared/kayla-grounding.ts";
 import { premiumChatAnswer, textToChatSSE, wantsPremium } from "../_shared/kayla-deep.ts";
 import { assessChat, fixedReplyStream, loadRecentSafetyEvents, logSafetyEvent, withSafetyNote } from "../_shared/kayla-harm-stages.ts";
+import { loadChatPrivacy } from "../_shared/kayla-chat-privacy.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -142,8 +143,10 @@ Deno.serve(async (req) => {
     let systemPrompt = buildKaylaSystemPrompt({ isAdmin }) + await loadApprovedImprovements(supabase);
 
     // ===== MEMORY: this chat used to have none. Now it remembers. =====
+    // The person's own "Remember my chats" switch decides whether we save.
+    const privacy = await loadChatPrivacy(supabase, user.id, requestBody);
     const sessionId = resolveSessionId(requestBody.session_id);
-    await persistSession(supabase, sessionId, user.id, messages);
+    if (privacy.memoryEnabled) await persistSession(supabase, sessionId, user.id, messages);
 
     const lastUserMsg = String(messages[messages.length - 1]?.content || "");
 
@@ -169,7 +172,7 @@ Deno.serve(async (req) => {
       category === "simple" && !/business|restaurant|shop|store|find|near|recommend|review|event/i.test(lastUserMsg)
         ? Promise.resolve("")
         : retrieveRAGContext(lastUserMsg, LOVABLE_API_KEY, supabase),
-      retrievePersonalMemory(user.id, supabase, sessionId),
+      privacy.memoryEnabled ? retrievePersonalMemory(user.id, supabase, sessionId) : Promise.resolve(""),
       // CHECK BEFORE YOU ANSWER: real lookups against the live directory, the
       // person's own account/business numbers, and the live web.
       gatherLiveGrounding({
