@@ -146,8 +146,10 @@ export function pickSafeguards(
   const clinical = pool.filter((p) => (p.category || "") === "clinical");
   const other = pool.filter((p) => (p.category || "") !== "clinical");
   const rotate = <T,>(xs: T[], k: number) => xs.length ? xs.map((_, i) => xs[(i + day * k) % xs.length]) : xs;
-  const pickedClinical = rotate(clinical, 2).slice(0, Math.min(2, count));
-  const pickedOther = rotate(other, count).slice(0, count - pickedClinical.length);
-  const extra = rotate(clinical, 2).slice(pickedClinical.length, count - pickedClinical.length - pickedOther.length + pickedClinical.length);
-  return [...pickedOther, ...pickedClinical, ...extra].slice(0, count).map(({ case_id, score }) => ({ case_id, score }));
+  const clinicalOrder = rotate(clinical, 2);
+  const otherOrder = rotate(other, count);
+  const picked = [...clinicalOrder.slice(0, 2), ...otherOrder];
+  // Not enough other questions? Top up with the remaining Clinical ones.
+  picked.push(...clinicalOrder.slice(2));
+  return picked.slice(0, count).map(({ case_id, score }) => ({ case_id, score }));
 }
