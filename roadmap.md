@@ -542,5 +542,5 @@
 - [ ] Confirm videos play on iPhone and iPad — blocked: owner must install 25.3.2 (53) from TestFlight and test; if still failing, Sentry will now show the reason.
 
 ## Investor briefing follow-ups (Nov 19 2026)
-- [x] One-page 1325 Clinical deep dive (Advantage 4) created.
+- [x] 1325 Clinical deep dive (Advantage 4): one-page v1, then 8-page v2.
 - [x] Pre-revenue line removed from Why Now briefing (v3).
