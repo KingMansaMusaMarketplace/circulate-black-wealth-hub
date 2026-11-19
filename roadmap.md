@@ -531,3 +531,6 @@
 - [ ] Thomas: send Tech Spec v2 (Developer Portal email Thomas@1325.AI filled in) via athena's Technical Request Form. Blocker: needs Thomas.
 - [ ] Replace saved athena Preview keys — athena refused the stored Client ID/Secret ("client not valid in preview"). Blocker: new keys from athena Credentials tab, saved via secure form.
 - [ ] Before any real athena data: turn off screen recording / mask text in error monitoring on clinical screens (currently replay text is not masked) and require multi-factor sign-in — both promised in the Tech Spec.
+
+## iPhone app still closes on open — November 18, 2026
+- [ ] Find why Build 51 (25.3.0) still opens then closes on the iPhone — blocked: need the newest crash report from the iPhone (App-2026-11-…ips from today).
