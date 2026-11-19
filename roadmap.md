@@ -540,3 +540,7 @@
 - [x] 25.3.2 (Build 53) uploaded to Apple by the owner on Nov 19, 2026.
 - [x] iPad Build 52: play did nothing — fixed tap-to-play start, YouTube now opens in YouTube app/Safari, 20 standalone video pages point at the live site, app errors now reach Sentry.
 - [ ] Confirm videos play on iPhone and iPad — blocked: owner must install 25.3.2 (53) from TestFlight and test; if still failing, Sentry will now show the reason.
+
+## Investor briefing follow-ups (Nov 19 2026)
+- [x] One-page 1325 Clinical deep dive (Advantage 4) created.
+- [x] Pre-revenue line removed from Why Now briefing (v3).
