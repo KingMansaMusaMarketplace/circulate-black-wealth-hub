@@ -534,3 +534,7 @@
 
 ## iPhone app still closes on open — November 18, 2026
 - [ ] iPhone app closes on open: Mac was on Oct 17 files; version bumped to 25.3.1 (Build 52) because Apple closed 25.3.0 — blocked: user must pull, archive and test on TestFlight.
+
+## iPad app videos don't play — November 19, 2026
+- [x] Clinical, SkyWatch videos and employee portraits used website-only file addresses that point nowhere inside the app; now routed to the live site. Test added. Build number bumped to 53.
+- [ ] Confirm on the iPad — blocked: user must pull, archive 25.3.1 (Build 53) and test from TestFlight.

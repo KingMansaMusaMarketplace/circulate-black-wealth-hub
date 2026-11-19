@@ -20,6 +20,7 @@ import physicianCare from '@/assets/clinical-physician-care.jpg';
 import ClinicalSiteBack from './ClinicalSiteBack';
 import DelegationLoop from './DelegationLoop';
 import ClinicalVideo from './ClinicalVideo';
+import { assetUrl } from '@/utils/assetUrl';
 import briefingStream from '@/assets/videos/stream/clinical-briefing-v5-stream.mp4.asset.json';
 import demoVideo from '@/assets/clinical-product-demo-sharp.mp4.asset.json';
 import demoPoster from '@/assets/clinical-demo-poster.jpg';
@@ -128,7 +129,7 @@ function Home() {
   return <>
     <section className="relative isolate overflow-hidden border-b border-border">
       <img src={homeRounds} alt="Illustrative physician, nurse and care coordinator walking together in a hospital" fetchPriority="high" width={1536} height={1024} className="absolute inset-0 -z-20 h-full w-full object-cover object-center" />
-      <video poster={homeRounds} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="absolute inset-0 -z-20 h-full w-full object-cover object-center motion-reduce:hidden"><source src={homeRoundsWebm.url} type="video/webm" /><source src={homeRoundsVideo.url} type="video/mp4" /></video>
+      <video poster={homeRounds} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" className="absolute inset-0 -z-20 h-full w-full object-cover object-center motion-reduce:hidden"><source src={assetUrl(homeRoundsWebm.url)} type="video/webm" /><source src={assetUrl(homeRoundsVideo.url)} type="video/mp4" /></video>
       <div className="clinical-site-hero-scrim absolute inset-0 -z-10" />
       <div className="mx-auto max-w-6xl px-6 py-10 md:py-20">
         <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-border bg-background/60 px-4 py-2 backdrop-blur-md">

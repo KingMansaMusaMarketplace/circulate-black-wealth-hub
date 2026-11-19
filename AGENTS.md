@@ -47,3 +47,4 @@
 - Kayla Autopilot (`kayla-autopilot`, one cron job) runs scheduled checks and proof-gated fixes; limits and keep/discard rules live in tested `_shared/kayla-autopilot-rules.ts`; only internal callers set benchmark subsets/trial lessons. Keeps automatic fixes provable and undoable.
 - Kayla safety (harm stages) and chat privacy (Memory Off, 18+) rules live in supabase/functions/_shared/AGENTS.md; read it before changing Kayla chat channels.
 - Claim RPCs set app.trusted_claim; businesses triggers honor it only for owner/claim fields.
+- Uploaded media (.asset.json urls) shown in video/source/img must pass through assetUrl (or TapToPlayVideo/ClinicalVideo, which call it), because the bundled iOS/Android app loads from capacitor:// where /__l5e paths resolve nowhere; assetUrl-native.test.ts scans video tags.

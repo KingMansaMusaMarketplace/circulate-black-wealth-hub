@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { ArrowLeft, ArrowRight, CloudSun, Cpu, MessageSquareText, HandCoins, ShieldAlert, CalendarDays, Church, Play, Pause, MapPin, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { assetUrl } from '@/utils/assetUrl';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import video from '@/assets/videos/stream/skywatch-briefing-stream.mp4.asset.json';
@@ -120,8 +121,8 @@ export default function SkyWatchPage() {
       <section ref={heroRef} className="relative isolate overflow-hidden border-b border-border">
         <img src={rooftop} alt="Illustrative rooftop weather station overlooking a Maryland community" width={1920} height={1088} fetchPriority="high" className="absolute inset-0 -z-20 h-full w-full object-cover object-right brightness-[1.15]" />
         {motionAllowed && !motionFailed && <video ref={motionRef} poster={rooftop} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" onError={() => setMotionFailed(true)} className="absolute inset-0 -z-20 h-full w-full object-cover object-right brightness-[1.15]">
-          <source src={rooftopMotionWebm.url} type="video/webm" />
-          <source src={rooftopMotion.url} type="video/mp4" />
+          <source src={assetUrl(rooftopMotionWebm.url)} type="video/webm" />
+          <source src={assetUrl(rooftopMotion.url)} type="video/mp4" />
         </video>}
         <div className="clinical-site-hero-scrim absolute inset-0 -z-10" />
         {motionAllowed && !motionFailed && <Button variant="outline" size="icon" className="absolute bottom-3 right-3 bg-background/60" aria-label={motionPaused ? 'Play background motion' : 'Pause background motion'} title={motionPaused ? 'Play background motion' : 'Pause background motion'} onClick={() => setMotionPaused(p => !p)}>{motionPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}</Button>}
@@ -145,7 +146,7 @@ export default function SkyWatchPage() {
           <h2 className="max-w-2xl text-3xl font-semibold leading-tight md:text-4xl">Watch Kayla explain<br className="hidden sm:block" /> the SkyWatch vision.</h2>
           <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">From rooftop readings to local preparedness. A proposal prepared for Dr. M. Brandon Jones.</p>
         </div>
-        <video aria-label="1325 SkyWatch Kayla briefing" controls preload="metadata" playsInline poster={rooftop} className="aspect-video w-full rounded-lg border border-border bg-card" src={video.url} />
+        <video aria-label="1325 SkyWatch Kayla briefing" controls preload="metadata" playsInline poster={rooftop} className="aspect-video w-full rounded-lg border border-border bg-card" src={assetUrl(video.url)} />
         <p className="mt-4 text-xs leading-relaxed text-muted-foreground">Narrated by Kayla. People shown are AI-generated; the program is proposed, not yet operating. Website photography is illustrative—not installed stations or participating hosts.</p>
       </section>
 
