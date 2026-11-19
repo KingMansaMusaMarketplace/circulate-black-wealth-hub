@@ -537,6 +537,6 @@
 
 ## iPad app videos don't play — November 19, 2026
 - [x] Clinical, SkyWatch videos and employee portraits used website-only file addresses that point nowhere inside the app; now routed to the live site. Test added. Build number bumped to 53.
-- [ ] Confirm on the iPad — blocked: user must pull, archive 25.3.2 (Build 53; Apple closed 25.3.1) and test from TestFlight.
+- [x] 25.3.2 (Build 53) uploaded to Apple by the owner on Nov 19, 2026.
 - [x] iPad Build 52: play did nothing — fixed tap-to-play start, YouTube now opens in YouTube app/Safari, 20 standalone video pages point at the live site, app errors now reach Sentry.
-- [ ] Confirm on the iPad — blocked: user must upload Build 53 and test; if still failing, Sentry will now show the reason.
+- [ ] Confirm videos play on iPhone and iPad — blocked: owner must install 25.3.2 (53) from TestFlight and test; if still failing, Sentry will now show the reason.
