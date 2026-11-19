@@ -117,31 +117,35 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Non-admins may only invite a lead that already exists in our system,
-    // and the recipient address always comes from that stored lead — never
-    // from the request body. Each lead gets at most 3 invitations.
-    let recipientEmail = businessEmail.trim();
-    if (!isAdmin) {
-      if (!leadId) {
-        return new Response(
-          JSON.stringify({ error: "Invitations can only be sent to businesses already in our leads list" }),
-          { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
-      }
-      const { data: lead } = await guardClient
-        .from("b2b_external_leads")
-        .select("owner_email, contact_info, invitation_count, is_converted")
-        .eq("id", leadId)
-        .maybeSingle();
-      const storedEmail = (lead?.owner_email || (lead?.contact_info as any)?.email || "").trim();
-      if (!lead || !storedEmail || lead.is_converted || (lead.invitation_count ?? 0) >= 3) {
-        return new Response(
-          JSON.stringify({ error: "This business can't be invited" }),
-          { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
-      }
-      recipientEmail = storedEmail;
+    // Everyone — admins included — may only invite a lead that already exists
+    // in our system, and the recipient address always comes from that stored
+    // lead, never from the request body. Non-admins get at most 3 invitations
+    // per lead and cannot re-invite converted leads.
+    if (!leadId || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(leadId)) {
+      return new Response(
+        JSON.stringify({ error: "Invitations can only be sent to businesses already in our leads list" }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
+    const { data: lead } = await guardClient
+      .from("b2b_external_leads")
+      .select("owner_email, contact_info, invitation_count, is_converted")
+      .eq("id", leadId)
+      .maybeSingle();
+    const storedEmail = String(lead?.owner_email || (lead?.contact_info as any)?.email || "").trim();
+    if (!lead || !storedEmail || !emailRegex.test(storedEmail)) {
+      return new Response(
+        JSON.stringify({ error: "This business can't be invited" }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+    if (!isAdmin && (lead.is_converted || (lead.invitation_count ?? 0) >= 3)) {
+      return new Response(
+        JSON.stringify({ error: "This business can't be invited" }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+    const recipientEmail = storedEmail;
 
     // Sanitize inputs to prevent XSS in emails
     const sanitizedBusinessName = businessName.replace(/[<>]/g, '').slice(0, 120);
@@ -176,7 +180,7 @@ const handler = async (req: Request): Promise<Response> => {
     const emailResponse = await resend.emails.send({
       from: "Thomas at 1325.AI <Partner@1325.AI>",
       to: [recipientEmail],
-      subject: `${inviterName} invites you to join the 1325.AI B2B Marketplace`,
+      subject: `${sanitizedInviterName.replace(/[\r\n]+/g, " ")} invites you to join the 1325.AI B2B Marketplace`,
       html: `
         <!DOCTYPE html>
         <html>

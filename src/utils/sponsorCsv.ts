@@ -1,5 +1,6 @@
 import type { SponsorProspect } from '@/hooks/use-sponsor-crm';
 import { getSponsorMeta } from '@/utils/sponsorOutreachEmail';
+import { csvCell } from '@/lib/csv-safe';
 
 const HEADERS = [
   'Company',
@@ -18,10 +19,9 @@ const HEADERS = [
   'Next follow-up',
 ];
 
-const escape = (value: unknown) => {
-  const text = value == null ? '' : String(value);
-  return `"${text.replace(/"/g, '""')}"`;
-};
+// Formula-safe quoting: cells starting with =, +, -, @, tab or CR are
+// neutralized so a spreadsheet never runs text typed into the CRM.
+const escape = (value: unknown) => csvCell(value ?? '');
 
 export const buildSponsorCsv = (prospects: SponsorProspect[]): string => {
   const rows = prospects.map((p) => {

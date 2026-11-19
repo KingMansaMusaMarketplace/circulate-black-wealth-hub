@@ -88,19 +88,29 @@ const handler = async (req: Request): Promise<Response> => {
       emailBody = template.body;
     }
 
-    // Personalize the email
+    // Personalize the email. Prospect fields can come from public inquiry
+    // forms, so they are escaped for the HTML body and stripped of line breaks
+    // and angle brackets for the subject — they can only ever appear as text.
+    const field = (v: unknown, fallback = '', max = 200) =>
+      String(v ?? '').trim().slice(0, max) || fallback;
+    const subjectField = (v: unknown, fallback = '') =>
+      field(v, fallback).replace(/[\r\n<>]/g, ' ');
+    const htmlField = (v: unknown, fallback = '') => escHtml(field(v, fallback));
+
     const personalizedSubject = (emailSubject || 'Partnership Opportunity with 1325.AI')
-      .replace(/{{company_name}}/g, prospect.company_name)
-      .replace(/{{contact_name}}/g, prospect.primary_contact_name || 'there')
-      .replace(/{{contact_title}}/g, prospect.primary_contact_title || '')
-      .replace(/{{industry}}/g, prospect.industry || '');
+      .replace(/{{company_name}}/g, () => subjectField(prospect.company_name))
+      .replace(/{{contact_name}}/g, () => subjectField(prospect.primary_contact_name, 'there'))
+      .replace(/{{contact_title}}/g, () => subjectField(prospect.primary_contact_title))
+      .replace(/{{industry}}/g, () => subjectField(prospect.industry))
+      .replace(/[\r\n]/g, ' ')
+      .slice(0, 250);
 
     const personalizedBody = (emailBody || getDefaultOutreachBody())
-      .replace(/{{company_name}}/g, prospect.company_name)
-      .replace(/{{contact_name}}/g, prospect.primary_contact_name || 'there')
-      .replace(/{{contact_title}}/g, prospect.primary_contact_title || '')
-      .replace(/{{industry}}/g, prospect.industry || '')
-      .replace(/{{expected_tier}}/g, prospect.expected_tier || 'Partner');
+      .replace(/{{company_name}}/g, () => htmlField(prospect.company_name))
+      .replace(/{{contact_name}}/g, () => htmlField(prospect.primary_contact_name, 'there'))
+      .replace(/{{contact_title}}/g, () => htmlField(prospect.primary_contact_title))
+      .replace(/{{industry}}/g, () => htmlField(prospect.industry))
+      .replace(/{{expected_tier}}/g, () => htmlField(prospect.expected_tier, 'Partner'));
 
     // Generate tracking pixel ID
     const trackingId = crypto.randomUUID();

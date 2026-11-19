@@ -226,8 +226,21 @@ function generateSuggestedContent(companyName: string, tier: string): string {
   return templates[Math.floor(Math.random() * templates.length)];
 }
 
-function generateEmailHtml(companyName: string, tier: string): string {
-  const frequency = getTierFrequencyText(tier);
+function escHtml(value: unknown): string {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// Sponsor-controlled fields (company name, tier) are escaped before they are
+// placed into the email so they can only ever appear as plain text.
+function generateEmailHtml(rawCompanyName: string, rawTier: string): string {
+  const frequency = escHtml(getTierFrequencyText(rawTier));
+  const companyName = escHtml(String(rawCompanyName ?? '').slice(0, 200));
+  const tier = escHtml(String(rawTier ?? '').slice(0, 40));
   
   return `
     <!DOCTYPE html>
