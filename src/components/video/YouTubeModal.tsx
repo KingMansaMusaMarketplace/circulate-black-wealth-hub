@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { X, Play, ExternalLink } from 'lucide-react';
+import { isNativeApp } from '@/utils/platform-utils';
 
 interface YouTubeModalProps {
   videoId: string | null;
@@ -13,6 +14,13 @@ const YouTubeModal: React.FC<YouTubeModalProps> = ({ videoId, title, onClose }) 
   useEffect(() => {
     if (videoId) setIframeBlocked(false);
   }, [videoId]);
+
+  // Inside the phone/iPad app YouTube refuses embedded playback (the app has no web address to show YouTube), so let the link open the YouTube app or Safari.
+  useEffect(() => {
+    if (!videoId || !isNativeApp()) return;
+    window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
+    onClose();
+  }, [videoId, onClose]);
 
   useEffect(() => {
     if (!videoId) return;
@@ -28,7 +36,7 @@ const YouTubeModal: React.FC<YouTubeModalProps> = ({ videoId, title, onClose }) 
     };
   }, [videoId, onClose]);
 
-  if (!videoId) return null;
+  if (!videoId || isNativeApp()) return null;
 
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
   const src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=${encodeURIComponent(origin)}`;

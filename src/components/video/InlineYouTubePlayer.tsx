@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Play, ExternalLink } from 'lucide-react';
+import { isNativeApp } from '@/utils/platform-utils';
 
 interface InlineYouTubePlayerProps {
   videoId: string;
@@ -69,6 +70,8 @@ const InlineYouTubePlayer: React.FC<InlineYouTubePlayerProps> = ({
             rel="noopener noreferrer"
             onClick={(e) => {
               // Try inline embed first; if user cmd/ctrl-clicks, let new tab open naturally
+              // Inside the phone/iPad app YouTube refuses embedded playback (the app has no web address to show YouTube), so let the link open the YouTube app or Safari.
+              if (isNativeApp()) return;
               if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
               e.preventDefault();
               setIsPlaying(true);

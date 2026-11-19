@@ -68,5 +68,6 @@
         If the audio doesn't start in your email app, open this page in Safari, Chrome, or Edge and press play.
       </p>
     </main>
-  </body>
+  <script>/* Inside the 1325.AI phone/iPad app these pages open from the device, so point uploaded videos at the live site. */(function(){if(/^https?:$/.test(location.protocol))return;document.querySelectorAll('[src^="/__l5e/"],[href^="/__l5e/"]').forEach(function(el){['src','href'].forEach(function(a){var v=el.getAttribute(a);if(v&&v.indexOf('/__l5e/')===0)el.setAttribute(a,'https://1325.ai'+v);});});document.querySelectorAll('video,audio').forEach(function(m){m.load();});})();</script>
+</body>
 </html>

@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Play, ExternalLink } from 'lucide-react';
+import { isNativeApp } from '@/utils/platform-utils';
 
 const YOUTUBE_URL = 'https://www.youtube.com/watch?v=6DudveUFGRo';
 const YOUTUBE_ID = '6DudveUFGRo';
@@ -55,7 +56,8 @@ const MansaMusaVideoSection = () => {
                 rel="noopener noreferrer"
                 className="relative block w-full aspect-video rounded-xl overflow-hidden group cursor-pointer"
                 onClick={(e) => {
-                  if (!embedError) {
+                  // Inside the phone/iPad app YouTube refuses embedded playback (the app has no web address to show YouTube), so let the link open the YouTube app or Safari.
+                  if (!embedError && !isNativeApp()) {
                     e.preventDefault();
                     handlePlay();
                   }

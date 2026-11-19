@@ -48,16 +48,45 @@ export function initSentry(): void {
     ],
     // Don't report on localhost in production builds
     beforeSend(event) {
-      if (import.meta.env.PROD && window.location.hostname === 'localhost') {
+      // The iPhone/iPad/Android app also runs on "localhost", so only skip real local testing.
+      const isApp = window.location.protocol === 'capacitor:' || !!(window as any).Capacitor?.isNativePlatform?.();
+      if (import.meta.env.PROD && window.location.hostname === 'localhost' && !isApp) {
         return null;
       }
       return event;
     },
   });
 
+  reportMediaFailures();
+
   if (import.meta.env.DEV) {
     console.log('[Sentry] Initialized with DSN');
   }
+}
+
+const reportedMedia = new Set<string>();
+
+/** Records a video/audio that fails to load or start (once per file), so app-only playback problems show up in Sentry. */
+export function reportMediaProblem(kind: 'load' | 'play', src: string, detail: string): void {
+  const key = `${kind}:${src}`;
+  if (!src || reportedMedia.has(key)) return;
+  reportedMedia.add(key);
+  Sentry.captureMessage(`Video ${kind === 'load' ? 'failed to load' : 'failed to start'}`, {
+    level: 'warning',
+    tags: { media_problem: kind, app_shell: window.location.protocol },
+    extra: { src, detail },
+  });
+}
+
+function reportMediaFailures(): void {
+  // Media errors do not bubble, so listen in the capture phase.
+  document.addEventListener('error', (event) => {
+    const el = event.target;
+    const media = el instanceof HTMLSourceElement ? el.parentElement : el;
+    if (!(media instanceof HTMLMediaElement)) return;
+    const src = el instanceof HTMLSourceElement ? el.src : media.currentSrc || media.src;
+    reportMediaProblem('load', src, media.error ? `code ${media.error.code} ${media.error.message || ''}`.trim() : 'source error');
+  }, true);
 }
 
 export { Sentry };

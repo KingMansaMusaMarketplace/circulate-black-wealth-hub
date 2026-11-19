@@ -39,7 +39,7 @@
 - Capacitor core/ios/android/cli stay pinned to exact versions (iPhone-verified 7.4.3); a silent lockfile bump once broke App Store launches, so change them only with an on-device TestFlight check.
 - Kayla scoreboard "clinical" cases run through the doctor guide's own question filter, catalogue (buildClinicalHelpCatalogue), prompt and model, never the marketplace prompt; the reviewed list lives in kayla-benchmark/clinical-cases.ts with a routing test, so scores reflect what doctors actually see.
 - Share and spreadsheet-export buttons reuse shareOrCopy (src/utils/social-share.ts) and downloadCsv (src/lib/csv-safe.ts), so every share has a copy-link fallback and every export stays formula-safe.
-- Business verification paperwork lives in the private verification_documents bucket under <ownerId>/<businessId>/ and is opened only through 5-minute signed links (src/lib/verification/documents.ts); government IDs are never sent to the AI document check, which refuses them server-side too, so ID images never reach an AI service.
+- Verification paperwork lives in private verification_documents (<ownerId>/<businessId>/), opened only via 5-minute signed links (src/lib/verification/documents.ts); government IDs never reach the AI document check, which also refuses them server-side.
 - Non-clinical scoreboard cases answer through kayla-benchmark/answer-plan.ts (mirrors ai-chat routing, forced web, premium + self-check) plus approved lessons, so scores reflect live chat rather than a weaker path.
 - iOS startup rules live in ios/AGENTS.md; read it before touching native startup.
 - The Admin Dashboard's open section lives in the address (?tab=) so refreshes, sign-in re-checks and Back/Forward keep admins in place.
@@ -47,4 +47,4 @@
 - Kayla Autopilot (`kayla-autopilot`, one cron job) runs scheduled checks and proof-gated fixes; limits and keep/discard rules live in tested `_shared/kayla-autopilot-rules.ts`; only internal callers set benchmark subsets/trial lessons. Keeps automatic fixes provable and undoable.
 - Kayla safety (harm stages) and chat privacy (Memory Off, 18+) rules live in supabase/functions/_shared/AGENTS.md; read it before changing Kayla chat channels.
 - Claim RPCs set app.trusted_claim; businesses triggers honor it only for owner/claim fields.
-- Uploaded .asset.json media in video/source/img goes through assetUrl (TapToPlayVideo/ClinicalVideo do it); the bundled app (capacitor://) can't resolve /__l5e paths. Enforced by assetUrl-native.test.ts.
+- In the bundled app (capacitor://), uploaded /__l5e media goes through assetUrl (or TapToPlayVideo/ClinicalVideo; public HTML pages rewrite it inline) and YouTube opens externally, since neither resolves inside the app; assetUrl-native.test.ts guards it.

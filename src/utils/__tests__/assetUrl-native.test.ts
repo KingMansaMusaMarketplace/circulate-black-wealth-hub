@@ -34,3 +34,16 @@ describe('video sources use assetUrl', () => {
     expect(bad).toEqual([]);
   });
 });
+
+describe('standalone video pages work inside the app', () => {
+  const dir = join(process.cwd(), 'public');
+  const pages = readdirSync(dir).filter((n) => n.endsWith('.html'));
+
+  it('every page with an uploaded video rewrites its address when opened from the app', () => {
+    const missing = pages.filter((n) => {
+      const html = readFileSync(join(dir, n), 'utf8');
+      return /["'(]\/__l5e\//.test(html) && !html.includes("'https://1325.ai'+v");
+    });
+    expect(missing).toEqual([]);
+  });
+});

@@ -1,4 +1,5 @@
 import { assetUrl } from '@/utils/assetUrl';
+import { reportMediaProblem } from '@/lib/sentry-init';
 import React, { useRef, useState } from 'react';
 import { Play } from 'lucide-react';
 
@@ -16,7 +17,14 @@ const TapToPlayVideo: React.FC<Props> = ({ src, poster, label, className = '' })
 
   const start = () => {
     setPlaying(true);
-    requestAnimationFrame(() => ref.current?.play().catch(() => {}));
+    const video = ref.current;
+    if (!video) return;
+    // Start inside the tap itself: Apple devices only allow sound-on playback from a direct tap.
+    video.preload = 'auto';
+    video.controls = true;
+    void video.play().catch((err: unknown) => {
+      reportMediaProblem('play', video.currentSrc || video.src, err instanceof Error ? `${err.name}: ${err.message}` : String(err));
+    });
   };
 
   return (
