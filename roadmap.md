@@ -533,4 +533,4 @@
 - [ ] Before any real athena data: turn off screen recording / mask text in error monitoring on clinical screens (currently replay text is not masked) and require multi-factor sign-in — both promised in the Tech Spec.
 
 ## iPhone app still closes on open — November 18, 2026
-- [ ] Find why Build 51 (25.3.0) still opens then closes on the iPhone — blocked: need the newest crash report from the iPhone (App-2026-11-…ips from today).
+- [ ] Find why Build 51 (25.3.0) still opens then closes on the iPhone — crash report (Nov 13, Build 51, iOS 27.2.1) shows iOS still sees no scene startup, so the Mac's copy likely lacks the repo's Info.plist/SceneDelegate; blocked: need the user's Mac file-check output.
