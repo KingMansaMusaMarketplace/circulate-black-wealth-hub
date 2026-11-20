@@ -1,16 +1,18 @@
-# Connect the 1325.AI TikTok account (on hold)
+# Connect the 1325.AI TikTok account (@1325.ai, "Professor TB")
 
 ## Status
-Waiting for you. TikTok blocked the signup, so there's nothing to connect yet.
+The account is working. It has 14 followers and no videos yet.
 
 ## What you do first
-1. Fill in TikTok's appeal and use Partner@1325.AI as the email. This is the suggested first step.
-2. Wait 1 to 7 days for TikTok's email, and check your Spam folder too.
-3. Once the account is unblocked, switch it to a Business account (Settings, then Account, then Switch to Business Account).
+1. If you haven't already, switch the account to a Business account: Settings, then Account, then Switch to Business Account.
 
-## What I do after that
-1. I'll connect the 1325.AI TikTok account so I can see its profile and videos.
-2. I'll check that I can read the account details.
-3. After Season 1 is finished on YouTube, I'll plan 1-minute vertical clips of The Last Table for TikTok.
+## What I'll do
+1. Open the TikTok connection card. You'll sign in to TikTok there and approve access for 1325.AI.
+2. Check the connection by reading your profile name and follower count.
+3. Add this task to the project's to-do list.
+4. Plan 1-minute vertical clips of The Last Table for when Season 1 is finished on YouTube.
 
-Nothing gets posted without your go-ahead.
+## Limits
+- At first I can only read the account: its profile and its list of videos.
+- Posting videos for you hasn't been tested. I'll check whether it's possible before promising it.
+- Nothing gets posted without your go-ahead.
