@@ -544,3 +544,6 @@
 ## Investor briefing follow-ups (Nov 19 2026)
 - [x] 1325 Clinical deep dive (Advantage 4): one-page v1, then 8-page v2.
 - [x] Pre-revenue line removed from Why Now briefing (v3).
+
+- [x] Connect 1325.AI TikTok (@1325.ai) for reading the profile (Nov 20 2026)
+- [ ] After Season 1 of The Last Table, make 1-minute vertical TikTok clips (waiting on Season 1; posting needs user go-ahead)
