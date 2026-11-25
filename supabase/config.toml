@@ -1,6 +1,8 @@
 project_id = "agoclnqfyinwjxdmjnns"
 
 [functions]
+  [functions.health-training-video]
+    verify_jwt = false
   [functions.health-kayla-help]
     verify_jwt = false
 

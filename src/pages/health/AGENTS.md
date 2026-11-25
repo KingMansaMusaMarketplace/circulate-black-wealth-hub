@@ -1,4 +1,5 @@
 # 1325 Clinical rules
+- Doctor orientation uses the existing approval gate and service-only private video storage; server-verified administrators upload, active started grants receive deadline-bounded signed playback links, and unmount stops media so a public CDN cannot bypass approval.
 - National health exchange preparation is an independent shared private module with a fixed readiness inventory and existing synthetic FHIR evidence; sample counts never become compliance percentages or live clearance, and no real data, credentials, saved readiness decisions or transport are accepted.
 - Public clinical photography uses explicit page-owned imports and optional image-bearing feature cards with illustrative captions, keeping placement auditable without changing private workflows.
 - Clinical narration is fixed prerecorded explanation or numbered fictional evidence in one gate-scoped player, never a second prompt or agent execution; sound defaults off and gate unmount stops audio to preserve intake and private-session boundaries.
