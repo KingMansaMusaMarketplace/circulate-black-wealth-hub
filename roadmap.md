@@ -1,10 +1,11 @@
 # Roadmap
 
 ## Approval-only Clinical training video — November 25, 2026
-- [x] Prepare the uploaded captioned video as a 1080p, 9-minute-30-second streaming copy (67.7 MB versus 250.7 MB).
+- [x] Prepare the uploaded captioned video as a 720p, 9-minute-30-second private-upload copy (25.5 MB versus 250.7 MB); sampled captions inspected.
 - [x] Board Check approved private storage and viewing page through existing Clinical approval access; no public CDN copy.
 - [ ] Owner uploads the prepared smaller MP4 while signed in; automated owner sign-in is unavailable on this user-managed backend.
-- [ ] Verify approved-viewer playback, unapproved denial and session-exit stop, then request publication; signed-in testing is unavailable for this user-managed backend.
+- [x] Deploy private video service and restrictive storage policy; 22 approval tests pass, deployed anonymous watch/upload refused, public viewing page shows approval form with no video, automatic build OK.
+- [ ] Verify approved-viewer playback and session-exit stop after owner upload; signed-in testing is unavailable for this user-managed backend.
 
 ## Kayla Autopilot — November 17, 2026
 - [x] Daily 12-question check + Sunday-night full test, run on a schedule; stuck tests closed automatically.

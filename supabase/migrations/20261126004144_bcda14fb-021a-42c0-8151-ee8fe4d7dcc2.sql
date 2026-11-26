@@ -1,0 +1,1 @@
+CREATE POLICY "Clinical training requires server-issued media links" ON storage.objects AS RESTRICTIVE FOR ALL TO anon, authenticated USING (bucket_id <> 'clinical-training') WITH CHECK (bucket_id <> 'clinical-training');
