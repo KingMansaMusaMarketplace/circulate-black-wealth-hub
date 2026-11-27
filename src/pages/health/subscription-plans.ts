@@ -21,7 +21,7 @@ export const clinicalSubscriptionPolicy = {
   status: 'planned', checkoutEnabled: false, currency: 'USD',
   administrativeStaffMonthlyFee: 0,
   /** Founding Clinic Cohort rate (monthlyPerClinician) stays locked this many years versus the standard list price. */
-  foundingRateLockYears: 3,
+  foundingRateLockMonths: 6,
 } as const;
 
 export function clinicalMonthlyTotal(planId: typeof clinicalSubscriptionPlans[number]['id'], clinicians: number, administrativeStaff = 0): number | null {
