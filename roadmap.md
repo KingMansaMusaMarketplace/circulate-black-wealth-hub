@@ -1,5 +1,9 @@
 # Roadmap
 
+## The Last Table Episode 5 — November 28, 2026
+- [ ] Start the approved continuation with a five-minute dialogue/continuity script and an opening 4K proof, including practical 1325.AI advice.
+- [ ] Check the opening against Episode 4’s Maya reference, inspect every sampled shot, and verify dialogue before delivery.
+
 ## Approval-only Clinical training video — November 25, 2026
 - [x] Prepare the uploaded captioned video as a 720p, 9-minute-30-second private-upload copy (25.5 MB versus 250.7 MB); sampled captions inspected.
 - [x] Board Check approved private storage and viewing page through existing Clinical approval access; no public CDN copy.
