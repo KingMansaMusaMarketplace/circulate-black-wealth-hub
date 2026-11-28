@@ -3,8 +3,8 @@
 ## The Last Table Episode 5 — November 28, 2026
 - [x] Start the approved continuation with a five-minute dialogue/continuity script and a 34-second 4K opening preview, including practical 1325.AI advice.
 - [x] Inspect all one-second opening grids and first/last frames; remove repeated dialogue, generated gibberish text and an unwanted utterance. Full decode and final automatic transcript checked; exact voices and audible lip-sync need viewer review.
-- [ ] Build and check the first four full scripted Episode 5 scenes, then deliver a joined 4K preview; preserve the approved Maya reference and keep missing supporting-character faces off-camera.
-- [ ] Produce scenes 5–10 and the full five-minute Episode 5 edit — outside the current four-scene request.
+- [x] Deliver the first four scripted scenes as a joined 1:46 4K preview; retain Maya's approved identity. Scene 4's unclear bread-delivery line still needs correction.
+- [ ] Complete scenes 5–10 and join the full five-minute 4K Episode 5 preview, reusing the saved first four scenes and preserving Maya's face, brief opening title and supplied-logo ending. Blocked on approval of an additional video-generation spending limit; estimated minimum 25 eight-second 4K clips at 19.2 credits each, before trimming or repairs.
 
 ## Approval-only Clinical training video — November 25, 2026
 - [x] Prepare the uploaded captioned video as a 720p, 9-minute-30-second private-upload copy (25.5 MB versus 250.7 MB); sampled captions inspected.
